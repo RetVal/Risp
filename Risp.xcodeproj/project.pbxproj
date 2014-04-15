@@ -1,0 +1,465 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		30970F0A18FCE2830091F83D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30970F0918FCE2830091F83D /* Cocoa.framework */; };
+		30970F1418FCE2830091F83D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30970F1218FCE2830091F83D /* InfoPlist.strings */; };
+		30970F1818FCE2830091F83D /* Risp.m in Sources */ = {isa = PBXBuildFile; fileRef = 30970F1718FCE2830091F83D /* Risp.m */; };
+		30970F1F18FCE2830091F83D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30970F1E18FCE2830091F83D /* XCTest.framework */; };
+		30970F2018FCE2830091F83D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30970F0918FCE2830091F83D /* Cocoa.framework */; };
+		30970F2318FCE2830091F83D /* Risp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30970F0618FCE2830091F83D /* Risp.framework */; };
+		30970F2918FCE2830091F83D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30970F2718FCE2830091F83D /* InfoPlist.strings */; };
+		30970F2B18FCE2830091F83D /* RispTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 30970F2A18FCE2830091F83D /* RispTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		30970F2118FCE2830091F83D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 30970EFD18FCE2820091F83D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 30970F0518FCE2830091F83D;
+			remoteInfo = Risp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		30970F0618FCE2830091F83D /* Risp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Risp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		30970F0918FCE2830091F83D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		30970F0C18FCE2830091F83D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		30970F0D18FCE2830091F83D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		30970F0E18FCE2830091F83D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		30970F1118FCE2830091F83D /* Risp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Risp-Info.plist"; sourceTree = "<group>"; };
+		30970F1318FCE2830091F83D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		30970F1518FCE2830091F83D /* Risp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Risp-Prefix.pch"; sourceTree = "<group>"; };
+		30970F1618FCE2830091F83D /* Risp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Risp.h; sourceTree = "<group>"; };
+		30970F1718FCE2830091F83D /* Risp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Risp.m; sourceTree = "<group>"; };
+		30970F1D18FCE2830091F83D /* RispTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RispTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		30970F1E18FCE2830091F83D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		30970F2618FCE2830091F83D /* RispTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RispTests-Info.plist"; sourceTree = "<group>"; };
+		30970F2818FCE2830091F83D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		30970F2A18FCE2830091F83D /* RispTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RispTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		30970F0218FCE2830091F83D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30970F0A18FCE2830091F83D /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30970F1A18FCE2830091F83D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30970F2318FCE2830091F83D /* Risp.framework in Frameworks */,
+				30970F2018FCE2830091F83D /* Cocoa.framework in Frameworks */,
+				30970F1F18FCE2830091F83D /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		30970EFC18FCE2820091F83D = {
+			isa = PBXGroup;
+			children = (
+				30970F0F18FCE2830091F83D /* Risp */,
+				30970F2418FCE2830091F83D /* RispTests */,
+				30970F0818FCE2830091F83D /* Frameworks */,
+				30970F0718FCE2830091F83D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		30970F0718FCE2830091F83D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				30970F0618FCE2830091F83D /* Risp.framework */,
+				30970F1D18FCE2830091F83D /* RispTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		30970F0818FCE2830091F83D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				30970F0918FCE2830091F83D /* Cocoa.framework */,
+				30970F1E18FCE2830091F83D /* XCTest.framework */,
+				30970F0B18FCE2830091F83D /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		30970F0B18FCE2830091F83D /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				30970F0C18FCE2830091F83D /* Foundation.framework */,
+				30970F0D18FCE2830091F83D /* CoreData.framework */,
+				30970F0E18FCE2830091F83D /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		30970F0F18FCE2830091F83D /* Risp */ = {
+			isa = PBXGroup;
+			children = (
+				30970F1618FCE2830091F83D /* Risp.h */,
+				30970F1718FCE2830091F83D /* Risp.m */,
+				30970F1018FCE2830091F83D /* Supporting Files */,
+			);
+			path = Risp;
+			sourceTree = "<group>";
+		};
+		30970F1018FCE2830091F83D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				30970F1118FCE2830091F83D /* Risp-Info.plist */,
+				30970F1218FCE2830091F83D /* InfoPlist.strings */,
+				30970F1518FCE2830091F83D /* Risp-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		30970F2418FCE2830091F83D /* RispTests */ = {
+			isa = PBXGroup;
+			children = (
+				30970F2A18FCE2830091F83D /* RispTests.m */,
+				30970F2518FCE2830091F83D /* Supporting Files */,
+			);
+			path = RispTests;
+			sourceTree = "<group>";
+		};
+		30970F2518FCE2830091F83D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				30970F2618FCE2830091F83D /* RispTests-Info.plist */,
+				30970F2718FCE2830091F83D /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		30970F0318FCE2830091F83D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		30970F0518FCE2830091F83D /* Risp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 30970F2E18FCE2830091F83D /* Build configuration list for PBXNativeTarget "Risp" */;
+			buildPhases = (
+				30970F0118FCE2830091F83D /* Sources */,
+				30970F0218FCE2830091F83D /* Frameworks */,
+				30970F0318FCE2830091F83D /* Headers */,
+				30970F0418FCE2830091F83D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Risp;
+			productName = Risp;
+			productReference = 30970F0618FCE2830091F83D /* Risp.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		30970F1C18FCE2830091F83D /* RispTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 30970F3118FCE2830091F83D /* Build configuration list for PBXNativeTarget "RispTests" */;
+			buildPhases = (
+				30970F1918FCE2830091F83D /* Sources */,
+				30970F1A18FCE2830091F83D /* Frameworks */,
+				30970F1B18FCE2830091F83D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				30970F2218FCE2830091F83D /* PBXTargetDependency */,
+			);
+			name = RispTests;
+			productName = RispTests;
+			productReference = 30970F1D18FCE2830091F83D /* RispTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		30970EFD18FCE2820091F83D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = closure;
+				TargetAttributes = {
+					30970F1C18FCE2830091F83D = {
+						TestTargetID = 30970F0518FCE2830091F83D;
+					};
+				};
+			};
+			buildConfigurationList = 30970F0018FCE2820091F83D /* Build configuration list for PBXProject "Risp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 30970EFC18FCE2820091F83D;
+			productRefGroup = 30970F0718FCE2830091F83D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				30970F0518FCE2830091F83D /* Risp */,
+				30970F1C18FCE2830091F83D /* RispTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		30970F0418FCE2830091F83D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30970F1418FCE2830091F83D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30970F1B18FCE2830091F83D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30970F2918FCE2830091F83D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		30970F0118FCE2830091F83D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30970F1818FCE2830091F83D /* Risp.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30970F1918FCE2830091F83D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30970F2B18FCE2830091F83D /* RispTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		30970F2218FCE2830091F83D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 30970F0518FCE2830091F83D /* Risp */;
+			targetProxy = 30970F2118FCE2830091F83D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		30970F1218FCE2830091F83D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30970F1318FCE2830091F83D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		30970F2718FCE2830091F83D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30970F2818FCE2830091F83D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		30970F2C18FCE2830091F83D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		30970F2D18FCE2830091F83D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		30970F2F18FCE2830091F83D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Risp/Risp-Prefix.pch";
+				INFOPLIST_FILE = "Risp/Risp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		30970F3018FCE2830091F83D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Risp/Risp-Prefix.pch";
+				INFOPLIST_FILE = "Risp/Risp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		30970F3218FCE2830091F83D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Risp.framework/Versions/A/Risp";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Risp/Risp-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "RispTests/RispTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		30970F3318FCE2830091F83D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Risp.framework/Versions/A/Risp";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Risp/Risp-Prefix.pch";
+				INFOPLIST_FILE = "RispTests/RispTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		30970F0018FCE2820091F83D /* Build configuration list for PBXProject "Risp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30970F2C18FCE2830091F83D /* Debug */,
+				30970F2D18FCE2830091F83D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		30970F2E18FCE2830091F83D /* Build configuration list for PBXNativeTarget "Risp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30970F2F18FCE2830091F83D /* Debug */,
+				30970F3018FCE2830091F83D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		30970F3118FCE2830091F83D /* Build configuration list for PBXNativeTarget "RispTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30970F3218FCE2830091F83D /* Debug */,
+				30970F3318FCE2830091F83D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 30970EFD18FCE2820091F83D /* Project object */;
+}
