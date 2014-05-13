@@ -41,6 +41,7 @@ static RispToken *__RispTokenFind(NSString *string) {
 - (id)initWithString:(NSString *)string {
     if (self = [super init]) {
         _stringValue = string;
+        _hashCode = [_stringValue hash];
         __RispTokenUpdate(string, self);
     }
     return self;
@@ -62,11 +63,11 @@ static RispToken *__RispTokenFind(NSString *string) {
 }
 
 - (NSUInteger)hash {
-    return [[self stringValue] hash];
+    return _hashCode;
 }
 
 - (NSString *)description {
-    return [_stringValue description];
+    return _stringValue;
 }
 
 - (NSUInteger)count {

@@ -76,7 +76,8 @@ static RispSequence *__RispSequeuceEmpty = nil;
     return [x object];
 }
 
-- (id)drop:(NSUInteger)n {
+- (id)drop:(NSNumber *)num {
+    NSInteger n = [num integerValue];
     if (!n) return nil;
     if (n == _count)
         return [[RispSequence alloc] init];

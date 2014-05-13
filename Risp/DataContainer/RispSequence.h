@@ -21,7 +21,7 @@
 - (id)rest;
 - (id)last;
 - (id)reverse;
-- (id)drop:(NSUInteger)n;
+- (id)drop:(NSNumber *)n;
 - (id)cons:(id)o;
 - (id)conj:(id)o;
 - (NSArray *)array;

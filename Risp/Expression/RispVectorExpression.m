@@ -49,4 +49,8 @@
     }];
     return [[RispVector alloc] initWithArrayNoCopy:array];
 }
+
+- (NSString *)description {
+    return [_vector description];
+}
 @end

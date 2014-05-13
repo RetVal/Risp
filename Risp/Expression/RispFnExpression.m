@@ -55,13 +55,13 @@
 - (RispMethodExpression *)methodForArguments:(RispVector *)arguments {
     NSUInteger cntOfArguments = [arguments count];
     RispSequence *methods = _methods;
-    if (_variadicMethod && cntOfArguments >= [[_variadicMethod requiredParms] count]) {
+    if (_variadicMethod && cntOfArguments >= [_variadicMethod paramsCount]) {
         return _variadicMethod;
     } else {
         while (methods) {
             if (methods) {
                 RispMethodExpression *method = [methods first];
-                if (![method isVariadic] && cntOfArguments == [[method requiredParms] count]) {
+                if (![method isVariadic] && cntOfArguments == [method paramsCount]) {
                     return method;
                 }
             }
@@ -98,4 +98,22 @@
     return [[self methodForArguments:arguments] applyTo:arguments];
 }
 
+@end
+
+@implementation RispFnExpression (BlockSupport)
+
++ (id<RispExpression>)blockWihObjcBlock:(id (^)(RispVector *))block variadic:(BOOL)isVariadic numberOfArguments:(NSUInteger)numberOfArguments {
+    return [[RispFnExpression alloc] initWithBlock:block variadic:isVariadic numberOfArguments:numberOfArguments];
+}
+
+- (id)initWithBlock:(id (^)(RispVector *))block variadic:(BOOL)isVariadic numberOfArguments:(NSUInteger)numberOfArguments {
+    RispFnExpression *fn = [[RispFnExpression alloc] init];
+    RispMethodExpression *method = [[RispBlockExpression alloc] initWithBlock:block variadic:isVariadic numberOfArguments:numberOfArguments];
+    if (isVariadic) {
+        [fn setVariadicMethod:method];
+    } else {
+        [fn setMethods:[RispList listWithObjects:method, nil]];
+    }
+    return fn;
+}
 @end

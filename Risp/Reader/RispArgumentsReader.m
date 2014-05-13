@@ -43,6 +43,9 @@
         return [self registerArguments:1];
     }
     id n = [reader readEofIsError:YES eofValue:nil isRecursive:YES];
+    if (n == reader) {
+        return reader;
+    }
     if ([n isEqualTo:@0]) {
         return [self registerArguments:-1];
     }

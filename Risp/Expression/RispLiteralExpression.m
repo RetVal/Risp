@@ -26,6 +26,6 @@
 }
 
 - (NSString *)description {
-    return _value;
+    return [_value description];
 }
 @end

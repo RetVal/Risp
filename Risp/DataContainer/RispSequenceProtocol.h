@@ -16,6 +16,7 @@
 - (id)next;
 - (id)rest;
 - (id)last;
+- (id)drop:(NSNumber *)n;
 - (id)cons:(id)o;
 - (id)second;
 - (id)copyWithZone:(NSZone *)zone;

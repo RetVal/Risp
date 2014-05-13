@@ -23,7 +23,7 @@
 
 @property (nonatomic, strong) NSMutableDictionary *localBinding;
 + (RispMethodExpression *)parser:(id <RispSequence>)form context:(RispContext *)context fn:(RispFnExpression *)fn static:(BOOL)isStatic;
-
+- (NSInteger)paramsCount;
 - (BOOL)isVariadic;
 
 - (id)applyTo:(RispVector *)arguments;

@@ -9,6 +9,7 @@
 #import <Risp/RispRuntime.h>
 #import <Risp/RispList.h>
 #import <Risp.h>
+#import "RispBuiltinFunctions.h"
 
 @interface RispRuntime() {
     
@@ -16,12 +17,13 @@
 @end
 @implementation RispRuntime
 + (void)load {
-    RispLexicalScope *rootScope = [[RispRuntime baseEnvironment] rootScope];
+    [[RispRuntime baseEnvironment] rootScope];
 }
 
 - (id)init {
     if (self = [super init]) {
         _rootScope = [[RispLexicalScope alloc] init];
+        [RispRuntime _initRootScope:_rootScope];
     }
     return self;
 }
@@ -90,6 +92,28 @@
         return NO;
     _rootScope[symbol] = object;
     return YES;
+}
+
++ (void)_initRootScope:(RispLexicalScope *)rootScope {
+    if ([rootScope depth])
+        return;
+    
+    rootScope[[RispSymbol named:RispBIFApply]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
+        id f = [arguments first];
+        if (f && [f isKindOfClass:[RispFnExpression class]]) {
+            RispFnExpression *fn = f;
+            RispMethodExpression *method = [fn methodForArguments:arguments];
+            return [method applyTo:[RispVector listWithObjectsFromArrayNoCopy:[[arguments second] array]]];
+        }
+        return nil;
+    } variadic:NO numberOfArguments:2];
+    rootScope[[RispSymbol named:RispBIFMap]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
+        return nil;
+    } variadic:NO numberOfArguments:2];
+    rootScope[[RispSymbol named:RispBIFReduce]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
+        return nil;
+    } variadic:NO numberOfArguments:2];
+    
 }
 @end
 

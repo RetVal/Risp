@@ -9,6 +9,8 @@
 #import "RispVector.h"
 #include <objc/runtime.h>
 #import <Risp/RispRuntime.h>
+#import <Risp/RispFnExpression.h>
+#import <Risp/RispMethodExpression.h>
 
 @interface RispVector() {
     
@@ -144,8 +146,28 @@ static RispVector * __RispEmptyList = nil;
     return [_list lastObject];
 }
 
+- (id)drop:(NSNumber *)num {
+    NSInteger n = [num integerValue];
+    if (n >= [self count]) {
+        return [RispVector empty];
+    }
+    NSMutableArray *array = [_list mutableCopy];
+    [array removeObjectsInRange:NSMakeRange(0, n)];
+    return [RispVector listWithObjectsFromArrayNoCopy:array];
+}
+
 + (id)empty {
     return __RispEmptyList;
+}
+
++ (id)creator {
+    RispFnExpression *fn = [[RispFnExpression alloc] init];
+    [fn setName:[RispSymbol named:@"vector"]];
+    RispBlockExpression *method = [[RispBlockExpression alloc] initWithBlock:^id(RispVector *arguments) {
+        return [RispVector listWithObjectsFromArrayNoCopy:[[arguments first] array]];
+    } variadic:YES numberOfArguments:0];
+    [fn setVariadicMethod:method];
+    return fn;
 }
 
 - (BOOL)isEmpty {

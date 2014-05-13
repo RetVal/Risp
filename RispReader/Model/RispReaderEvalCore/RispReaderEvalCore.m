@@ -21,6 +21,9 @@
             @try {
                 value = [_reader readEofIsError:YES eofValue:nil isRecursive:YES];
                 [[_reader reader] skip];
+                if (value == _reader) {
+                    continue;
+                }
                 id v = [[RispCompiler compile:[RispContext currentContext] form:value] eval];
                 NSLog(@"%@ - %@ - %@", value, [value class], v);
                 [values addObject:v ? : [NSNull null]];

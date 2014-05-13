@@ -39,11 +39,16 @@
 #import <Risp/RispVectorReader.h>
 #import <Risp/RispReader.h>
 
+// Code Generator
+
+#import <Risp/RispIRCodeGenerator.h>
+
 // Parser
 
 #import <Risp/RispBaseParser.h>
 #import <Risp/RispBodyParser.h>
 
+#import <Risp/RispInvokeProtocol.h>
 #import <Risp/RispBaseExpression.h>
 #import <Risp/RispLiteralExpression.h>
 #import <Risp/RispNilExpression.h>
@@ -57,4 +62,7 @@
 #import <Risp/RispMethodExpression.h>
 #import <Risp/RispInvokeExpression.h>
 #import <Risp/RispDefExpression.h>
+#import <Risp/RispDefnExpression.h>
 #import <Risp/RispDotExpression.h>
+#import <Risp/RispBlockExpression.h>
+#import <Risp/RispBodyExpression.h>

@@ -16,4 +16,5 @@
 @property (strong, nonatomic, readonly) NSString *stringValue;
 + (id)named:(NSString *)name;
 - (BOOL)isEqualTo:(id)object;
+- (NSUInteger)length;
 @end

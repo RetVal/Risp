@@ -152,10 +152,10 @@
     return self;
 }
 
-- (id)evalExpression {
+- (id)evalExpression:(id)target selector:(SEL)selector {
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:_methodSignature];
-    [invocation setTarget:_target];
-    [invocation setSelector:_selector];
+    [invocation setTarget:target];
+    [invocation setSelector:selector];
     for(int i=0; i < [_arguments count]; i++) {
         id arg = [[_arguments nth:i] eval];
         [invocation setArgument:&arg atIndex: i + 2]; // objc_msgSend(target, selector, ...)
@@ -163,6 +163,16 @@
     
     [invocation invoke]; 
     id value = [invocation objectReturnValue];
+    _arguments = nil;
+    return [self objectiveC:value methodSignature:_methodSignature];
+}
+
+- (id)objectiveC:(id)value methodSignature:(NSMethodSignature *)signature {
+    NSString *retType = @([signature methodReturnType]);
+    if ([retType hasPrefix:@"B"] || [retType hasPrefix:@"b"] ||
+        [retType hasPrefix:@"C"] || [retType hasPrefix:@"c"]) {
+        return [NSNumber numberWithBool:(Boolean)value];
+    }
     return value;
 }
 
@@ -170,46 +180,49 @@
     if (!_arguments && _exprs) {
         NSMutableArray *array = [[NSMutableArray alloc] init];
         [_exprs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [array addObject:[obj eval]];
+            id v = [obj eval];
+            [array addObject:v];
         }];
         _arguments = [RispVector listWithObjectsFromArrayNoCopy:array];
     }
 }
 
 - (id)eval {
+    id target = _target;
+    SEL selector = _selector;
     if (!_evaled) {
-        _target = [_target eval];
-        NSString *className = [_target respondsToSelector:@selector(stringValue)] ? [_target stringValue] : ([_target isKindOfClass:[NSString class]] ? _target : nil);
+        target = [_target eval] ? : [_target description];
+        NSString *className = [target respondsToSelector:@selector(stringValue)] ? [target stringValue] : ([target isKindOfClass:[NSString class]] ? target : nil);
         if (className == nil) {
             _class = NO;
         } else if (NSClassFromString(className)) {
             _class = YES;
-            _target = NSClassFromString(className);
+            target = NSClassFromString(className);
         }
         [self _initArguments];
         if (_class) {
-            NSMethodSignature *methodSignature = [NSClassFromString(className) methodSignatureForSelector:_selector] ? : [NSClassFromString(className) instanceMethodSignatureForSelector:_selector];
+            NSMethodSignature *methodSignature = [NSClassFromString(className) methodSignatureForSelector:selector] ? : [NSClassFromString(className) instanceMethodSignatureForSelector:selector];
             if (methodSignature) {
                 if ([methodSignature numberOfArguments] - 2 != [_arguments count]) {
-                    [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", _target, [methodSignature numberOfArguments] - 2, _arguments];
+                    [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", target, [methodSignature numberOfArguments] - 2, _arguments];
                 }
                 _methodSignature = methodSignature;
             } else {
-                [NSException raise:RispIllegalArgumentException format:@"%@ of %@ is not found", NSStringFromSelector(_selector), className];
+                [NSException raise:RispIllegalArgumentException format:@"%@ of %@ is not found", NSStringFromSelector(selector), className];
             }
         } else {
-            id target = ([[RispContext currentContext] currentScope][_target]) ? : [_target eval];
-            NSMethodSignature *methodSignature = [[target class] instanceMethodSignatureForSelector:_selector] ? : [target methodSignatureForSelector:_selector];
+            target = ([[RispContext currentContext] currentScope][target]) ? : [target eval];
+            NSMethodSignature *methodSignature = [[target class] instanceMethodSignatureForSelector:selector] ? : [target methodSignatureForSelector:selector];
             if (!methodSignature) {
-                [NSException raise:RispIllegalArgumentException format:@"%@ is not found", NSStringFromSelector(_selector)];
+                [NSException raise:RispIllegalArgumentException format:@"%@ is not found", NSStringFromSelector(selector)];
             }
             if ([methodSignature numberOfArguments] - 2 != [_arguments count]) {
-                [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", _target, [methodSignature numberOfArguments] - 2, _arguments];
+                [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", target, [methodSignature numberOfArguments] - 2, _arguments];
             }
             _methodSignature = methodSignature;
         }
     }
-    return [self evalExpression];
+    return [self evalExpression:target selector:selector];
 }
 
 + (RispSymbol *)speicalKey {
@@ -217,6 +230,11 @@
 }
 
 - (NSString *)description {
-    return [_exprs description];
+    NSMutableString *argDesc = [[NSMutableString alloc] init];
+    [_exprs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [argDesc appendFormat:@"%@ ", [obj description]];
+    }];
+    NSString *desc = [[NSString alloc] initWithFormat:@"(. %@ %@ %@)", _target, NSStringFromSelector(_selector), argDesc];
+    return desc;
 }
 @end

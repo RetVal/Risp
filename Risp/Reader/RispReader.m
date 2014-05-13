@@ -81,8 +81,9 @@ static RispNumberReader *__RispNumberReader = nil;
             id macroFn = [RispBaseReader macro:ch];
             if (![macroFn  isEqual: @""] && macroFn != nil) {
                 id ret = [macroFn invoke:self object:@(ch)];
-                if (ret == self)
-                    continue;
+                if (ret == self) {
+                    return self;
+                }
                 return ret;
             }
             

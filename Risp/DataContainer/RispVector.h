@@ -33,6 +33,8 @@
 + (id)empty;
 - (BOOL)isEmpty;
 
++ (id)creator;
+
 @end
 
 @interface RispVector (Mutable)

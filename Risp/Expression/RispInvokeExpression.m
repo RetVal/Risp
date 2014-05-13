@@ -37,7 +37,6 @@
 }
 
 - (id)eval {
-#warning fixme
     [[RispContext currentContext] pushScope];
     // binding scope
     
@@ -47,11 +46,13 @@
     if (![_fexpr isKindOfClass:[RispFnExpression class]]) {
         id sym = [_fexpr eval];
         if (![sym isKindOfClass:[RispFnExpression class]]) {
+            [[RispContext currentContext] popScope];
             [NSException raise:RispRuntimeException format:@"%@ is not a fn", _fexpr];
         }
         if ([sym isMemberOfClass:[RispSymbol class]]) {
             fn = scope[sym];
             if (![fn isKindOfClass:[RispFnExpression class]]) {
+                [[RispContext currentContext] popScope];
                 [NSException raise:RispRuntimeException format:@"%@ is not a fn", sym];
             }
         }
@@ -59,17 +60,23 @@
     } else {
         fn = _fexpr;
     }
-    NSLog(@"invoke %@", fn);
-    NSLog(@"%@", _arguments);
+//    NSLog(@"invoke %@", fn);
+//    NSLog(@"%@", _arguments);
     
-    RispMethodExpression *method = [fn methodForArguments:_arguments];
-    
-    RispVector *evalArguments = [RispRuntime map:_arguments fn:^id(id object) {
-        return [object eval];
-    }];
-    
-    id v = [method applyTo:evalArguments];
-    [[RispContext currentContext] popScope];
+    id v = nil;
+    @try {
+        RispMethodExpression *method = [fn methodForArguments:_arguments];
+        RispVector *evalArguments = [RispRuntime map:_arguments fn:^id(id object) {
+            return [object eval];
+        }];
+        v = [method applyTo:evalArguments];
+    }
+    @catch (NSException *exception) {
+        @throw exception;
+    }
+    @finally {
+        [[RispContext currentContext] popScope];
+    }
     return v;
 }
 @end

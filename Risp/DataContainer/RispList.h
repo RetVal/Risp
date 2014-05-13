@@ -17,5 +17,7 @@
 
 - (id)init;
 + (id)empty;
+
++ (id)creator;
 @end
 

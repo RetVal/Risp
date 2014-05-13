@@ -11,6 +11,7 @@
 #import <Risp/RispBaseExpression.h>
 #import <Risp/RispContext.h>
 #import <Risp/RispMethodExpression.h>
+#import <Risp/RispBlockExpression.h>
 #import <Risp/RispInvokeProtocol.h>
 
 @interface RispFnExpression : RispBaseExpression <RispInvokeProtocol>
@@ -24,4 +25,9 @@
 - (RispMethodExpression *)methodForArguments:(RispVector *)arguments;
 
 - (id)applyTo:(RispVector *)arguments;
+@end
+
+@interface RispFnExpression (BlockSupport)
++ (id<RispExpression>)blockWihObjcBlock:(id (^)(RispVector *arguments))block variadic:(BOOL)isVariadic numberOfArguments:(NSUInteger)numberOfArguments;
+- (id)initWithBlock:(id (^)(RispVector *arguments))block variadic:(BOOL)isVariadic numberOfArguments:(NSUInteger)numberOfArguments;
 @end

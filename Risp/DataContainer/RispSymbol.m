@@ -74,6 +74,10 @@ static id __RispSymbolFind(NSString *string) {
     return NO;
 }
 
+- (NSUInteger)length {
+    return [self count];
+}
+
 - (NSUInteger)hash {
     return _hashCode;
 }

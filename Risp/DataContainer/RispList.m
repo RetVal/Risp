@@ -11,6 +11,9 @@
 #import <Risp/RispRuntime.h>
 #import <Risp/RispSequenceProtocol.h>
 
+#import <Risp/RispFnExpression.h>
+#import <Risp/RispBlockExpression.h>
+
 @interface RispList() {
     
 }
@@ -70,6 +73,16 @@ static RispList * __RispEmptyList = nil;
     return [[RispList alloc] initWithArray:array];
 }
 
++ (id)creator {
+    RispFnExpression *fn = [[RispFnExpression alloc] init];
+    [fn setName:[RispSymbol named:@"list"]];
+    RispBlockExpression *method = [[RispBlockExpression alloc] initWithBlock:^id(RispVector *arguments) {
+        return [RispList listWithObjectsFromArray:[arguments array]];
+    } variadic:YES numberOfArguments:0];
+    [fn setVariadicMethod:method];
+    return fn;
+}
+
 - (id)init {
     if (self = [super init]) {
         
@@ -87,5 +100,4 @@ static RispList * __RispEmptyList = nil;
 + (id)empty {
     return [[RispList alloc] init];
 }
-
 @end
