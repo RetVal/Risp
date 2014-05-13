@@ -10,6 +10,7 @@
 #import <Risp/RispDefExpression.h>
 #import <Risp/RispDefnExpression.h>
 #import <Risp/RispDotExpression.h>
+#import <Risp/RispIfExpression.h>
 
 @interface NSThread (RispContext)
 + (RispContext *)currentContext;
@@ -142,6 +143,7 @@
     specials[[RispDotExpression speicalKey]] = [RispDotExpression class];
     specials[[RispDefExpression speicalKey]] = [RispDefExpression class];
     specials[[RispDefnExpression speicalKey]] = [RispDefnExpression class];
+    specials[[RispIfExpression speicalKey]] = [RispIfExpression class];
 }
 
 @end
