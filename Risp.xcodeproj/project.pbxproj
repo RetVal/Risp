@@ -330,6 +330,8 @@
 		30E3584818FFB4C200412E48 /* RispLocalBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E3584618FFB4C200412E48 /* RispLocalBinding.m */; };
 		30E3584B18FFDE5D00412E48 /* RispSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 30E3584918FFDE5D00412E48 /* RispSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30E3584C18FFDE5D00412E48 /* RispSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E3584A18FFDE5D00412E48 /* RispSequence.m */; };
+		30E683821921EEB6003423DE /* RispIfExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 30E683801921EEB6003423DE /* RispIfExpression.h */; };
+		30E683831921EEB6003423DE /* RispIfExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E683811921EEB6003423DE /* RispIfExpression.m */; };
 		30EF2CB7190E0E290090BE3C /* RispRenderWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EF2CB5190E0E290090BE3C /* RispRenderWindowController.m */; };
 		30EF2CB8190E0E290090BE3C /* RispRenderWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30EF2CB6190E0E290090BE3C /* RispRenderWindowController.xib */; };
 		30F3F81C1920815F005139E8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F3F81B1920815F005139E8 /* CoreFoundation.framework */; };
@@ -836,6 +838,8 @@
 		30E3584618FFB4C200412E48 /* RispLocalBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispLocalBinding.m; sourceTree = "<group>"; };
 		30E3584918FFDE5D00412E48 /* RispSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispSequence.h; sourceTree = "<group>"; };
 		30E3584A18FFDE5D00412E48 /* RispSequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispSequence.m; sourceTree = "<group>"; };
+		30E683801921EEB6003423DE /* RispIfExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispIfExpression.h; sourceTree = "<group>"; };
+		30E683811921EEB6003423DE /* RispIfExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispIfExpression.m; sourceTree = "<group>"; };
 		30EF2CB4190E0E290090BE3C /* RispRenderWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispRenderWindowController.h; sourceTree = "<group>"; };
 		30EF2CB5190E0E290090BE3C /* RispRenderWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispRenderWindowController.m; sourceTree = "<group>"; };
 		30EF2CB6190E0E290090BE3C /* RispRenderWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RispRenderWindowController.xib; sourceTree = "<group>"; };
@@ -946,6 +950,8 @@
 				30313DE61916814B00ECEF47 /* RispInvokeProtocol.h */,
 				309AC0E1191B50050088249B /* RispBlockExpression.h */,
 				309AC0E2191B50050088249B /* RispBlockExpression.m */,
+				30E683801921EEB6003423DE /* RispIfExpression.h */,
+				30E683811921EEB6003423DE /* RispIfExpression.m */,
 			);
 			path = Expression;
 			sourceTree = "<group>";
@@ -1517,6 +1523,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30D8DA1B18FECDE700477849 /* RispBaseReader.h in Headers */,
+				30E683821921EEB6003423DE /* RispIfExpression.h in Headers */,
 				30D8DA3318FECDE700477849 /* RispWrappingReader.h in Headers */,
 				30D8DA2D18FECDE700477849 /* RispTokenReader.h in Headers */,
 				30D8DA1F18FECDE700477849 /* RispListReader.h in Headers */,
@@ -1887,6 +1894,7 @@
 				30D8DA3418FECDE700477849 /* RispWrappingReader.m in Sources */,
 				30D8DA2218FECDE700477849 /* RispNumberReader.m in Sources */,
 				30D8DA2A18FECDE700477849 /* RispStringReader.m in Sources */,
+				30E683831921EEB6003423DE /* RispIfExpression.m in Sources */,
 				309A23C0190516D2002F1D55 /* RispMethodExpression.m in Sources */,
 				30D8DA1C18FECDE700477849 /* RispBaseReader.m in Sources */,
 				3079F12E18FEEFC3002B24BC /* RispVectorReader.m in Sources */,
