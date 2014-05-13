@@ -9,5 +9,5 @@
 #import <Risp/Risp.h>
 
 @interface RispStringExpression : RispLiteralExpression
-
++ (id<RispExpression>)parser:(id)object context:(RispContext *)context;
 @end

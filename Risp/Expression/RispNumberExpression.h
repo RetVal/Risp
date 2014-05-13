@@ -10,5 +10,5 @@
 #import <Risp/RispLiteralExpression.h>
 
 @interface RispNumberExpression : RispLiteralExpression
-
++ (id<RispExpression>)parser:(id)object context:(RispContext *)context;
 @end

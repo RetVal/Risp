@@ -9,6 +9,10 @@
 #import "RispNumberExpression.h"
 
 @implementation RispNumberExpression
++ (id<RispExpression>)parser:(id)object context:(RispContext *)context {
+    return [[RispNumberExpression alloc] initWithValue:object];
+}
+
 - (id)value {
     return _value;
 }
