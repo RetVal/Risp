@@ -24,10 +24,10 @@
         return [RispNumberExpression parser:v context:context];
     } else if ([v isKindOfClass:[NSString class]]) {
         return [RispStringExpression parser:v context:context];
-    } else if ([v conformsToProtocol:NSProtocolFromString(@"RispSequence")]) {
+    } else if ([v conformsToProtocol:NSProtocolFromString(@"RispSequence")] && [v count] == 0) {
         return [RispSequence empty];
     }
-    return nil;
+    return [[RispConstantExpression alloc] initWithValue:v];
 }
 
 - (id)initWithValue:(id)value {
@@ -35,5 +35,9 @@
         _constantValue = value;
     }
     return self;
+}
+
+- (id)eval {
+    return _constantValue;
 }
 @end

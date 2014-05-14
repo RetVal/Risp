@@ -43,13 +43,12 @@
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "wwdc14-sessions-frameworks_2x.png",
+      "filename" : "SDK.png",
       "scale" : "1x"
     },
     {
-      "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "wwdc14-sessions-frameworks_2x-1.png",
+      "size" : "512x512",
       "scale" : "2x"
     }
   ],
