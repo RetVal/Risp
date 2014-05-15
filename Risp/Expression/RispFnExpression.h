@@ -23,6 +23,7 @@
 + (RispFnExpression *)parse:(id <RispSequence>)form context:(RispContext *)context;
 
 - (RispMethodExpression *)methodForArguments:(RispVector *)arguments;
+- (RispMethodExpression *)methodForCountOfArgument:(NSUInteger)cntOfArguments;
 
 - (id)applyTo:(RispVector *)arguments;
 @end

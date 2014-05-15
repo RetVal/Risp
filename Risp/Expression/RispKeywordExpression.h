@@ -10,5 +10,6 @@
 #import <Risp/RispKeyword.h>
 
 @interface RispKeywordExpression : RispLiteralExpression
++ (id<RispExpression>)parser:(id)object context:(RispContext *)context;
 - (id)initWithKeyword:(RispKeyword *)keyword;
 @end

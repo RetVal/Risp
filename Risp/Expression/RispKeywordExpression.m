@@ -9,6 +9,10 @@
 #import <Risp/RispKeywordExpression.h>
 
 @implementation RispKeywordExpression
++ (id<RispExpression>)parser:(id)object context:(RispContext *)context {
+    return [[RispKeywordExpression alloc] initWithKeyword:object];
+}
+
 - (id)initWithKeyword:(RispKeyword *)keyword {
     if (self = [super initWithValue:keyword]) {
     }

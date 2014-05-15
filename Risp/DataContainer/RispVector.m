@@ -131,7 +131,7 @@ static RispVector * __RispEmptyList = nil;
 }
 
 - (id)next {
-    if ([_list count] == 0)
+    if ([_list count] < 2)
         return nil;
     NSMutableArray *copy = [_list mutableCopy];
     [copy removeObjectAtIndex:0];

@@ -15,6 +15,7 @@
 #import <Risp/RispEnvironmentVariables.h>
 #import <Risp/RispList.h>
 #import <Risp/RispVector.h>
+#import <Risp/RispMap.h>
 #import <Risp/RispCompiler.h>
 #import <Risp/RispSymbol+BIF.h>
 #import <Risp/RispMetaKeyDefinition.h>
@@ -37,6 +38,7 @@
 #import <Risp/RispAnonymousFunctionReader.h>
 #import <Risp/RispArgumentsReader.h>
 #import <Risp/RispVectorReader.h>
+#import <Risp/RispMapReader.h>
 #import <Risp/RispReader.h>
 
 // Code Generator
@@ -68,3 +70,4 @@
 #import <Risp/RispBodyExpression.h>
 #import <Risp/RispIfExpression.h>
 #import <Risp/RispConstantExpression.h>
+#import <Risp/RispMapExpression.h>

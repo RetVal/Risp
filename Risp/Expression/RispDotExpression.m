@@ -160,10 +160,9 @@
         id arg = [[_arguments nth:i] eval];
         [invocation setArgument:&arg atIndex: i + 2]; // objc_msgSend(target, selector, ...)
     }
-    
+    _arguments = nil;
     [invocation invoke]; 
     id value = [invocation objectReturnValue];
-    _arguments = nil;
     return [self objectiveC:value methodSignature:_methodSignature];
 }
 

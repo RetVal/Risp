@@ -53,7 +53,10 @@
 }
 
 - (RispMethodExpression *)methodForArguments:(RispVector *)arguments {
-    NSUInteger cntOfArguments = [arguments count];
+    return [self methodForCountOfArgument:[arguments count]];
+}
+
+- (RispMethodExpression *)methodForCountOfArgument:(NSUInteger)cntOfArguments {
     RispSequence *methods = _methods;
     if (_variadicMethod && cntOfArguments >= [_variadicMethod paramsCount]) {
         return _variadicMethod;

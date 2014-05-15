@@ -44,10 +44,8 @@
 
 + (id)filter:(id)object pred:(id (^)(id object))pred {
     NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
-    [object enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if ([pred(obj) booleanValue]) {
-            [indexSet addIndex:idx];
-        }
+    [[object array] indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        return [pred(obj) booleanValue];
     }];
     RispList *list = [[RispList alloc] initWithArray:[object objectsAtIndexes:indexSet]];
     return list;
@@ -108,9 +106,28 @@
         return nil;
     } variadic:NO numberOfArguments:2];
     rootScope[[RispSymbol named:RispBIFMap]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
+        id f = [arguments first];
+        if (f && [f isKindOfClass:[RispFnExpression class]]) {
+            RispFnExpression *fn = f;
+            RispMethodExpression *method = [fn methodForCountOfArgument:1];
+            if (!method) {
+                [NSException raise:RispIllegalArgumentException format:@"%@ should have only one argument", fn];
+            }
+            return [RispRuntime map:[arguments second] fn:^id(id object) {
+                return [method applyTo:[RispVector listWithObjects:object, nil]];
+            }];
+        }
         return nil;
     } variadic:NO numberOfArguments:2];
     rootScope[[RispSymbol named:RispBIFReduce]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
+        id f = [arguments first];
+        if (f && [f isKindOfClass:[RispFnExpression class]]) {
+            RispFnExpression *fn = f;
+            RispMethodExpression *method = [fn methodForArguments:arguments];
+            return [RispRuntime map:[[arguments second] array] fn:^id(id object) {
+                return [method applyTo:object];
+            }];
+        }
         return nil;
     } variadic:NO numberOfArguments:2];
     

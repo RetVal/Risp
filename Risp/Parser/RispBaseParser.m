@@ -122,6 +122,8 @@
             return [[RispStringExpression alloc] initWithValue:form];
         } else if (fclass == [RispVector class]) {
             return [RispVectorExpression parse:form context:context];
+        } else if (fclass == [RispMap class]) {
+            return [RispMapExpression parser:form context:context];
         } else if ([form conformsToProtocol:NSProtocolFromString(@"RispSequence")]) {
             return [RispBaseParser analyzeSequence:form context:context name:@""];
         }

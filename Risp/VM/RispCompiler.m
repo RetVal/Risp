@@ -12,8 +12,11 @@
 #import <Risp/RispLexicalScope.h>
 #import <Risp/RispList.h>
 #import <Risp/RispVector.h>
+#import <Risp/RispMap.h>
 #import <Risp/RispBaseParser.h>
 #import <objc/runtime.h>
+
+#import <Risp/RispMapExpression.h>
 
 @interface RispCompiler()
 @property (nonatomic, strong, readonly) RispLexicalScope *localBinding;
@@ -202,11 +205,13 @@ public static Object eval(Object form, boolean freshLoader) {
             return form;
         } else if ([form isKindOfClass:[RispSymbol class]]) {
             return [context currentScope][form];
+        } else if ([form isKindOfClass:[RispKeyword class]]) {
+            return [RispKeywordExpression parser:form context:context];
         }
         if ([form isKindOfClass:[RispList class]]) {
             // macroexpand
             form = [RispCompiler macroexpand:form];
-            if ([form conformsToProtocol:NSProtocolFromString(@"RispSequence")] && [[form first] isEqualTo: [RispSymbol DO]]) {
+            if ([form conformsToProtocol:@protocol(RispSequence)] && [[form first] isEqualTo: [RispSymbol DO]]) {
                 for (id <RispSequence>seq = [form next]; seq != nil; seq = [seq next]) {
                     [self compile:context form:seq];
                 }
@@ -214,9 +219,11 @@ public static Object eval(Object form, boolean freshLoader) {
                 return [RispBaseParser analyze:context form:form];
             }
             return form;
+        } else if ([form isKindOfClass:[RispMap class]]) {
+            return [RispMapExpression parser:form context:context];
         }
     }
-    return nil;
+    return [RispConstantExpression parser:form context:context];
 }
 
 - (id)isMacro:(id)op {

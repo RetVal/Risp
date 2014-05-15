@@ -8,7 +8,7 @@
 
 #import <Risp/Risp.h>
 
-@interface RispConstantExpression : RispBaseExpression
+@interface RispConstantExpression : RispLiteralExpression
 @property (nonatomic, strong, readonly) id constantValue;
 + (id<RispExpression>)parser:(id)object context:(RispContext *)context;
 @end

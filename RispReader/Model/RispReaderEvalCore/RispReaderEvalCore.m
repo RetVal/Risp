@@ -24,7 +24,8 @@
                 if (value == _reader) {
                     continue;
                 }
-                id v = [[RispCompiler compile:[RispContext currentContext] form:value] eval];
+                id expr = [RispCompiler compile:[RispContext currentContext] form:value];
+                id v = [expr eval];
                 NSLog(@"%@ - %@ - %@", value, [value class], v);
                 [values addObject:v ? : [NSNull null]];
             }

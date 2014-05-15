@@ -22,6 +22,7 @@
 #import <Risp/RispUnquoteReader.h>
 #import <Risp/RispUnmatchedDelimiterReader.h>
 #import <Risp/RispVectorReader.h>
+#import <Risp/RispMapReader.h>
 
 static RispTokenReader *__RispTokenReader = nil;
 static RispNumberReader *__RispNumberReader = nil;
@@ -44,6 +45,8 @@ static RispNumberReader *__RispNumberReader = nil;
     RispMacros[')'] = [[RispUnmatchedDelimiterReader alloc] init];
     RispMacros['['] = [[RispVectorReader alloc] init];
     RispMacros[']'] = [[RispUnmatchedDelimiterReader alloc] init];
+    RispMacros['{'] = [[RispMapReader alloc] init];
+    RispMacros['}'] = [[RispUnmatchedDelimiterReader alloc] init];
     RispMacros['%'] = [[RispArgumentsReader alloc] init];
     RispMacros['#'] = [[RispBaseReader alloc] init];
     
