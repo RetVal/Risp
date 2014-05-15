@@ -21,3 +21,16 @@
     return [_value description];
 }
 @end
+
+@interface NSDecimalNumber (Compare)
+- (NSNumber *)compareTo:(NSDecimalNumber *)n;
+@end
+
+@implementation NSDecimalNumber (Compare)
+
+- (NSDecimalNumber *)compareTo:(NSNumber *)decimalNumber {
+    NSComparisonResult result = [self compare:decimalNumber];
+    return [[NSDecimalNumber alloc] initWithLong:result];
+}
+
+@end

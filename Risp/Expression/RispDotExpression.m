@@ -20,7 +20,7 @@
 @implementation NSInvocation (ObjectReturnValue)
 
 - (id)objectReturnValue {
-    void *pointer;
+    void *pointer = nil;
     [self getReturnValue:&pointer];
     id result = (__bridge id)pointer;
     return result;
