@@ -23,7 +23,6 @@
             return [[obj1 stringValue] compare:[obj2 stringValue] options:NSNumericSearch];
         }];
         seq = [RispList listWithObjectsFromArray:@[[RispSymbol FN], [RispVector listWithObjectsFromArrayNoCopy:args], form]];
-        NSLog(@"%@", seq);
     }
     @catch (NSException *exception) {
         @throw exception;
