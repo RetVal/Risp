@@ -9,5 +9,5 @@
 #import <Risp/Risp.h>
 
 @interface RispUnquoteReader : RispBaseReader
-
+- (id)invoke:(RispReader *)reader object:(id)object;
 @end

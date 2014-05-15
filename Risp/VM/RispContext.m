@@ -145,7 +145,7 @@
     specials[[RispDefExpression speicalKey]] = [RispDefExpression class];
     specials[[RispDefnExpression speicalKey]] = [RispDefnExpression class];
     specials[[RispIfExpression speicalKey]] = [RispIfExpression class];
-    specials[[RispSymbol named:@"quote"]] = [RispConstantExpression class];
+    specials[[RispSymbol QUOTE]] = [RispConstantExpression class];
 }
 
 @end

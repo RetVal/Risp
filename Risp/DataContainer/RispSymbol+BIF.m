@@ -28,4 +28,20 @@
 + (RispSymbol *)AMP {
     return [RispSymbol named:@"&"];
 }
+
++ (RispSymbol *)QUOTE {
+    return [RispSymbol named:@"quote"];
+}
+
++ (RispSymbol *)APPLY {
+    return [RispSymbol named:@"apply"];
+}
+
++ (RispSymbol *)MAP {
+    return [RispSymbol named:@"map"];
+}
+
++ (RispSymbol *)REDUCE {
+    return [RispSymbol named:@"reduce"];
+}
 @end

@@ -56,8 +56,6 @@
 		304E040B1907822200E2D438 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 304E040A1907822200E2D438 /* main.m */; };
 		304E040F1907822200E2D438 /* RispDotOperationCodeGen.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 304E040E1907822200E2D438 /* RispDotOperationCodeGen.1 */; };
 		304E04141907C02400E2D438 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 304E04131907C02400E2D438 /* 1.png */; };
-		304EEBEA192063A10092C749 /* RispBuiltinFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 304EEBE8192063A10092C749 /* RispBuiltinFunctions.h */; };
-		304EEBEB192063A10092C749 /* RispBuiltinFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 304EEBE9192063A10092C749 /* RispBuiltinFunctions.m */; };
 		305E982A190A713800A4B7FB /* RispReaderEvalCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E981F190A713800A4B7FB /* RispReaderEvalCore.m */; };
 		305E982F190A713800A4B7FB /* RispAutoHideWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E9829190A713800A4B7FB /* RispAutoHideWindow.m */; };
 		305E9838190B5CF900A4B7FB /* RispWindowBlurer.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E9837190B5CF900A4B7FB /* RispWindowBlurer.m */; };
@@ -561,8 +559,6 @@
 		304E040D1907822200E2D438 /* RispDotOperationCodeGen-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RispDotOperationCodeGen-Prefix.pch"; sourceTree = "<group>"; };
 		304E040E1907822200E2D438 /* RispDotOperationCodeGen.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = RispDotOperationCodeGen.1; sourceTree = "<group>"; };
 		304E04131907C02400E2D438 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
-		304EEBE8192063A10092C749 /* RispBuiltinFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBuiltinFunctions.h; sourceTree = "<group>"; };
-		304EEBE9192063A10092C749 /* RispBuiltinFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispBuiltinFunctions.m; sourceTree = "<group>"; };
 		305E981E190A713800A4B7FB /* RispReaderEvalCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispReaderEvalCore.h; sourceTree = "<group>"; };
 		305E981F190A713800A4B7FB /* RispReaderEvalCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispReaderEvalCore.m; sourceTree = "<group>"; };
 		305E9828190A713800A4B7FB /* RispAutoHideWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispAutoHideWindow.h; sourceTree = "<group>"; };
@@ -1467,8 +1463,6 @@
 				30E3584218FFAF1D00412E48 /* RispCompiler.m */,
 				30E3584518FFB4C200412E48 /* RispLocalBinding.h */,
 				30E3584618FFB4C200412E48 /* RispLocalBinding.m */,
-				304EEBE8192063A10092C749 /* RispBuiltinFunctions.h */,
-				304EEBE9192063A10092C749 /* RispBuiltinFunctions.m */,
 			);
 			path = VM;
 			sourceTree = "<group>";
@@ -1594,7 +1588,6 @@
 				303670A91901224700F04C12 /* RispNilExpression.h in Headers */,
 				303670B11901269600F04C12 /* RispTrueExpression.h in Headers */,
 				301418A1190382C5003ADEEF /* RispKeywordExpression.h in Headers */,
-				304EEBEA192063A10092C749 /* RispBuiltinFunctions.h in Headers */,
 				301418A9190387B2003ADEEF /* RispStringExpression.h in Headers */,
 				3063C1E71904DD16000FBB7F /* RispVectorExpression.h in Headers */,
 				309A23BB1904F8B2002F1D55 /* RispFnExpression.h in Headers */,
@@ -1895,7 +1888,6 @@
 				303670B21901269600F04C12 /* RispTrueExpression.m in Sources */,
 				301418A2190382C5003ADEEF /* RispKeywordExpression.m in Sources */,
 				3036708A1900C00B00F04C12 /* RispBaseExpression.m in Sources */,
-				304EEBEB192063A10092C749 /* RispBuiltinFunctions.m in Sources */,
 				30E3584818FFB4C200412E48 /* RispLocalBinding.m in Sources */,
 				30A5794D19076C0100761A92 /* RispDotExpression.m in Sources */,
 				30E6839A192338BA003423DE /* RispMapReader.m in Sources */,

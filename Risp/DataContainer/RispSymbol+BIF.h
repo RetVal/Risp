@@ -14,4 +14,9 @@
 + (RispSymbol *)DOT;
 + (RispSymbol *)FN;
 + (RispSymbol *)AMP;
+
++ (RispSymbol *)QUOTE;
++ (RispSymbol *)APPLY;
++ (RispSymbol *)MAP;
++ (RispSymbol *)REDUCE;
 @end

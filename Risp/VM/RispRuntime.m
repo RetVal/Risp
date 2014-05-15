@@ -9,7 +9,6 @@
 #import <Risp/RispRuntime.h>
 #import <Risp/RispList.h>
 #import <Risp.h>
-#import "RispBuiltinFunctions.h"
 
 @interface RispRuntime() {
     
@@ -96,7 +95,7 @@
     if ([rootScope depth])
         return;
     
-    rootScope[[RispSymbol named:RispBIFApply]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
+    rootScope[[RispSymbol APPLY]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
         id f = [arguments first];
         if (f && [f isKindOfClass:[RispFnExpression class]]) {
             RispFnExpression *fn = f;
@@ -105,7 +104,7 @@
         }
         return nil;
     } variadic:NO numberOfArguments:2];
-    rootScope[[RispSymbol named:RispBIFMap]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
+    rootScope[[RispSymbol MAP]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
         id f = [arguments first];
         if (f && [f isKindOfClass:[RispFnExpression class]]) {
             RispFnExpression *fn = f;
@@ -119,7 +118,7 @@
         }
         return nil;
     } variadic:NO numberOfArguments:2];
-    rootScope[[RispSymbol named:RispBIFReduce]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
+    rootScope[[RispSymbol REDUCE]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
         id f = [arguments first];
         if (f && [f isKindOfClass:[RispFnExpression class]]) {
             RispFnExpression *fn = f;

@@ -38,7 +38,7 @@ static RispNumberReader *__RispNumberReader = nil;
     // init macros
     RispMacros['"'] = [[RispStringReader alloc] init];
     RispMacros[';'] = [[RispCommentReader alloc] init];
-    RispMacros['\''] = [[RispWrappingReader alloc] initWithSymbol:[RispSymbol named:@"quote"]];
+    RispMacros['\''] = [[RispWrappingReader alloc] initWithSymbol:[RispSymbol QUOTE]];
     RispMacros['@'] = [[RispWrappingReader alloc] initWithSymbol:[RispSymbol named:@"deref"]];
     RispMacros['`'] = [[RispSyntaxQuoteReader alloc] init];
     RispMacros['~'] = [[RispUnquoteReader alloc] init];
