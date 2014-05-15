@@ -15,7 +15,14 @@
 
 @implementation RispArgumentsReader
 - (RispSymbol *)registerArguments:(NSInteger)n {
-    return nil;
+    RispSymbol *symbol = nil;
+    if (n == 1) {
+        symbol = [RispSymbol named:@"%"];
+    } else {
+        symbol = [RispSymbol named:[NSString stringWithFormat:@"%%%ld", n]];
+    }
+    [[[RispContext currentContext] currentScope] setObject:symbol forKey:symbol];
+    return symbol;
 }
 //static Symbol registerArg(int n){
 //	PersistentTreeMap argsyms = (PersistentTreeMap) ARG_ENV.deref();
@@ -32,10 +39,9 @@
 //	return ret;
 //}
 - (id)invoke:(RispReader *)reader object:(id)object {
-    RispRuntime *rt = [RispRuntime baseEnvironment];
-    if ([rt isDeref] == nil) {
-        return [reader interpretToken:[[[RispTokenReader alloc] init] invoke:reader object:object]];
-    }
+//    if ([rt isDeref] == nil) {
+//        return [reader interpretToken:[[[RispTokenReader alloc] init] invoke:reader object:object]];
+//    }
     RispPushBackReader *r = [reader reader];
     unichar ch = [r read1];
     [r unread:ch];

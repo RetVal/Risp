@@ -67,6 +67,14 @@
     [self setObject:obj forKey:key];
 }
 
+- (NSArray *)keys {
+    return [_scope allKeys];
+}
+
+- (NSArray *)values {
+    return [_scope allValues];
+}
+
 - (NSString *)description {
     return [_scope description];
 }

@@ -44,7 +44,7 @@
         [NSException raise:@"" format:@""];
     NSInteger copiedChars = 0;
     NSInteger copyLength = 0;
-    NSInteger newOffset = offset;
+    NSInteger newOffset __unused = offset;
     if (_pos < _length) {
         copyLength = ([buffer length] - _pos >= count) ? count : [buffer length] - _pos;
         NSMutableData *data = [[NSMutableData alloc] initWithCapacity:copyLength];

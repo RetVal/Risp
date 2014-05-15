@@ -64,6 +64,8 @@
 		305E987F190B8CBC00A4B7FB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 305E987B190B8CBC00A4B7FB /* LICENSE */; };
 		305E9880190B8CBC00A4B7FB /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 305E987C190B8CBC00A4B7FB /* README.md */; };
 		305E9881190B8CBC00A4B7FB /* RMBlurredView.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E987E190B8CBC00A4B7FB /* RMBlurredView.m */; };
+		3062573D1924692E00518B60 /* RispDispatchReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 3062573B1924692E00518B60 /* RispDispatchReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3062573E1924692E00518B60 /* RispDispatchReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3062573C1924692E00518B60 /* RispDispatchReader.m */; };
 		3063C1E71904DD16000FBB7F /* RispVectorExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3063C1E51904DD16000FBB7F /* RispVectorExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3063C1E81904DD16000FBB7F /* RispVectorExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 3063C1E61904DD16000FBB7F /* RispVectorExpression.m */; };
 		3065BEC6190EA67B00953287 /* RispREPLAlphaWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3065BEC4190EA67B00953287 /* RispREPLAlphaWindowController.m */; };
@@ -571,6 +573,8 @@
 		305E987C190B8CBC00A4B7FB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		305E987D190B8CBC00A4B7FB /* RMBlurredView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMBlurredView.h; sourceTree = "<group>"; };
 		305E987E190B8CBC00A4B7FB /* RMBlurredView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMBlurredView.m; sourceTree = "<group>"; };
+		3062573B1924692E00518B60 /* RispDispatchReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispDispatchReader.h; sourceTree = "<group>"; };
+		3062573C1924692E00518B60 /* RispDispatchReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispDispatchReader.m; sourceTree = "<group>"; };
 		3063C1E51904DD16000FBB7F /* RispVectorExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispVectorExpression.h; sourceTree = "<group>"; };
 		3063C1E61904DD16000FBB7F /* RispVectorExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispVectorExpression.m; sourceTree = "<group>"; };
 		3065BEC3190EA67B00953287 /* RispREPLAlphaWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispREPLAlphaWindowController.h; sourceTree = "<group>"; };
@@ -1378,6 +1382,8 @@
 			children = (
 				30D8D9FD18FECDE700477849 /* RispBaseReader.h */,
 				30D8D9FE18FECDE700477849 /* RispBaseReader.m */,
+				3062573B1924692E00518B60 /* RispDispatchReader.h */,
+				3062573C1924692E00518B60 /* RispDispatchReader.m */,
 				30D8D9FF18FECDE700477849 /* RispCommentReader.h */,
 				30D8DA0018FECDE700477849 /* RispCommentReader.m */,
 				30D8DA0118FECDE700477849 /* RispListReader.h */,
@@ -1605,6 +1611,7 @@
 				30313DEA1916B0A600ECEF47 /* RispDefnExpression.h in Headers */,
 				30E683A119234420003423DE /* RispMapExpression.h in Headers */,
 				30E6839D192338F5003423DE /* RispMap.h in Headers */,
+				3062573D1924692E00518B60 /* RispDispatchReader.h in Headers */,
 				30E68399192338BA003423DE /* RispMapReader.h in Headers */,
 				30E683821921EEB6003423DE /* RispIfExpression.h in Headers */,
 				30E683861921F07F003423DE /* RispConstantExpression.h in Headers */,
@@ -1895,6 +1902,7 @@
 				303670B6190126E200F04C12 /* RispFalseExpression.m in Sources */,
 				30E3583518FFAF0300412E48 /* RispLexicalScope.m in Sources */,
 				30E3583318FFAF0300412E48 /* RispKeyword.m in Sources */,
+				3062573E1924692E00518B60 /* RispDispatchReader.m in Sources */,
 				30D8DA3018FECDE700477849 /* RispUnmatchedDelimiterReader.m in Sources */,
 				30D8DA2418FECDE700477849 /* RispPushBackReader.m in Sources */,
 				30E3584418FFAF1D00412E48 /* RispCompiler.m in Sources */,

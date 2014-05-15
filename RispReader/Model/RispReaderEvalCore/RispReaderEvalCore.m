@@ -26,7 +26,7 @@
                 }
                 id expr = [RispCompiler compile:[RispContext currentContext] form:value];
                 id v = [expr eval];
-                NSLog(@"%@ - %@ - %@", value, [value class], v);
+                NSLog(@"%@ - %@ - %@", value, [expr class], v);
                 [values addObject:v ? : [NSNull null]];
             }
             @catch (NSException *exception) {

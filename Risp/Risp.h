@@ -39,6 +39,7 @@
 #import <Risp/RispArgumentsReader.h>
 #import <Risp/RispVectorReader.h>
 #import <Risp/RispMapReader.h>
+#import <Risp/RispDispatchReader.h>
 #import <Risp/RispReader.h>
 
 // Code Generator

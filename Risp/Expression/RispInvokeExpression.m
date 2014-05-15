@@ -36,6 +36,16 @@
     return self;
 }
 
+- (NSString *)description {
+    NSMutableArray *descs = [[NSMutableArray alloc] init];
+    [descs addObject:_fexpr];
+    [descs addObjectsFromArray:[_arguments array]];
+    for (NSUInteger idx = 0; idx < [descs count]; idx ++) {
+        descs[idx] = [descs[idx] description];
+    }
+    return [descs componentsJoinedByString:@" "];
+}
+
 - (id)eval {
     [[RispContext currentContext] pushScope];
     // binding scope
