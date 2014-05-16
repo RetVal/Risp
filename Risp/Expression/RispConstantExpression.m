@@ -40,4 +40,8 @@
 - (id)eval {
     return _constantValue;
 }
+
+- (NSString *)description {
+    return [_constantValue description];
+}
 @end

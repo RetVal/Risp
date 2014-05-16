@@ -44,4 +44,12 @@
 + (RispSymbol *)REDUCE {
     return [RispSymbol named:@"reduce"];
 }
+
++ (RispSymbol *)UNQUOTE {
+    return [RispSymbol named:@"unquote"];
+}
+
++ (RispSymbol *)UNQUOTESPLICING {
+    return [RispSymbol named:@"unquote-splicing"];
+}
 @end

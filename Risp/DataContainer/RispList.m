@@ -30,7 +30,7 @@ static RispList * __RispEmptyList = nil;
     if (!object) {
         return [[RispList alloc] initWithArray:@[]];
     }
-    RispSequence *list = [[RispSequence alloc] init];
+    RispSequence *list = [[RispList alloc] init];
     va_list ap;
     va_start(ap, object);
     id o = object;

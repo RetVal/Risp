@@ -10,6 +10,17 @@
 
 @implementation RispUnquoteReader
 - (id)invoke:(RispReader *)reader object:(id)object {
-    return [super invoke:reader object:object];
+    RispPushBackReader *pushBackReader = [reader reader];
+    UniChar ch = [pushBackReader read1];
+    if (ch == 0) {
+        [NSException raise:RispRuntimeException format:@"EOF while reading character"];
+    }
+    if (ch == '@') {
+        id o = [reader readEofIsError:YES eofValue:nil isRecursive:YES];
+        return [[RispList alloc] initWithObject:[RispSymbol UNQUOTESPLICING] base:o];
+    }
+    [pushBackReader unread:ch];
+    id o = [reader readEofIsError:YES eofValue:nil isRecursive:YES];
+    return [[RispList alloc] initWithObject:[RispSymbol UNQUOTE] base:o];
 }
 @end

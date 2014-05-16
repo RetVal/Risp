@@ -19,4 +19,7 @@
 + (RispSymbol *)APPLY;
 + (RispSymbol *)MAP;
 + (RispSymbol *)REDUCE;
+
++ (RispSymbol *)UNQUOTE;
++ (RispSymbol *)UNQUOTESPLICING;
 @end
