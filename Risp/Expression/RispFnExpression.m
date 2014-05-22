@@ -113,6 +113,11 @@
         seq = [seq next];
     }
     
+    if (_variadicMethod) {
+        [desc appendFormat:@"%@", [_variadicMethod description]];
+    }
+    
+    
     [desc appendString:@")"];
     return desc;
 }
