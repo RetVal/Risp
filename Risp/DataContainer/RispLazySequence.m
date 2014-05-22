@@ -146,6 +146,10 @@
     return [[self eval] description];
 }
 
+- (NSString *)descriptionWithLocale:(NSLocale *)locale {
+    return [self description];
+}
+
 - (id)copyWithZone:(NSZone *)zone {
     RispLazySequence *copy = nil;
     if (_fn) {

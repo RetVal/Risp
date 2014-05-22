@@ -133,9 +133,26 @@
     return _currentScope;
 }
 
-- (id)pushScopeWithScope:(RispLexicalScope *)scope {
+- (id)pushScopeWithMergeScope:(RispLexicalScope *)scope {
+    if (scope == nil || ([[scope scope] count] == 0 && [scope outer] == nil))
+        return _currentScope;
     RispLexicalScope *new = [[RispLexicalScope alloc] initWithParent:_currentScope];
-    [new setScope:[scope scope]];
+    
+    NSMutableDictionary *env = [[NSMutableDictionary alloc] init];
+    __block __weak void (^unsafe_lambda)(RispLexicalScope *scope);
+    void (^lambda)(RispLexicalScope *s) = ^(RispLexicalScope *s) {
+        if ([s depth] == 0) return ;
+        [[s scope] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            if (env[key]) return ;
+            env[key] = obj;
+        }];
+        if ([s outer]) {
+            unsafe_lambda([s outer]);
+        }
+    };
+    unsafe_lambda = lambda;
+    lambda(scope);
+    [new setScope:env];
     _currentScope = new;
     return _currentScope;
 }

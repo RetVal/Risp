@@ -94,7 +94,6 @@
 
 - (id)eval {
     RispLexicalScope *scope = [[RispContext currentContext] currentScope];
-    
     RispClosureExpression *closure = [[RispClosureExpression alloc] initWithLexicalScopeEnvironment:scope fnExpression:self];
     return closure;
 }

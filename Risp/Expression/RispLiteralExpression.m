@@ -18,7 +18,8 @@
 }
 
 - (id)value {
-    return [[RispContext currentContext] currentScope][_value];
+    RispLexicalScope *scope = [[RispContext currentContext] currentScope];
+    return scope[_value];
 }
 
 - (id)eval {

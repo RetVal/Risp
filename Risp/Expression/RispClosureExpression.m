@@ -30,12 +30,13 @@
     id v = nil;
     @try {
         if (_environment) {
-            [context pushScopeWithScope:_environment];
+            [context pushScopeWithMergeScope:_environment];
         }
         RispVector *evalArguments = [RispRuntime map:arguments fn:^id(id object) {
             return [object eval];
         }];
-        v = [[_fnExpression methodForCountOfArgument:[evalArguments count]] applyTo:evalArguments];
+        RispMethodExpression *method = [_fnExpression methodForCountOfArgument:[evalArguments count]];
+        v = [method applyTo:evalArguments];
     }
     @catch (NSException *exception) {
         @throw exception;
@@ -46,5 +47,9 @@
         }
     }
     return v;
+}
+
+- (NSString *)description {
+    return [_fnExpression description];
 }
 @end
