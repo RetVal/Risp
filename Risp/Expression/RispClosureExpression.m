@@ -9,15 +9,42 @@
 #import "RispClosureExpression.h"
 
 @implementation RispClosureExpression
-- (id)initWithLexicalScopeEnvironment:(RispLexicalScope *)environment {
+- (id)initWithLexicalScopeEnvironment:(RispLexicalScope *)environment fnExpression:(RispFnExpression *)fnExpression {
     if (self = [super init]) {
-        
+        _environment = environment;
+        _fnExpression = fnExpression;
     }
     return self;
 }
-
 - (id)copyWithZone:(NSZone *)zone {
     RispClosureExpression *copy = [[RispClosureExpression alloc] initWithLexicalScopeEnvironment:_environment fnExpression:_fnExpression];
     return copy;
+}
+
+- (id)eval {
+    return self;
+}
+
+- (id)applyTo:(RispVector *)arguments {
+    RispContext *context = [RispContext currentContext];
+    id v = nil;
+    @try {
+        if (_environment) {
+            [context pushScopeWithScope:_environment];
+        }
+        RispVector *evalArguments = [RispRuntime map:arguments fn:^id(id object) {
+            return [object eval];
+        }];
+        v = [[_fnExpression methodForCountOfArgument:[evalArguments count]] applyTo:evalArguments];
+    }
+    @catch (NSException *exception) {
+        @throw exception;
+    }
+    @finally {
+        if (_environment) {
+            [context popScope];
+        }
+    }
+    return v;
 }
 @end

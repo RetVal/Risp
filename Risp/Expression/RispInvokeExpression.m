@@ -53,15 +53,15 @@
     RispLexicalScope *scope = [[RispContext currentContext] currentScope];
     
     id fn = nil;
-    if (![_fexpr isKindOfClass:[RispFnExpression class]]) {
+    if (![_fexpr conformsToProtocol:@protocol(RispFnProtocol)]) {
         id sym = [_fexpr eval];
-        if (![sym isKindOfClass:[RispFnExpression class]]) {
+        if (![sym conformsToProtocol:@protocol(RispFnProtocol)]) {
             [[RispContext currentContext] popScope];
             [NSException raise:RispRuntimeException format:@"%@ is not a fn", _fexpr];
         }
         if ([sym isMemberOfClass:[RispSymbol class]]) {
             fn = scope[sym];
-            if (![fn isKindOfClass:[RispFnExpression class]]) {
+            if (![fn conformsToProtocol:@protocol(RispFnProtocol)]) {
                 [[RispContext currentContext] popScope];
                 [NSException raise:RispRuntimeException format:@"%@ is not a fn", sym];
             }
@@ -72,14 +72,21 @@
     }
 //    NSLog(@"invoke %@", fn);
 //    NSLog(@"%@", _arguments);
+    BOOL isClosure = [fn isKindOfClass:[RispClosureExpression class]];
     
     id v = nil;
     @try {
-        RispMethodExpression *method = [fn methodForArguments:_arguments];
-        RispVector *evalArguments = [RispRuntime map:_arguments fn:^id(id object) {
-            return [object eval];
-        }];
-        v = [method applyTo:evalArguments];
+        
+        if (isClosure) {
+            RispClosureExpression *closure = fn;
+            v = [closure applyTo:_arguments];
+        } else {
+            RispMethodExpression *method = [fn methodForArguments:_arguments];
+            RispVector *evalArguments = [RispRuntime map:_arguments fn:^id(id object) {
+                return [object eval];
+            }];
+            v = [method applyTo:evalArguments];
+        }
     }
     @catch (NSException *exception) {
         @throw exception;

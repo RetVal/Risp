@@ -9,15 +9,17 @@
 #import "RispLazySequence.h"
 
 @interface RispLazySequence ()
-@property (nonatomic, strong, readonly) RispFnExpression *fn;
+@property (nonatomic, strong, readonly) id fn;
 @property (nonatomic, strong, readonly) id sv;
 @property (nonatomic, strong, readonly) id <RispSequence> s;
+@property (nonatomic, assign, readonly, getter = isClosure) BOOL closure;
 @end
 
 @implementation RispLazySequence
 - (id)initWithFn:(RispFnExpression *)fn {
     if (self = [super init]) {
         _fn  = fn;
+        _closure = NO;
     }
     return self;
 }
@@ -30,10 +32,22 @@
     return self;
 }
 
+- (id)initWithClosure:(RispClosureExpression *)closure {
+    if (self = [super init]) {
+        _fn = closure;
+        _closure = YES;
+    }
+    return self;
+}
+
 - (id)sval {
     @synchronized(self) {
         if (_fn) {
-            _sv = [[[_fn methodForCountOfArgument:0] applyTo:[RispVector empty]] eval];
+            if ([self isClosure]) {
+                _sv = [[_fn applyTo:[RispVector empty]] eval];
+            } else {
+                _sv = [[[_fn methodForCountOfArgument:0] applyTo:[RispVector empty]] eval];
+            }
             _fn = nil;
         }
         if (_sv)
@@ -103,6 +117,10 @@
     }];
 }
 
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])buffer count:(NSUInteger)len {
+    return 0;
+}
+
 + (id)creator {
     RispFnExpression *fn = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
         id first = [arguments first];
@@ -110,6 +128,8 @@
             return [[RispLazySequence alloc] initWithFn:first];
         } else if ([first conformsToProtocol:@protocol(RispSequence)]) {
             return [[RispLazySequence alloc] initWithSeq:[RispSequence sequence:first]];
+        } else if ([first isKindOfClass:[RispClosureExpression class]]) {
+            return [[RispLazySequence alloc] initWithClosure:first];
         }
         [NSException raise:RispInvalidNumberFormatException format:@""];
         return nil;

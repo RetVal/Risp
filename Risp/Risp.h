@@ -72,3 +72,4 @@
 #import <Risp/RispIfExpression.h>
 #import <Risp/RispConstantExpression.h>
 #import <Risp/RispMapExpression.h>
+#import <Risp/RispClosureExpression.h>

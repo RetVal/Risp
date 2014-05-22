@@ -35,6 +35,21 @@
     return [[[object class] alloc] initWithArray:array];
 }
 
++ (id)reduce:(id)object fn:(id (^)(id coll, id object))fn {
+    __block id mutable = nil;
+    [object enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        mutable = obj;
+        *stop = YES;
+    }];
+    
+    [object enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if (idx) {
+            mutable = fn(mutable, obj);
+        }
+    }];
+    return mutable;
+}
+
 + (void)apply:(id)object fn:(id (^)(id object))fn {
     [object enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         fn(obj);
@@ -86,17 +101,17 @@
     
     rootScope[[RispSymbol APPLY]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
         id f = [arguments first];
-        if (f && [f isKindOfClass:[RispFnExpression class]]) {
-            RispFnExpression *fn = f;
-            RispMethodExpression *method = [fn methodForArguments:arguments];
+        if (f && [f isKindOfClass:[RispClosureExpression class]]) {
+            RispFnExpression *fn = [f fnExpression];
+            RispMethodExpression *method = [fn methodForArguments:[arguments second]];
             return [method applyTo:[RispVector listWithObjectsFromArrayNoCopy:[[arguments second] array]]];
         }
         return nil;
     } variadic:NO numberOfArguments:2];
     rootScope[[RispSymbol MAP]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
         id f = [arguments first];
-        if (f && [f isKindOfClass:[RispFnExpression class]]) {
-            RispFnExpression *fn = f;
+        if (f && [f isKindOfClass:[RispClosureExpression class]]) {
+            RispFnExpression *fn = [f fnExpression];
             RispMethodExpression *method = [fn methodForCountOfArgument:1];
             if (!method) {
                 [NSException raise:RispIllegalArgumentException format:@"%@ should have only one argument", fn];
@@ -109,11 +124,11 @@
     } variadic:NO numberOfArguments:2];
     rootScope[[RispSymbol REDUCE]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
         id f = [arguments first];
-        if (f && [f isKindOfClass:[RispFnExpression class]]) {
-            RispFnExpression *fn = f;
-            RispMethodExpression *method = [fn methodForArguments:arguments];
-            return [RispRuntime map:[[arguments second] array] fn:^id(id object) {
-                return [method applyTo:object];
+        if (f && [f isKindOfClass:[RispClosureExpression class]]) {
+            RispFnExpression *fn = [f fnExpression];
+            RispMethodExpression *method = [fn methodForCountOfArgument:2];
+            return [RispRuntime reduce:[[arguments second] array] fn:^id(id coll, id object) {
+                return [method applyTo:[RispVector listWithObjects:coll, object, nil]];
             }];
         }
         return nil;

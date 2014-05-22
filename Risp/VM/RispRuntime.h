@@ -18,6 +18,7 @@
 
 + (id)map:(id)object fn:(id (^)(id object))fn;
 + (void)apply:(id)object fn:(id (^)(id object))fn;
++ (id)reduce:(id)object fn:(id (^)(id coll, id object))fn;
 + (id)filter:(id)object pred:(id (^)(id object))pred;
 + (id)remove:(id)object pred:(id (^)(id object))pred;
 

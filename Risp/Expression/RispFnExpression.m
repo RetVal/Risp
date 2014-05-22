@@ -7,6 +7,7 @@
 //
 
 #import <Risp/RispFnExpression.h>
+#import <Risp/RispClosureExpression.h>
 
 @implementation RispFnExpression
 
@@ -74,8 +75,28 @@
     return nil;
 }
 
++ (void)_expandList:(id <RispSequence>)seq argumentSet:(NSMutableSet *)set {
+    id <RispSequence> argumentsVector = seq;
+    for (id x in argumentsVector) {
+        if ([x conformsToProtocol:@protocol(RispSequence)]) {
+            [self _expandList:x argumentSet:set];
+        }
+        [set addObject:x];
+    }
+}
+
++ (RispVector *)_analyzeMethod:(RispMethodExpression *)methodExpression context:(RispContext *)context {
+    NSMutableSet *args = [[NSMutableSet alloc] init];
+    [self _expandList:[methodExpression requiredParms] argumentSet:args];
+    
+    return nil;
+}
+
 - (id)eval {
-    return self;
+    RispLexicalScope *scope = [[RispContext currentContext] currentScope];
+    
+    RispClosureExpression *closure = [[RispClosureExpression alloc] initWithLexicalScopeEnvironment:scope fnExpression:self];
+    return closure;
 }
 
 - (NSString *)description {

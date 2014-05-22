@@ -11,9 +11,10 @@
 #import <Risp/RispContext.h>
 #import <Risp/RispInvokeProtocol.h>
 
-@class RispFnExpression;
+@class RispFnExpression, RispBodyExpression;
 @interface RispMethodExpression : RispBaseExpression <RispInvokeProtocol, NSCopying>
 
+@property (nonatomic, strong, readonly) RispBodyExpression *bodyExpression;
 @property (nonatomic, strong) NSMutableArray *argstypes;
 @property (nonatomic, strong) NSString *prim;
 @property (nonatomic, strong) RispVector *requiredParms;

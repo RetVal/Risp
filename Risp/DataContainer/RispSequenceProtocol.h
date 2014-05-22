@@ -9,7 +9,7 @@
 #ifndef Syrah_RispSequenceProtocol_h
 #define Syrah_RispSequenceProtocol_h
 
-@protocol RispSequence <NSObject, NSCopying>
+@protocol RispSequence <NSObject, NSCopying, NSFastEnumeration>
 @required
 - (NSUInteger)count;
 - (id)first;

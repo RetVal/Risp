@@ -133,6 +133,13 @@
     return _currentScope;
 }
 
+- (id)pushScopeWithScope:(RispLexicalScope *)scope {
+    RispLexicalScope *new = [[RispLexicalScope alloc] initWithParent:_currentScope];
+    [new setScope:[scope scope]];
+    _currentScope = new;
+    return _currentScope;
+}
+
 - (void)popScope {
     _currentScope = [_currentScope outer];
 }

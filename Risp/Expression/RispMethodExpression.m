@@ -11,11 +11,7 @@
 #import <Risp/RispSymbol+BIF.h>
 #import <Risp/RispBodyExpression.h>
 
-@interface RispMethodExpression () {
-@private
-    RispBodyExpression *_bodyExpresion;
-}
-
+@interface RispMethodExpression ()
 @end
 
 @implementation RispMethodExpression
@@ -43,7 +39,7 @@
             }
         }
         method->_requiredParms = parms;
-        method->_bodyExpresion = [RispBodyExpression parser:body context:context];
+        method->_bodyExpression = [RispBodyExpression parser:body context:context];
         method->_localBinding = [context currentScope];
     }
     @catch (NSException *exception) {
@@ -61,7 +57,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"(%@ %@)", [_requiredParms description], [_bodyExpresion description]];
+    return [NSString stringWithFormat:@"(%@ %@)", [_requiredParms description], [_bodyExpression description]];
 }
 
 - (id)applyTo:(RispVector *)arguments {
@@ -94,7 +90,7 @@
             RispList *seq = [RispList listWithObjectsFromArray:[[arguments drop:@(limit)] array]];
             scope[_restParm] = seq;
         }
-        for (id _expr in [_bodyExpresion exprs]) {
+        for (id _expr in [_bodyExpression exprs]) {
             v = [_expr eval];
         }
 
@@ -112,7 +108,7 @@
     RispMethodExpression *copy = [[RispMethodExpression alloc] init];
     copy->_statics = _statics;
     copy->_argstypes = [_argstypes copy];
-    copy->_bodyExpresion = [_bodyExpresion copy];
+    copy->_bodyExpression = [_bodyExpression copy];
     copy->_localBinding = [_localBinding copy];
     copy->_prim = [_prim copy];
     copy->_requiredParms = [_requiredParms copy];

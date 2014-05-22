@@ -13,17 +13,15 @@
 #import <Risp/RispMethodExpression.h>
 #import <Risp/RispBlockExpression.h>
 #import <Risp/RispInvokeProtocol.h>
+#import <Risp/RispFnProtocol.h>
 
-@interface RispFnExpression : RispBaseExpression <RispInvokeProtocol, NSCopying>
+@interface RispFnExpression : RispBaseExpression <RispFnProtocol, NSCopying>
 @property (nonatomic, strong) RispSymbol *name;
 @property (nonatomic, strong) RispMethodExpression *variadicMethod;
 @property (nonatomic, strong) RispList *methods;
 //@property (nonatomic, strong) RispSymbol *name;
 
 + (RispFnExpression *)parse:(id <RispSequence>)form context:(RispContext *)context;
-
-- (RispMethodExpression *)methodForArguments:(RispVector *)arguments;
-- (RispMethodExpression *)methodForCountOfArgument:(NSUInteger)cntOfArguments;
 
 - (id)applyTo:(RispVector *)arguments;
 

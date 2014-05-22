@@ -14,6 +14,7 @@
 @property (weak,   nonatomic, readonly) RispLexicalScope *outer;
 @property (strong, nonatomic, readonly) NSException *exception;
 @property (assign, nonatomic, readonly) NSUInteger depth;
+@property (strong, nonatomic) NSDictionary *scope;
 - (id)init;
 - (id)initWithParent:(RispLexicalScope *)outer;
 - (id)initWithParent:(RispLexicalScope *)outer child:(RispLexicalScope *)inner;

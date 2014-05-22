@@ -122,4 +122,7 @@ static RispMap *__RispEmptyMap;
     return [_dictionary description];
 }
 
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])buffer count:(NSUInteger)len {
+    return [_seq countByEnumeratingWithState:state objects:buffer count:len];
+}
 @end
