@@ -42,4 +42,9 @@
 + (RispSymbol *)speicalKey {
     return [RispSymbol named:@"defn"];
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispDefnExpression *copy = [[RispDefnExpression alloc] initWithValue:_value forKey:_key];
+    return copy;
+}
 @end

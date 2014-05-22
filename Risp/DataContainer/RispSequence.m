@@ -8,6 +8,7 @@
 
 #import <Risp/RispSequence.h>
 #import <Risp/RispRuntime.h>
+#import <Risp/RispMap.h>
 #import <objc/runtime.h>
 
 @interface RispSequence () {
@@ -128,7 +129,7 @@ static RispSequence *__RispSequeuceEmpty = nil;
 - (void)enumerateObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block {
     BOOL stop = NO;
     RispSequence *x = self;
-    while (!stop && x) {
+    while (!stop && [x first]) {
         block([x first], [self count] - [x count], &stop);
         x = [x next];
     }
@@ -176,6 +177,35 @@ static RispSequence *__RispSequeuceEmpty = nil;
         return [object description];
     }] array];
     return [NSString stringWithFormat:@"(%@)", [descs componentsJoinedByString:@" "]];
+}
+
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])buffer count:(NSUInteger)len {
+    return [[self array] countByEnumeratingWithState:state objects:buffer count:len];
+}
+@end
+
+
+#import <Risp/RispCharSequence.h>
+#import <Risp/RispLazySequence.h>
+
+@implementation RispSequence (Sequence)
+
++ (id <RispSequence>)sequence:(id)obj {
+    if (!obj || [obj isKindOfClass:[NSNull class]]) {
+        return nil;
+    } else if ([obj isKindOfClass:[RispMap class]]) {
+        return [obj seq];
+    } else if ([obj conformsToProtocol:@protocol(RispSequence)]) {
+        return [[RispSequence alloc] initWithArray:[obj array]];
+    } else if ([obj isKindOfClass:[NSString class]]) {
+        return [[RispCharSequence alloc] initWithString:obj];
+    } else if ([obj isKindOfClass:[RispLazySequence class]]) {
+        return [obj seq];
+    } else if ([obj conformsToProtocol:@protocol(RispSequence)]) {
+        return obj;
+    }
+    return [[RispSequence alloc] initWithObject:obj base:nil];
 }
 
 @end

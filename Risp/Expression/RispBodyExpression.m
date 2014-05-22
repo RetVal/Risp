@@ -51,4 +51,10 @@
     }];
     return result;
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispBodyExpression *copy = [[RispBodyExpression alloc] init];
+    copy->_exprs = [_exprs copy];
+    return copy;
+}
 @end

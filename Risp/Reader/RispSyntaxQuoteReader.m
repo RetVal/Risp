@@ -23,6 +23,17 @@
 
 @implementation RispSyntaxQuoteReader
 
++ (id)_rewriteSyntaxQuote:(id)form {
+    if ([form conformsToProtocol:@protocol(RispSequence)]) {
+//        for (id f in form) {
+//            if ([f conformsToProtocol:@protocol(RispSequence)]) {
+//                
+//            }
+//        }
+    }
+    return nil;
+}
+
 - (id)invoke:(RispReader *)reader object:(id)object {
     RispContext *currentContext = [RispContext currentContext];
     id form = nil;
@@ -36,7 +47,20 @@
     @finally {
         [currentContext popScope];
     }
-    return [RispSyntaxQuoteReader syntaxQuote:form];
+    id <RispSequence> syntaxQuoteSequence = [RispSyntaxQuoteReader syntaxQuote:form];
+    id rewrite = nil;
+    if (syntaxQuoteSequence) {
+        @try {
+            rewrite = [RispSyntaxQuoteReader _rewriteSyntaxQuote:syntaxQuoteSequence];
+        }
+        @catch (NSException *exception) {
+            @throw exception;
+        }
+        @finally {
+            
+        }
+    }
+    return syntaxQuoteSequence;
 }
 
 + (BOOL)isUnQuote:(id)form {
@@ -50,7 +74,7 @@
 + (id)syntaxQuote:(id)form {
     id ret;
     if([[RispContext currentContext] specialForKey:form]) {
-        ret = [RispList listWithRest:form objects:[RispSymbol QUOTE], nil];
+        ret = [RispList listWithObjectsFromArray:@[[RispSymbol QUOTE], form]];
     } else if([form isKindOfClass:[RispSymbol class]]) {
         RispSymbol *sym = form;
         if([[sym stringValue] hasSuffix:@"#"]) {
@@ -71,7 +95,7 @@
             if(seq == nil)
                 ret = [RispList listWithObjects:[RispSymbol named:@"list"], nil];
             else
-                ret = [RispList listWithObjectsFromArray:[RispSyntaxQuoteReader sqExpandList:seq]];
+                ret = [RispList listWithRest:[RispList listWithObjectsFromArray:[RispSyntaxQuoteReader sqExpandList:seq]] objects:[RispSymbol named:@"concat"], nil];
 //                ret = RT.list(SEQ, RT.cons(CONCAT, sqExpandList(seq)));
         }
     } else if ([form isKindOfClass:[NSNumber class]] ||
@@ -90,7 +114,8 @@
         if ([RispSyntaxQuoteReader isUnQuote:item]) {
             [ret addObject:[RispList listWithObjects:[item objectAtIndex:1], [RispSymbol named:@"list"], nil]];
         } else if ([RispSyntaxQuoteReader isUnquoteSplicing:item]) {
-            [ret addObject:[item objectAtIndex:1]];
+            id x = [(id <RispSequence>)item second];
+            [ret addObject:x];
         } else {
             [ret addObject:[RispList listWithObjects:[RispSyntaxQuoteReader syntaxQuote:item], [RispSymbol named:@"list"], nil]];
         }

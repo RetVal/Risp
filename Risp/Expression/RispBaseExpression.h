@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class RispContext;
-@protocol RispExpression <NSObject>
+@protocol RispExpression <NSObject, NSCopying>
 @required
 + (id <RispExpression>)parser:(id)object context:(RispContext *)context;
 - (id)eval;

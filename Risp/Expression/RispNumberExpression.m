@@ -20,6 +20,11 @@
 - (NSString *)description {
     return [_value description];
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispNumberExpression *copy = [[RispNumberExpression alloc] initWithValue:_value];
+    return copy;
+}
 @end
 
 @interface NSDecimalNumber (Compare)

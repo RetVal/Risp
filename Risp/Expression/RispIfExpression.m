@@ -60,4 +60,9 @@
     }
     return [_elseExpression eval];
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispIfExpression *copy = [[RispIfExpression alloc] initWithTestExpression:[_testExpression copy] then:[_thenExpression copy] else:[_elseExpression copy]];
+    return copy;
+}
 @end

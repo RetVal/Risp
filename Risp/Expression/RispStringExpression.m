@@ -20,4 +20,9 @@
 - (NSString *)description {
     return _value;
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispStringExpression *copy = [[RispStringExpression alloc] initWithValue:_value];
+    return copy;
+}
 @end

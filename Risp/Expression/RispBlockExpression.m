@@ -49,4 +49,9 @@
 - (NSInteger)paramsCount {
     return _numberOfArguments;
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispBlockExpression *copy = [[RispBlockExpression alloc] initWithBlock:[_block copy] variadic:_variadic numberOfArguments:_numberOfArguments];
+    return copy;
+}
 @end

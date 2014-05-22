@@ -135,7 +135,7 @@ public static Object eval(Object form, boolean freshLoader) {
 }
 
 + (id)macroexpand1:(id)x {
-    if ([x conformsToProtocol:NSProtocolFromString(@"RispSequence")]) {
+    if ([x conformsToProtocol:@protocol(RispSequence)]) {
         id <RispSequence> form = (id <RispSequence>)x;
         id op = [form first];
         if ([[RispContext defaultContext] isSpecial:op]) {
@@ -225,6 +225,26 @@ public static Object eval(Object form, boolean freshLoader) {
     }
     return [RispConstantExpression parser:form context:context];
 }
+
+
++ (id)eval:(id)rispForm {
+    if (!rispForm || [rispForm isKindOfClass:[NSNull class]]) return nil;
+    RispContext *context = [RispContext currentContext];
+    id expression = nil;
+    id v = nil;
+    @try {
+        expression = [RispCompiler compile:context form:rispForm];
+        v = [expression eval];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
+    @finally {
+        
+    }
+    return v;
+}
+
 
 - (id)isMacro:(id)op {
     if ([op isKindOfClass:[RispSymbol class]] && op) {

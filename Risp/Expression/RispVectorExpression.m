@@ -53,4 +53,9 @@
 - (NSString *)description {
     return [_vector description];
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispVectorExpression *copy = [[RispVectorExpression alloc] initWithVector:_vector];
+    return copy;
+}
 @end

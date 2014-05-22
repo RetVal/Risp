@@ -89,4 +89,14 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_scope];
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispLexicalScope *copy = [[RispLexicalScope alloc] init];
+    copy->_outer = _outer;
+    copy->_inner = _inner;
+    copy->_scope = [_scope copy];
+    copy->_exception = _exception;
+    copy->_depth = _depth;
+    return copy;
+}
 @end

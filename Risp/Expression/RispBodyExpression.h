@@ -8,7 +8,7 @@
 
 #import <Risp/Risp.h>
 
-@interface RispBodyExpression : RispBaseExpression
+@interface RispBodyExpression : RispBaseExpression <NSCopying>
 + (RispBodyExpression *)parser:(id <RispSequence>)form context:(RispContext *)context;
 
 @property (nonatomic, strong, readonly) RispVector *exprs;

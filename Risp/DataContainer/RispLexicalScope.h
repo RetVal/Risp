@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class RispSymbol;
-@interface RispLexicalScope : NSObject <NSCoding>
+@interface RispLexicalScope : NSObject <NSCoding, NSCopying>
 @property (strong, nonatomic, readonly) RispLexicalScope *inner;
 @property (weak,   nonatomic, readonly) RispLexicalScope *outer;
 @property (strong, nonatomic, readonly) NSException *exception;

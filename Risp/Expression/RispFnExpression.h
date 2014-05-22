@@ -14,7 +14,7 @@
 #import <Risp/RispBlockExpression.h>
 #import <Risp/RispInvokeProtocol.h>
 
-@interface RispFnExpression : RispBaseExpression <RispInvokeProtocol>
+@interface RispFnExpression : RispBaseExpression <RispInvokeProtocol, NSCopying>
 @property (nonatomic, strong) RispSymbol *name;
 @property (nonatomic, strong) RispMethodExpression *variadicMethod;
 @property (nonatomic, strong) RispList *methods;
@@ -26,9 +26,11 @@
 - (RispMethodExpression *)methodForCountOfArgument:(NSUInteger)cntOfArguments;
 
 - (id)applyTo:(RispVector *)arguments;
+
+- (id)copyWithZone:(NSZone *)zone;
 @end
 
 @interface RispFnExpression (BlockSupport)
-+ (id<RispExpression>)blockWihObjcBlock:(id (^)(RispVector *arguments))block variadic:(BOOL)isVariadic numberOfArguments:(NSUInteger)numberOfArguments;
++ (instancetype)blockWihObjcBlock:(id (^)(RispVector *arguments))block variadic:(BOOL)isVariadic numberOfArguments:(NSUInteger)numberOfArguments;
 - (id)initWithBlock:(id (^)(RispVector *arguments))block variadic:(BOOL)isVariadic numberOfArguments:(NSUInteger)numberOfArguments;
 @end

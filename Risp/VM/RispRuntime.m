@@ -73,17 +73,6 @@
     return NSMakeRange(0, -1);
 }
 
-+ (id <RispSequence>)sequence:(id)object {
-    if ([object isKindOfClass:[RispSequence class]]) {
-        return object;
-    } else if ([object isKindOfClass:[RispVector class]]) {
-        return [[RispList alloc] initWithArray:[object array]];
-    } else if ([object isKindOfClass:[NSString class]]) {
-        return [[RispList alloc] initWithArray:[object array]];
-    }
-    return nil;
-}
-
 - (BOOL)registerSymbol:(RispSymbol *)symbol forObject:(id)object {
     if (!symbol)
         return NO;

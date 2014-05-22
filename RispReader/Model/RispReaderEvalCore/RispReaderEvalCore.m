@@ -24,13 +24,14 @@
                 if (value == _reader) {
                     continue;
                 }
-                id expr = [RispCompiler compile:[RispContext currentContext] form:value];
+                RispContext *context = [RispContext currentContext];
+                id expr = [RispCompiler compile:context form:value];
                 id v = [expr eval];
                 NSLog(@"%@ - %@ - %@", value, [expr class], v);
                 [values addObject:v ? : [NSNull null]];
             }
             @catch (NSException *exception) {
-                NSLog(@"%@", exception);
+                NSLog(@"%@ - %@", value, exception);
             }
         }
     }

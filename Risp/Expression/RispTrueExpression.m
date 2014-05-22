@@ -24,4 +24,9 @@
 - (NSString *)description {
     return [[self value] description];
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispTrueExpression *copy = [[RispTrueExpression alloc] initWithValue:_value];
+    return copy;
+}
 @end

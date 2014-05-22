@@ -26,4 +26,9 @@
 - (NSString *)description {
     return [_value description];
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispKeywordExpression *copy = [[RispKeywordExpression alloc] initWithValue:_value];
+    return copy;
+}
 @end

@@ -44,6 +44,7 @@
         }
         method->_requiredParms = parms;
         method->_bodyExpresion = [RispBodyExpression parser:body context:context];
+        method->_localBinding = [context currentScope];
     }
     @catch (NSException *exception) {
         NSLog(@"%@", exception);
@@ -65,30 +66,57 @@
 
 - (id)applyTo:(RispVector *)arguments {
     id v = nil;
-    RispLexicalScope *scope = [[RispContext currentContext] currentScope];
-    if (![self isVariadic]) {
-        [_requiredParms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id v = arguments[idx];
-            scope[obj] = v;
-        }];
-    } else {
-        NSInteger limit = [self paramsCount] - 1;
-        [_requiredParms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            if (idx < limit) {
+    @try {
+        [[RispContext currentContext] pushScope];
+        RispLexicalScope *scope = [[RispContext currentContext] currentScope];
+        if (_localBinding) {
+            NSArray *keys = [_localBinding keys];
+            for (id k in keys) {
+                scope[k] = _localBinding[k];
+            }
+        }
+        
+        if (![self isVariadic]) {
+            [_requiredParms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 id v = arguments[idx];
                 scope[obj] = v;
-            } else {
-                *stop = YES;
-            }
-        }];
-        RispList *seq = [RispList listWithObjectsFromArray:[[arguments drop:@(limit)] array]];
-        scope[_restParm] = seq;
+            }];
+        } else {
+            NSInteger limit = [self paramsCount] - 1;
+            [_requiredParms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if (idx < limit) {
+                    id v = arguments[idx];
+                    scope[obj] = v;
+                } else {
+                    *stop = YES;
+                }
+            }];
+            RispList *seq = [RispList listWithObjectsFromArray:[[arguments drop:@(limit)] array]];
+            scope[_restParm] = seq;
+        }
+        for (id _expr in [_bodyExpresion exprs]) {
+            v = [_expr eval];
+        }
+
     }
-    
-    
-    for (id _expr in [_bodyExpresion exprs]) {
-        v = [_expr eval];
+    @catch (NSException *exception) {
+        @throw exception;
+    }
+    @finally {
+        [[RispContext currentContext] popScope];
     }
     return v;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispMethodExpression *copy = [[RispMethodExpression alloc] init];
+    copy->_statics = _statics;
+    copy->_argstypes = [_argstypes copy];
+    copy->_bodyExpresion = [_bodyExpresion copy];
+    copy->_localBinding = [_localBinding copy];
+    copy->_prim = [_prim copy];
+    copy->_requiredParms = [_requiredParms copy];
+    copy->_restParm = [_restParm copy];
+    return copy;
 }
 @end

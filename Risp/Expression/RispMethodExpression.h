@@ -12,7 +12,7 @@
 #import <Risp/RispInvokeProtocol.h>
 
 @class RispFnExpression;
-@interface RispMethodExpression : RispBaseExpression <RispInvokeProtocol>
+@interface RispMethodExpression : RispBaseExpression <RispInvokeProtocol, NSCopying>
 
 @property (nonatomic, strong) NSMutableArray *argstypes;
 @property (nonatomic, strong) NSString *prim;
@@ -21,7 +21,7 @@
 
 @property (nonatomic, assign, readonly, getter = isStatics) BOOL statics;
 
-@property (nonatomic, strong) NSMutableDictionary *localBinding;
+@property (nonatomic, strong) RispLexicalScope *localBinding;
 + (RispMethodExpression *)parser:(id <RispSequence>)form context:(RispContext *)context fn:(RispFnExpression *)fn static:(BOOL)isStatic;
 - (NSInteger)paramsCount;
 - (BOOL)isVariadic;

@@ -23,4 +23,9 @@
 - (NSString *)description {
     return @"null";
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispNilExpression *copy = [[RispNilExpression alloc] initWithValue:_value];
+    return copy;
+}
 @end

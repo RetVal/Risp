@@ -44,4 +44,9 @@
 - (NSString *)description {
     return [_constantValue description];
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispConstantExpression *copy = [[RispConstantExpression alloc] initWithValue:_constantValue];
+    return copy;
+}
 @end

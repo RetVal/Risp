@@ -89,4 +89,9 @@
     }
     return v;
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispInvokeExpression *copy = [[RispInvokeExpression alloc] initWithExpression:_fexpr arguments:_arguments];
+    return copy;
+}
 @end

@@ -24,7 +24,6 @@
 + (instancetype)baseEnvironment;
 + (NSRange)rangeForDefaultArugmentsNumber;
 + (NSRange)rangeForDefaultArugmentsNumberWithUnlimit;
-+ (id <RispSequence>)sequence:(id)object;
 - (BOOL)registerSymbol:(RispSymbol *)symbol forObject:(id)object;
 @end
 

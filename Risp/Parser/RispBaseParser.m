@@ -97,7 +97,7 @@
 + (id <RispExpression>)analyze:(RispContext *)context form:(id)form name:(NSString *)name {
     @try {
         if ([form isKindOfClass:[RispLazySequence class]]) {
-            form = [RispRuntime sequence:form];
+            form = [RispSequence sequence:form];
             if (form == nil)
                 form = [RispList empty];
         }

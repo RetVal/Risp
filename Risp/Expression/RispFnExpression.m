@@ -101,11 +101,19 @@
     return [[self methodForArguments:arguments] applyTo:arguments];
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    RispFnExpression *copy = [[RispFnExpression alloc] init];
+    copy->_methods = [_methods copy];
+    copy->_name = [_name copy];
+    copy->_variadicMethod = [_variadicMethod copy];
+    return copy;
+}
+
 @end
 
 @implementation RispFnExpression (BlockSupport)
 
-+ (id<RispExpression>)blockWihObjcBlock:(id (^)(RispVector *))block variadic:(BOOL)isVariadic numberOfArguments:(NSUInteger)numberOfArguments {
++ (instancetype)blockWihObjcBlock:(id (^)(RispVector *))block variadic:(BOOL)isVariadic numberOfArguments:(NSUInteger)numberOfArguments {
     return [[RispFnExpression alloc] initWithBlock:block variadic:isVariadic numberOfArguments:numberOfArguments];
 }
 

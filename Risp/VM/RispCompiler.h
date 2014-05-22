@@ -22,4 +22,6 @@ typedef NS_ENUM(NSUInteger, RispCompilerStatus) {
 
 + (id)compile:(RispContext *)context form:(id)form;
 + (id)macroexpand:(id)form;
+
++ (id)eval:(id)rispForm;
 @end

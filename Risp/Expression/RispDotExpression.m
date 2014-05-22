@@ -236,4 +236,9 @@
     NSString *desc = [[NSString alloc] initWithFormat:@"(. %@ %@ %@)", _target, NSStringFromSelector(_selector), argDesc];
     return desc;
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispDotExpression *copy = [[RispDotExpression alloc] initWithTarget:_target selector:_selector methodSignature:_methodSignature arguments:_arguments class:_class];
+    return copy;
+}
 @end

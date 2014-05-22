@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Risp/RispSequenceProtocol.h>
 
-@interface RispSequence : NSObject <RispSequence, NSCopying>
+@interface RispSequence : NSObject <RispSequence, NSCopying, NSFastEnumeration>
 @property (nonatomic, assign, readonly) NSInteger count;
 
 - (id)initWithObject:(id)object base:(RispSequence *)base;
@@ -29,4 +29,10 @@
 
 + (id)empty;
 - (BOOL)isEmpty;
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])buffer count:(NSUInteger)len;
+@end
+
+@interface RispSequence (Sequence)
++ (id <RispSequence>)sequence:(id)obj;
 @end

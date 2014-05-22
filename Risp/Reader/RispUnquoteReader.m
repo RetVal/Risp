@@ -17,10 +17,10 @@
     }
     if (ch == '@') {
         id o = [reader readEofIsError:YES eofValue:nil isRecursive:YES];
-        return [[RispList alloc] initWithObject:[RispSymbol UNQUOTESPLICING] base:o];
+        return [[RispList alloc] initWithObject:[RispSymbol UNQUOTESPLICING] base:[RispSequence sequence:o]];
     }
     [pushBackReader unread:ch];
     id o = [reader readEofIsError:YES eofValue:nil isRecursive:YES];
-    return [[RispList alloc] initWithObject:[RispSymbol UNQUOTE] base:o];
+    return [[RispList alloc] initWithObject:[RispSymbol UNQUOTE] base:[RispSequence sequence:o]];
 }
 @end

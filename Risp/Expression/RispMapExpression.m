@@ -78,4 +78,9 @@
     }];
     return [RispMap mapWithSequence:[RispVector listWithObjectsFromArrayNoCopy:ret]];
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispMapExpression *copy = [[RispMapExpression alloc] initWithKeyValues:_keyvals];
+    return copy;
+}
 @end

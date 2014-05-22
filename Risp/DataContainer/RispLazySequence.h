@@ -8,6 +8,6 @@
 
 #import <Risp/Risp.h>
 
-@interface RispLazySequence : RispSequence
+@interface RispLazySequence : NSObject <RispSequence>
 
 @end
