@@ -43,7 +43,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ %@", NSStringFromClass([self class]), self];
+    return [NSString stringWithFormat:@"%@ %@", NSStringFromClass([self class]), _block];
 }
 
 - (NSInteger)paramsCount {

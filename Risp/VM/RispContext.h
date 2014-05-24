@@ -24,6 +24,7 @@ typedef NS_ENUM(NSUInteger, RispContextStatus) {
 };
 
 @interface RispContext : NSObject
++ (instancetype)mainContext;
 + (instancetype)defaultContext;
 + (instancetype)currentContext;
 + (void)setCurrentContext:(RispContext *)context;

@@ -11,7 +11,6 @@
 @interface RispDotExpression : RispBaseExpression
 @property (nonatomic, strong, readonly) id target;
 @property (nonatomic, assign, readonly) SEL selector;
-@property (nonatomic, strong, readonly) RispVector *arguments;
 @property (nonatomic, strong, readonly) id <RispSequence> exprs;
 
 + (id)parser:(id)object context:(RispContext *)context;

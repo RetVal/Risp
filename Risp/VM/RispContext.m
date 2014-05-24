@@ -14,6 +14,7 @@
 #import <Risp/RispConstantExpression.h>
 
 @interface NSThread (RispContext)
++ (RispContext *)mainContext;
 + (RispContext *)currentContext;
 - (RispContext *)threadContext;
 - (void)setThreadContext:(RispContext *)context;
@@ -37,11 +38,13 @@
 @end
 
 
-@interface RispContext ()
+@interface RispContext () <NSCopying>
 @property (nonatomic, strong, readonly) RispLexicalScope *currentScope;
 @property (nonatomic, strong, readonly) RispLexicalScope *specials;
 @property (nonatomic, strong, readonly) RispLexicalScope *macros;
 @property (nonatomic, strong, readonly) RispLexicalScope *keywords;
+
+@property (nonatomic, assign, readonly, getter = isDeepCopyFromMainContext) BOOL deepCopyFromMainContext;
 @end
 
 @interface RispContext (InitSpecials)
@@ -54,17 +57,25 @@
     
 }
 
++ (instancetype)mainContext {
+    return [[NSThread mainThread] threadContext];
+}
+
 + (instancetype)defaultContext {
     return [self currentContext];
 }
 
 + (instancetype)currentContext {
-    if (![NSThread currentContext]) {
-        RispContext *context = [[RispContext alloc] init];
+    RispContext *threadContext = [NSThread currentContext];
+    if (!threadContext) {
+        RispContext *context = [[RispContext alloc] init];;
         [[NSThread currentThread] setThreadContext:context];
+        if (![NSThread isMainThread]) {
+            [[RispContext mainContext] mutableCopy];
+        }
         return context;
     }
-    return [NSThread currentContext];
+    return threadContext;
 }
 
 + (void)setCurrentContext:(RispContext *)context {
@@ -160,6 +171,29 @@
 - (void)popScope {
     _currentScope = [_currentScope outer];
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    RispContext *copy = [[RispContext alloc] init];
+    RispContext *mainContext = [RispContext mainContext];
+    
+    RispLexicalScope *(^toTheInner)(RispLexicalScope *scope) = ^RispLexicalScope *(RispLexicalScope *scope) {
+        while ([scope inner]) {
+            scope = [scope inner];
+        }
+        return scope;
+    };
+    copy->_deepCopyFromMainContext = YES;
+    copy->_currentScope = [[mainContext currentScope] mutableCopy];
+    copy->_keywords = [[mainContext keywords] mutableCopy];
+    copy->_macros = [[mainContext macros] mutableCopy];
+    copy->_specials = [[mainContext specials] mutableCopy];
+    copy->_status = [mainContext status];
+    return copy;
+}
+
+- (id)mutableCopy {
+    return [self copy];
+}
 @end
 
 @implementation RispContext (InitSpecials)
@@ -178,6 +212,10 @@
 
 + (RispContext *)currentContext {
     return [[NSThread currentThread] threadContext];
+}
+
++ (RispContext *)mainContext {
+    return [[NSThread mainThread] threadContext];
 }
 
 - (RispContext *)threadContext {

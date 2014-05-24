@@ -314,7 +314,7 @@
 		30E3583218FFAF0300412E48 /* RispKeyword.h in Headers */ = {isa = PBXBuildFile; fileRef = 30E3582018FFAF0300412E48 /* RispKeyword.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30E3583318FFAF0300412E48 /* RispKeyword.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E3582118FFAF0300412E48 /* RispKeyword.m */; };
 		30E3583418FFAF0300412E48 /* RispLexicalScope.h in Headers */ = {isa = PBXBuildFile; fileRef = 30E3582218FFAF0300412E48 /* RispLexicalScope.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		30E3583518FFAF0300412E48 /* RispLexicalScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E3582318FFAF0300412E48 /* RispLexicalScope.m */; };
+		30E3583518FFAF0300412E48 /* RispLexicalScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E3582318FFAF0300412E48 /* RispLexicalScope.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30E3583618FFAF0300412E48 /* RispList.h in Headers */ = {isa = PBXBuildFile; fileRef = 30E3582418FFAF0300412E48 /* RispList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30E3583718FFAF0300412E48 /* RispList.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E3582518FFAF0300412E48 /* RispList.m */; };
 		30E3583818FFAF0300412E48 /* RispSequenceProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 30E3582618FFAF0300412E48 /* RispSequenceProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };

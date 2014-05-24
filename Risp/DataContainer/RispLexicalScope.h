@@ -11,7 +11,6 @@
 @class RispSymbol;
 @interface RispLexicalScope : NSObject <NSCoding, NSCopying>
 @property (strong, nonatomic, readonly) RispLexicalScope *inner;
-@property (weak,   nonatomic, readonly) RispLexicalScope *outer;
 @property (strong, nonatomic, readonly) NSException *exception;
 @property (assign, nonatomic, readonly) NSUInteger depth;
 @property (strong, nonatomic) NSDictionary *scope;
@@ -25,6 +24,9 @@
 - (id)objectForKeyedSubscript:(id)key NS_AVAILABLE(10_8, 6_0);
 - (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key NS_AVAILABLE(10_8, 6_0);
 
+- (RispLexicalScope *)outer;
+
 - (NSArray *)keys;
 - (NSArray *)values;
+
 @end

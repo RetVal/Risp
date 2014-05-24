@@ -119,7 +119,7 @@ static id sharedInstance = nil;
     CFStringRef uuidString = CFUUIDCreateString(NULL, uuid);
     CFRelease(uuid);
     
-    return (__bridge NSString *)uuidString;
+    return (__bridge NSString *)CFAutorelease(uuidString);
 }
 
 /*
@@ -177,7 +177,7 @@ static id sharedInstance = nil;
 		return path;
 	}
 	
-	return  resolvedPath;
+	return resolvedPath;
 }
 
 @end

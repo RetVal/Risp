@@ -45,6 +45,10 @@
     return [RispSymbol named:@"reduce"];
 }
 
++ (RispSymbol *)FILTER {
+    return [RispSymbol named:@"filter"];
+}
+
 + (RispSymbol *)UNQUOTE {
     return [RispSymbol named:@"unquote"];
 }

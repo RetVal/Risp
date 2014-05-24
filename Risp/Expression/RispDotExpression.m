@@ -132,7 +132,7 @@
             [arguments enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 [args addObject:[RispBaseParser analyze:[RispContext currentContext] form:obj]];
             }];
-            _arguments = [[RispVector alloc] initWithArrayNoCopy:args];
+            arguments = [[RispVector alloc] initWithArrayNoCopy:args];
         }
         _evaled = YES;
         _methodSignature = methodSignature;
@@ -152,15 +152,14 @@
     return self;
 }
 
-- (id)evalExpression:(id)target selector:(SEL)selector {
+- (id)evalExpression:(id)target selector:(SEL)selector arguments:(RispVector *)arguments{
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:_methodSignature];
     [invocation setTarget:target];
     [invocation setSelector:selector];
-    for(int i=0; i < [_arguments count]; i++) {
-        id arg = [[_arguments nth:i] eval];
+    for(int i=0; i < [arguments count]; i++) {
+        id arg = [[arguments nth:i] eval];
         [invocation setArgument:&arg atIndex: i + 2]; // objc_msgSend(target, selector, ...)
     }
-    _arguments = nil;
     [invocation invoke]; 
     id value = [invocation objectReturnValue];
     return [self objectiveC:value methodSignature:_methodSignature];
@@ -175,20 +174,22 @@
     return value;
 }
 
-- (void)_initArguments {
-    if (!_arguments && _exprs) {
+- (RispVector *)_setupArguments {
+    if (_exprs) {
         NSMutableArray *array = [[NSMutableArray alloc] init];
         [_exprs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             id v = [obj eval];
             [array addObject:v];
         }];
-        _arguments = [RispVector listWithObjectsFromArrayNoCopy:array];
+        return [RispVector listWithObjectsFromArrayNoCopy:array];
     }
+    return nil;
 }
 
 - (id)eval {
     id target = _target;
     SEL selector = _selector;
+    RispVector *arguments = nil;
     if (!_evaled) {
         target = [_target eval] ? : [_target description];
         NSString *className = [target respondsToSelector:@selector(stringValue)] ? [target stringValue] : ([target isKindOfClass:[NSString class]] ? target : nil);
@@ -198,12 +199,12 @@
             _class = YES;
             target = NSClassFromString(className);
         }
-        [self _initArguments];
+        arguments = [self _setupArguments];
         if (_class) {
             NSMethodSignature *methodSignature = [NSClassFromString(className) methodSignatureForSelector:selector] ? : [NSClassFromString(className) instanceMethodSignatureForSelector:selector];
             if (methodSignature) {
-                if ([methodSignature numberOfArguments] - 2 != [_arguments count]) {
-                    [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", target, [methodSignature numberOfArguments] - 2, _arguments];
+                if ([methodSignature numberOfArguments] - 2 != [arguments count]) {
+                    [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", target, [methodSignature numberOfArguments] - 2, arguments];
                 }
                 _methodSignature = methodSignature;
             } else {
@@ -215,13 +216,13 @@
             if (!methodSignature) {
                 [NSException raise:RispIllegalArgumentException format:@"%@ is not found", NSStringFromSelector(selector)];
             }
-            if ([methodSignature numberOfArguments] - 2 != [_arguments count]) {
-                [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", target, [methodSignature numberOfArguments] - 2, _arguments];
+            if ([methodSignature numberOfArguments] - 2 != [arguments count]) {
+                [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", target, [methodSignature numberOfArguments] - 2, arguments];
             }
             _methodSignature = methodSignature;
         }
     }
-    return [self evalExpression:target selector:selector];
+    return [self evalExpression:target selector:selector arguments:arguments];
 }
 
 + (RispSymbol *)speicalKey {
@@ -238,7 +239,7 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    RispDotExpression *copy = [[RispDotExpression alloc] initWithTarget:_target selector:_selector methodSignature:_methodSignature arguments:_arguments class:_class];
+    RispDotExpression *copy = [[RispDotExpression alloc] initWithTarget:_target selector:_selector methodSignature:_methodSignature arguments:nil class:_class];
     return copy;
 }
 @end
