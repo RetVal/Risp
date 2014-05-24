@@ -10,6 +10,8 @@
 #import <Risp/RispCompiler.h>
 #import <Risp/RispBaseParser.h>
 #import <Risp/RispBaseExpression.h>
+#import "RispAbstractSyntaxTree.h"
+#import "RispBaseExpression+ASTDescription.h"
 
 @interface RispVectorExpression () {
     @private

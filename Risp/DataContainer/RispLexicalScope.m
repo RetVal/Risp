@@ -33,7 +33,7 @@
 
 + (id)alloc {
     id x = [super alloc];
-    NSLog(@"alloc lexical scope %p", x);
+//    NSLog(@"alloc lexical scope %p", x);
     return x;
 }
 
@@ -65,7 +65,7 @@
 
 - (void)dealloc {
     OSSpinLockLock(&_lock);
-    NSLog(@"dealloc lexical scope %p", self);
+//    NSLog(@"dealloc lexical scope %p", self);
     
     [_scope release];
     _scope = nil;

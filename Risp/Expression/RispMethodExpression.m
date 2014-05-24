@@ -10,6 +10,8 @@
 #import <Risp/RispVector.h>
 #import <Risp/RispSymbol+BIF.h>
 #import <Risp/RispBodyExpression.h>
+#import "RispAbstractSyntaxTree.h"
+#import "RispBaseExpression+ASTDescription.h"
 
 @interface RispMethodExpression ()
 @end

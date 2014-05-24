@@ -8,6 +8,8 @@
 
 #import <Risp/RispTrueExpression.h>
 #import <Risp/RispLiteralExpression.h>
+#import "RispAbstractSyntaxTree.h"
+#import "RispBaseExpression+ASTDescription.h"
 
 @implementation RispTrueExpression
 - (instancetype)init {

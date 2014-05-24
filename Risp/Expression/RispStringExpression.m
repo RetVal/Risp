@@ -7,6 +7,8 @@
 //
 
 #import "RispStringExpression.h"
+#import "RispAbstractSyntaxTree.h"
+#import "RispBaseExpression+ASTDescription.h"
 
 @implementation RispStringExpression
 + (id<RispExpression>)parser:(id)object context:(RispContext *)context {

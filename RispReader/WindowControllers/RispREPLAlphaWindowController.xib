@@ -16,17 +16,23 @@
         <window title="RispReader" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5" customClass="RispAutoHideWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+            <rect key="contentRect" x="196" y="240" width="503" height="299"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                <rect key="frame" x="0.0" y="0.0" width="503" height="299"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gfQ-vk-rGM">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="gfQ-vk-rGM">
+                        <rect key="frame" x="0.0" y="0.0" width="503" height="299"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="gfQ-vk-rGM" secondAttribute="trailing" id="0BQ-P4-pVt"/>
+                    <constraint firstAttribute="bottom" secondItem="gfQ-vk-rGM" secondAttribute="bottom" id="GWg-sN-YiB"/>
+                    <constraint firstItem="gfQ-vk-rGM" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="bKS-Zv-LuO"/>
+                    <constraint firstItem="gfQ-vk-rGM" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="xS0-60-yjD"/>
+                </constraints>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>

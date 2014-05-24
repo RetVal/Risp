@@ -7,6 +7,8 @@
 //
 
 #import "RispDotExpression.h"
+#import "RispAbstractSyntaxTree.h"
+#import "RispBaseExpression+ASTDescription.h"
 #include <objc/runtime.h>
 #include <objc/message.h>
 
@@ -17,13 +19,18 @@
 
 @end
 
+@interface RispDotExpression (NSInvocation)
++ (id)objectiveC:(void *)value methodSignature:(NSMethodSignature *)signature;
+@end
+
 @implementation NSInvocation (ObjectReturnValue)
 
 - (id)objectReturnValue {
     void *pointer = nil;
     [self getReturnValue:&pointer];
-    id result = (__bridge id)pointer;
-    return result;
+    
+    __unsafe_unretained id result = (__bridge id)pointer;
+    return [RispDotExpression objectiveC:(void *)result methodSignature:[self methodSignature]];
 }
 
 @end
@@ -162,16 +169,20 @@
     }
     [invocation invoke]; 
     id value = [invocation objectReturnValue];
-    return [self objectiveC:value methodSignature:_methodSignature];
+    return value;
 }
 
-- (id)objectiveC:(id)value methodSignature:(NSMethodSignature *)signature {
++ (id)objectiveC:(void *)value methodSignature:(NSMethodSignature *)signature {
     NSString *retType = @([signature methodReturnType]);
     if ([retType hasPrefix:@"B"] || [retType hasPrefix:@"b"] ||
         [retType hasPrefix:@"C"] || [retType hasPrefix:@"c"]) {
-        return [NSNumber numberWithBool:(Boolean)value];
+        return [NSDecimalNumber numberWithBool:(Boolean)value];
+    } else if ([retType isEqualToString:@"Q"]) {
+        return [NSDecimalNumber numberWithUnsignedLongLong:(unsigned long long)value];
+    } else if ([retType isEqualToString:@"L"]) {
+        return [NSDecimalNumber numberWithUnsignedLong:(unsigned long)value];
     }
-    return value;
+    return (__bridge id)value;
 }
 
 - (RispVector *)_setupArguments {

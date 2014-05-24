@@ -8,6 +8,8 @@
 
 #import <Risp/RispFnExpression.h>
 #import <Risp/RispClosureExpression.h>
+#import "RispAbstractSyntaxTree.h"
+#import "RispBaseExpression+ASTDescription.h"
 
 @implementation RispFnExpression
 

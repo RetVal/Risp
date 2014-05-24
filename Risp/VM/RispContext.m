@@ -135,6 +135,10 @@
     return _currentScope;
 }
 
+- (id)pushScope:(RispLexicalScope *)scope {
+    return [self pushScopeWithConfiguration:[scope scope]];
+}
+
 - (id)pushScopeWithConfiguration:(NSDictionary *)info {
     RispLexicalScope *scope = [[RispLexicalScope alloc] initWithParent:_currentScope];
     [info enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -144,7 +148,7 @@
     return _currentScope;
 }
 
-- (id)pushScopeWithMergeScope:(RispLexicalScope *)scope {
+- (RispLexicalScope *)mergeScope:(RispLexicalScope *)scope {
     if (scope == nil || ([[scope scope] count] == 0 && [scope outer] == nil))
         return _currentScope;
     RispLexicalScope *new = [[RispLexicalScope alloc] initWithParent:_currentScope];
@@ -164,7 +168,13 @@
     unsafe_lambda = lambda;
     lambda(scope);
     [new setScope:env];
-    _currentScope = new;
+    return new;
+}
+
+- (id)pushScopeWithMergeScope:(RispLexicalScope *)scope {
+    if (scope == nil || ([[scope scope] count] == 0 && [scope outer] == nil))
+        return _currentScope;
+    _currentScope = [self mergeScope:scope];
     return _currentScope;
 }
 

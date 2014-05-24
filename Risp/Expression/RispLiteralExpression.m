@@ -8,6 +8,8 @@
 
 #import <Risp/RispLiteralExpression.h>
 #import <Risp/RispContext.h>
+#import "RispAbstractSyntaxTree.h"
+#import "RispBaseExpression+ASTDescription.h"
 
 @implementation RispLiteralExpression
 - (id)initWithValue:(id)value {
@@ -33,5 +35,10 @@
 - (id)copyWithZone:(NSZone *)zone {
     RispLiteralExpression *copy = [[RispLiteralExpression alloc] initWithValue:_value];
     return copy;
+}
+
+- (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [super _descriptionWithIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@ - %@\n", [self class], [self description]];
 }
 @end

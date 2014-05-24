@@ -7,6 +7,8 @@
 //
 
 #import <Risp/RispFalseExpression.h>
+#import "RispAbstractSyntaxTree.h"
+#import "RispBaseExpression+ASTDescription.h"
 
 @implementation RispFalseExpression
 - (instancetype)init {

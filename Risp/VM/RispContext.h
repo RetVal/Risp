@@ -45,7 +45,10 @@ typedef NS_ENUM(NSUInteger, RispContextStatus) {
 
 - (id)isMacro:(id)key;
 
+- (RispLexicalScope *)mergeScope:(RispLexicalScope *)scope;
+
 - (id)pushScope;
+- (id)pushScope:(RispLexicalScope *)scope;
 - (id)pushScopeWithConfiguration:(NSDictionary *)info;
 - (id)pushScopeWithMergeScope:(RispLexicalScope *)scope;
 - (void)popScope;

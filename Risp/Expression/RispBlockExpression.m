@@ -7,6 +7,8 @@
 //
 
 #import "RispBlockExpression.h"
+#import "RispAbstractSyntaxTree.h"
+#import "RispBaseExpression+ASTDescription.h"
 
 @interface RispBlockExpression () {
     @private

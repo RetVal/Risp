@@ -7,6 +7,9 @@
 //
 
 #import <Risp/RispDefExpression.h>
+#import "RispAbstractSyntaxTree.h"
+#import "RispBaseExpression+ASTDescription.h"
+
 @implementation RispDefExpression
 + (id)parser:(id <RispSequence>)object context:(RispContext *)context {
     object = [object next];

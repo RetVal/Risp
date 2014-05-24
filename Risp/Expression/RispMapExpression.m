@@ -8,6 +8,9 @@
 
 #import "RispMapExpression.h"
 #import <Risp/RispMap.h>
+#import "RispAbstractSyntaxTree.h"
+#import "RispBaseExpression+ASTDescription.h"
+
 @interface RispMapExpression ()
 @property (nonatomic, strong, readonly) RispVector *keyvals;
 @end

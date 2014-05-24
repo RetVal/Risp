@@ -7,11 +7,13 @@
 //
 
 #import "RispClosureExpression.h"
+#import "RispAbstractSyntaxTree.h"
+#import "RispBaseExpression+ASTDescription.h"
 
 @implementation RispClosureExpression
 - (id)initWithLexicalScopeEnvironment:(RispLexicalScope *)environment fnExpression:(RispFnExpression *)fnExpression {
     if (self = [super init]) {
-        _environment = environment;
+        _environment = [[RispContext currentContext] mergeScope:environment];
         _fnExpression = fnExpression;
     }
     return self;
@@ -30,7 +32,7 @@
     id v = nil;
     @try {
         if (_environment) {
-            [context pushScopeWithMergeScope:_environment];
+            [context pushScope:_environment];
         }
         RispVector *evalArguments = [RispRuntime map:arguments fn:^id(id object) {
             return [object eval];
