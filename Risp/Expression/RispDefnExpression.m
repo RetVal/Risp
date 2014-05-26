@@ -49,4 +49,14 @@
     RispDefnExpression *copy = [[RispDefnExpression alloc] initWithValue:_value forKey:_key];
     return copy;
 }
+
+-(void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@\n", [self class]];
+    
+    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:desc];
+    [desc appendFormat:@"%@ : %@\n", [_key class], _key];
+    
+    [desc appendString:[RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 forObject:_value]];
+}
 @end

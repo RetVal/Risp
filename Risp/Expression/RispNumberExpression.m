@@ -27,6 +27,11 @@
     RispNumberExpression *copy = [[RispNumberExpression alloc] initWithValue:_value];
     return copy;
 }
+
+- (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@ : %@\n", [self class], [self description]];
+}
 @end
 
 @interface NSDecimalNumber (Compare)

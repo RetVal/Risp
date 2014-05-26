@@ -11,6 +11,7 @@
 #import <Risp/RispContext.h>
 
 @interface RispVectorExpression : RispBaseExpression
+@property (nonatomic, strong, readonly) RispVector *vector;
 + (RispVectorExpression *)parse:(RispVector *)vector context:(RispContext *)context;
 - (id)initWithVector:(RispVector *)vector;
 @end

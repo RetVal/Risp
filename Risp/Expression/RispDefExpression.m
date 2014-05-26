@@ -50,4 +50,10 @@
     RispDefExpression *copy = [[RispDefExpression alloc] initWithValue:_value forKey:_key];
     return copy;
 }
+
+-(void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [super _descriptionWithIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@\n", [self class]];
+    [desc appendFormat:@"%@ -> %@", _key, _value];
+}
 @end

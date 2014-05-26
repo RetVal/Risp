@@ -65,7 +65,7 @@
         NSMutableArray *exprsArray = nil;
         if (form) {
             exprsArray = [[NSMutableArray alloc] init];
-            if ([form conformsToProtocol:NSProtocolFromString(@"RispSequence")]) {
+            if ([form conformsToProtocol:@protocol(RispSequence)]) {
                 [form enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                     [exprsArray addObject:[RispBaseParser analyze:context form:obj]];
                 }];
@@ -84,7 +84,7 @@
         if (NSClassFromString([targetSymbol stringValue])) {
             isClass = YES;
         }
-    } else if ([classNameSymbol conformsToProtocol:NSProtocolFromString(@"RispSequence")]) {
+    } else if ([classNameSymbol conformsToProtocol:@protocol(RispSequence)]) {
         if ([context status] != RispContextEval) {
             [context setStatus:RispContextStatement];
             targetSymbol = [RispBaseParser analyze:context form:classNameSymbol];
@@ -94,7 +94,7 @@
                 targetSymbol = [targetSymbol eval];
             } else if ([targetSymbol isKindOfClass:[RispSymbol class]]) {
                 targetSymbol = targetSymbol;
-            } else if ([targetSymbol conformsToProtocol:NSProtocolFromString(@"RispSequence")]) {
+            } else if ([targetSymbol conformsToProtocol:@protocol(RispSequence)]) {
                 targetSymbol = [[RispBaseParser analyze:context form:targetSymbol] eval];
             }
             if (NSClassFromString([targetSymbol respondsToSelector:@selector(stringValue)] ? [targetSymbol stringValue] : ([targetSymbol isKindOfClass:[NSString class]] ? targetSymbol : @""))) {
@@ -252,5 +252,22 @@
 - (id)copyWithZone:(NSZone *)zone {
     RispDotExpression *copy = [[RispDotExpression alloc] initWithTarget:_target selector:_selector methodSignature:_methodSignature arguments:nil class:_class];
     return copy;
+}
+
+- (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@\n", [self class]];
+    indentation += 1;
+    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:desc];
+    [desc appendString:[[NSString alloc] initWithFormat:@"target : %@\n", _target]];
+    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:desc];
+    [desc appendString:[[NSString alloc] initWithFormat:@"selector : %@\n", NSStringFromSelector(_selector)]];
+    if ([_exprs count]) {
+        [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:desc];
+        [desc appendString:@"arguments\n"];
+    }
+    for (NSUInteger idx = 0; idx < [_exprs count]; idx ++) {
+        [_exprs[idx] _descriptionWithIndentation:indentation + 2 desc:desc];
+    }
 }
 @end

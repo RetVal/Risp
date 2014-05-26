@@ -12,7 +12,7 @@
 
 @implementation RispIfExpression
 + (id<RispExpression>)parser:(id)object context:(RispContext *)context {
-    if (![object conformsToProtocol:NSProtocolFromString(@"RispSequence")]) {
+    if (![object conformsToProtocol:@protocol(RispSequence)]) {
         [NSException raise:RispIllegalArgumentException format:@"%@ is not a seq", object];
     }
     id <RispSequence> seq = object;
@@ -66,5 +66,17 @@
 - (id)copyWithZone:(NSZone *)zone {
     RispIfExpression *copy = [[RispIfExpression alloc] initWithTestExpression:[_testExpression copy] then:[_thenExpression copy] else:[_elseExpression copy]];
     return copy;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"(if %@ %@ %@)", _testExpression, _thenExpression, _elseExpression];
+}
+
+- (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [super _descriptionWithIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@\n", [self class]];
+    [_testExpression _descriptionWithIndentation:indentation + 1 desc:desc];
+    [_thenExpression _descriptionWithIndentation:indentation + 1 desc:desc];
+    [_elseExpression _descriptionWithIndentation:indentation + 1 desc:desc];
 }
 @end

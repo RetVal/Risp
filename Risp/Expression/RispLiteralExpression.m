@@ -24,6 +24,10 @@
     return scope[_value];
 }
 
+- (id)literalValue {
+    return _value;
+}
+
 - (id)eval {
     return [self value];
 }
@@ -39,6 +43,6 @@
 
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [super _descriptionWithIndentation:indentation desc:desc];
-    [desc appendFormat:@"%@ - %@\n", [self class], [self description]];
+    [desc appendFormat:@"%@ : %@\n", [self class], [self description]];
 }
 @end

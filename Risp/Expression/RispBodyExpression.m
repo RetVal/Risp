@@ -54,6 +54,14 @@
     return result;
 }
 
+- (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [super _descriptionWithIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@\n", [self class]];
+    [_exprs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [obj _descriptionWithIndentation:indentation + 1 desc:desc];
+    }];
+}
+
 - (id)copyWithZone:(NSZone *)zone {
     RispBodyExpression *copy = [[RispBodyExpression alloc] init];
     copy->_exprs = [_exprs copy];

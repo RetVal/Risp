@@ -136,6 +136,28 @@
     return copy;
 }
 
+- (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [super _descriptionWithIndentation:indentation desc:desc];
+    
+    [desc appendFormat:@"%@\n", [self class]];
+    if (_name) {
+        [desc appendFormat:@"%@", _name];
+    }
+    
+    id <RispSequence> seq = _methods;
+    while (seq) {
+        RispMethodExpression *method = [seq first];
+        if (method) {
+            [method _descriptionWithIndentation:indentation + 1 desc:desc];
+        }
+        seq = [seq next];
+    }
+    
+    if (_variadicMethod) {
+        [_variadicMethod _descriptionWithIndentation:indentation + 1 desc:desc];
+    }
+}
+
 @end
 
 @implementation RispFnExpression (BlockSupport)

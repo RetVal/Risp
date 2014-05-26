@@ -145,7 +145,7 @@ static RispSequence *__RispSequeuceEmpty = nil;
 }
 
 - (BOOL)isEqualTo:(id)object {
-    if ([object isKindOfClass:[RispSequence class]] || [object conformsToProtocol:NSProtocolFromString(@"RispSequence")]) {
+    if ([object isKindOfClass:[RispSequence class]] || [object conformsToProtocol:@protocol(RispSequence)]) {
         id <RispSequence> x = self;
         id <RispSequence> y = object;
         if ([x count] != [y count]) {

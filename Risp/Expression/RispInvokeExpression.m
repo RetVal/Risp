@@ -103,4 +103,17 @@
     RispInvokeExpression *copy = [[RispInvokeExpression alloc] initWithExpression:_fexpr arguments:_arguments];
     return copy;
 }
+
+- (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [super _descriptionWithIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@\n", [self class]];
+    NSMutableArray *descs = [[NSMutableArray alloc] init];
+    [descs addObject:_fexpr];
+    [descs addObjectsFromArray:[_arguments array]];
+    indentation += 1;
+    for (NSUInteger idx = 0; idx < [descs count]; idx ++) {
+        [descs[idx] _descriptionWithIndentation:indentation desc:desc];
+    }
+}
+
 @end

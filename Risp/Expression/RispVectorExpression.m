@@ -44,6 +44,10 @@
     return self;
 }
 
+- (RispVector *)vector {
+    return _vector;
+}
+
 - (id)eval {
     NSMutableArray *array = [[NSMutableArray alloc] init];
     [_vector enumerateObjectsUsingBlock:^(id <RispExpression> obj, NSUInteger idx, BOOL *stop) {
@@ -59,5 +63,13 @@
 - (id)copyWithZone:(NSZone *)zone {
     RispVectorExpression *copy = [[RispVectorExpression alloc] initWithVector:_vector];
     return copy;
+}
+
+- (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [super _descriptionWithIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@\n", [self class]];
+    [_vector enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [desc appendString:[RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 forObject:obj]];
+    }];
 }
 @end

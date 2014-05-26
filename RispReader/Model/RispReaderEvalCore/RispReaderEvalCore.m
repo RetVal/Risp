@@ -9,6 +9,7 @@
 #import "RispReaderEvalCore.h"
 #import <Risp/Risp.h>
 #import "RispRenderWindowController.h"
+#import "RispAbstractSyntaxTree.h"
 
 @implementation RispReaderEvalCore
 + (NSArray *)evalCurrentLine:(NSString *)sender {
@@ -26,8 +27,9 @@
                 }
                 RispContext *context = [RispContext currentContext];
                 id expr = [RispCompiler compile:context form:value];
-                id v = [expr eval];
-                NSLog(@"%@ - %@ - %@", value, [expr class], v);
+//                id v = [expr eval];
+                id v = nil;
+                NSLog(@"%@ -\n%@\n-> %@", value, [[[RispAbstractSyntaxTree alloc] initWithExpression:expr] description], v);
                 [values addObject:v ? : [NSNull null]];
             }
             @catch (NSException *exception) {

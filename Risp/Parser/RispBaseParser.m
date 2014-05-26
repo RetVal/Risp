@@ -124,12 +124,12 @@
             return [RispVectorExpression parse:form context:context];
         } else if (fclass == [RispMap class]) {
             return [RispMapExpression parser:form context:context];
-        } else if ([form conformsToProtocol:NSProtocolFromString(@"RispSequence")]) {
+        } else if ([form conformsToProtocol:@protocol(RispSequence)]) {
             return [RispBaseParser analyzeSequence:form context:context name:@""];
         }
     }
     @catch (NSException *exception) {
-        NSLog(@"%@ - %@", [self class], exception);
+        @throw exception;
     }
     return nil;
 }

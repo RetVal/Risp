@@ -26,7 +26,7 @@
         return [RispNumberExpression parser:v context:context];
     } else if ([v isKindOfClass:[NSString class]]) {
         return [RispStringExpression parser:v context:context];
-    } else if ([v conformsToProtocol:NSProtocolFromString(@"RispSequence")] && [v count] == 0) {
+    } else if ([v conformsToProtocol:@protocol(RispSequence)] && [v count] == 0) {
         return [RispSequence empty];
     }
     return [[RispConstantExpression alloc] initWithValue:v];
@@ -50,5 +50,10 @@
 - (id)copyWithZone:(NSZone *)zone {
     RispConstantExpression *copy = [[RispConstantExpression alloc] initWithValue:_constantValue];
     return copy;
+}
+
+- (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@ - %@\n", [self class], [self description]];
 }
 @end

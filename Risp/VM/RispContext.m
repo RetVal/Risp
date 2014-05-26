@@ -12,6 +12,7 @@
 #import <Risp/RispDotExpression.h>
 #import <Risp/RispIfExpression.h>
 #import <Risp/RispConstantExpression.h>
+#import <Risp/RispLetExpression.h>
 
 @interface NSThread (RispContext)
 + (RispContext *)mainContext;
@@ -213,6 +214,7 @@
     specials[[RispDefExpression speicalKey]] = [RispDefExpression class];
     specials[[RispDefnExpression speicalKey]] = [RispDefnExpression class];
     specials[[RispIfExpression speicalKey]] = [RispIfExpression class];
+    specials[[RispLetExpression speicalKey]] = [RispLetExpression class];
     specials[[RispSymbol QUOTE]] = [RispConstantExpression class];
 }
 

@@ -62,6 +62,15 @@
     return [NSString stringWithFormat:@"(%@ %@)", [_requiredParms description], [_bodyExpression description]];
 }
 
+- (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [super _descriptionWithIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@\n", [self class]];
+    [_requiredParms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [desc appendString:[RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 forObject:obj]];
+    }];
+    [_bodyExpression _descriptionWithIndentation:indentation + 1 desc:desc];
+}
+
 - (id)applyTo:(RispVector *)arguments {
     id v = nil;
     @try {

@@ -15,5 +15,6 @@
 
 - (id)initWithValue:(id)value;
 - (id)value;
+- (id)literalValue;
 - (id)eval;
 @end
