@@ -105,4 +105,8 @@
     }
     return string;
 }
+
++ (void)show:(id)object {
+    NSLog(@"\n%@", [RispAbstractSyntaxTree descriptionAppendIndentation:0 forObject:object]);
+}
 @end

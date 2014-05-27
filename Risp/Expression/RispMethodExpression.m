@@ -72,15 +72,16 @@
 }
 
 - (id)applyTo:(RispVector *)arguments {
+    NSLog(@"(fn %@)", self);
     id v = nil;
     @try {
         [[RispContext currentContext] pushScope];
         RispLexicalScope *scope = [[RispContext currentContext] currentScope];
         if (_localBinding) {
-            NSArray *keys = [_localBinding keys];
-            for (id k in keys) {
-                scope[k] = _localBinding[k];
-            }
+//            NSArray *keys = [_localBinding keys];
+//            for (id k in keys) {
+//                scope[k] = _localBinding[k];
+//            }
         }
         
         if (![self isVariadic]) {

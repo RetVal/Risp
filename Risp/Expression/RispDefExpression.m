@@ -54,6 +54,7 @@
 -(void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [super _descriptionWithIndentation:indentation desc:desc];
     [desc appendFormat:@"%@\n", [self class]];
-    [desc appendFormat:@"%@ -> %@", _key, _value];
+    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:desc];
+    [desc appendFormat:@"%@ -> %@\n", _key, _value];
 }
 @end

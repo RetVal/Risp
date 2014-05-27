@@ -27,8 +27,8 @@
                 }
                 RispContext *context = [RispContext currentContext];
                 id expr = [RispCompiler compile:context form:value];
-//                id v = [expr eval];
-                id v = nil;
+                id v = [expr eval];
+//                id v = nil;
                 NSLog(@"%@ -\n%@\n-> %@", value, [[[RispAbstractSyntaxTree alloc] initWithExpression:expr] description], v);
                 [values addObject:v ? : [NSNull null]];
             }

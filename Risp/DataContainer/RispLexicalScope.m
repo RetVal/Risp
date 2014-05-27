@@ -52,6 +52,7 @@
         _scope = [[NSMutableDictionary alloc] init];
         _inner = [inner retain];
         _outer = outer;
+//        _outer = [outer retain];
         if (outer) {
             OSSpinLockLock(&outer->_lock);
             _depth = _outer->_depth + 1;
@@ -65,7 +66,6 @@
 
 - (void)dealloc {
     OSSpinLockLock(&_lock);
-//    NSLog(@"dealloc lexical scope %p", self);
     
     [_scope release];
     _scope = nil;

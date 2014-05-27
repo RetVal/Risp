@@ -7,10 +7,7 @@
 //
 
 #import <Risp/Risp.h>
-
-@interface Risp : NSObject
-
-@end
+#import "Risp+DEBUG.h"
 
 @implementation Risp
 

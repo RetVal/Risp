@@ -139,10 +139,13 @@
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [super _descriptionWithIndentation:indentation desc:desc];
     
-    [desc appendFormat:@"%@\n", [self class]];
+    [desc appendFormat:@"%@", [self class]];
+    
     if (_name) {
-        [desc appendFormat:@"%@", _name];
+        [desc appendFormat:@" : %@", _name];
     }
+    
+    [desc appendString:@"\n"];
     
     id <RispSequence> seq = _methods;
     while (seq) {

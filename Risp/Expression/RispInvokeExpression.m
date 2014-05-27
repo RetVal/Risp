@@ -45,10 +45,11 @@
     for (NSUInteger idx = 0; idx < [descs count]; idx ++) {
         descs[idx] = [descs[idx] description];
     }
-    return [descs componentsJoinedByString:@" "];
+    return [NSString stringWithFormat:@"(%@)", [descs componentsJoinedByString:@" "]];
 }
 
 - (id)eval {
+    NSLog(@"%@", self);
     [[RispContext currentContext] pushScope];
     // binding scope
     
@@ -81,6 +82,7 @@
         
         if (isClosure) {
             RispClosureExpression *closure = fn;
+            [RispAbstractSyntaxTree show:closure];
             v = [closure applyTo:_arguments];
         } else {
             RispMethodExpression *method = [fn methodForArguments:_arguments];

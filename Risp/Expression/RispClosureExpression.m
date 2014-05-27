@@ -15,6 +15,9 @@
     if (self = [super init]) {
         _environment = [[RispContext currentContext] mergeScope:environment];
         _fnExpression = fnExpression;
+        if (0 == [[_environment scope] count]) {
+            _environment = nil;
+        }
     }
     return self;
 }
@@ -28,11 +31,19 @@
 }
 
 - (id)applyTo:(RispVector *)arguments {
+    NSLog(@"%@", self);
     RispContext *context = [RispContext currentContext];
     id v = nil;
+    BOOL push = NO;
     @try {
         if (_environment) {
-            [context pushScope:_environment];
+            NSDictionary *env = [RispContext mergeScope:[context currentScope] withScope:_environment];
+            if (env) {
+                RispLexicalScope *scope = [[RispLexicalScope alloc] init];
+                [scope setScope:env];
+                [context pushScope:scope];
+                push = YES;
+            }
         }
         RispVector *evalArguments = [RispRuntime map:arguments fn:^id(id object) {
             return [object eval];
@@ -44,7 +55,7 @@
         @throw exception;
     }
     @finally {
-        if (_environment) {
+        if (push) {
             [context popScope];
         }
     }
@@ -53,5 +64,17 @@
 
 - (NSString *)description {
     return [_fnExpression description];
+}
+
+- (RispMethodExpression *)methodForCountOfArgument:(NSUInteger)cntOfArguments {
+    return [_fnExpression methodForCountOfArgument:cntOfArguments];
+}
+
+- (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
+    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@\n", [self className]];
+    [_fnExpression _descriptionWithIndentation:indentation + 1 desc:desc];
+    if (_environment)
+        [desc appendFormat:@"%@\n", _environment];
 }
 @end

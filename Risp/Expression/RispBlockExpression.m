@@ -37,6 +37,7 @@
 
 - (id)applyTo:(RispVector *)arguments {
     if (!_block) return nil;
+    NSLog(@"%@", self);
     return _block(arguments);
 }
 

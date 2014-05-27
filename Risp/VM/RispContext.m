@@ -159,7 +159,9 @@
     void (^lambda)(RispLexicalScope *s) = ^(RispLexicalScope *s) {
         if ([s depth] == 0) return ;
         [[s scope] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            if (env[key]) return ;
+            if (env[key]) {
+                return ;
+            }
             env[key] = obj;
         }];
         if ([s outer]) {
@@ -168,8 +170,44 @@
     };
     unsafe_lambda = lambda;
     lambda(scope);
+    
+    new = [[RispLexicalScope alloc] init];
     [new setScope:env];
+    if ([env count]) {
+        NSLog(@"closure env is -> %@", env);
+    }
     return new;
+}
+
++ (NSDictionary *)mergeScope:(RispLexicalScope *)scope withScope:(RispLexicalScope *)other {
+    if ((scope == nil || ([[scope scope] count] == 0 && [scope outer] == nil)) && (other == nil || ([[other scope] count] == 0 && [other outer] == nil)))
+        return nil;
+    
+    __block __weak void (^unsafe_lambda)(NSMutableDictionary *set, RispLexicalScope *scope, BOOL checkRoot);
+    void (^lambda)(NSMutableDictionary *set, RispLexicalScope *s, BOOL checkRoot) = ^(NSMutableDictionary *set, RispLexicalScope *s, BOOL checkRoot) {
+        if (checkRoot && [s depth] == 0) return ;
+        [[s scope] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            if (set[key]) {
+                return ;
+            }
+            set[key] = obj;
+        }];
+        if ([s outer]) {
+            unsafe_lambda(set, [s outer], checkRoot);
+        }
+    };
+    unsafe_lambda = lambda;
+    
+    NSMutableDictionary *envScope = [[NSMutableDictionary alloc] init];
+    lambda(envScope, scope, YES);
+    
+    NSMutableDictionary *envOther = [[NSMutableDictionary alloc] init];
+    lambda(envOther, other, NO);
+    
+    [envOther addEntriesFromDictionary:envScope];
+    if ([envOther count])
+        return envOther;
+    return nil;
 }
 
 - (id)pushScopeWithMergeScope:(RispLexicalScope *)scope {
