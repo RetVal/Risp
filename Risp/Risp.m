@@ -12,26 +12,26 @@
 @implementation Risp
 
 + (void)load {
-    [RispContext setCurrentContext:[RispContext defaultContext]];
     RispReader *reader = [[RispReader alloc] initWithContentOfFile:[[NSBundle bundleWithIdentifier:@"com.retval.Risp"] pathForResource:@"init" ofType:@"risp"]];
+    RispContext *context = [RispContext currentContext];
+    id value = nil;
+    NSMutableArray *values = [[NSMutableArray alloc] init];
     while (![reader isEnd]) {
         @autoreleasepool {
             @try {
-                id value = [reader readEofIsError:YES eofValue:nil isRecursive:YES];
+                value = [reader readEofIsError:YES eofValue:nil isRecursive:YES];
                 [[reader reader] skip];
                 if (value == reader) {
                     continue;
                 }
-                RispContext *context = [RispContext currentContext];
-                id expression = [RispCompiler compile:context form:value];
-                id v = [expression eval];
-                NSLog(@"%@ -> %@", value, v);
+                id expr = [RispCompiler compile:context form:value];
+                id v = [expr eval];
+                //                id v = nil;
+                NSLog(@"%@ -\n%@\n-> %@", value, [[[RispAbstractSyntaxTree alloc] initWithExpression:expr] description], v);
+                [values addObject:v ? : [NSNull null]];
             }
             @catch (NSException *exception) {
-                NSLog(@"%@", exception);
-            }
-            @finally {
-                
+                NSLog(@"%@ - %@", value, exception);
             }
         }
     }

@@ -80,7 +80,6 @@
         
         if (isClosure) {
             RispClosureExpression *closure = fn;
-            [RispAbstractSyntaxTree show:closure];
             v = [closure applyTo:_arguments];
         } else {
             RispMethodExpression *method = [fn methodForArguments:_arguments];
