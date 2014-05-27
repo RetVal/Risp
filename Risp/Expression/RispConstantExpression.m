@@ -27,7 +27,7 @@
     } else if ([v isKindOfClass:[NSString class]]) {
         return [RispStringExpression parser:v context:context];
     } else if ([v conformsToProtocol:@protocol(RispSequence)] && [v count] == 0) {
-        return [RispSequence empty];
+        return [[RispConstantExpression alloc] initWithValue:[RispSequence empty]];
     }
     return [[RispConstantExpression alloc] initWithValue:v];
 }

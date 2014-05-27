@@ -216,6 +216,8 @@
 }
 
 - (void)popScope {
+    if ([_currentScope depth] == 0)
+        return;
     _currentScope = [_currentScope outer];
 }
 

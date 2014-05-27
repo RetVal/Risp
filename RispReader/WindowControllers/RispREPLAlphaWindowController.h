@@ -13,6 +13,6 @@
 @interface RispREPLAlphaWindowController : NSWindowController
 @property (weak) IBOutlet NSView *editorView;
 @property (strong) IBOutlet RispRenderFoundation *renderCore;
-@property (nonatomic, strong) NSTextView *inputeView;
+@property (nonatomic, strong) NSTextView *inputTextView;
 @property (nonatomic, strong) NSScrollView *scrollView;
 @end

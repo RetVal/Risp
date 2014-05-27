@@ -31,7 +31,7 @@
                 [values addObject:v ? : [NSNull null]];
             }
             @catch (NSException *exception) {
-                NSLog(@"%@ - %@", value, exception);
+                NSLog(@"exception: %@ - %@", value, exception);
             }
         }
     }

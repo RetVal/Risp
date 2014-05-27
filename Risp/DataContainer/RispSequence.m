@@ -152,8 +152,14 @@ static RispSequence *__RispSequeuceEmpty = nil;
             return NO;
         } else {
             while (x && y) {
-                if (NO == [[x first] isEqualTo:[y first]]) {
-                    return NO;
+                id fx = [x first];
+                id fy = [y first];
+                if (fx != fy) {
+                    if (fx) {
+                        if (NO == [fx isEqualTo:fy]) {
+                            return NO;
+                        }
+                    }
                 }
                 x = [x next];
                 y = [y next];

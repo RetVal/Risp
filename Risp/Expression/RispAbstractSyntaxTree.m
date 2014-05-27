@@ -91,14 +91,14 @@
         [object _descriptionWithIndentation:indentation desc:string];
     } else if ([object conformsToProtocol:@protocol(RispSequence)]) {
         [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:string];
-        [string appendString:[object className]];
+        [string appendString:[object className] ? : @""];
         [string appendString:@"\n"];
         [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:string];
         [string appendFormat:@"%@", object];
         [string appendString:@"\n"];
     } else {
         [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:string];
-        [string appendString:[object className]];
+        [string appendString:[object className] ? : @""];
         [string appendString:@" : "];
         [string appendFormat:@"%@", object];
         [string appendString:@"\n"];

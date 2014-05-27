@@ -30,7 +30,7 @@
     [_renderCore embedInView:_editorView];
     [_renderCore setObject:@"Risp" forKey:@"syntaxDefinition"];
     _scrollView = [_renderCore objectForKey:ro_MGSFOScrollView];
-    _inputeView = [_renderCore objectForKey:ro_MGSFOTextView];
+    _inputTextView = [_renderCore objectForKey:ro_MGSFOTextView];
     [[self window] setRepresentedFilename:@"RispReader"];
     [[[self window] standardWindowButton:NSWindowDocumentIconButton] setImage:[NSApp applicationIconImage]];
 }

@@ -13,13 +13,15 @@
 @implementation RispClosureExpression
 
 + (void)_filterEnvironment:(RispClosureExpression *)closure {
-    NSMutableDictionary *scope = (NSMutableDictionary *)[[closure environment] scope];
+    if ([[closure environment] depth] == 0)
+        return;
+    RispLexicalScope *scope = [closure environment];
     [[[closure fnExpression] methods] enumerateObjectsUsingBlock:^(RispMethodExpression *method, NSUInteger idx, BOOL *stop) {
         [[method requiredParms] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [scope removeObjectForKey:obj];
+            scope[obj] = nil;
         }];
         if ([method restParm]) {
-            [scope removeObjectForKey:[method restParm]];
+            scope[[method restParm]] = nil;
         }
     }];
 }
@@ -50,7 +52,7 @@
 //    NSLog(@"%@", self);
     RispContext *context = [RispContext currentContext];
     id v = nil;
-    BOOL push = NO;
+//    BOOL push = NO;
     @try {
         
         RispVector *evalArguments = [RispRuntime map:arguments fn:^id(id object) {
@@ -75,7 +77,7 @@
         @throw exception;
     }
     @finally {
-        if (push) {
+        if (_environment) {
             [context popScope];
         }
     }

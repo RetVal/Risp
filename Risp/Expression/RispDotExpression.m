@@ -143,6 +143,7 @@
         }
         _evaled = YES;
         _methodSignature = methodSignature;
+        _exprs = arguments;
     }
     return self;
 }
@@ -232,6 +233,8 @@
             }
             _methodSignature = methodSignature;
         }
+    } else {
+        arguments = [self _setupArguments];
     }
     return [self evalExpression:target selector:selector arguments:arguments];
 }

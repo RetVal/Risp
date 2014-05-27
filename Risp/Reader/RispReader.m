@@ -113,7 +113,7 @@ static RispNumberReader *__RispNumberReader = nil;
 
 - (id)interpretToken:(NSString *)token {
     if ([token isEqualTo:@"nil"]) {
-        return nil;
+        return [NSNull null];
     } else if ([token isEqualTo:@"true"]) {
         return @YES;
     } else if ([token isEqualTo:@"false"]) {

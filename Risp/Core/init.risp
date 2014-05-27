@@ -1,3 +1,6 @@
+(defn nil? [x] 
+	(if (= nil x) true false))
+
 (defn lazy-seq [& body] ((. RispLazySequence creator) (fn [] body)))
 
 (defn + 
@@ -124,8 +127,6 @@
 
 (defn not [x] (if x false true))
 
-(defn nil? [x] (if (= nil x) true false))
-
 (defn and
   ([] true)
   ([x] x)
@@ -139,6 +140,14 @@
   ([x & next]
     (let [or# x]
         (if or# or# (or next)))))
+
+(defn dec [n]
+	(- n 1))
+
+(defn zero? [n]
+	(if (= n 0)
+		true
+		false))
 
 (+ 1 2 3 4)
 '(1 2 3)
@@ -179,5 +188,3 @@
  			(+ (first coll) (f (rest coll))))))) '(1 2 3 4 5 6 7 8 9 10))
 
 ((fn [y] (((fn [y] (fn [x] (* y 2))) 3) 0)) 4)
-            
-

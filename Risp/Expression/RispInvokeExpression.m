@@ -60,13 +60,11 @@
         if (![_fexpr conformsToProtocol:@protocol(RispFnProtocol)]) {
             id sym = [_fexpr eval];
             if (![sym conformsToProtocol:@protocol(RispFnProtocol)]) {
-                [[RispContext currentContext] popScope];
                 [NSException raise:RispRuntimeException format:@"%@ is not a fn", _fexpr];
             }
             if ([sym isMemberOfClass:[RispSymbol class]]) {
                 fn = scope[sym];
                 if (![fn conformsToProtocol:@protocol(RispFnProtocol)]) {
-                    [[RispContext currentContext] popScope];
                     [NSException raise:RispRuntimeException format:@"%@ is not a fn", sym];
                 }
             }

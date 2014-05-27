@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class RispRenderWindowController;
+@class RispREPLAlphaWindowController;
 @interface RispReaderEvalCore : NSObject
 + (NSArray *)evalCurrentLine:(NSString *)sender;
-+ (void)renderWindowController:(RispRenderWindowController *)window resultValue:(id)v insertNewLine:(BOOL)insertNewLine;
++ (void)renderWindowController:(RispREPLAlphaWindowController *)window resultValue:(id)v insertNewLine:(BOOL)insertNewLine;
 
 + (NSUInteger)lineNumberOfTextView:(NSTextView *)textView;
 + (NSArray *)textView:(NSTextView *)textView processLinesWithHandler:(id (^)(NSTextView *text, NSRange range))handler;

@@ -35,6 +35,10 @@
 }
 
 - (IBAction)evalCurrentLine:(id)sender {
-    [RispReaderEvalCore evalCurrentLine:[[_replWindowController inputeView] string]];
+    NSArray *values = [RispReaderEvalCore evalCurrentLine:[[_replWindowController inputTextView] string]];
+    [values enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isKindOfClass:[NSNull class]]) return ;
+        [RispReaderEvalCore renderWindowController:_replWindowController resultValue:obj insertNewLine:YES];
+    }];
 }
 @end

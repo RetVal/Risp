@@ -10,6 +10,7 @@
 #import <Risp/Risp.h>
 #import "RispRenderWindowController.h"
 #import "RispAbstractSyntaxTree.h"
+#import "RispREPLAlphaWindowController.h"
 
 @implementation RispReaderEvalCore
 + (NSArray *)evalCurrentLine:(NSString *)sender {
@@ -28,7 +29,12 @@
                 id expr = [RispCompiler compile:context form:value];
                 id v = [expr eval];
 //                id v = nil;
-                NSLog(@"%@ -\n%@\n-> %@", value, [[[RispAbstractSyntaxTree alloc] initWithExpression:expr] description], v);
+                if ([expr conformsToProtocol:@protocol(RispExpression)]) {
+                    NSLog(@"%@ -\n%@\n-> %@", value, [[[RispAbstractSyntaxTree alloc] initWithExpression:expr] description], v);
+                } else {
+                    NSLog(@"%@ -\n%@\n-> %@", value, [RispAbstractSyntaxTree descriptionAppendIndentation:0 forObject:expr], v);
+                }
+                
                 [values addObject:v ? : [NSNull null]];
             }
             @catch (NSException *exception) {
@@ -42,35 +48,39 @@
 #pragma mark -
 #pragma mark Render Value
 
-//+ (void)renderWindowController:(RispRenderWindowController *)window resultValue:(id)v insertNewLine:(BOOL)insertNewLine {
-//    if ([v isKindOfClass:[NSImage class]]) {
-//        [self renderWindowController:window renderImage:v insertNewLine:insertNewLine];
-//    } else if ([v isKindOfClass:[NSFileWrapper class]]) {
-//        [self renderWindowController:window renderFileWrapper:v insertNewLine:insertNewLine];
-//    }
-//}
-//
-//+ (void)renderWindowController:(RispRenderWindowController *)window  renderImage:(NSImage *)image insertNewLine:(BOOL)insertNewLine {
-//    if (![image isValid]) return;
-//    NSTextAttachmentCell *attachmentCell = [[NSTextAttachmentCell alloc] initImageCell:image];
-//    NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
-//    [attachment setAttachmentCell:attachmentCell];
-//    NSAttributedString *attributedString = [NSAttributedString  attributedStringWithAttachment:attachment];
-//    [[[window inputTextView] textStorage] appendAttributedString:attributedString];
-//    if (insertNewLine)
-//        [[window inputTextView] insertNewline:nil];
-//    [[window inputTextView] didChangeText];
-//}
-//
-//+ (void)renderWindowController:(RispRenderWindowController *)window renderFileWrapper:(NSFileWrapper *)fileWrapper insertNewLine:(BOOL)insertNewLine {
-//    if (![fileWrapper isRegularFile]) return;
-//    NSTextAttachment *attachment = [[NSTextAttachment alloc] initWithFileWrapper:fileWrapper];
-//    NSAttributedString *attributedString = [NSAttributedString  attributedStringWithAttachment:attachment];
-//    [[[window inputTextView] textStorage] appendAttributedString:attributedString];
-//    if (insertNewLine)
-//        [[window inputTextView] insertNewline:nil];
-//    [[window inputTextView] didChangeText];
-//}
++ (void)renderWindowController:(RispREPLAlphaWindowController *)window resultValue:(id)v insertNewLine:(BOOL)insertNewLine {
+    if ([v isKindOfClass:[NSImage class]]) {
+        [self renderWindowController:window renderImage:v insertNewLine:insertNewLine];
+    } else if ([v isKindOfClass:[NSFileWrapper class]]) {
+        [self renderWindowController:window renderFileWrapper:v insertNewLine:insertNewLine];
+    } else if ([v respondsToSelector:@selector(enumerateObjectsUsingBlock:)]) {
+        [v enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [self renderWindowController:window resultValue:obj insertNewLine:insertNewLine];
+        }];
+    }
+}
+
++ (void)renderWindowController:(RispREPLAlphaWindowController *)window renderImage:(NSImage *)image insertNewLine:(BOOL)insertNewLine {
+    if (![image isValid]) return;
+    NSTextAttachmentCell *attachmentCell = [[NSTextAttachmentCell alloc] initImageCell:image];
+    NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+    [attachment setAttachmentCell:attachmentCell];
+    NSAttributedString *attributedString = [NSAttributedString  attributedStringWithAttachment:attachment];
+    [[[window inputTextView] textStorage] appendAttributedString:attributedString];
+    if (insertNewLine)
+        [[window inputTextView] insertNewline:nil];
+    [[window inputTextView] didChangeText];
+}
+
++ (void)renderWindowController:(RispREPLAlphaWindowController *)window renderFileWrapper:(NSFileWrapper *)fileWrapper insertNewLine:(BOOL)insertNewLine {
+    if (![fileWrapper isRegularFile]) return;
+    NSTextAttachment *attachment = [[NSTextAttachment alloc] initWithFileWrapper:fileWrapper];
+    NSAttributedString *attributedString = [NSAttributedString  attributedStringWithAttachment:attachment];
+    [[[window inputTextView] textStorage] appendAttributedString:attributedString];
+    if (insertNewLine)
+        [[window inputTextView] insertNewline:nil];
+    [[window inputTextView] didChangeText];
+}
 
 #pragma mark -
 #pragma mark 
