@@ -50,35 +50,33 @@
 
 - (id)eval {
 //    NSLog(@"%@", self);
-    [[RispContext currentContext] pushScope];
-    // binding scope
-    
-    RispLexicalScope *scope = [[RispContext currentContext] currentScope];
-    
-    id fn = nil;
-    if (![_fexpr conformsToProtocol:@protocol(RispFnProtocol)]) {
-        id sym = [_fexpr eval];
-        if (![sym conformsToProtocol:@protocol(RispFnProtocol)]) {
-            [[RispContext currentContext] popScope];
-            [NSException raise:RispRuntimeException format:@"%@ is not a fn", _fexpr];
-        }
-        if ([sym isMemberOfClass:[RispSymbol class]]) {
-            fn = scope[sym];
-            if (![fn conformsToProtocol:@protocol(RispFnProtocol)]) {
-                [[RispContext currentContext] popScope];
-                [NSException raise:RispRuntimeException format:@"%@ is not a fn", sym];
-            }
-        }
-        fn = fn ? : sym;
-    } else {
-        fn = _fexpr;
-    }
-//    NSLog(@"invoke %@", fn);
-//    NSLog(@"%@", _arguments);
-    BOOL isClosure = [fn isKindOfClass:[RispClosureExpression class]];
-    
     id v = nil;
     @try {
+        [[RispContext currentContext] pushScope];
+        // binding scope
+        RispLexicalScope *scope = [[RispContext currentContext] currentScope];
+        
+        id fn = nil;
+        if (![_fexpr conformsToProtocol:@protocol(RispFnProtocol)]) {
+            id sym = [_fexpr eval];
+            if (![sym conformsToProtocol:@protocol(RispFnProtocol)]) {
+                [[RispContext currentContext] popScope];
+                [NSException raise:RispRuntimeException format:@"%@ is not a fn", _fexpr];
+            }
+            if ([sym isMemberOfClass:[RispSymbol class]]) {
+                fn = scope[sym];
+                if (![fn conformsToProtocol:@protocol(RispFnProtocol)]) {
+                    [[RispContext currentContext] popScope];
+                    [NSException raise:RispRuntimeException format:@"%@ is not a fn", sym];
+                }
+            }
+            fn = fn ? : sym;
+        } else {
+            fn = _fexpr;
+        }
+        //    NSLog(@"invoke %@", fn);
+        //    NSLog(@"%@", _arguments);
+        BOOL isClosure = [fn isKindOfClass:[RispClosureExpression class]];
         
         if (isClosure) {
             RispClosureExpression *closure = fn;

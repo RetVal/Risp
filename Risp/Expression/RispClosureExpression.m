@@ -57,14 +57,14 @@
             return [object eval];
         }];
         if (_environment) {
-            NSDictionary *env = [RispContext mergeScope:[context currentScope] withScope:_environment];
-            if (env) {
-                RispLexicalScope *scope = [[RispLexicalScope alloc] init];
-                [scope setScope:env];
-//                NSLog(@"push closure env scope -> %@, org -> %@ ", scope, _environment);
-                [context pushScope:scope];
-                push = YES;
-            }
+//            NSDictionary *env = [RispContext mergeScope:[context currentScope] withScope:_environment];
+//            if (env) {
+//                RispLexicalScope *scope = [[RispLexicalScope alloc] init];
+//                [scope setScope:env];
+////                NSLog(@"push closure env scope -> %@, org -> %@ ", scope, _environment);
+//                [context pushScope:scope];
+//                push = YES;
+//            }
 //            NSLog(@"push closure env scope -> %@ ", _environment);
             [context pushScope:_environment];
         }

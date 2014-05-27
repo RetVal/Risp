@@ -13,7 +13,7 @@
 
 @implementation RispReaderEvalCore
 + (NSArray *)evalCurrentLine:(NSString *)sender {
-    [RispContext setCurrentContext:[RispContext defaultContext]];
+    RispContext *context = [RispContext currentContext];
     RispReader *_reader = [[RispReader alloc] initWithContent:sender];
     id value = nil;
     NSMutableArray *values = [[NSMutableArray alloc] init];
@@ -25,7 +25,6 @@
                 if (value == _reader) {
                     continue;
                 }
-                RispContext *context = [RispContext currentContext];
                 id expr = [RispCompiler compile:context form:value];
                 id v = [expr eval];
 //                id v = nil;
