@@ -49,7 +49,7 @@
 }
 
 - (id)eval {
-    NSLog(@"%@", self);
+//    NSLog(@"%@", self);
     [[RispContext currentContext] pushScope];
     // binding scope
     

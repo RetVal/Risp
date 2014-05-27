@@ -24,6 +24,9 @@
 
 @property (nonatomic, strong) RispLexicalScope *localBinding;
 + (RispMethodExpression *)parser:(id <RispSequence>)form context:(RispContext *)context fn:(RispFnExpression *)fn static:(BOOL)isStatic;
+
++ (void)bindArguments:(RispVector *)arguments forMethod:(RispMethodExpression *)method toScope:(RispLexicalScope *)scope;
+
 - (NSInteger)paramsCount;
 - (BOOL)isVariadic;
 

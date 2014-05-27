@@ -173,9 +173,7 @@
     
     new = [[RispLexicalScope alloc] init];
     [new setScope:env];
-    if ([env count]) {
-        NSLog(@"closure env is -> %@", env);
-    }
+    [new setDepth:[scope depth]];
     return new;
 }
 
@@ -225,12 +223,6 @@
     RispContext *copy = [[RispContext alloc] init];
     RispContext *mainContext = [RispContext mainContext];
     
-    RispLexicalScope *(^toTheInner)(RispLexicalScope *scope) = ^RispLexicalScope *(RispLexicalScope *scope) {
-        while ([scope inner]) {
-            scope = [scope inner];
-        }
-        return scope;
-    };
     copy->_deepCopyFromMainContext = YES;
     copy->_currentScope = [[mainContext currentScope] mutableCopy];
     copy->_keywords = [[mainContext keywords] mutableCopy];

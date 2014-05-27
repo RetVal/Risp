@@ -11,10 +11,24 @@
 #import "RispBaseExpression+ASTDescription.h"
 
 @implementation RispClosureExpression
+
++ (void)_filterEnvironment:(RispClosureExpression *)closure {
+    NSMutableDictionary *scope = (NSMutableDictionary *)[[closure environment] scope];
+    [[[closure fnExpression] methods] enumerateObjectsUsingBlock:^(RispMethodExpression *method, NSUInteger idx, BOOL *stop) {
+        [[method requiredParms] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [scope removeObjectForKey:obj];
+        }];
+        if ([method restParm]) {
+            [scope removeObjectForKey:[method restParm]];
+        }
+    }];
+}
+
 - (id)initWithLexicalScopeEnvironment:(RispLexicalScope *)environment fnExpression:(RispFnExpression *)fnExpression {
     if (self = [super init]) {
         _environment = [[RispContext currentContext] mergeScope:environment];
         _fnExpression = fnExpression;
+        [RispClosureExpression _filterEnvironment:self];
         if (0 == [[_environment scope] count]) {
             _environment = nil;
         }
@@ -27,27 +41,33 @@
 }
 
 - (id)eval {
-    return self;
+    RispLexicalScope *scope = [[RispContext currentContext] currentScope];
+    RispClosureExpression *closure = [[RispClosureExpression alloc] initWithLexicalScopeEnvironment:scope fnExpression:[self fnExpression]];
+    return closure;
 }
 
 - (id)applyTo:(RispVector *)arguments {
-    NSLog(@"%@", self);
+//    NSLog(@"%@", self);
     RispContext *context = [RispContext currentContext];
     id v = nil;
     BOOL push = NO;
     @try {
+        
+        RispVector *evalArguments = [RispRuntime map:arguments fn:^id(id object) {
+            return [object eval];
+        }];
         if (_environment) {
             NSDictionary *env = [RispContext mergeScope:[context currentScope] withScope:_environment];
             if (env) {
                 RispLexicalScope *scope = [[RispLexicalScope alloc] init];
                 [scope setScope:env];
+//                NSLog(@"push closure env scope -> %@, org -> %@ ", scope, _environment);
                 [context pushScope:scope];
                 push = YES;
             }
+//            NSLog(@"push closure env scope -> %@ ", _environment);
+            [context pushScope:_environment];
         }
-        RispVector *evalArguments = [RispRuntime map:arguments fn:^id(id object) {
-            return [object eval];
-        }];
         RispMethodExpression *method = [_fnExpression methodForCountOfArgument:[evalArguments count]];
         v = [method applyTo:evalArguments];
     }
@@ -63,7 +83,7 @@
 }
 
 - (NSString *)description {
-    return [_fnExpression description];
+    return [NSString stringWithFormat:@"%@", [_fnExpression description]];
 }
 
 - (RispMethodExpression *)methodForCountOfArgument:(NSUInteger)cntOfArguments {

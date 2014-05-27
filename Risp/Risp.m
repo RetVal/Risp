@@ -13,7 +13,7 @@
 
 + (void)load {
     [RispContext setCurrentContext:[RispContext defaultContext]];
-    RispReader *reader = [[RispReader alloc] initWithContentOfFile:[@"/SourceCache/Risp/init.risp" stringByStandardizingPath]];
+    RispReader *reader = [[RispReader alloc] initWithContentOfFile:[[NSBundle bundleWithIdentifier:@"com.retval.Risp"] pathForResource:@"init" ofType:@"risp"]];
     while (![reader isEnd]) {
         @autoreleasepool {
             @try {

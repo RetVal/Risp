@@ -12,7 +12,7 @@
 @interface RispLexicalScope : NSObject <NSCoding, NSCopying>
 @property (strong, nonatomic, readonly) RispLexicalScope *inner;
 @property (strong, nonatomic, readonly) NSException *exception;
-@property (assign, nonatomic, readonly) NSUInteger depth;
+@property (assign, nonatomic) NSUInteger depth;
 @property (strong, nonatomic) NSDictionary *scope;
 - (id)init;
 - (id)initWithParent:(RispLexicalScope *)outer;

@@ -1,0 +1,171 @@
+(defn lazy-seq [& body] ((. RispLazySequence creator) (fn [] body)))
+
+(defn + 
+	([x] x)
+	([x y] (. x decimalNumberByAdding: y))
+	([x y & more] (+ (+ x y) (apply + more))))
+
+(defn - 
+	([x] x)
+	([x y] (. x decimalNumberBySubtracting: y))
+	([x y & more] (- (- x y) (apply - more))))
+
+(defn *
+	([x] x)
+	([x y] (. x decimalNumberByMultiplyingBy: y))
+	([x y & more] (* (* x y) (apply * more))))
+
+(defn / 
+	([x] x)
+	([x y] (. x decimalNumberByDividingBy: y))
+	([x y & more] (/ (/ x y) (apply / more))))
+
+(defn class [x] (. x class))
+
+(def Interger (. NSNumber class))
+(def String (. NSString class))
+(def Symbol (. RispSymbol class))
+(def Sequence (. RispSequence class))
+
+(defn boolean [i] (. NSNumber numberWithBool: i))
+(defn instance? [class instance]
+	(boolean (. instance isKindOfClass: class)))
+
+(defn interger? [n] (instance? Interger n))
+(defn string? [s] (instance? String s))
+(defn symbol? [s] (instance? Symbol s))
+(defn seq? [s] (instance? Sequence s))
+
+(defn identity [x] x)
+
+(def list 
+	(. RispList creator))
+
+(defn = 
+	([x] true)
+	([x y] (. x isEqualTo: y))
+	([x y & more] 
+		(if (= x y)
+			(if (next more)
+				(= y (first more) (next more))
+				(= y (first more)))
+			false)))
+
+(defn >
+	([x] true)
+	([x y] (= 1 (. x compareTo: y)))
+	([x y & more] 
+		(if (> x y)
+			(if (next more)
+				(> y (first more) (next more))
+				(> y (first more)))
+			false)))
+
+(defn <
+	([x] true)
+	([x y] (= -1 (. x compareTo: y)))
+	([x y & more]
+		(if (< x y)
+			(if (next more)
+				(< y (first more) (next more))
+				(< y (first more)))
+			false)))
+
+(defn cons [x seq]
+	(. seq cons: x))
+
+(defn conj [seq x]
+	(. seq conj: x))
+
+(defn next [s]
+	(. s next))
+
+(defn first [s]
+	(. s first))
+
+(defn second [s]
+	(. s second))
+
+(defn third [s]
+	(second (next s)))
+
+(defn forth [s]
+	(third (next s)))
+
+(defn vector
+	([a] [a])
+	([a b] [a b])
+	([a b c] [a b c])
+	([a b c d] [a b c d])
+	([a b c d & more] ((. RispVector creator) (cons a (cons b (cons c (cons d more)))))))
+
+(defn count [coll] (. coll count))
+
+(defn empty? [coll] (= 0 (count coll)))
+
+(defn first [coll] (. coll first))
+
+(defn rest [coll] (. coll rest))
+
+(defn symbol [name] 
+	(if (symbol? name)
+		name
+		(. RispSymbol named: name))) 
+
+(defn str [name] 
+	(if (str? name)
+		name
+		(. name stringValue)))
+
+(defn name [x]
+	(if (symbol? x)
+		(. x stringValue)
+		(str x)))
+
+(defn not [x] (if x false true))
+
+(defn nil? [x] (if (= nil x) true false))
+
+(defn and
+  ([] true)
+  ([x] x)
+  ([x & next]
+    (let [and# x]
+    	(if and# (and next) and#))))
+
+(defn or
+  ([] nil)
+  ([x] x)
+  ([x & next]
+    (let [or# x]
+        (if or# or# (or next)))))
+
+(+ 1 2 3 4)
+'(1 2 3)
+(interger? "hehe")
+
+(if (interger? 12) 
+	(+ 1) 
+	(+ 1 2))
+(identity "string")
+
+(list 1 2 3)
+(conj (list 1 2 3) 4)
+(vector 1 2 3 4)
+(vector 1 2 3 4 5)
+'(list 1 2 3)
+(seq? '(list 1 2 3))
+(= 1 1 1 1 1)
+
+; 1 2 3 4
+(> 1 2)
+(> 1 1)
+(> 1 0)
+(> 3 2 1)
+(> 3 1 2)
+
+(cons 4 '(1 2 3))
+(def a (list 1 2 3 4))
+(filter #(> % 1) '(1 2 3 4 5 6 7 1 2 3 4 5 6 7 1 2 3 4 5 6 7 1 2 3 4 5 6 7))
+            
+

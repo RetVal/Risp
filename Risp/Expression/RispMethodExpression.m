@@ -71,8 +71,29 @@
     [_bodyExpression _descriptionWithIndentation:indentation + 1 desc:desc];
 }
 
++ (void)bindArguments:(RispVector *)arguments forMethod:(RispMethodExpression *)method toScope:(RispLexicalScope *)scope {
+    if (![method isVariadic]) {
+        [[method requiredParms] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            id v = arguments[idx];
+            scope[obj] = v;
+        }];
+    } else {
+        NSInteger limit = [method paramsCount] - 1;
+        [[method requiredParms] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if (idx < limit) {
+                id v = arguments[idx];
+                scope[obj] = v;
+            } else {
+                *stop = YES;
+            }
+        }];
+        RispList *seq = [RispList listWithObjectsFromArray:[[arguments drop:@(limit)] array]];
+        scope[[method restParm]] = seq;
+    }
+}
+
 - (id)applyTo:(RispVector *)arguments {
-    NSLog(@"(fn %@)", self);
+//    NSLog(@"(fn %@)", self);
     id v = nil;
     @try {
         [[RispContext currentContext] pushScope];
@@ -83,25 +104,8 @@
 //                scope[k] = _localBinding[k];
 //            }
         }
-        
-        if (![self isVariadic]) {
-            [_requiredParms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                id v = arguments[idx];
-                scope[obj] = v;
-            }];
-        } else {
-            NSInteger limit = [self paramsCount] - 1;
-            [_requiredParms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if (idx < limit) {
-                    id v = arguments[idx];
-                    scope[obj] = v;
-                } else {
-                    *stop = YES;
-                }
-            }];
-            RispList *seq = [RispList listWithObjectsFromArray:[[arguments drop:@(limit)] array]];
-            scope[_restParm] = seq;
-        }
+        [RispMethodExpression bindArguments:arguments forMethod:self toScope:scope];
+//        NSLog(@"call scope -> %@", scope);
         for (id _expr in [_bodyExpression exprs]) {
             v = [_expr eval];
         }
