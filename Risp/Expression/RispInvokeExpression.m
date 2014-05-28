@@ -7,11 +7,12 @@
 //
 
 #import "RispInvokeExpression.h"
+#import "RispKeywordInvokeExpression.h"
 #import "RispAbstractSyntaxTree.h"
 #import "RispBaseExpression+ASTDescription.h"
 
 @implementation RispInvokeExpression
-+ (RispInvokeExpression *)parser:(id <RispSequence>)form context:(RispContext *)context {
++ (id <RispExpression>)parser:(id <RispSequence>)form context:(RispContext *)context {
     if([context status] != RispContextEval)
         [context setStatus:RispContextExpression];
     id <RispExpression> fexpr = [RispBaseParser analyze:context form:[form first]];
@@ -25,6 +26,9 @@
         [args addObject:[RispBaseParser analyze:context form:[s first]]];
     }
     
+    if ([fexpr isKindOfClass:[RispKeywordExpression class]] && [form count] == 2) {
+        return [[RispKeywordInvokeExpression alloc] initWithTargetExpression:[args firstObject] keyword:fexpr];
+    }
     return [[RispInvokeExpression alloc] initWithExpression:fexpr arguments:[RispVector listWithObjectsFromArrayNoCopy:args]];
 }
 

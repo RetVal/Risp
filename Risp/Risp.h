@@ -73,6 +73,7 @@
 #import <Risp/RispConstantExpression.h>
 #import <Risp/RispMapExpression.h>
 #import <Risp/RispLetExpression.h>
+#import <Risp/RispKeywordInvokeExpression.h>
 #import <Risp/RispClosureExpression.h>
 
 #import <Risp/RispAbstractSyntaxTree.h>

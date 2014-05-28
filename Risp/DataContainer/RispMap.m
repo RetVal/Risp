@@ -103,6 +103,26 @@ static RispMap *__RispEmptyMap;
     return _seq;
 }
 
+- (id)objectForKeyedSubscript:(id)key {
+    return _dictionary[key];
+}
+
+- (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key {
+    _dictionary[key] = obj;
+}
+
+- (id)objectForKey:(id)aKey {
+    return [self objectForKeyedSubscript:aKey];
+}
+
+- (void)setObject:(id)anObject forKey:(id<NSCopying>)aKey {
+    [self setObject:anObject forKeyedSubscript:aKey];
+}
+
+- (NSEnumerator *)keyEnumerator {
+    return [_dictionary keyEnumerator];
+}
+
 - (id)copyWithZone:(NSZone *)zone {
     RispMap *map = [[RispMap alloc] init];
     map->_dictionary = [_dictionary copy];

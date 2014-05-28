@@ -32,6 +32,8 @@
 		3033226A1932CF35002810E7 /* Risp+DEBUG.h in Headers */ = {isa = PBXBuildFile; fileRef = 303322681932CF35002810E7 /* Risp+DEBUG.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3033226B1932CF35002810E7 /* Risp+DEBUG.m in Sources */ = {isa = PBXBuildFile; fileRef = 303322691932CF35002810E7 /* Risp+DEBUG.m */; };
 		3033227019342A4F002810E7 /* init.risp in Resources */ = {isa = PBXBuildFile; fileRef = 3033226F19342A4F002810E7 /* init.risp */; };
+		3033227319358981002810E7 /* RispKeywordInvokeExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033227119358981002810E7 /* RispKeywordInvokeExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3033227419358981002810E7 /* RispKeywordInvokeExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 3033227219358981002810E7 /* RispKeywordInvokeExpression.m */; };
 		303670841900BE2E00F04C12 /* RispBaseParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 303670821900BE2E00F04C12 /* RispBaseParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		303670851900BE2E00F04C12 /* RispBaseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 303670831900BE2E00F04C12 /* RispBaseParser.m */; };
 		303670891900C00B00F04C12 /* RispBaseExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 303670871900C00B00F04C12 /* RispBaseExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -551,6 +553,8 @@
 		303322681932CF35002810E7 /* Risp+DEBUG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Risp+DEBUG.h"; sourceTree = "<group>"; };
 		303322691932CF35002810E7 /* Risp+DEBUG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Risp+DEBUG.m"; sourceTree = "<group>"; };
 		3033226F19342A4F002810E7 /* init.risp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init.risp; sourceTree = "<group>"; };
+		3033227119358981002810E7 /* RispKeywordInvokeExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispKeywordInvokeExpression.h; sourceTree = "<group>"; };
+		3033227219358981002810E7 /* RispKeywordInvokeExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispKeywordInvokeExpression.m; sourceTree = "<group>"; };
 		303670821900BE2E00F04C12 /* RispBaseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBaseParser.h; sourceTree = "<group>"; };
 		303670831900BE2E00F04C12 /* RispBaseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispBaseParser.m; sourceTree = "<group>"; };
 		303670871900C00B00F04C12 /* RispBaseExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBaseExpression.h; sourceTree = "<group>"; };
@@ -1001,16 +1005,18 @@
 				3020D3A91906430600BC6C66 /* RispBodyExpression.m */,
 				30A57942190758EB00761A92 /* RispInvokeExpression.h */,
 				30A57943190758EB00761A92 /* RispInvokeExpression.m */,
-				30A579461907691800761A92 /* RispDefExpression.h */,
-				30A579471907691800761A92 /* RispDefExpression.m */,
-				30313DE81916B0A600ECEF47 /* RispDefnExpression.h */,
-				30313DE91916B0A600ECEF47 /* RispDefnExpression.m */,
+				3033227119358981002810E7 /* RispKeywordInvokeExpression.h */,
+				3033227219358981002810E7 /* RispKeywordInvokeExpression.m */,
 				30A5794A19076C0100761A92 /* RispDotExpression.h */,
 				30A5794B19076C0100761A92 /* RispDotExpression.m */,
 				309AC0E1191B50050088249B /* RispBlockExpression.h */,
 				309AC0E2191B50050088249B /* RispBlockExpression.m */,
 				30E683801921EEB6003423DE /* RispIfExpression.h */,
 				30E683811921EEB6003423DE /* RispIfExpression.m */,
+				30A579461907691800761A92 /* RispDefExpression.h */,
+				30A579471907691800761A92 /* RispDefExpression.m */,
+				30313DE81916B0A600ECEF47 /* RispDefnExpression.h */,
+				30313DE91916B0A600ECEF47 /* RispDefnExpression.m */,
 				30E683841921F07F003423DE /* RispConstantExpression.h */,
 				30E683851921F07F003423DE /* RispConstantExpression.m */,
 				30001E54192DC92A00A11BCD /* RispClosureExpression.h */,
@@ -1662,6 +1668,7 @@
 				30001E59192E0C1700A11BCD /* RispFnProtocol.h in Headers */,
 				309AC0E3191B50050088249B /* RispBlockExpression.h in Headers */,
 				30001E56192DC92A00A11BCD /* RispClosureExpression.h in Headers */,
+				3033227319358981002810E7 /* RispKeywordInvokeExpression.h in Headers */,
 				301FC1D919306FB700D7E70A /* RispAbstractSyntaxTree.h in Headers */,
 				3096466E1932332100F76747 /* RispLetExpression.h in Headers */,
 				303670BD190131AA00F04C12 /* RispMetaKeyDefinition.h in Headers */,
@@ -1938,6 +1945,7 @@
 				30E3584C18FFDE5D00412E48 /* RispSequence.m in Sources */,
 				30D8DA3218FECDE700477849 /* RispUnquoteReader.m in Sources */,
 				30D8DA2618FECDE700477849 /* RispReader.m in Sources */,
+				3033227419358981002810E7 /* RispKeywordInvokeExpression.m in Sources */,
 				30E3584018FFAF0300412E48 /* RispRuntime.m in Sources */,
 				301FC1DF1930751600D7E70A /* RispBaseExpression+ASTDescription.m in Sources */,
 				30D8DA1A18FECDE700477849 /* RispArgumentsReader.m in Sources */,
