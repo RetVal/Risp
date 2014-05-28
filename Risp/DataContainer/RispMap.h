@@ -10,6 +10,7 @@
 
 @interface RispMap : NSObject <RispSequence, NSCopying>
 + (instancetype)mapWithSequence:(id <RispSequence>)seq;
+- (id)initWithArray:(NSArray *)array;
 - (id <RispSequence>)seq;
 
 - (void)setObject:(id)anObject forKey:(id <NSCopying>)aKey;

@@ -71,12 +71,17 @@ static RispMap *__RispEmptyMap;
             _dictionary[key] = v;
         }
         NSMutableArray *array = [[NSMutableArray alloc] init];
-        [_dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            [array addObject:[RispVector  listWithObjects:key, obj, nil]];
+        [[_dictionary keysSortedByValueUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [array addObject:[RispVector listWithObjects:obj, _dictionary[obj], nil]];
         }];
         _seq = [[RispList alloc] initWithArray:array];
     }
     return self;
+}
+
+- (id)initWithArray:(NSArray *)array {
+    RispList *list = [RispList listWithObjectsFromArray:array];
+    return (RispMap *)list;
 }
 
 - (void)_init {

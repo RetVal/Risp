@@ -52,13 +52,13 @@
 //    NSLog(@"%@", self);
     RispContext *context = [RispContext currentContext];
     id v = nil;
-//    BOOL push = NO;
+    BOOL push = NO;
     @try {
         
         RispVector *evalArguments = [RispRuntime map:arguments fn:^id(id object) {
             return [object eval];
         }];
-        if (_environment) {
+        if (_environment && [[_environment scope] count]) {
 //            NSDictionary *env = [RispContext mergeScope:[context currentScope] withScope:_environment];
 //            if (env) {
 //                RispLexicalScope *scope = [[RispLexicalScope alloc] init];
@@ -69,6 +69,7 @@
 //            }
 //            NSLog(@"push closure env scope -> %@ ", _environment);
             [context pushScope:_environment];
+            push = YES;
         }
         RispMethodExpression *method = [_fnExpression methodForCountOfArgument:[evalArguments count]];
         v = [method applyTo:evalArguments];
@@ -77,7 +78,7 @@
         @throw exception;
     }
     @finally {
-        if (_environment) {
+        if (push) {
             [context popScope];
         }
     }
