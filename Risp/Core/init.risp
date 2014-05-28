@@ -188,3 +188,14 @@
  			(+ (first coll) (f (rest coll))))))) '(1 2 3 4 5 6 7 8 9 10))
 
 ((fn [y] (((fn [y] (fn [x] (* y 2))) 3) 0)) 4)
+
+(defn Y [m]
+	((fn [f] (f f))
+		(fn [j]
+			(m (fn [x] ((j j) x))))))
+			
+(defn sum-atom [f]
+	(fn [coll]
+		(if (empty? coll)
+			0
+			(+ (first coll) (f (rest coll))))))

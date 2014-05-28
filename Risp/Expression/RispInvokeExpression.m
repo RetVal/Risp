@@ -63,6 +63,17 @@
         id fn = nil;
         if (![_fexpr conformsToProtocol:@protocol(RispFnProtocol)]) {
             id sym = [_fexpr eval];
+            if ([sym isKindOfClass:[RispKeyword class]]) {
+                if ([_arguments count] == 1) {
+                    RispVector *evalArguments = [RispRuntime map:_arguments fn:^id(id object) {
+                        return [object eval];
+                    }];
+                    if (![[evalArguments first] isKindOfClass:[RispMap class]]) {
+                        [NSException raise:RispIllegalArgumentException format:@"%@ is not a map", [_arguments first]];
+                    }
+                    return [evalArguments first][sym];
+                }
+            }
             if (![sym conformsToProtocol:@protocol(RispFnProtocol)]) {
                 [NSException raise:RispRuntimeException format:@"%@ is not a fn", _fexpr];
             }
