@@ -44,12 +44,13 @@
                 }
                 id v = [expr eval];
 //                id v = nil;
+                [values addObject:v ? : [NSNull null]];
+                
                 if ([expr conformsToProtocol:@protocol(RispExpression)]) {
                     NSLog(@"%@ -\n%@\n-> %@", value, [[[RispAbstractSyntaxTree alloc] initWithExpression:expr] description], v);
                 } else {
                     NSLog(@"%@ -\n%@\n-> %@", value, [RispAbstractSyntaxTree descriptionAppendIndentation:0 forObject:expr], v);
                 }
-                [values addObject:v ? : [NSNull null]];
             }
             @catch (NSException *exception) {
                 ASUserNotification *notification = [[ASUserNotification alloc] init];

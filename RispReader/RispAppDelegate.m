@@ -20,6 +20,8 @@
 
 #import "ASUserNotification.h"
 
+#import <WebKit/WebKit.h>
+
 @interface RispAppDelegate ()
 @property (nonatomic, strong) RispRenderWindowController *rootWindowController;
 @property (nonatomic, strong) RispREPLAlphaWindowController *replWindowController;
@@ -29,6 +31,11 @@
 @implementation RispAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+//    NSWindow *window = [[NSWindow alloc] init];
+//    [window makeKeyAndOrderFront:nil];
+//    WebView *wv = [[WebView alloc] init];
+//    [[window contentView] addSubview:wv];
+//    [[wv webFrame] loadHTMLString:[NSString str] baseURL:nil];
     // Insert code here to initialize your application
 //    _rootWindowController = [[RispRenderWindowController alloc] initWithWindowNibName:@"RispRenderWindowController"];
 //    [[_rootWindowController window] makeKeyAndOrderFront:nil];
@@ -55,7 +62,7 @@
         if ([obj isKindOfClass:[NSNull class]]) return ;
         NSString *prefix = [[NSString alloc] initWithFormat:@"%@ %@ [%d:%d] ", [[NSCalendarDate calendarDate] descriptionWithCalendarFormat:@"%Y-%m-%d %H:%M:%S.%F"], [[NSProcessInfo processInfo] processName], getpid(), pthread_mach_thread_np(pthread_self())];
         NSMutableAttributedString *mas = [[NSMutableAttributedString alloc] initWithString:prefix];
-        [mas appendAttributedString:[values render]];
+        [mas appendAttributedString:[obj render]];
         [mas appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         [[[_replWindowController outputTextView] textStorage] appendAttributedString:mas];
     }];

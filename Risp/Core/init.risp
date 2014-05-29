@@ -30,9 +30,9 @@
 (def Symbol (. RispSymbol class))
 (def Sequence (. RispSequence class))
 
-(defn boolean [i] (. NSNumber numberWithBool: i))
+(defn boolean [i] (. NSNumber numberWithBool: (. i boolValue)))
 (defn instance? [class instance]
-	(boolean (. instance isKindOfClass: class)))
+	(= 1 (. instance isKindOfClass: class)))
 
 (defn interger? [n] (instance? Interger n))
 (defn string? [s] (instance? String s))
@@ -115,10 +115,20 @@
 		name
 		(. RispSymbol named: name))) 
 
-(defn str [name] 
-	(if (str? name)
-		name
-		(. name stringValue)))
+(defn append [str1 str2]
+	(. str1 copyWithAppendString: str2))
+
+(defn str 
+	([name] 
+		(if (string? name)
+			name
+			(. name stringValue)))
+	([x & ys]
+		(let [f (fn [ms & ss]
+					(if (empty? ss)
+						(str ms)
+						(f (append ms (str (first ss))) (rest ss))))]
+			(f (. NSMutableString stringWithString: (str x)) ys))))
 
 (defn name [x]
 	(if (symbol? x)
@@ -148,6 +158,12 @@
 	(if (= n 0)
 		true
 		false))
+
+(defn connect [url]
+	(. NSString stringWithContentsOfURL: url)) 
+
+(defn url [str]
+	(. NSURL URLWithString: str))
 
 (+ 1 2 3 4)
 '(1 2 3)
@@ -199,7 +215,3 @@
 		(if (empty? coll)
 			0
 			(+ (first coll) (f (rest coll))))))
-
-(def kmap {:a 1 :b 2})
-
-(map identity kmap)

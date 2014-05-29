@@ -77,6 +77,17 @@
             id v = arguments[idx];
             scope[obj] = v;
         }];
+    } else if ([arguments count] == [method paramsCount] && [[arguments last] isKindOfClass:[RispSequence class]]) {
+        NSInteger limit = [method paramsCount] - 1;
+        [[method requiredParms] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if (idx < limit) {
+                id v = arguments[idx];
+                scope[obj] = v;
+            } else {
+                *stop = YES;
+            }
+        }];
+        scope[[method restParm]] = [arguments last];
     } else {
         NSInteger limit = [method paramsCount] - 1;
         [[method requiredParms] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {

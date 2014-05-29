@@ -35,6 +35,7 @@
             seq = [seq first];
         }
         bodyExpression = [RispBaseParser analyze:context form:seq];
+//        bodyExpression = [RispBodyExpression parser:seq context:context];
     }
     RispLetExpression *letExpression = [[RispLetExpression alloc] initWithBindingExpression:bindingExpression bodyExpression:bodyExpression];
     return letExpression;

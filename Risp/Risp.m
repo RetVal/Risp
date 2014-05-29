@@ -8,6 +8,17 @@
 
 #import <Risp/Risp.h>
 #import "Risp+DEBUG.h"
+@interface NSObject (String)
+- (NSString *)stringValue;
+@end
+
+@implementation NSObject (String)
+
+- (NSString *)stringValue {
+    return [self description];
+}
+
+@end
 
 @implementation Risp
 

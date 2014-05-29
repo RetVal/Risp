@@ -64,7 +64,7 @@ static RispSequence *__RispSequeuceEmpty = nil;
 }
 
 - (id)rest {
-    return _next;
+    return _next ? : [RispSequence empty];
 }
 
 - (id)last {
@@ -188,6 +188,10 @@ static RispSequence *__RispSequeuceEmpty = nil;
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])buffer count:(NSUInteger)len {
     return [[self array] countByEnumeratingWithState:state objects:buffer count:len];
+}
+
+- (NSString *)stringValue {
+    return [self description];
 }
 @end
 
