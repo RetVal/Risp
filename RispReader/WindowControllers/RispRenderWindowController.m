@@ -23,6 +23,14 @@
     return self;
 }
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [_editorView setShowInvisibles:NO];
+    [_editorView setMode:RispIDEViewModeClojure];
+    [_editorView setTheme:RispIDEViewThemeXcode];
+    [_editorView setShowPrintMargin:NO];
+}
+
 - (void)windowDidLoad
 {
     [super windowDidLoad];

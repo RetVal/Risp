@@ -16,6 +16,7 @@
 #import <Risp/RispList.h>
 #import <Risp/RispVector.h>
 #import <Risp/RispMap.h>
+#import <Risp/RispLazySequence.h>
 #import <Risp/RispCompiler.h>
 #import <Risp/RispSymbol+BIF.h>
 #import <Risp/RispMetaKeyDefinition.h>

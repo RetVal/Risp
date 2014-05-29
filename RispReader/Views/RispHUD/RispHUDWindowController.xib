@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="RispHUDWindowController">
+            <connections>
+                <outlet property="textView" destination="jsM-h9-Thv" id="Dbc-pa-WR5"/>
+                <outlet property="window" destination="wcE-qK-Nkt" id="t2i-H9-wON"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <window title="RispAbstractSyntaxTree" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="wcE-qK-Nkt">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" texturedBackground="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="847" y="406" width="550" height="360"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <view key="contentView" id="6dV-Qq-s8d">
+                <rect key="frame" x="0.0" y="0.0" width="550" height="360"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COb-Or-8d3">
+                        <rect key="frame" x="-1" y="-1" width="552" height="362"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <clipView key="contentView" id="3Dv-op-xLx">
+                            <rect key="frame" x="1" y="1" width="550" height="360"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView editable="NO" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="jsM-h9-Thv">
+                                    <rect key="frame" x="0.0" y="0.0" width="550" height="360"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="textColor" red="0.011764707040000001" green="0.7254902124" blue="0.98039221759999995" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
+                                    <size key="minSize" width="550" height="360"/>
+                                    <size key="maxSize" width="550" height="10000000"/>
+                                    <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="550" height="360"/>
+                                    <size key="maxSize" width="550" height="10000000"/>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="0.48999999999999999" colorSpace="calibratedWhite"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="c5a-ga-p7n">
+                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="TTC-zq-rAh">
+                            <rect key="frame" x="535" y="1" width="16" height="360"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="COb-Or-8d3" secondAttribute="trailing" constant="-1" id="07Z-C2-WvF"/>
+                    <constraint firstItem="COb-Or-8d3" firstAttribute="leading" secondItem="6dV-Qq-s8d" secondAttribute="leading" constant="-1" id="KGD-EN-XsT"/>
+                    <constraint firstItem="COb-Or-8d3" firstAttribute="top" secondItem="6dV-Qq-s8d" secondAttribute="top" constant="-1" id="Peb-i4-wpF"/>
+                    <constraint firstAttribute="bottom" secondItem="COb-Or-8d3" secondAttribute="bottom" constant="-1" id="Zq7-Kw-1ag"/>
+                </constraints>
+            </view>
+        </window>
+    </objects>
+</document>

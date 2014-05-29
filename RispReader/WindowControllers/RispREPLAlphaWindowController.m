@@ -8,7 +8,8 @@
 
 #import "RispREPLAlphaWindowController.h"
 #import <RispRenderFoundation/RispRenderFoundation.h>
-@interface RispREPLAlphaWindowController ()
+NSString * RispREPLAlphaWindowWillCloseNotification = @"RispREPLAlphaWindowWillCloseNotification";
+@interface RispREPLAlphaWindowController () <NSWindowDelegate>
 @end
 
 @implementation RispREPLAlphaWindowController
@@ -41,4 +42,7 @@
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
 }
 
+- (void)windowWillClose:(NSNotification *)notification {
+    [[NSNotificationCenter defaultCenter] postNotificationName:RispREPLAlphaWindowWillCloseNotification object:nil userInfo:nil];
+}
 @end

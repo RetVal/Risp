@@ -102,8 +102,14 @@
     
     rootScope[[RispSymbol APPLY]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
         id f = [arguments first];
+        RispFnExpression *fn = nil;
         if (f && [f isKindOfClass:[RispClosureExpression class]]) {
-            RispFnExpression *fn = [f fnExpression];
+            fn = [f fnExpression];
+        } else {
+            fn = f;
+        }
+        
+        if (fn && [fn isKindOfClass:[RispFnExpression class]]) {
             RispMethodExpression *method = [fn methodForArguments:[arguments second]];
             return [method applyTo:[RispVector listWithObjectsFromArrayNoCopy:[[arguments second] array]]];
         }
@@ -111,8 +117,14 @@
     } variadic:NO numberOfArguments:2];
     rootScope[[RispSymbol MAP]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
         id f = [arguments first];
+        RispFnExpression *fn = nil;
         if (f && [f isKindOfClass:[RispClosureExpression class]]) {
-            RispFnExpression *fn = [f fnExpression];
+            fn = [f fnExpression];
+        } else {
+            fn = f;
+        }
+
+        if (fn && [fn isKindOfClass:[RispFnExpression class]]) {
             RispMethodExpression *method = [fn methodForCountOfArgument:1];
             if (!method) {
                 [NSException raise:RispIllegalArgumentException format:@"%@ should have only one argument", fn];
@@ -125,8 +137,14 @@
     } variadic:NO numberOfArguments:2];
     rootScope[[RispSymbol REDUCE]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
         id f = [arguments first];
+        RispFnExpression *fn = nil;
         if (f && [f isKindOfClass:[RispClosureExpression class]]) {
-            RispFnExpression *fn = [f fnExpression];
+            fn = [f fnExpression];
+        } else {
+            fn = f;
+        }
+        
+        if (fn && [fn isKindOfClass:[RispFnExpression class]]) {
             RispMethodExpression *method = [fn methodForCountOfArgument:2];
             return [RispRuntime reduce:[[arguments second] array] fn:^id(id coll, id object) {
                 return [method applyTo:[RispVector listWithObjects:coll, object, nil]];
@@ -136,8 +154,14 @@
     } variadic:NO numberOfArguments:2];
     rootScope[[RispSymbol FILTER]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
         id f = [arguments first];
+        RispFnExpression *fn = nil;
         if (f && [f isKindOfClass:[RispClosureExpression class]]) {
-            RispFnExpression *fn = [f fnExpression];
+            fn = [f fnExpression];
+        } else {
+            fn = f;
+        }
+        
+        if (fn && [fn isKindOfClass:[RispFnExpression class]]) {
             RispMethodExpression *method = [fn methodForCountOfArgument:1];
             if (!method) {
                 [NSException raise:RispIllegalArgumentException format:@"%@ should have only one argument", fn];

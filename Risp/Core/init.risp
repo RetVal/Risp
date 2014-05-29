@@ -199,3 +199,7 @@
 		(if (empty? coll)
 			0
 			(+ (first coll) (f (rest coll))))))
+
+(def kmap {:a 1 :b 2})
+
+(map identity kmap)

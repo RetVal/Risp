@@ -11,7 +11,10 @@
 @class RispREPLAlphaWindowController;
 @interface RispReaderEvalCore : NSObject
 + (NSArray *)evalCurrentLine:(NSString *)sender;
-+ (void)renderWindowController:(RispREPLAlphaWindowController *)window resultValue:(id)v insertNewLine:(BOOL)insertNewLine;
++ (NSArray *)evalCurrentLine:(NSString *)sender expressions:(NSArray **)expressions;
++ (void)renderTextView:(NSTextView *)textView resultValue:(id)v insertNewLine:(BOOL)insertNewLine block:(void (^)(id v))defaultRender;
+
++ (void)renderTextFieldCell:(NSTextFieldCell *)cell resultValue:(id)v insertNewLine:(BOOL)insertNewLine block:(void (^)(id v))defaultRender;
 
 + (NSUInteger)lineNumberOfTextView:(NSTextView *)textView;
 + (NSArray *)textView:(NSTextView *)textView processLinesWithHandler:(id (^)(NSTextView *text, NSRange range))handler;

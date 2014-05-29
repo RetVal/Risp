@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import <RispIDEView/RispIDEView.h>
 @interface RispRenderWindowController : NSWindowController
+@property (weak) IBOutlet RispIDEView *editorView;
 
 @end

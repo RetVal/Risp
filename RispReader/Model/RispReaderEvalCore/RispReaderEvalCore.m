@@ -11,13 +11,25 @@
 #import "RispRenderWindowController.h"
 #import "RispAbstractSyntaxTree.h"
 #import "RispREPLAlphaWindowController.h"
+#import "RispRender.h"
+
+#import "ASUserNotification.h"
 
 @implementation RispReaderEvalCore
 + (NSArray *)evalCurrentLine:(NSString *)sender {
+    return [RispReaderEvalCore evalCurrentLine:sender expressions:nil];
+}
+
++ (NSArray *)evalCurrentLine:(NSString *)sender expressions:(NSArray **)expressions {
     RispContext *context = [RispContext currentContext];
     RispReader *_reader = [[RispReader alloc] initWithContent:sender];
     id value = nil;
     NSMutableArray *values = [[NSMutableArray alloc] init];
+    NSMutableArray *exprs = nil;
+    if (expressions) {
+        exprs = [[NSMutableArray alloc] init];
+        *expressions = exprs;
+    }
     while (![_reader isEnd]) {
         @autoreleasepool {
             @try {
@@ -27,6 +39,9 @@
                     continue;
                 }
                 id expr = [RispCompiler compile:context form:value];
+                if (exprs || expr) {
+                    [exprs addObject:expr];
+                }
                 id v = [expr eval];
 //                id v = nil;
                 if ([expr conformsToProtocol:@protocol(RispExpression)]) {
@@ -34,10 +49,15 @@
                 } else {
                     NSLog(@"%@ -\n%@\n-> %@", value, [RispAbstractSyntaxTree descriptionAppendIndentation:0 forObject:expr], v);
                 }
-                
                 [values addObject:v ? : [NSNull null]];
             }
             @catch (NSException *exception) {
+                ASUserNotification *notification = [[ASUserNotification alloc] init];
+                [notification setTitle:[exception name]];
+                [notification setSubtitle:[NSString stringWithFormat:@"%@", value]];
+                [notification setInformativeText:[NSString stringWithFormat:@"%@", exception]];
+                [notification setHasActionButton: NO];
+                [[ASUserNotificationCenter customUserNotificationCenter] deliverNotification:notification];
                 NSLog(@"%@ - %@", value, exception);
             }
         }
@@ -48,38 +68,86 @@
 #pragma mark -
 #pragma mark Render Value
 
-+ (void)renderWindowController:(RispREPLAlphaWindowController *)window resultValue:(id)v insertNewLine:(BOOL)insertNewLine {
++ (void)renderTextView:(NSTextView *)textView resultValue:(id)v insertNewLine:(BOOL)insertNewLine block:(void (^)(id v))defaultRender {
     if ([v isKindOfClass:[NSImage class]]) {
-        [self renderWindowController:window renderImage:v insertNewLine:insertNewLine];
+        [self renderTextView:textView renderImage:v insertNewLine:insertNewLine];
     } else if ([v isKindOfClass:[NSFileWrapper class]]) {
-        [self renderWindowController:window renderFileWrapper:v insertNewLine:insertNewLine];
+        [self renderTextView:textView renderFileWrapper:v insertNewLine:insertNewLine];
     } else if ([v respondsToSelector:@selector(enumerateObjectsUsingBlock:)]) {
         [v enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [self renderWindowController:window resultValue:obj insertNewLine:insertNewLine];
+            [self renderTextView:textView resultValue:obj insertNewLine:insertNewLine block:defaultRender];
         }];
+    } else {
+        defaultRender(v);
     }
 }
 
-+ (void)renderWindowController:(RispREPLAlphaWindowController *)window renderImage:(NSImage *)image insertNewLine:(BOOL)insertNewLine {
++ (void)renderTextView:(NSTextView *)textView renderImage:(NSImage *)image insertNewLine:(BOOL)insertNewLine {
     if (![image isValid]) return;
     NSTextAttachmentCell *attachmentCell = [[NSTextAttachmentCell alloc] initImageCell:image];
     NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
     [attachment setAttachmentCell:attachmentCell];
     NSAttributedString *attributedString = [NSAttributedString  attributedStringWithAttachment:attachment];
-    [[[window inputTextView] textStorage] appendAttributedString:attributedString];
+    [[textView textStorage] appendAttributedString:attributedString];
     if (insertNewLine)
-        [[window inputTextView] insertNewline:nil];
-    [[window inputTextView] didChangeText];
+        [textView insertNewline:nil];
+    [textView didChangeText];
 }
 
-+ (void)renderWindowController:(RispREPLAlphaWindowController *)window renderFileWrapper:(NSFileWrapper *)fileWrapper insertNewLine:(BOOL)insertNewLine {
++ (void)renderTextView:(NSTextView *)textView renderFileWrapper:(NSFileWrapper *)fileWrapper insertNewLine:(BOOL)insertNewLine {
     if (![fileWrapper isRegularFile]) return;
     NSTextAttachment *attachment = [[NSTextAttachment alloc] initWithFileWrapper:fileWrapper];
     NSAttributedString *attributedString = [NSAttributedString  attributedStringWithAttachment:attachment];
-    [[[window inputTextView] textStorage] appendAttributedString:attributedString];
+    [[textView textStorage] appendAttributedString:attributedString];
     if (insertNewLine)
-        [[window inputTextView] insertNewline:nil];
-    [[window inputTextView] didChangeText];
+        [textView insertNewline:nil];
+    [textView didChangeText];
+}
+
++ (void)renderTextFieldCell:(NSTextFieldCell *)cell resultValue:(id)v insertNewLine:(BOOL)insertNewLine block:(void (^)(id v))defaultRender {
+    if ([v isKindOfClass:[NSImage class]]) {
+        [self renderTextFieldCell:cell renderImage:v insertNewLine:insertNewLine];
+        return;
+    } else if ([v isKindOfClass:[NSFileWrapper class]]) {
+        [self renderTextFieldCell:cell renderFileWrapper:v insertNewLine:insertNewLine];
+        return;
+    } else if ([v respondsToSelector:@selector(enumerateObjectsUsingBlock:)]) {
+        if ([v isKindOfClass:[RispSequence class]]) {
+            defaultRender(@"(");
+        } else if ([v isKindOfClass:[RispVector class]]) {
+            defaultRender(@"[");
+        } else if ([v isKindOfClass:[RispMap class]]) {
+            defaultRender(@"{");
+        }
+        [v enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [self renderTextFieldCell:cell resultValue:obj insertNewLine:insertNewLine block:defaultRender];
+        }];
+        if ([v isKindOfClass:[RispSequence class]]) {
+            defaultRender(@")");
+        } else if ([v isKindOfClass:[RispVector class]]) {
+            defaultRender(@"]");
+        } else if ([v isKindOfClass:[RispMap class]]) {
+            defaultRender(@"}");
+        }
+        return;
+    }
+    defaultRender(v);
+}
+
++ (void)renderTextFieldCell:(NSTextFieldCell *)cell renderImage:(NSImage *)image insertNewLine:(BOOL)insertNewLine {
+    if (![image isValid]) return;
+    NSTextAttachmentCell *attachmentCell = [[NSTextAttachmentCell alloc] initImageCell:image];
+    NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+    [attachment setAttachmentCell:attachmentCell];
+    NSAttributedString *attributedString = [NSAttributedString  attributedStringWithAttachment:attachment];
+    [cell setPlaceholderAttributedString:attributedString];
+}
+
++ (void)renderTextFieldCell:(NSTextFieldCell *)cell renderFileWrapper:(NSFileWrapper *)fileWrapper insertNewLine:(BOOL)insertNewLine {
+    if (![fileWrapper isRegularFile]) return;
+    NSTextAttachment *attachment = [[NSTextAttachment alloc] initWithFileWrapper:fileWrapper];
+    NSAttributedString *attributedString = [NSAttributedString  attributedStringWithAttachment:attachment];
+    [cell setPlaceholderAttributedString:attributedString];
 }
 
 #pragma mark -
