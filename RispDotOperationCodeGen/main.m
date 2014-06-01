@@ -15,27 +15,32 @@
 @implementation RispDotOperationCodeGen
 
 + (NSString *)genMax:(NSInteger)max vectorNamed:(NSString *)name {
-    NSString * const vCallStartFormat = @" else if ([%@ count] == %ld) {\n\treturn objc_msgSend(_target, _selector, %@);\n}";
+    NSString * const countOfArgumentsFormat = @"NSInteger countOfArguments = [%@ count];\n";
+    NSString * const vCallStartFormat = @"\tcase %ld:\n\t\treturn objc_msgSend(_target, _selector, %@);\n";
+    NSString * const countOfArguments = [NSString stringWithFormat:countOfArgumentsFormat, name];
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:max];
+    
     if (max >= 0) {
-        NSString * content = [[NSString alloc] initWithFormat:@"if ([%@ count] == %d) {\n\treturn objc_msgSend(_target, _selector);\n}", name,  0];
+        [result addObject:countOfArguments];
+        [result addObject:@"switch (countOfArguments) {\n"];
+        NSString *content = [[NSString alloc] initWithFormat:@"\tcase 0:\n\t\treturn objc_msgSend(_target, _selector);\n"];
         [result addObject:content];
     }
     for (NSInteger start = 1; start < max; start ++) {
         NSMutableString *content = [[NSMutableString alloc] init];
-        if (start) {
-            [content appendFormat:@"[%@ first]", name];
-        }
         if (start > 1) {
-            [content appendString:@", "];
+            [content appendFormat:@"%@[%d], ", name, 0];
         }
         for (NSInteger idx = 1; idx < start - 1; idx++) {
-            [content appendFormat:@"[(%@ = [%@ next]) first], ", name, name];
+            [content appendFormat:@"%@[%ld], ", name, idx];
         }
-        if (start > 1) {
-            [content appendFormat:@"[(%@ = [%@ next]) first]", name, name];
-        }
-        [result addObject:[NSString stringWithFormat:vCallStartFormat, name, start, content]];
+        [content appendFormat:@"%@[%ld]", name, start - 1];
+        [result addObject:[NSString stringWithFormat:vCallStartFormat, start, content]];
+    }
+    
+    if (max >= 0) {
+        [result addObject:@"\tdefault:\n\t\treturn nil;\n"];
+        [result addObject:@"}\n"];
     }
     return [result componentsJoinedByString:@""];
 }

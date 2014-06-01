@@ -13,7 +13,7 @@
 @implementation RispNilExpression
 - (instancetype)init {
     if (self = [super init]) {
-        _value = nil;
+        _value = [NSNull null];
     }
     return self;
 }
@@ -23,7 +23,7 @@
 }
 
 - (NSString *)description {
-    return @"null";
+    return @"nil";
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -32,7 +32,7 @@
 }
 
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
-    [super _descriptionWithIndentation:indentation desc:desc];
-    [desc appendFormat:@"%@ - %@\n", [self class], [self description]];
+    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:desc];
+    [desc appendFormat:@"%@ - %@ %@\n", [self class], [self description], [self rispLocationInfomation]];
 }
 @end

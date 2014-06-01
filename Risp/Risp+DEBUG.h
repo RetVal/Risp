@@ -7,6 +7,11 @@
 //
 
 #import <Risp/Risp.h>
+
+@interface NSObject (Debug)
+- (NSString *)rispLocationInfomation;
+@end
+
 @interface Risp : NSObject
 
 @end

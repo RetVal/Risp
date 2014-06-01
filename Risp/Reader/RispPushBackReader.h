@@ -15,7 +15,12 @@
 }
 @property (assign, nonatomic, readonly) NSInteger pos;
 @property (assign, nonatomic, readonly) NSInteger length;
-- (id)initWithContent:(NSString *)content;
+
+@property (assign, nonatomic, readonly) NSInteger columnNumber;
+@property (assign, nonatomic, readonly) NSInteger lineNumber;
+
+- (id)initWithContent:(NSString *)content fileNamed:(NSString *)file;
+- (id)initWithContentsOfFile:(NSString *)file;
 - (UniChar)read;
 - (UniChar)read1;
 

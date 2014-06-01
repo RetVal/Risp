@@ -22,12 +22,6 @@
 
 #import <objc/runtime.h>
 
-@interface RispBaseParser ()
-+ (RispNilExpression *)nilExpression;
-+ (RispTrueExpression *)trueExpression;
-+ (RispFalseExpression *)falseExpression;
-@end
-
 @interface RispBaseParser (Analyze)
 + (id <RispExpression>)analyzeSymbol:(RispSymbol *)symbol;
 + (id <RispExpression>)analyzeSequence:(id <RispSequence>)sequence context:(RispContext *)context name:(NSString *)name;
@@ -71,7 +65,7 @@
         return [self analyze:context form:me];
     }
     id op = [me first];
-    if (op == nil || op == [NSNull null]) {
+    if (op == nil || [op isEqualTo:[NSNull null]]) {
         [NSException raise:RispIllegalArgumentException format:@"can not call nil"];
     }
     
@@ -103,11 +97,11 @@
         }
         
         if (form == nil || [form isKindOfClass:[NSNull class]]) {
-            return [RispBaseParser nilExpression];
+            return [[[RispNilExpression alloc] init] copyMetaFromObject:form];
         } else if ([form isEqualTo:@"true"]) {
-            return [RispBaseParser trueExpression];
+            return [[[RispTrueExpression alloc] init] copyMetaFromObject:form];
         } else if ([form isEqualTo:@"false"]) {
-            return [RispBaseParser falseExpression];
+            return [[[RispFalseExpression alloc] init] copyMetaFromObject:form];
         }
         
         Class fclass = [form class];
@@ -117,13 +111,13 @@
             // register a keyword
             return [context registerKeyword:form];
         } else if ([form isKindOfClass:[NSNumber class]]) {
-            return [[RispNumberExpression alloc] initWithValue:form];
+            return [[[RispNumberExpression alloc] initWithValue:form] copyMetaFromObject:form];
         } else if ([form isKindOfClass:[NSString class]]) {
-            return [[RispStringExpression alloc] initWithValue:form];
+            return [[[RispStringExpression alloc] initWithValue:form] copyMetaFromObject:form];
         } else if (fclass == [RispVector class]) {
-            return [RispVectorExpression parse:form context:context];
+            return [[RispVectorExpression parse:form context:context] copyMetaFromObject:form];
         } else if (fclass == [RispMap class]) {
-            return [RispMapExpression parser:form context:context];
+            return [[RispMapExpression parser:form context:context] copyMetaFromObject:form];
         } else if ([form conformsToProtocol:@protocol(RispSequence)]) {
             return [RispBaseParser analyzeSequence:form context:context name:@""];
         }
@@ -134,33 +128,4 @@
     return nil;
 }
 
-#pragma mark -
-#pragma mark Expressoin Gen
-
-+ (RispNilExpression *)nilExpression {
-    static dispatch_once_t onceToken;
-    static RispNilExpression *__RispNilExpression = nil;
-    dispatch_once(&onceToken, ^{
-        __RispNilExpression = [[RispNilExpression alloc] init];
-    });
-    return __RispNilExpression;
-}
-
-+ (RispTrueExpression *)trueExpression {
-    static dispatch_once_t onceToken;
-    static RispTrueExpression *__RispTrueExpressoin = nil;
-    dispatch_once(&onceToken, ^{
-        __RispTrueExpressoin = [[RispTrueExpression alloc] init];
-    });
-    return __RispTrueExpressoin;
-}
-
-+ (RispFalseExpression *)falseExpression {
-    static dispatch_once_t onceToken;
-    static RispFalseExpression *__RispFalseExpression = nil;
-    dispatch_once(&onceToken, ^{
-        __RispFalseExpression = [[RispFalseExpression alloc] init];
-    });
-    return __RispFalseExpression;
-}
 @end

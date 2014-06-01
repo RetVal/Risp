@@ -15,4 +15,5 @@
 - (id)readEofIsError:(BOOL)eofIsError eofValue:(id)eofValue isRecursive:(BOOL)recursive;
 - (id)interpretToken:(NSString *)token;
 - (BOOL)isEnd;
+- (id)setupDebugInformationForObject:(id)object start:(NSInteger)start columnNumber:(NSInteger)columnNumber lineNumber:(NSInteger)lineNumber;
 @end

@@ -20,6 +20,14 @@
 + (id)stringWithContentsOfURL:(NSURL *)url;
 @end
 
+@interface NSString (File)
++ (id)stringWithContentsOfFile:(NSString *)path;
+@end
+
+@interface NSData (Str)
+- (NSString *)stringValue;
+@end
+
 @interface __RispFXNSString : NSObject
 
 @end

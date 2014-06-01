@@ -8,6 +8,8 @@
 
 #import <Risp/Risp.h>
 #import "Risp+DEBUG.h"
+#import "NSDecimalNumber+Math.h"
+
 @interface NSObject (String)
 - (NSString *)stringValue;
 @end
@@ -23,7 +25,7 @@
 @implementation Risp
 
 + (void)load {
-    RispReader *reader = [[RispReader alloc] initWithContentOfFile:[[NSBundle bundleWithIdentifier:@"com.retval.Risp"] pathForResource:@"init" ofType:@"risp"]];
+    RispReader *reader = [[RispReader alloc] initWithContentsOfFile:[[NSBundle bundleWithIdentifier:@"com.retval.Risp"] pathForResource:@"init" ofType:@"risp"]];
     RispContext *context = [RispContext currentContext];
     id value = nil;
     NSMutableArray *values = [[NSMutableArray alloc] init];

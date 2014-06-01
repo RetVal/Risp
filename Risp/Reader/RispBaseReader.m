@@ -84,22 +84,23 @@ static RispBaseReader *reader = nil;
 }
 
 
-- (id)initWithContent:(NSString *)content {
+- (id)initWithContent:(NSString *)content fileNamed:(NSString *)file {
     if (self = [super init]) {
         _content = content;
+        _file = file;
     }
     return self;
 }
 
-- (id)initWithContentOfFile:(NSString *)path {
-    return [self initWithData:[NSData dataWithContentsOfFile:path]];
+- (id)initWithContentsOfFile:(NSString *)path {
+    return [self initWithData:[NSData dataWithContentsOfFile:path] fileNamed:path];
 }
 
-- (id)initWithData:(NSData *)data {
+- (id)initWithData:(NSData *)data fileNamed:(NSString *)file {
     NSString *content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     if (!content)
         return nil;
-    return [self initWithContent:content];
+    return [self initWithContent:content fileNamed:file];
 }
 
 - (id)invoke:(RispReader *)reader object:(id)object {
@@ -108,6 +109,10 @@ static RispBaseReader *reader = nil;
 
 - (id <RispSequence>)reader:(RispReader *)reader delimited:(unichar)delimit recursive:(BOOL)isRecursive {
     NSMutableArray *array = [[NSMutableArray alloc] init];
+    RispPushBackReader *_reader = [reader reader];
+    NSInteger start = [_reader pos];
+    NSInteger columnNumber = [_reader columnNumber];
+    NSInteger lineNumber = [_reader lineNumber];
     for (; ;) {
         unichar ch = [[reader reader] read1];
         while ([RispBaseReader isWhiteSpace:ch]) {
@@ -135,6 +140,6 @@ static RispBaseReader *reader = nil;
             }
         }
     }
-    return [RispList listWithObjectsFromArray:array];
+    return [reader setupDebugInformationForObject:[RispList listWithObjectsFromArray:array] start:start columnNumber:columnNumber lineNumber:lineNumber];
 }
 @end

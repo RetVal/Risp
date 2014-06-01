@@ -43,6 +43,7 @@
 @implementation RispDotExpression
 + (id)parser:(id <RispSequence>)form context:(RispContext *)context {
     
+    id seq = form;
     id dot __unused = [form first];
     form = [form next];
     id classNameSymbol = [form first];
@@ -73,7 +74,7 @@
                 [exprsArray addObject:[RispBaseParser analyze:context form:form]];
             }
         }
-        return [[RispDotExpression alloc] initWithTarget:targetSymbol selector:sel methodSignature:nil expressions:exprsArray ? [RispVector listWithObjectsFromArrayNoCopy:exprsArray] : nil  class:isClass];
+        return [[[RispDotExpression alloc] initWithTarget:targetSymbol selector:sel methodSignature:nil expressions:exprsArray ? [RispVector listWithObjectsFromArrayNoCopy:exprsArray] : nil  class:isClass] copyMetaFromObject:seq];
     } else {
         targetSymbol = [classNameSymbol eval];
         form = [form eval];
@@ -113,7 +114,7 @@
             if ([methodSignature numberOfArguments] - 2 != [form count]) {
                 [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", classNameSymbol, [methodSignature numberOfArguments] - 2, form];
             }
-            return [[RispDotExpression alloc] initWithTarget:NSClassFromString(className) selector:sel methodSignature:methodSignature arguments:[RispVector listWithObjectsFromArrayNoCopy:[form array]] class:isClass];
+            return [[[RispDotExpression alloc] initWithTarget:NSClassFromString(className) selector:sel methodSignature:methodSignature arguments:[RispVector listWithObjectsFromArrayNoCopy:[form array]] class:isClass] copyMetaFromObject:seq];
         }
         [NSException raise:RispIllegalArgumentException format:@"%@ of %@ is not found", selectorSymbol, className];
     } else {
@@ -125,7 +126,7 @@
         if ([methodSignature numberOfArguments] - 2 != [form count]) {
             [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", targetSymbol, [methodSignature numberOfArguments] - 2, form];
         }
-        return [[RispDotExpression alloc] initWithTarget:target selector:sel methodSignature:methodSignature arguments:[RispVector listWithObjectsFromArrayNoCopy:[form array]] class:isClass];
+        return [[[RispDotExpression alloc] initWithTarget:target selector:sel methodSignature:methodSignature arguments:[RispVector listWithObjectsFromArrayNoCopy:[form array]] class:isClass] copyMetaFromObject:seq];
     }
     return nil;
 }
@@ -259,8 +260,7 @@
 
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:desc];
-    [desc appendFormat:@"%@\n", [self class]];
-    indentation += 1;
+    [desc appendFormat:@"%@ %@\n", [self class], [self rispLocationInfomation]];
     [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:desc];
     [desc appendString:[[NSString alloc] initWithFormat:@"target : %@\n", _target]];
     [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:desc];

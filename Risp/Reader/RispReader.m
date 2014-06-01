@@ -56,19 +56,32 @@ static RispNumberReader *__RispNumberReader = nil;
     RispDispatchMacros[')'] = [[RispUnmatchedDelimiterReader alloc] init];
 }
 
-- (id)initWithContent:(NSString *)content {
+- (id)initWithContent:(NSString *)content fileNamed:(NSString *)file {
     if (!content)
         return nil;
-    if (self = [super initWithContent:content]) {
-        _reader = [[RispPushBackReader alloc] initWithContent:content];
+    if (self = [super initWithContent:content fileNamed:file]) {
+        _reader = [[RispPushBackReader alloc] initWithContent:content fileNamed:file];
         _scope = [[RispContext currentContext] currentScope];
     }
     return self;
 }
 
+- (id)setupDebugInformationForObject:(id)object start:(NSInteger)start columnNumber:(NSInteger)columnNumber lineNumber:(NSInteger)lineNumber {
+    [object setStart:start];
+    [object setEnd:[_reader pos]];
+    [object setFile:[_reader file]];
+    [object setColumnNumber:columnNumber];
+    [object setLineNumber:lineNumber];
+    return object;
+}
+
 - (id)readEofIsError:(BOOL)eofIsError eofValue:(id)eofValue isRecursive:(BOOL)recursive {
     @try {
         for (; ;) {
+            NSInteger start = [_reader pos];
+            NSInteger columnNumber = [_reader columnNumber];
+            NSInteger lineNumber = [_reader lineNumber];
+            
             UniChar ch = [_reader read1];
             while ([RispReader isWhiteSpace:ch])
                 ch = [_reader read1];
@@ -79,7 +92,8 @@ static RispNumberReader *__RispNumberReader = nil;
             }
             if ([RispBaseReader isDigit:ch]) {
                 [_reader unread:ch];
-                return [__RispNumberReader invoke:self object:nil];
+                id object = [__RispNumberReader invoke:self object:nil];
+                return [self setupDebugInformationForObject:object start:start columnNumber:columnNumber lineNumber:lineNumber];
             }
             
             id macroFn = [RispBaseReader macro:ch];
@@ -88,7 +102,7 @@ static RispNumberReader *__RispNumberReader = nil;
                 if (ret == self) {
                     return self;
                 }
-                return ret;
+                return [self setupDebugInformationForObject:ret start:start columnNumber:columnNumber lineNumber:lineNumber];
             }
             
             if (ch == '+' || ch == '-') {
@@ -96,14 +110,15 @@ static RispNumberReader *__RispNumberReader = nil;
                 if ([RispBaseReader isDigit:ch2]) {
                     [_reader unread:ch2];
                     id n = [__RispNumberReader invoke:self object:nil];
-                    return n;
+                    return [self setupDebugInformationForObject:n start:start columnNumber:columnNumber lineNumber:lineNumber];
                 }
                 [_reader unread:ch2];
             }
             
             [_reader unread:ch];
             NSString *token = [__RispTokenReader invoke:self object:nil];
-            return [self interpretToken:token];
+            id tk = [self interpretToken:token];
+            return [self setupDebugInformationForObject:tk start:start columnNumber:columnNumber lineNumber:lineNumber];
         }
     }
     @catch (NSException *exception) {

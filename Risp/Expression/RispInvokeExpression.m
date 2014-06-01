@@ -15,6 +15,7 @@
 + (id <RispExpression>)parser:(id <RispSequence>)form context:(RispContext *)context {
     if([context status] != RispContextEval)
         [context setStatus:RispContextExpression];
+
     id <RispExpression> fexpr = [RispBaseParser analyze:context form:[form first]];
 //    PersistentVector args = PersistentVector.EMPTY;
 //    for(ISeq s = RT.seq(form.next()); s != null; s = s.next())
@@ -27,9 +28,9 @@
     }
     
     if ([fexpr isKindOfClass:[RispKeywordExpression class]] && [form count] == 2) {
-        return [[RispKeywordInvokeExpression alloc] initWithTargetExpression:[args firstObject] keyword:fexpr];
+        return [[[RispKeywordInvokeExpression alloc] initWithTargetExpression:[args firstObject] keyword:fexpr] copyMetaFromObject:form];
     }
-    return [[RispInvokeExpression alloc] initWithExpression:fexpr arguments:[RispVector listWithObjectsFromArrayNoCopy:args]];
+    return [[[RispInvokeExpression alloc] initWithExpression:fexpr arguments:[RispVector listWithObjectsFromArrayNoCopy:args]] copyMetaFromObject:form];
 }
 
 - (id)initWithExpression:(id <RispExpression>)fnexpression arguments:(RispVector *)arguments {
@@ -118,7 +119,7 @@
 
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [super _descriptionWithIndentation:indentation desc:desc];
-    [desc appendFormat:@"%@\n", [self class]];
+    [desc appendFormat:@"%@ %@\n", [self class], [self rispLocationInfomation]];
     NSMutableArray *descs = [[NSMutableArray alloc] init];
     [descs addObject:_fexpr];
     [descs addObjectsFromArray:[_arguments array]];

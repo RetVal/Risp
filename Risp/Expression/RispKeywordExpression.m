@@ -36,6 +36,6 @@
 
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:desc];
-    [desc appendFormat:@"%@ - %@\n", [self class], [self description]];
+    [desc appendFormat:@"%@ - %@ %@\n", [self class], [self description], [self rispLocationInfomation]];
 }
 @end

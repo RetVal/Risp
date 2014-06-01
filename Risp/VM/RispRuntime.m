@@ -30,7 +30,11 @@
 + (id)map:(id)object fn:(id (^)(id object))fn {
     NSMutableArray *array = [[NSMutableArray alloc] init];
     [object enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [array addObject:fn(obj)];
+        id x = fn(obj);
+        if (x == nil) {
+            NSLog(@"wocao");
+        }
+        [array addObject:x];
 //        [array addObject:fn(obj) ? : [NSNull null]];
     }];
     return [[[object class] alloc] initWithArray:array];

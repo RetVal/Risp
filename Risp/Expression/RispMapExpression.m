@@ -59,10 +59,10 @@
                 keyvals[idx] = [keyvals[idx] eval];
             }];
             RispMap *map = [RispMap mapWithSequence:[RispVector listWithObjectsFromArrayNoCopy:keyvals]];
-            return [[RispConstantExpression alloc] initWithValue:map];
+            return [[[RispConstantExpression alloc] initWithValue:map] copyMetaFromObject:object];
         }
     }
-    RispMapExpression *expr = [[RispMapExpression alloc] initWithKeyValues:[RispVector listWithObjectsFromArrayNoCopy:keyvals]];
+    RispMapExpression *expr = [[[RispMapExpression alloc] initWithKeyValues:[RispVector listWithObjectsFromArrayNoCopy:keyvals]] copyMetaFromObject:object];
     return expr;
     return [[RispMapExpression alloc] initWithKeyValues:nil];
 }
@@ -89,6 +89,6 @@
 
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [super _descriptionWithIndentation:indentation desc:desc];
-    [desc appendFormat:@"%@ - %@\n", [self class], [self description]];
+    [desc appendFormat:@"%@ - %@ %@\n", [self class], [self description], [self rispLocationInfomation]];
 }
 @end

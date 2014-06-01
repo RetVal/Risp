@@ -32,7 +32,7 @@
         if ([seq count] == 4) {
             elseExpression = [RispBaseParser analyze:context form:[[[[seq next] next] next] first]];
         }
-        ifExpression = [[RispIfExpression alloc] initWithTestExpression:testExpression then:thenExpression else:elseExpression];
+        ifExpression = [[[RispIfExpression alloc] initWithTestExpression:testExpression then:thenExpression else:elseExpression] copyMetaFromObject:object];
     }
     @catch (NSException *exception) {
         @throw exception;
@@ -60,7 +60,9 @@
     if ([@YES isEqual:[_testExpression eval]]) {
         return [_thenExpression eval];
     }
-    return [_elseExpression eval];
+    if (_elseExpression)
+        return [_elseExpression eval];
+    return [NSNull null];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -74,7 +76,7 @@
 
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [super _descriptionWithIndentation:indentation desc:desc];
-    [desc appendFormat:@"%@\n", [self class]];
+    [desc appendFormat:@"%@ %@\n", [self class], [self rispLocationInfomation]];
     [_testExpression _descriptionWithIndentation:indentation + 1 desc:desc];
     [_thenExpression _descriptionWithIndentation:indentation + 1 desc:desc];
     [_elseExpression _descriptionWithIndentation:indentation + 1 desc:desc];

@@ -197,16 +197,16 @@ public static Object eval(Object form, boolean freshLoader) {
     @autoreleasepool {
         [RispContext setCurrentContext:context];
         if (!form || [form isKindOfClass:[NSNull class]]) {
-            return [NSNull null];
+            return [[[NSNull alloc] init] copyMetaFromObject:form];
         } else if ([form isKindOfClass:[NSString class]] ||
                    [form isKindOfClass:[NSNumber class]] ||
                    [form isKindOfClass:[NSRegularExpression class]] ||
                    [form isKindOfClass:[RispVector class]]) {
             return form;
         } else if ([form isKindOfClass:[RispSymbol class]]) {
-            return [context currentScope][form];
+            return [[context currentScope][form] copyMetaFromObject:form];
         } else if ([form isKindOfClass:[RispKeyword class]]) {
-            return [RispKeywordExpression parser:form context:context];
+//            return [[RispKeywordExpression parser:form context:context] copyMetaFromObject:form];
         }
         if ([form isKindOfClass:[RispList class]]) {
             // macroexpand

@@ -28,7 +28,7 @@
         [exprs addObject:expr];
     }
     [context setStatus:status];
-    return [[RispBodyExpression alloc] initWithExpressions:[RispVector listWithObjectsFromArrayNoCopy:exprs]];
+    return [[[RispBodyExpression alloc] initWithExpressions:[RispVector listWithObjectsFromArrayNoCopy:exprs]] copyMetaFromObject:form];
 }
 
 - (id)initWithExpressions:(RispVector *)exprs {

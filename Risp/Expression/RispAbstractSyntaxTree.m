@@ -92,6 +92,7 @@
     } else if ([object conformsToProtocol:@protocol(RispSequence)]) {
         [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:string];
         [string appendString:[object className] ? : @""];
+        [string appendFormat:@" %@", [object rispLocationInfomation]];
         [string appendString:@"\n"];
         [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:string];
         [string appendFormat:@"%@", object];
@@ -100,7 +101,7 @@
         [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:string];
         [string appendString:[object className] ? : @""];
         [string appendString:@" : "];
-        [string appendFormat:@"%@", object];
+        [string appendFormat:@"%@ %@", object, [object rispLocationInfomation]];
         [string appendString:@"\n"];
     }
     return string;

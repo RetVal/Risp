@@ -37,6 +37,20 @@
 
 @end
 
+@implementation NSString (File)
+
++ (id)stringWithContentsOfFile:(NSString *)path {
+    return [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+}
+
+@end
+
+@implementation NSData (Str)
+- (NSString *)stringValue {
+    return [[NSString alloc] initWithData:self encoding:NSUTF8StringEncoding];
+}
+@end
+
 @implementation __RispFXNSString
 
 @end

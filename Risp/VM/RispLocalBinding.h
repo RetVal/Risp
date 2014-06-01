@@ -11,7 +11,7 @@
 @interface RispLocalBinding : NSObject
 @property (nonatomic, strong, readonly) RispSymbol *sym;
 @property (nonatomic, strong, readonly) RispSymbol *tag;
-@property (nonatomic, strong) RispBaseExpression *init;
+@property (nonatomic, strong) RispBaseExpression *expr;
 @property (nonatomic, strong, readonly) NSString *name;
 @property (nonatomic, assign, readonly) NSInteger idx;
 @property (nonatomic, assign, readonly) BOOL isArg;

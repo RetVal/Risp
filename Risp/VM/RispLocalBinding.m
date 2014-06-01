@@ -15,7 +15,7 @@
         _idx = index;
         _sym = sym;
         _tag = tag;
-        _init = expr;
+        _expr = expr;
         _isArg = isArg;
         _clearPathRoot = clearPathRoot;
         _name = [_sym stringValue];

@@ -22,7 +22,7 @@
 
 + (NSArray *)evalCurrentLine:(NSString *)sender expressions:(NSArray **)expressions {
     RispContext *context = [RispContext currentContext];
-    RispReader *_reader = [[RispReader alloc] initWithContent:sender];
+    RispReader *_reader = [[RispReader alloc] initWithContent:sender fileNamed:@"RispREPL"];
     id value = nil;
     NSMutableArray *values = [[NSMutableArray alloc] init];
     NSMutableArray *exprs = nil;
@@ -59,7 +59,7 @@
                 [notification setInformativeText:[NSString stringWithFormat:@"%@", exception]];
                 [notification setHasActionButton: NO];
                 [[ASUserNotificationCenter customUserNotificationCenter] deliverNotification:notification];
-                NSLog(@"%@ - %@", value, exception);
+                NSLog(@"%@ - %@\n%@", value, exception, [exception callStackSymbols]);
             }
         }
     }

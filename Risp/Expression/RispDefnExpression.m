@@ -20,8 +20,8 @@
         [NSException raise:RispIllegalArgumentException format:@"%@ is not be symbol", [object first]];
     }
     [context setStatus:RispContextStatement];
-    RispFnExpression *fn = [RispFnExpression parse:[[object next] cons:[RispSymbol FN]] context:context];
-    return [[RispDefnExpression alloc] initWithValue:fn forKey:[object first]];
+    RispFnExpression *fn = [[RispFnExpression parse:[[object next] cons:[RispSymbol FN]] context:context] copyMetaFromObject:[object next]];
+    return [[[RispDefnExpression alloc] initWithValue:fn forKey:[object first]] copyMetaFromObject:object];
 }
 
 - (id)initWithValue:(RispFnExpression *)fn forKey:(RispSymbol *)symbol {
@@ -52,10 +52,10 @@
 
 -(void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:desc];
-    [desc appendFormat:@"%@\n", [self class]];
+    [desc appendFormat:@"%@ %@\n", [self class], [self rispLocationInfomation]];
     
     [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:desc];
-    [desc appendFormat:@"%@ : %@\n", [_key class], _key];
+    [desc appendFormat:@"%@ : %@ %@\n", [_key class], _key, [_key rispLocationInfomation]];
     
     [desc appendString:[RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 forObject:_value]];
 }

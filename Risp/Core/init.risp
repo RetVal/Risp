@@ -23,6 +23,10 @@
 	([x y] (. x decimalNumberByDividingBy: y))
 	([x y & more] (/ (/ x y) (apply / more))))
 
+(defn %
+	([x] x)
+	([x y] (. x mod: y)))
+
 (defn class [x] (. x class))
 
 (def Interger (. NSNumber class))
@@ -137,6 +141,20 @@
 
 (defn not [x] (if x false true))
 
+(defn nil? [x] (= nil x))
+
+(defn even? [n]
+	(zero? (% n 2)))
+
+(defn cond [& clauses]
+	(if (not (nil? clauses))
+		(if (even? (count clauses))
+			(if (first clauses)
+				(if (next clauses)
+					(second clauses)
+					:xxx)
+				(cond (next (next clauses)))))))
+
 (defn and
   ([] true)
   ([x] x)
@@ -164,6 +182,9 @@
 
 (defn url [str]
 	(. NSURL URLWithString: str))
+
+(defn render-content [file-path]
+	(. (. NSFileWrapper alloc) initWithPath: (. file-path stringByStandardizingPath)))
 
 (+ 1 2 3 4)
 '(1 2 3)

@@ -21,7 +21,7 @@
     //([args] body...)
     RispVector *parms = [form first];
     id <RispSequence> body = [form next];
-    RispMethodExpression *method = [[RispMethodExpression alloc] init];
+    RispMethodExpression *method = [[[RispMethodExpression alloc] init] copyMetaFromObject:form];
     @try {
         RispCompilerStatus status = RispCompilerStatusREQ;
         for (NSUInteger idx = 0; idx < [parms count]; idx++) {
@@ -64,7 +64,7 @@
 
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [super _descriptionWithIndentation:indentation desc:desc];
-    [desc appendFormat:@"%@\n", [self class]];
+    [desc appendFormat:@"%@ %@\n", [self class], [self rispLocationInfomation]];
     [_requiredParms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [desc appendString:[RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 forObject:obj]];
     }];

@@ -25,4 +25,8 @@
     RispBaseExpression *baseExpression = [[RispBaseExpression alloc] init];
     return baseExpression;
 }
+
+- (id)copyMetaFromObject:(id)object {
+    return [super copyMetaFromObject:object];
+}
 @end

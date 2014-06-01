@@ -19,6 +19,5 @@
 - (NSString *)descriptionWithLocale:(NSLocale *)locale;
 
 + (NSString *)descriptionAppendIndentation:(NSUInteger)indentation forObject:(id)object;
-+ (NSString *)descriptionAppendIndentation:(NSUInteger)indentation forObject:(id)object fixupIfNeeded:(BOOL)needFixup;
 + (void)show:(id)object;
 @end

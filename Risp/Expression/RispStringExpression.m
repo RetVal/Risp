@@ -12,7 +12,7 @@
 
 @implementation RispStringExpression
 + (id<RispExpression>)parser:(id)object context:(RispContext *)context {
-    return [[RispStringExpression alloc] initWithValue:object];
+    return [[[RispStringExpression alloc] initWithValue:object] copyMetaFromObject:object];
 }
 
 - (id)value {
@@ -30,6 +30,6 @@
 
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:desc];
-    [desc appendFormat:@"%@ - %@\n", [self class], [self description]];
+    [desc appendFormat:@"%@ - %@ %@\n", [self class], [self description], [self rispLocationInfomation]];
 }
 @end

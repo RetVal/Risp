@@ -13,6 +13,7 @@
 @required
 + (id <RispExpression>)parser:(id)object context:(RispContext *)context;
 - (id)eval;
+- (id)copyMetaFromObject:(id)object;
 @end
 @interface RispBaseExpression : NSObject <RispExpression>
 - (id)eval;

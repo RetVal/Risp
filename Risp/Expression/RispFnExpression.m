@@ -15,7 +15,7 @@
 
 + (RispFnExpression *)parse:(id<RispSequence>)form context:(RispContext *)context {
     //now (fn [args] body...) or (fn ([args] body...) ([args2] body2...) ...)
-    RispFnExpression *fnExpr = [[RispFnExpression alloc] init];
+    RispFnExpression *fnExpr = [[[RispFnExpression alloc] init] copyMetaFromObject:form];
 
     @try {
         [context pushScope];
@@ -139,10 +139,10 @@
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [super _descriptionWithIndentation:indentation desc:desc];
     
-    [desc appendFormat:@"%@", [self class]];
+    [desc appendFormat:@"%@ %@", [self class], [self rispLocationInfomation]];
     
     if (_name) {
-        [desc appendFormat:@" : %@", _name];
+        [desc appendFormat:@" : %@ %@", _name, [_name rispLocationInfomation]];
     }
     
     [desc appendString:@"\n"];
