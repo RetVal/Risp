@@ -12,7 +12,7 @@
 
 @implementation RispKeywordExpression
 + (id<RispExpression>)parser:(id)object context:(RispContext *)context {
-    return [[RispKeywordExpression alloc] initWithKeyword:object];
+    return [[[RispKeywordExpression alloc] initWithKeyword:object] copyMetaFromObject:object];
 }
 
 - (id)initWithKeyword:(RispKeyword *)keyword {

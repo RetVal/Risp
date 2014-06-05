@@ -110,6 +110,9 @@ static RispNumberReader *__RispNumberReader = nil;
                 if ([RispBaseReader isDigit:ch2]) {
                     [_reader unread:ch2];
                     id n = [__RispNumberReader invoke:self object:nil];
+                    if (ch == '-') {
+                        n = [n decimalNumberByMultiplyingBy:[[NSDecimalNumber alloc] initWithInt:-1]];
+                    }
                     return [self setupDebugInformationForObject:n start:start columnNumber:columnNumber lineNumber:lineNumber];
                 }
                 [_reader unread:ch2];

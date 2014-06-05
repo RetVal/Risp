@@ -32,7 +32,8 @@ static id __RispSymbolFind(NSString *string) {
 @implementation RispSymbol
 
 + (id)named:(NSString *)name {
-    return __RispSymbolFind(name) ? : [[RispSymbol alloc] initWithString:name];
+//    return __RispSymbolFind(name) ? : [[RispSymbol alloc] initWithString:name];
+    return [[RispSymbol alloc] initWithString:name];
 }
 
 - (id)init {
@@ -48,7 +49,7 @@ static id __RispSymbolFind(NSString *string) {
     if (self = [super init]) {
         _stringValue = [string copy];
         _hashCode = [_stringValue hash];
-        __RispSymbolUpdate(string, self);
+//        __RispSymbolUpdate(string, self);
     }
     return self;
 }
@@ -63,6 +64,10 @@ static id __RispSymbolFind(NSString *string) {
 
 - (id)copyWithZone:(NSZone *)zone {
     return self;
+}
+
+- (BOOL)isEqual:(id)object {
+    return [self isEqualTo:object];
 }
 
 - (BOOL)isEqualTo:(id)object {

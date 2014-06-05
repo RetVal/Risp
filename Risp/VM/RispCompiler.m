@@ -206,7 +206,7 @@ public static Object eval(Object form, boolean freshLoader) {
         } else if ([form isKindOfClass:[RispSymbol class]]) {
             return [[context currentScope][form] copyMetaFromObject:form];
         } else if ([form isKindOfClass:[RispKeyword class]]) {
-//            return [[RispKeywordExpression parser:form context:context] copyMetaFromObject:form];
+            return [RispKeywordExpression parser:form context:context];
         }
         if ([form isKindOfClass:[RispList class]]) {
             // macroexpand

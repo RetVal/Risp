@@ -50,4 +50,12 @@
     }
 }
 
++ (id)eval:(id)object {
+    id <RispExpression> expr = nil;
+    if (![object conformsToProtocol:@protocol(RispExpression)]) {
+        expr = [RispCompiler compile:[RispContext currentContext] form:object];
+    }
+    return [expr eval];
+}
+
 @end

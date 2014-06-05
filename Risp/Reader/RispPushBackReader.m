@@ -98,6 +98,8 @@
         [NSException raise:@"" format:@"Stream is closed"];
     }
     if (_pos == 0) {
+        _buf[0] = oneChar;
+        return;
         [NSException raise:@"" format:@"Pushback buffer full"];
     }
     _columnNumber --;

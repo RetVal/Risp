@@ -31,7 +31,8 @@ static id __RispKeywordFind(NSString *string) {
 
 @implementation RispKeyword
 + (id)named:(NSString *)name {
-    return __RispKeywordFind(name) ? : [[RispKeyword alloc] initWithString:name];
+//    return __RispKeywordFind(name) ? : [[RispKeyword alloc] initWithString:name];
+    return [[RispKeyword alloc] initWithString:name];
 }
 
 + (BOOL)isKeyword:(NSString *)object {
@@ -62,8 +63,12 @@ static id __RispKeywordFind(NSString *string) {
     if (self = [super init]) {
         _stringValue = [string copy];
         _hashCode = [_stringValue hash];
-        __RispKeywordUpdate(string, self);
+//        __RispKeywordUpdate(string, self);
     }
     return self;
+}
+
+- (NSUInteger)hash {
+    return _hashCode;
 }
 @end

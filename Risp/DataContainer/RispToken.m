@@ -32,9 +32,9 @@ static RispToken *__RispTokenFind(NSString *string) {
 @implementation RispToken
 
 + (id)named:(NSString *)name {
-    if (!name) return nil;
-    id v = __RispTokenFind(name);
-    if (v) return v;
+//    if (!name) return nil;
+//    id v = __RispTokenFind(name);
+//    if (v) return v;
     return [[RispToken alloc] initWithString:name];
 }
 

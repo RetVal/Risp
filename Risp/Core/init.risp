@@ -1,4 +1,7 @@
-(defn nil? [x] 
+(defn eval [body]
+    (. Risp eval: body))
+
+(defn nil? [x]
 	(if (= nil x) true false))
 
 (defn lazy-seq [& body] ((. RispLazySequence creator) (fn [] body)))
@@ -236,3 +239,5 @@
 		(if (empty? coll)
 			0
 			(+ (first coll) (f (rest coll))))))
+
+
