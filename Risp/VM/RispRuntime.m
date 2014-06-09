@@ -63,7 +63,7 @@
 
 + (id)filter:(id)object pred:(id (^)(id object))pred {
     id array = [object isKindOfClass:[NSArray class]] ? object : [object array];
-    RispList *list = [[RispList alloc] initWithArray:[object objectsAtIndexes:[array indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+    RispList *list = [[RispList alloc] initWithArray:[object objectsAtIndexes:[array indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         NSNumber *x = pred(obj);
         BOOL b = [x boolValue];
         return b;
