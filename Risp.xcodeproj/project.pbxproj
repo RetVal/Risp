@@ -36,6 +36,15 @@
 		3033227019342A4F002810E7 /* init.risp in Resources */ = {isa = PBXBuildFile; fileRef = 3033226F19342A4F002810E7 /* init.risp */; };
 		3033227319358981002810E7 /* RispKeywordInvokeExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033227119358981002810E7 /* RispKeywordInvokeExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3033227419358981002810E7 /* RispKeywordInvokeExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 3033227219358981002810E7 /* RispKeywordInvokeExpression.m */; };
+		3033B6DD194554D70012A6F9 /* AppledocSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3033B6CC194554D70012A6F9 /* AppledocSettings.plist */; };
+		3033B6DE194554D70012A6F9 /* ASUserNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 3033B6CE194554D70012A6F9 /* ASUserNotification.m */; };
+		3033B6DF194554D70012A6F9 /* ASUserNotificationBannerBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3033B6D0194554D70012A6F9 /* ASUserNotificationBannerBackgroundView.m */; };
+		3033B6E0194554D70012A6F9 /* ASUserNotificationBannerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3033B6D2194554D70012A6F9 /* ASUserNotificationBannerButton.m */; };
+		3033B6E1194554D70012A6F9 /* ASUserNotificationBannerButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3033B6D4194554D70012A6F9 /* ASUserNotificationBannerButtonCell.m */; };
+		3033B6E2194554D70012A6F9 /* ASUserNotificationBannerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3033B6D6194554D70012A6F9 /* ASUserNotificationBannerController.m */; };
+		3033B6E3194554D70012A6F9 /* ASUserNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3033B6D8194554D70012A6F9 /* ASUserNotificationCenter.m */; };
+		3033B6E4194554D70012A6F9 /* ASUserNotificationDefaultSound.aif in Resources */ = {isa = PBXBuildFile; fileRef = 3033B6DA194554D70012A6F9 /* ASUserNotificationDefaultSound.aif */; };
+		3033B6E5194554D70012A6F9 /* ASUserNotificationFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 3033B6DC194554D70012A6F9 /* ASUserNotificationFeature.m */; };
 		303670841900BE2E00F04C12 /* RispBaseParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 303670821900BE2E00F04C12 /* RispBaseParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		303670851900BE2E00F04C12 /* RispBaseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 303670831900BE2E00F04C12 /* RispBaseParser.m */; };
 		303670891900C00B00F04C12 /* RispBaseExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 303670871900C00B00F04C12 /* RispBaseExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -73,15 +82,6 @@
 		304E040B1907822200E2D438 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 304E040A1907822200E2D438 /* main.m */; };
 		304E040F1907822200E2D438 /* RispDotOperationCodeGen.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 304E040E1907822200E2D438 /* RispDotOperationCodeGen.1 */; };
 		304E04141907C02400E2D438 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 304E04131907C02400E2D438 /* 1.png */; };
-		304FF3D61936F476002DAFF6 /* AppledocSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 304FF3601936F476002DAFF6 /* AppledocSettings.plist */; };
-		304FF3D71936F476002DAFF6 /* ASUserNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 304FF3621936F476002DAFF6 /* ASUserNotification.m */; };
-		304FF3D81936F476002DAFF6 /* ASUserNotificationBannerBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 304FF3641936F476002DAFF6 /* ASUserNotificationBannerBackgroundView.m */; };
-		304FF3D91936F476002DAFF6 /* ASUserNotificationBannerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 304FF3661936F476002DAFF6 /* ASUserNotificationBannerButton.m */; };
-		304FF3DA1936F476002DAFF6 /* ASUserNotificationBannerButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 304FF3681936F476002DAFF6 /* ASUserNotificationBannerButtonCell.m */; };
-		304FF3DB1936F476002DAFF6 /* ASUserNotificationBannerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 304FF36A1936F476002DAFF6 /* ASUserNotificationBannerController.m */; };
-		304FF3DC1936F476002DAFF6 /* ASUserNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 304FF36C1936F476002DAFF6 /* ASUserNotificationCenter.m */; };
-		304FF3DD1936F476002DAFF6 /* ASUserNotificationDefaultSound.aif in Resources */ = {isa = PBXBuildFile; fileRef = 304FF36E1936F476002DAFF6 /* ASUserNotificationDefaultSound.aif */; };
-		304FF3DE1936F476002DAFF6 /* ASUserNotificationFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 304FF3701936F476002DAFF6 /* ASUserNotificationFeature.m */; };
 		305E982A190A713800A4B7FB /* RispReaderEvalCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E981F190A713800A4B7FB /* RispReaderEvalCore.m */; };
 		305E982F190A713800A4B7FB /* RispAutoHideWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E9829190A713800A4B7FB /* RispAutoHideWindow.m */; };
 		305E9838190B5CF900A4B7FB /* RispWindowBlurer.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E9837190B5CF900A4B7FB /* RispWindowBlurer.m */; };
@@ -583,6 +583,23 @@
 		3033226F19342A4F002810E7 /* init.risp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init.risp; sourceTree = "<group>"; };
 		3033227119358981002810E7 /* RispKeywordInvokeExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispKeywordInvokeExpression.h; sourceTree = "<group>"; };
 		3033227219358981002810E7 /* RispKeywordInvokeExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispKeywordInvokeExpression.m; sourceTree = "<group>"; };
+		3033B6CC194554D70012A6F9 /* AppledocSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppledocSettings.plist; sourceTree = "<group>"; };
+		3033B6CD194554D70012A6F9 /* ASUserNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotification.h; sourceTree = "<group>"; };
+		3033B6CE194554D70012A6F9 /* ASUserNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotification.m; sourceTree = "<group>"; };
+		3033B6CF194554D70012A6F9 /* ASUserNotificationBannerBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationBannerBackgroundView.h; sourceTree = "<group>"; };
+		3033B6D0194554D70012A6F9 /* ASUserNotificationBannerBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotificationBannerBackgroundView.m; sourceTree = "<group>"; };
+		3033B6D1194554D70012A6F9 /* ASUserNotificationBannerButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationBannerButton.h; sourceTree = "<group>"; };
+		3033B6D2194554D70012A6F9 /* ASUserNotificationBannerButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotificationBannerButton.m; sourceTree = "<group>"; };
+		3033B6D3194554D70012A6F9 /* ASUserNotificationBannerButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationBannerButtonCell.h; sourceTree = "<group>"; };
+		3033B6D4194554D70012A6F9 /* ASUserNotificationBannerButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotificationBannerButtonCell.m; sourceTree = "<group>"; };
+		3033B6D5194554D70012A6F9 /* ASUserNotificationBannerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationBannerController.h; sourceTree = "<group>"; };
+		3033B6D6194554D70012A6F9 /* ASUserNotificationBannerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotificationBannerController.m; sourceTree = "<group>"; };
+		3033B6D7194554D70012A6F9 /* ASUserNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationCenter.h; sourceTree = "<group>"; };
+		3033B6D8194554D70012A6F9 /* ASUserNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotificationCenter.m; sourceTree = "<group>"; };
+		3033B6D9194554D70012A6F9 /* ASUserNotificationCenterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationCenterDelegate.h; sourceTree = "<group>"; };
+		3033B6DA194554D70012A6F9 /* ASUserNotificationDefaultSound.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = ASUserNotificationDefaultSound.aif; sourceTree = "<group>"; };
+		3033B6DB194554D70012A6F9 /* ASUserNotificationFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationFeature.h; sourceTree = "<group>"; };
+		3033B6DC194554D70012A6F9 /* ASUserNotificationFeature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotificationFeature.m; sourceTree = "<group>"; };
 		303670821900BE2E00F04C12 /* RispBaseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBaseParser.h; sourceTree = "<group>"; };
 		303670831900BE2E00F04C12 /* RispBaseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispBaseParser.m; sourceTree = "<group>"; };
 		303670871900C00B00F04C12 /* RispBaseExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBaseExpression.h; sourceTree = "<group>"; };
@@ -618,23 +635,6 @@
 		304E040D1907822200E2D438 /* RispDotOperationCodeGen-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RispDotOperationCodeGen-Prefix.pch"; sourceTree = "<group>"; };
 		304E040E1907822200E2D438 /* RispDotOperationCodeGen.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = RispDotOperationCodeGen.1; sourceTree = "<group>"; };
 		304E04131907C02400E2D438 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
-		304FF3601936F476002DAFF6 /* AppledocSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppledocSettings.plist; sourceTree = "<group>"; };
-		304FF3611936F476002DAFF6 /* ASUserNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotification.h; sourceTree = "<group>"; };
-		304FF3621936F476002DAFF6 /* ASUserNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotification.m; sourceTree = "<group>"; };
-		304FF3631936F476002DAFF6 /* ASUserNotificationBannerBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationBannerBackgroundView.h; sourceTree = "<group>"; };
-		304FF3641936F476002DAFF6 /* ASUserNotificationBannerBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotificationBannerBackgroundView.m; sourceTree = "<group>"; };
-		304FF3651936F476002DAFF6 /* ASUserNotificationBannerButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationBannerButton.h; sourceTree = "<group>"; };
-		304FF3661936F476002DAFF6 /* ASUserNotificationBannerButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotificationBannerButton.m; sourceTree = "<group>"; };
-		304FF3671936F476002DAFF6 /* ASUserNotificationBannerButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationBannerButtonCell.h; sourceTree = "<group>"; };
-		304FF3681936F476002DAFF6 /* ASUserNotificationBannerButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotificationBannerButtonCell.m; sourceTree = "<group>"; };
-		304FF3691936F476002DAFF6 /* ASUserNotificationBannerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationBannerController.h; sourceTree = "<group>"; };
-		304FF36A1936F476002DAFF6 /* ASUserNotificationBannerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotificationBannerController.m; sourceTree = "<group>"; };
-		304FF36B1936F476002DAFF6 /* ASUserNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationCenter.h; sourceTree = "<group>"; };
-		304FF36C1936F476002DAFF6 /* ASUserNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotificationCenter.m; sourceTree = "<group>"; };
-		304FF36D1936F476002DAFF6 /* ASUserNotificationCenterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationCenterDelegate.h; sourceTree = "<group>"; };
-		304FF36E1936F476002DAFF6 /* ASUserNotificationDefaultSound.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = ASUserNotificationDefaultSound.aif; sourceTree = "<group>"; };
-		304FF36F1936F476002DAFF6 /* ASUserNotificationFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASUserNotificationFeature.h; sourceTree = "<group>"; };
-		304FF3701936F476002DAFF6 /* ASUserNotificationFeature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASUserNotificationFeature.m; sourceTree = "<group>"; };
 		305E981E190A713800A4B7FB /* RispReaderEvalCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispReaderEvalCore.h; sourceTree = "<group>"; };
 		305E981F190A713800A4B7FB /* RispReaderEvalCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispReaderEvalCore.m; sourceTree = "<group>"; };
 		305E9828190A713800A4B7FB /* RispAutoHideWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispAutoHideWindow.h; sourceTree = "<group>"; };
@@ -1025,6 +1025,30 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		3033B6CB194554D70012A6F9 /* ASUserNotification */ = {
+			isa = PBXGroup;
+			children = (
+				3033B6CC194554D70012A6F9 /* AppledocSettings.plist */,
+				3033B6CD194554D70012A6F9 /* ASUserNotification.h */,
+				3033B6CE194554D70012A6F9 /* ASUserNotification.m */,
+				3033B6CF194554D70012A6F9 /* ASUserNotificationBannerBackgroundView.h */,
+				3033B6D0194554D70012A6F9 /* ASUserNotificationBannerBackgroundView.m */,
+				3033B6D1194554D70012A6F9 /* ASUserNotificationBannerButton.h */,
+				3033B6D2194554D70012A6F9 /* ASUserNotificationBannerButton.m */,
+				3033B6D3194554D70012A6F9 /* ASUserNotificationBannerButtonCell.h */,
+				3033B6D4194554D70012A6F9 /* ASUserNotificationBannerButtonCell.m */,
+				3033B6D5194554D70012A6F9 /* ASUserNotificationBannerController.h */,
+				3033B6D6194554D70012A6F9 /* ASUserNotificationBannerController.m */,
+				3033B6D7194554D70012A6F9 /* ASUserNotificationCenter.h */,
+				3033B6D8194554D70012A6F9 /* ASUserNotificationCenter.m */,
+				3033B6D9194554D70012A6F9 /* ASUserNotificationCenterDelegate.h */,
+				3033B6DA194554D70012A6F9 /* ASUserNotificationDefaultSound.aif */,
+				3033B6DB194554D70012A6F9 /* ASUserNotificationFeature.h */,
+				3033B6DC194554D70012A6F9 /* ASUserNotificationFeature.m */,
+			);
+			path = ASUserNotification;
+			sourceTree = "<group>";
+		};
 		303670811900BDC900F04C12 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
@@ -1115,36 +1139,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		304FF35F1936F476002DAFF6 /* ASUserNotification */ = {
-			isa = PBXGroup;
-			children = (
-				304FF3601936F476002DAFF6 /* AppledocSettings.plist */,
-				304FF3611936F476002DAFF6 /* ASUserNotification.h */,
-				304FF3621936F476002DAFF6 /* ASUserNotification.m */,
-				304FF3631936F476002DAFF6 /* ASUserNotificationBannerBackgroundView.h */,
-				304FF3641936F476002DAFF6 /* ASUserNotificationBannerBackgroundView.m */,
-				304FF3651936F476002DAFF6 /* ASUserNotificationBannerButton.h */,
-				304FF3661936F476002DAFF6 /* ASUserNotificationBannerButton.m */,
-				304FF3671936F476002DAFF6 /* ASUserNotificationBannerButtonCell.h */,
-				304FF3681936F476002DAFF6 /* ASUserNotificationBannerButtonCell.m */,
-				304FF3691936F476002DAFF6 /* ASUserNotificationBannerController.h */,
-				304FF36A1936F476002DAFF6 /* ASUserNotificationBannerController.m */,
-				304FF36B1936F476002DAFF6 /* ASUserNotificationCenter.h */,
-				304FF36C1936F476002DAFF6 /* ASUserNotificationCenter.m */,
-				304FF36D1936F476002DAFF6 /* ASUserNotificationCenterDelegate.h */,
-				304FF36E1936F476002DAFF6 /* ASUserNotificationDefaultSound.aif */,
-				304FF36F1936F476002DAFF6 /* ASUserNotificationFeature.h */,
-				304FF3701936F476002DAFF6 /* ASUserNotificationFeature.m */,
-			);
-			name = ASUserNotification;
-			path = CNUserNotification/ASUserNotification;
-			sourceTree = "<group>";
-		};
 		305E981C190A713800A4B7FB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3033B6CB194554D70012A6F9 /* ASUserNotification */,
 				30E298E11940603A0082130D /* RispRender */,
-				304FF35F1936F476002DAFF6 /* ASUserNotification */,
 				305E981D190A713800A4B7FB /* RispReaderEvalCore */,
 			);
 			path = Model;
@@ -2000,9 +1999,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3033B6DD194554D70012A6F9 /* AppledocSettings.plist in Resources */,
 				30E68396192326E6003423DE /* SDK.png in Resources */,
 				30E68394192326DA003423DE /* Media.xcassets in Resources */,
-				304FF3DD1936F476002DAFF6 /* ASUserNotificationDefaultSound.aif in Resources */,
 				3046270F1911912100D17F0F /* MainMenu.xib in Resources */,
 				30970F8D18FCF5000091F83D /* InfoPlist.strings in Resources */,
 				305E987F190B8CBC00A4B7FB /* LICENSE in Resources */,
@@ -2010,9 +2009,9 @@
 				30970F9318FCF5000091F83D /* Credits.rtf in Resources */,
 				3065BEC7190EA67B00953287 /* RispREPLAlphaWindowController.xib in Resources */,
 				305E9880190B8CBC00A4B7FB /* README.md in Resources */,
-				304FF3D61936F476002DAFF6 /* AppledocSettings.plist in Resources */,
 				304E04141907C02400E2D438 /* 1.png in Resources */,
 				30EF2CB8190E0E290090BE3C /* RispRenderWindowController.xib in Resources */,
+				3033B6E4194554D70012A6F9 /* ASUserNotificationDefaultSound.aif in Resources */,
 				303C55B0193642A000B9CD8F /* RispHUDWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2171,26 +2170,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				304FF3DC1936F476002DAFF6 /* ASUserNotificationCenter.m in Sources */,
+				3033B6E3194554D70012A6F9 /* ASUserNotificationCenter.m in Sources */,
 				305E9838190B5CF900A4B7FB /* RispWindowBlurer.m in Sources */,
+				3033B6DE194554D70012A6F9 /* ASUserNotification.m in Sources */,
 				30E298E41940603A0082130D /* RispRender.m in Sources */,
-				304FF3D71936F476002DAFF6 /* ASUserNotification.m in Sources */,
+				3033B6E2194554D70012A6F9 /* ASUserNotificationBannerController.m in Sources */,
 				30A58D8E19363BDE00D45D2C /* MDBlackTransparentView.m in Sources */,
-				304FF3DB1936F476002DAFF6 /* ASUserNotificationBannerController.m in Sources */,
 				305E982F190A713800A4B7FB /* RispAutoHideWindow.m in Sources */,
+				3033B6E1194554D70012A6F9 /* ASUserNotificationBannerButtonCell.m in Sources */,
 				30970F9618FCF5000091F83D /* RispAppDelegate.m in Sources */,
-				304FF3DA1936F476002DAFF6 /* ASUserNotificationBannerButtonCell.m in Sources */,
-				304FF3D91936F476002DAFF6 /* ASUserNotificationBannerButton.m in Sources */,
+				3033B6E0194554D70012A6F9 /* ASUserNotificationBannerButton.m in Sources */,
 				30F07E1C1936DFF200BBB5B4 /* TSTTextGrowth.m in Sources */,
 				3065BEC6190EA67B00953287 /* RispREPLAlphaWindowController.m in Sources */,
 				30EF2CB7190E0E290090BE3C /* RispRenderWindowController.m in Sources */,
 				30A58D9A19363C4100D45D2C /* RispTextFieldVCenteredCell.m in Sources */,
-				304FF3DE1936F476002DAFF6 /* ASUserNotificationFeature.m in Sources */,
+				3033B6E5194554D70012A6F9 /* ASUserNotificationFeature.m in Sources */,
 				305E9881190B8CBC00A4B7FB /* RMBlurredView.m in Sources */,
 				30A58D9619363BFE00D45D2C /* RispHUDWindowController.m in Sources */,
 				30A58D8F19363BDE00D45D2C /* MDBorderlessWindow.m in Sources */,
 				305E982A190A713800A4B7FB /* RispReaderEvalCore.m in Sources */,
-				304FF3D81936F476002DAFF6 /* ASUserNotificationBannerBackgroundView.m in Sources */,
+				3033B6DF194554D70012A6F9 /* ASUserNotificationBannerBackgroundView.m in Sources */,
 				30970F8F18FCF5000091F83D /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
