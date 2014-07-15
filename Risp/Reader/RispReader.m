@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 closure. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import <Risp/RispReader.h>
 #import <Risp/RispPushBackReader.h>
 #import <Risp/RispRuntime.h>

@@ -9,7 +9,7 @@
 #import <Risp/RispNilExpression.h>
 #import "RispAbstractSyntaxTree.h"
 #import "RispBaseExpression+ASTDescription.h"
-#import "__RispLLVMFoundation.h"
+
 @implementation RispNilExpression
 - (instancetype)init {
     if (self = [super init]) {

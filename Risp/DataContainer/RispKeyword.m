@@ -7,7 +7,7 @@
 //
 
 #import "RispKeyword.h"
-
+#include <libkern/OSAtomic.h>
 static NSMutableDictionary *__RispKeywordTable = nil;
 static OSSpinLock __RispKeywordTableLock = OS_SPINLOCK_INIT;
 

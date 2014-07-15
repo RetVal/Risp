@@ -19,6 +19,7 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+#if TARGET_OS_MAC
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/InlineAsm.h"
 #include "llvm/IR/LLVMContext.h"
@@ -154,4 +155,5 @@ extern "C" {
     int RispLLVMGetSectionName(LLVMSectionIteratorRef SI, const char ** ptr);
     LLVMTypeRef RispLLVMArrayType(LLVMTypeRef ElementType, uint64_t ElementCount);
 }
+#endif
 #endif

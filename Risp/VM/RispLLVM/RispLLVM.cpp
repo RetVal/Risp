@@ -17,7 +17,7 @@
 // except according to those terms.
 
 #include "RispLLVM.h"
-
+#if TARGET_OS_MAC
 static char *LastError;
 
 extern "C" void RispLLVMSetLastError(const char *err) {
@@ -751,3 +751,4 @@ extern "C" int RispLLVMGetSectionName(LLVMSectionIteratorRef SI, const char **pt
 extern "C" LLVMTypeRef RispLLVMArrayType(LLVMTypeRef ElementType, uint64_t ElementCount) {
     return wrap(ArrayType::get(unwrap(ElementType), ElementCount));
 }
+#endif

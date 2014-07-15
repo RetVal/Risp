@@ -8,7 +8,7 @@
 
 #import <Risp/Risp.h>
 
-@interface RispKeywordInvokeExpression : RispBaseExpression
+@interface RispKeywordInvokeExpression : RispBaseExpression <RispExpression>
 @property (nonatomic, strong, readonly) RispBaseExpression *targetExpression;
 @property (nonatomic, strong, readonly) RispKeywordExpression *keywordExpression;
 - (id)initWithTargetExpression:(RispBaseExpression *)target keyword:(RispKeywordExpression *)keyword;

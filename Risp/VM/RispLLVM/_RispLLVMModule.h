@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#if TARGET_OS_MAC
 #include "llvm-c/Core.h"
 @interface _RispLLVMModule : NSObject
 @property (nonatomic, assign, readonly) LLVMModuleRef module;
 + (instancetype)module:(LLVMModuleRef)llvmModule;
 - (instancetype)initWithLLVMMoudle:(LLVMModuleRef)llvmModule;
 @end
+#endif

@@ -29,8 +29,8 @@
     for (id <RispSequence>s = [object seq]; s; s = [s next]) {
         RispVector *e = [s first];
         
-        RispBaseExpression *k = [RispBaseParser analyze:context form:[e first]];
-        RispBaseExpression *v = [RispBaseParser analyze:context form:[e second]];
+        RispBaseExpression *k = (RispBaseExpression *)[RispBaseParser analyze:context form:[e first]];
+        RispBaseExpression *v = (RispBaseExpression *)[RispBaseParser analyze:context form:[e second]];
         [keyvals addObject:k];
         [keyvals addObject:v];
         
@@ -64,7 +64,6 @@
     }
     RispMapExpression *expr = [[[RispMapExpression alloc] initWithKeyValues:[RispVector listWithObjectsFromArrayNoCopy:keyvals]] copyMetaFromObject:object];
     return expr;
-    return [[RispMapExpression alloc] initWithKeyValues:nil];
 }
 
 - (id)initWithKeyValues:(RispVector *)keyvals {

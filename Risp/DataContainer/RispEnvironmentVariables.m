@@ -7,6 +7,7 @@
 //
 
 // environment variable definition
+
 NSString * const RispEnvCurrentFrameworkDirectory = @"*risp-framework-directory*";
 NSString * const RispEnvCurrentWorkDirectory = @"*risp-work-directory*";
 NSString * const RispEnvWorkDirectory = @"*risp-work-directory*";

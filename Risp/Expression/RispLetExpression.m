@@ -21,7 +21,7 @@
     }
     
     id <RispSequence> seq = object;
-    RispVectorExpression *bindingExpression = [RispBaseParser analyze:[context status] == RispContextEval ? context : ([context setStatus:RispContextExpression] , context) form:[seq second]];
+    RispVectorExpression *bindingExpression = (RispVectorExpression *)[RispBaseParser analyze:[context status] == RispContextEval ? context : ([context setStatus:RispContextExpression] , context) form:[seq second]];
     if (![bindingExpression isKindOfClass:[RispVectorExpression class]]) {
         [NSException raise:RispIllegalArgumentException format:@"%@ is not a vector", [seq second]];
     }
@@ -34,7 +34,7 @@
         if ([seq conformsToProtocol:@protocol(RispSequence)]) {
             seq = [seq first];
         }
-        bodyExpression = [RispBaseParser analyze:context form:seq];
+        bodyExpression = (RispBaseExpression *)[RispBaseParser analyze:context form:seq];
 //        bodyExpression = [RispBodyExpression parser:seq context:context];
     }
     RispLetExpression *letExpression = [[RispLetExpression alloc] initWithBindingExpression:bindingExpression bodyExpression:bodyExpression];

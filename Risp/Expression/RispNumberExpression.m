@@ -9,7 +9,7 @@
 #import "RispNumberExpression.h"
 #import "RispAbstractSyntaxTree.h"
 #import "RispBaseExpression+ASTDescription.h"
-#import "__RispLLVMFoundation.h"
+
 @implementation RispNumberExpression
 + (id<RispExpression>)parser:(id)object context:(RispContext *)context {
     return [[[RispNumberExpression alloc] initWithValue:object] copyMetaFromObject:object];

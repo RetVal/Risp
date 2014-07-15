@@ -9,6 +9,7 @@
 #import <Risp/RispRuntime.h>
 #import <Risp/RispList.h>
 #import <Risp.h>
+#import <Foundation/Foundation.h>
 
 @interface RispRuntime() {
     
@@ -73,7 +74,7 @@
 
 + (id)remove:(id)object pred:(id (^)(id object))pred {
     return [self filter:object pred:^id(id object) {
-        return @(![pred(object) booleanValue]);
+        return @(![pred(object) boolValue]);
     }];
 }
 

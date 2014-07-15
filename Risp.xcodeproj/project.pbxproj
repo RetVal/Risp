@@ -89,7 +89,6 @@
 		304E040B1907822200E2D438 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 304E040A1907822200E2D438 /* main.m */; };
 		304E040F1907822200E2D438 /* RispDotOperationCodeGen.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 304E040E1907822200E2D438 /* RispDotOperationCodeGen.1 */; };
 		304E04141907C02400E2D438 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 304E04131907C02400E2D438 /* 1.png */; };
-		305DA463196172CA004BFB86 /* RispCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305DA462196172CA004BFB86 /* RispCoreTests.swift */; };
 		305E982A190A713800A4B7FB /* RispReaderEvalCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E981F190A713800A4B7FB /* RispReaderEvalCore.m */; };
 		305E982F190A713800A4B7FB /* RispAutoHideWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E9829190A713800A4B7FB /* RispAutoHideWindow.m */; };
 		305E9838190B5CF900A4B7FB /* RispWindowBlurer.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E9837190B5CF900A4B7FB /* RispWindowBlurer.m */; };
@@ -388,7 +387,7 @@
 		30EF2CB7190E0E290090BE3C /* RispRenderWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EF2CB5190E0E290090BE3C /* RispRenderWindowController.m */; };
 		30EF2CB8190E0E290090BE3C /* RispRenderWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30EF2CB6190E0E290090BE3C /* RispRenderWindowController.xib */; };
 		30F07E1C1936DFF200BBB5B4 /* TSTTextGrowth.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F07E1B1936DFF200BBB5B4 /* TSTTextGrowth.m */; };
-		30F344351928FA1000A3DF56 /* RispCharSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 30F344331928FA1000A3DF56 /* RispCharSequence.h */; };
+		30F344351928FA1000A3DF56 /* RispCharSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 30F344331928FA1000A3DF56 /* RispCharSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30F344361928FA1000A3DF56 /* RispCharSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F344341928FA1000A3DF56 /* RispCharSequence.m */; };
 		30F3F81C1920815F005139E8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F3F81B1920815F005139E8 /* CoreFoundation.framework */; };
 		30F3F820192085BC005139E8 /* __RispFXHookNSCFBoolean.h in Headers */ = {isa = PBXBuildFile; fileRef = 30F3F81E192085BC005139E8 /* __RispFXHookNSCFBoolean.h */; };
@@ -648,9 +647,6 @@
 		304E040D1907822200E2D438 /* RispDotOperationCodeGen-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RispDotOperationCodeGen-Prefix.pch"; sourceTree = "<group>"; };
 		304E040E1907822200E2D438 /* RispDotOperationCodeGen.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = RispDotOperationCodeGen.1; sourceTree = "<group>"; };
 		304E04131907C02400E2D438 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
-		305DA45B196172CA004BFB86 /* RispCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RispCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		305DA461196172CA004BFB86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		305DA462196172CA004BFB86 /* RispCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RispCoreTests.swift; sourceTree = "<group>"; };
 		305E981E190A713800A4B7FB /* RispReaderEvalCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispReaderEvalCore.h; sourceTree = "<group>"; };
 		305E981F190A713800A4B7FB /* RispReaderEvalCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispReaderEvalCore.m; sourceTree = "<group>"; };
 		305E9828190A713800A4B7FB /* RispAutoHideWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispAutoHideWindow.h; sourceTree = "<group>"; };
@@ -999,13 +995,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		305DA458196172CA004BFB86 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		30805EB018FEA20800D51EE7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1156,23 +1145,6 @@
 			isa = PBXGroup;
 			children = (
 				304E040D1907822200E2D438 /* RispDotOperationCodeGen-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		305DA45F196172CA004BFB86 /* RispCoreTests */ = {
-			isa = PBXGroup;
-			children = (
-				305DA462196172CA004BFB86 /* RispCoreTests.swift */,
-				305DA460196172CA004BFB86 /* Supporting Files */,
-			);
-			path = RispCoreTests;
-			sourceTree = "<group>";
-		};
-		305DA460196172CA004BFB86 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				305DA461196172CA004BFB86 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1457,7 +1429,6 @@
 				3065BEC8190EA6D900953287 /* RispRenderFoundation */,
 				304E04091907822200E2D438 /* RispDotOperationCodeGen */,
 				30970F8818FCF5000091F83D /* RispReader */,
-				305DA45F196172CA004BFB86 /* RispCoreTests */,
 				30970F0818FCE2830091F83D /* Frameworks */,
 				30970F0718FCE2830091F83D /* Products */,
 			);
@@ -1471,7 +1442,6 @@
 				300CB30B18FE436000ABC71C /* RispRenderFoundation.framework */,
 				30805EB418FEA20800D51EE7 /* RispKeyboardBinding.framework */,
 				304E04061907822200E2D438 /* RispDotOperationCodeGen */,
-				305DA45B196172CA004BFB86 /* RispCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1790,6 +1760,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30F344351928FA1000A3DF56 /* RispCharSequence.h in Headers */,
 				30D8DA1B18FECDE700477849 /* RispBaseReader.h in Headers */,
 				30D8DA3318FECDE700477849 /* RispWrappingReader.h in Headers */,
 				30D8DA2D18FECDE700477849 /* RispTokenReader.h in Headers */,
@@ -1854,7 +1825,6 @@
 				30E6839D192338F5003423DE /* RispMap.h in Headers */,
 				3062573D1924692E00518B60 /* RispDispatchReader.h in Headers */,
 				30E68399192338BA003423DE /* RispMapReader.h in Headers */,
-				30F344351928FA1000A3DF56 /* RispCharSequence.h in Headers */,
 				30E683821921EEB6003423DE /* RispIfExpression.h in Headers */,
 				30E683861921F07F003423DE /* RispConstantExpression.h in Headers */,
 				30001E59192E0C1700A11BCD /* RispFnProtocol.h in Headers */,
@@ -1911,23 +1881,6 @@
 			productName = RispDotOperationCodeGen;
 			productReference = 304E04061907822200E2D438 /* RispDotOperationCodeGen */;
 			productType = "com.apple.product-type.tool";
-		};
-		305DA45A196172CA004BFB86 /* RispCoreTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 305DA469196172CA004BFB86 /* Build configuration list for PBXNativeTarget "RispCoreTests" */;
-			buildPhases = (
-				305DA457196172CA004BFB86 /* Sources */,
-				305DA458196172CA004BFB86 /* Frameworks */,
-				305DA459196172CA004BFB86 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = RispCoreTests;
-			productName = RispCoreTests;
-			productReference = 305DA45B196172CA004BFB86 /* RispCoreTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		30805EB318FEA20800D51EE7 /* RispKeyboardBinding */ = {
 			isa = PBXNativeTarget;
@@ -1997,12 +1950,6 @@
 				CLASSPREFIX = Risp;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = closure;
-				TargetAttributes = {
-					305DA45A196172CA004BFB86 = {
-						CreatedOnToolsVersion = 6.0;
-						TestTargetID = 305DA450196172CA004BFB86;
-					};
-				};
 			};
 			buildConfigurationList = 30970F0018FCE2820091F83D /* Build configuration list for PBXProject "Risp" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2022,7 +1969,6 @@
 				30805EB318FEA20800D51EE7 /* RispKeyboardBinding */,
 				30970F8518FCF5000091F83D /* RispReader */,
 				304E04051907822200E2D438 /* RispDotOperationCodeGen */,
-				305DA45A196172CA004BFB86 /* RispCoreTests */,
 			);
 		};
 /* End PBXProject section */
@@ -2045,13 +1991,6 @@
 				3065BFBC190EA6DA00953287 /* RispRenderFoundationGoToLine.xib in Resources */,
 				3065BF80190EA6DA00953287 /* InfoPlist.strings in Resources */,
 				3065BFB0190EA6DA00953287 /* RispRenderFoundationCommandResult.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		305DA459196172CA004BFB86 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2152,14 +2091,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				304E040B1907822200E2D438 /* main.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		305DA457196172CA004BFB86 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				305DA463196172CA004BFB86 /* RispCoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2419,45 +2350,6 @@
 			};
 			name = Release;
 		};
-		305DA466196172CA004BFB86 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = RispCoreTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				METAL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		305DA467196172CA004BFB86 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = RispCoreTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				METAL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		30805ED218FEA20800D51EE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2621,7 +2513,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Library/3rd/llvm/include\" \"$(SRCROOT)/../Library/3rd/llvm/build/include\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../Library/3rd/llvm/include\" \"$(SRCROOT)/../../Library/3rd/llvm/build/include\"";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -2658,7 +2550,7 @@
 					"$(PROJECT_DIR)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Library/3rd/llvm/include\" \"$(SRCROOT)/../Library/3rd/llvm/build/include\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../Library/3rd/llvm/include\" \"$(SRCROOT)/../../Library/3rd/llvm/build/include\"";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -2688,7 +2580,7 @@
 				);
 				INFOPLIST_FILE = "RispReader/RispReader-Info.plist";
 				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/ @loader_path/Frameworks/ $(HOME)/Library/Frameworks/ /Library/Frameworks/";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/ @loader_path/Frameworks/ $(HOME)/Library/Frameworks/ /Library/Frameworks/ @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2717,7 +2609,7 @@
 				);
 				INFOPLIST_FILE = "RispReader/RispReader-Info.plist";
 				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/ @loader_path/Frameworks/ $(HOME)/Library/Frameworks/ /Library/Frameworks/";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/ @loader_path/Frameworks/ $(HOME)/Library/Frameworks/ /Library/Frameworks/ @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2740,15 +2632,6 @@
 			buildConfigurations = (
 				304E04101907822200E2D438 /* Debug */,
 				304E04111907822200E2D438 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		305DA469196172CA004BFB86 /* Build configuration list for PBXNativeTarget "RispCoreTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				305DA466196172CA004BFB86 /* Debug */,
-				305DA467196172CA004BFB86 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

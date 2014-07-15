@@ -19,6 +19,11 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>RispMobile.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
 		<key>RispReader.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -53,6 +58,26 @@
 			<true/>
 		</dict>
 		<key>305DA45A196172CA004BFB86</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>306608AB19750EF4009EC939</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>306608B519750EF4009EC939</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>30660B5319751301009EC939</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>30660B5D19751301009EC939</key>
 		<dict>
 			<key>primary</key>
 			<true/>

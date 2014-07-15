@@ -20,3 +20,10 @@
 + (NSString *)decriptionForExpression:(id <RispExpression>)expression;
 + (void)show:(id)object;
 @end
+
+#if TARGET_OS_IPHONE
+@interface NSObject (className)
+- (NSString *)className;
+- (BOOL)isEqualTo:(id)object;
+@end
+#endif

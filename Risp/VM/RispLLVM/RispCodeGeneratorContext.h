@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#if TARGET_OS_MAC
 #include "llvm-c/Core.h"
-
 @class RispContext;
 @interface RispCodeGeneratorContext : NSObject
 @property (nonatomic, strong, readonly) RispContext *rispContext;
@@ -21,3 +21,4 @@
 - (void)pushModule:(LLVMModuleRef)moduleToPush;
 - (void)popMoudle;
 @end
+#endif

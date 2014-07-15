@@ -7,7 +7,7 @@
 //
 
 #import <Risp/RispSymbol.h>
-
+#include <libkern/OSAtomic.h>
 static NSMutableDictionary *__RispSymbolTable = nil;
 static OSSpinLock __RispSymbolTableLock = OS_SPINLOCK_INIT;
 
