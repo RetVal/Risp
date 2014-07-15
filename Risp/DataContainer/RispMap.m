@@ -135,6 +135,12 @@ static RispMap *__RispEmptyMap;
     return map;
 }
 
+- (BOOL)respondsToSelector:(SEL)aSelector {
+    if (class_respondsToSelector([self class], aSelector))
+        return YES;
+    return [_dictionary respondsToSelector:aSelector];
+}
+
 - (id)forwardingTargetForSelector:(SEL)aSelector {
     struct objc_method_description md = protocol_getMethodDescription(@protocol(RispSequence), aSelector, YES, YES);
     if (md.name) {

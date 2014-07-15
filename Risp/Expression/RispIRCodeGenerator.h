@@ -7,9 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Risp/RispCodeGeneratorContext.h>
 
-@class RispCodeGeneratorContext;
 @protocol RispIRCodeGenerator <NSObject>
-- (LLVMValueRef)generateCode:(RispCodeGeneratorContext *)context;
+- (void *)generateCode:(id)context; // RispCodeGeneratorContext
 @end

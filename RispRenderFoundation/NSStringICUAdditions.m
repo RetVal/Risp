@@ -76,12 +76,12 @@ typedef struct URegularExpression URegularExpression;
 	return CFStringConvertEncodingToNSStringEncoding(stringEncoding);
 }
 
--(void *)UTF16String {
+-(__strong char *)UTF16String {
 	NSUInteger length = [self length];
 	UChar *utf16String = NSAllocateCollectable((length+1)*sizeof(UChar), 0);
 	[self getCharacters:utf16String range:NSMakeRange(0, length)];
 	utf16String[length] = 0;
-	return utf16String;
+	return (char *)utf16String;
 }
 
 -(void *)copyUTF16String {

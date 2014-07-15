@@ -11,7 +11,6 @@
 #import <Risp/RispLexicalScope.h>
 #import <Risp/RispList.h>
 #import <Risp/RispContext.h>
-
 @interface RispRuntime : NSObject
 @property (strong, nonatomic, readonly) RispLexicalScope *rootScope;
 @property (assign, nonatomic, readonly, getter = isDeref) id defref;

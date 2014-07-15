@@ -8,7 +8,7 @@
 
 #import "RispAppDelegate.h"
 #import <Risp/RispSymbol.h>
-#import <Risp/RispList.h>
+#import <Risp/RispAbstractSyntaxTree.h>
 
 #import "RispRenderWindowController.h"
 #import "RispREPLAlphaWindowController.h"

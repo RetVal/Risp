@@ -12,12 +12,12 @@
 		<key>RispDotOperationCodeGen.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>5</integer>
+			<integer>4</integer>
 		</dict>
 		<key>RispKeyboardBinding.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>3</integer>
 		</dict>
 		<key>RispReader.xcscheme</key>
 		<dict>
@@ -27,7 +27,7 @@
 		<key>RispRenderFoundation.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -43,6 +43,16 @@
 			<true/>
 		</dict>
 		<key>304E04051907822200E2D438</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>305DA450196172CA004BFB86</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>305DA45A196172CA004BFB86</key>
 		<dict>
 			<key>primary</key>
 			<true/>

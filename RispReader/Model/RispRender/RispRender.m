@@ -20,6 +20,19 @@
                 [mas appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
         }];
         return mas;
+    } else if ([object respondsToSelector:@selector(enumerateKeysAndObjectsUsingBlock:)]) {
+        NSMutableAttributedString *mas = [[NSMutableAttributedString alloc] init];
+        NSInteger cnt = [object count];
+        NSInteger __block idx = 0;
+        [object enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            [mas appendAttributedString:[key render]];
+            [mas appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+            [mas appendAttributedString:[obj render]];
+            if (idx + 1 < cnt)
+                [mas appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+            idx++;
+        }];
+        return mas;
     }
     return [object render];
 }

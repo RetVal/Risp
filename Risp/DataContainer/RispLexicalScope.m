@@ -22,8 +22,8 @@
     @private
     OSSpinLock _lock;
     __strong NSMutableDictionary *_scope;
-    RispLexicalScope *_outer;
-    RispLexicalScope *_inner;
+    __weak RispLexicalScope *_outer;
+    __strong RispLexicalScope *_inner;
     NSUInteger _depth;
 }
 
@@ -50,14 +50,15 @@
     if (self = [super init]) {
         _depth = 0;
         _scope = [[NSMutableDictionary alloc] init];
-        _inner = [inner retain];
+        _inner = inner;
         _outer = outer;
 //        _outer = [outer retain];
         if (outer) {
             OSSpinLockLock(&outer->_lock);
             _depth = _outer->_depth + 1;
-            if (outer->_inner) [outer->_inner release];
-            outer->_inner = [self retain];
+            if (outer->_inner)
+                outer->_inner = nil;
+            outer->_inner = self;
             OSSpinLockUnlock(&outer->_lock);
         }
     }
@@ -67,20 +68,20 @@
 - (void)dealloc {
     OSSpinLockLock(&_lock);
     
-    [_scope release];
+//    [_scope release];
     _scope = nil;
     
-    [_inner release];
+//    [_inner release];
     _inner = nil;
     
-    [_exception release];
+//    [_exception release];
     _exception = nil;
     
     if (_outer) {
         _outer->_inner = nil;
     }
     OSSpinLockUnlock(&_lock);
-    [super dealloc];
+//    [super dealloc];
 }
 
 - (id)objectForKey:(RispSymbol *)symbol {
@@ -169,7 +170,7 @@
     RispLexicalScope *copy = [[RispLexicalScope alloc] init];
     copy->_depth = _depth;
     copy->_scope = [_scope mutableCopy];
-    copy->_outer = [_outer mutableCopy];
+//    copy->_outer = [_outer mutableCopy];
     if (copy->_depth) {
         copy->_outer->_inner = copy;
     }

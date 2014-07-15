@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Risp/RispIRCodeGenerator.h>
 
 @class RispContext;
 @protocol RispExpression <NSObject, NSCopying>
@@ -15,7 +16,7 @@
 - (id)eval;
 - (id)copyMetaFromObject:(id)object;
 @end
-@interface RispBaseExpression : NSObject <RispExpression>
+@interface RispBaseExpression : NSObject <RispExpression, RispIRCodeGenerator>
 - (id)eval;
 - (NSString *)description;
 @end

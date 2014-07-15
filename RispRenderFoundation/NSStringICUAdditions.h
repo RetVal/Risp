@@ -32,7 +32,7 @@
  other words, if you want to keep this string around beyond the given autorelease
  context, you need to copy the returned string.
 */
--(void *)UTF16String;
+-(__strong char*)UTF16String NS_RETURNS_INNER_POINTER;
 
 
 /*!

@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "llvm-c/Core.h"
+#include "llvm-c/Core.h"
 
+@class RispContext;
 @interface RispCodeGeneratorContext : NSObject
 @property (nonatomic, strong, readonly) RispContext *rispContext;
 @property (nonatomic, assign, readonly) LLVMContextRef llvmContext;

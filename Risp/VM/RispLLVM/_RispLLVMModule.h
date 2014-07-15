@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#include "llvm-c/Core.h"
 @interface _RispLLVMModule : NSObject
 @property (nonatomic, assign, readonly) LLVMModuleRef module;
 + (instancetype)module:(LLVMModuleRef)llvmModule;
