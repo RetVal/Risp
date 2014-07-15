@@ -1,0 +1,1088 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		301F6315197523BC002CB93C /* RispIRCodeGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F626B197523BC002CB93C /* RispIRCodeGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6316197523BC002CB93C /* RispInvokeProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F626C197523BC002CB93C /* RispInvokeProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6317197523BC002CB93C /* RispFnProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F626D197523BC002CB93C /* RispFnProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6318197523BC002CB93C /* RispBaseExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F626E197523BC002CB93C /* RispBaseExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6319197523BC002CB93C /* RispBaseExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F626F197523BC002CB93C /* RispBaseExpression.m */; };
+		301F631A197523BC002CB93C /* RispBaseExpression+ASTDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6270197523BC002CB93C /* RispBaseExpression+ASTDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F631B197523BC002CB93C /* RispBaseExpression+ASTDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6271197523BC002CB93C /* RispBaseExpression+ASTDescription.m */; };
+		301F631C197523BC002CB93C /* RispLiteralExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6272197523BC002CB93C /* RispLiteralExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F631D197523BC002CB93C /* RispLiteralExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6273197523BC002CB93C /* RispLiteralExpression.m */; };
+		301F631E197523BC002CB93C /* RispNilExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6274197523BC002CB93C /* RispNilExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F631F197523BC002CB93C /* RispNilExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6275197523BC002CB93C /* RispNilExpression.m */; };
+		301F6320197523BC002CB93C /* RispTrueExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6276197523BC002CB93C /* RispTrueExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6321197523BC002CB93C /* RispTrueExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6277197523BC002CB93C /* RispTrueExpression.m */; };
+		301F6322197523BC002CB93C /* RispFalseExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6278197523BC002CB93C /* RispFalseExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6323197523BC002CB93C /* RispFalseExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6279197523BC002CB93C /* RispFalseExpression.m */; };
+		301F6324197523BC002CB93C /* RispKeywordExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F627A197523BC002CB93C /* RispKeywordExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6325197523BC002CB93C /* RispKeywordExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F627B197523BC002CB93C /* RispKeywordExpression.m */; };
+		301F6326197523BC002CB93C /* RispMapExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F627C197523BC002CB93C /* RispMapExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6327197523BC002CB93C /* RispMapExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F627D197523BC002CB93C /* RispMapExpression.m */; };
+		301F6328197523BC002CB93C /* RispNumberExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F627E197523BC002CB93C /* RispNumberExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6329197523BC002CB93C /* RispNumberExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F627F197523BC002CB93C /* RispNumberExpression.m */; };
+		301F632A197523BC002CB93C /* RispStringExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6280197523BC002CB93C /* RispStringExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F632B197523BC002CB93C /* RispStringExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6281197523BC002CB93C /* RispStringExpression.m */; };
+		301F632C197523BC002CB93C /* RispVectorExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6282197523BC002CB93C /* RispVectorExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F632D197523BC002CB93C /* RispVectorExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6283197523BC002CB93C /* RispVectorExpression.m */; };
+		301F632E197523BC002CB93C /* RispFnExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6284197523BC002CB93C /* RispFnExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F632F197523BC002CB93C /* RispFnExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6285197523BC002CB93C /* RispFnExpression.m */; };
+		301F6330197523BC002CB93C /* RispMethodExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6286197523BC002CB93C /* RispMethodExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6331197523BC002CB93C /* RispMethodExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6287197523BC002CB93C /* RispMethodExpression.m */; };
+		301F6332197523BC002CB93C /* RispBodyExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6288197523BC002CB93C /* RispBodyExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6333197523BC002CB93C /* RispBodyExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6289197523BC002CB93C /* RispBodyExpression.m */; };
+		301F6334197523BC002CB93C /* RispKeywordInvokeExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F628A197523BC002CB93C /* RispKeywordInvokeExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6335197523BC002CB93C /* RispKeywordInvokeExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F628B197523BC002CB93C /* RispKeywordInvokeExpression.m */; };
+		301F6336197523BC002CB93C /* RispDotExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F628C197523BC002CB93C /* RispDotExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6337197523BC002CB93C /* RispDotExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F628D197523BC002CB93C /* RispDotExpression.m */; };
+		301F6338197523BC002CB93C /* RispBlockExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F628E197523BC002CB93C /* RispBlockExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6339197523BC002CB93C /* RispBlockExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F628F197523BC002CB93C /* RispBlockExpression.m */; };
+		301F633A197523BC002CB93C /* RispIfExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6290197523BC002CB93C /* RispIfExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F633B197523BC002CB93C /* RispIfExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6291197523BC002CB93C /* RispIfExpression.m */; };
+		301F633C197523BC002CB93C /* RispDefExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6292197523BC002CB93C /* RispDefExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F633D197523BC002CB93C /* RispDefExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6293197523BC002CB93C /* RispDefExpression.m */; };
+		301F633E197523BC002CB93C /* RispDefnExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6294197523BC002CB93C /* RispDefnExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F633F197523BC002CB93C /* RispDefnExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6295197523BC002CB93C /* RispDefnExpression.m */; };
+		301F6340197523BC002CB93C /* RispConstantExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6296197523BC002CB93C /* RispConstantExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6341197523BC002CB93C /* RispConstantExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6297197523BC002CB93C /* RispConstantExpression.m */; };
+		301F6342197523BC002CB93C /* RispClosureExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6298197523BC002CB93C /* RispClosureExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6343197523BC002CB93C /* RispClosureExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6299197523BC002CB93C /* RispClosureExpression.m */; };
+		301F6344197523BC002CB93C /* RispInvokeExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F629A197523BC002CB93C /* RispInvokeExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6345197523BC002CB93C /* RispInvokeExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F629B197523BC002CB93C /* RispInvokeExpression.m */; };
+		301F6346197523BC002CB93C /* RispLetExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F629C197523BC002CB93C /* RispLetExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6347197523BC002CB93C /* RispLetExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F629D197523BC002CB93C /* RispLetExpression.m */; };
+		301F6348197523BC002CB93C /* RispAbstractSyntaxTree.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F629E197523BC002CB93C /* RispAbstractSyntaxTree.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6349197523BC002CB93C /* RispAbstractSyntaxTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F629F197523BC002CB93C /* RispAbstractSyntaxTree.m */; };
+		301F634A197523BC002CB93C /* init.risp in Resources */ = {isa = PBXBuildFile; fileRef = 301F62A1197523BC002CB93C /* init.risp */; };
+		301F634B197523BC002CB93C /* RispEnvironmentVariables.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62A3197523BC002CB93C /* RispEnvironmentVariables.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F634C197523BC002CB93C /* RispEnvironmentVariables.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62A4197523BC002CB93C /* RispEnvironmentVariables.m */; };
+		301F634D197523BC002CB93C /* RispKeyword.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62A5197523BC002CB93C /* RispKeyword.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F634E197523BC002CB93C /* RispKeyword.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62A6197523BC002CB93C /* RispKeyword.m */; };
+		301F634F197523BC002CB93C /* RispLexicalScope.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62A7197523BC002CB93C /* RispLexicalScope.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6350197523BC002CB93C /* RispLexicalScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62A8197523BC002CB93C /* RispLexicalScope.m */; };
+		301F6351197523BC002CB93C /* RispList.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62A9197523BC002CB93C /* RispList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6352197523BC002CB93C /* RispList.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62AA197523BC002CB93C /* RispList.m */; };
+		301F6353197523BC002CB93C /* RispSequenceProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62AB197523BC002CB93C /* RispSequenceProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6354197523BC002CB93C /* RispSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62AC197523BC002CB93C /* RispSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6355197523BC002CB93C /* RispSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62AD197523BC002CB93C /* RispSequence.m */; };
+		301F6356197523BC002CB93C /* RispSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62AE197523BC002CB93C /* RispSymbol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6357197523BC002CB93C /* RispSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62AF197523BC002CB93C /* RispSymbol.m */; };
+		301F6358197523BC002CB93C /* RispSymbol+BIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62B0197523BC002CB93C /* RispSymbol+BIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6359197523BC002CB93C /* RispSymbol+BIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62B1197523BC002CB93C /* RispSymbol+BIF.m */; };
+		301F635A197523BC002CB93C /* RispToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62B2197523BC002CB93C /* RispToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F635B197523BC002CB93C /* RispToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62B3197523BC002CB93C /* RispToken.m */; };
+		301F635C197523BC002CB93C /* RispVector.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62B4197523BC002CB93C /* RispVector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F635D197523BC002CB93C /* RispVector.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62B5197523BC002CB93C /* RispVector.m */; };
+		301F635E197523BC002CB93C /* RispMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62B6197523BC002CB93C /* RispMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F635F197523BC002CB93C /* RispMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62B7197523BC002CB93C /* RispMap.m */; };
+		301F6360197523BC002CB93C /* RispLazySequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62B8197523BC002CB93C /* RispLazySequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6361197523BC002CB93C /* RispLazySequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62B9197523BC002CB93C /* RispLazySequence.m */; };
+		301F6362197523BC002CB93C /* NSObject+RispMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62BA197523BC002CB93C /* NSObject+RispMeta.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6363197523BC002CB93C /* NSObject+RispMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62BB197523BC002CB93C /* NSObject+RispMeta.m */; };
+		301F6364197523BC002CB93C /* RispMetaKeyDefinition.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62BC197523BC002CB93C /* RispMetaKeyDefinition.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6365197523BC002CB93C /* RispMetaKeyDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62BD197523BC002CB93C /* RispMetaKeyDefinition.m */; };
+		301F6366197523BC002CB93C /* RispVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62BE197523BC002CB93C /* RispVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6367197523BC002CB93C /* RispVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62BF197523BC002CB93C /* RispVariable.m */; };
+		301F6368197523BC002CB93C /* RispCharSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62C0197523BC002CB93C /* RispCharSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6369197523BC002CB93C /* RispCharSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62C1197523BC002CB93C /* RispCharSequence.m */; };
+		301F636A197523BC002CB93C /* Risp+DEBUG.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62C3197523BC002CB93C /* Risp+DEBUG.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F636B197523BC002CB93C /* Risp+DEBUG.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62C4197523BC002CB93C /* Risp+DEBUG.m */; };
+		301F636C197523BC002CB93C /* __RispFXNSString.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62C5197523BC002CB93C /* __RispFXNSString.h */; };
+		301F636D197523BC002CB93C /* __RispFXNSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62C6197523BC002CB93C /* __RispFXNSString.m */; };
+		301F636E197523BC002CB93C /* __RispFXHookNSCFBoolean.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62C7197523BC002CB93C /* __RispFXHookNSCFBoolean.h */; };
+		301F636F197523BC002CB93C /* __RispFXHookNSCFBoolean.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62C8197523BC002CB93C /* __RispFXHookNSCFBoolean.m */; };
+		301F6370197523BC002CB93C /* NSNull+Risp.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62C9197523BC002CB93C /* NSNull+Risp.h */; };
+		301F6371197523BC002CB93C /* NSNull+Risp.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62CA197523BC002CB93C /* NSNull+Risp.m */; };
+		301F6372197523BD002CB93C /* NSDecimalNumber+Math.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62CB197523BC002CB93C /* NSDecimalNumber+Math.h */; };
+		301F6373197523BD002CB93C /* NSDecimalNumber+Math.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62CC197523BC002CB93C /* NSDecimalNumber+Math.m */; };
+		301F6374197523BD002CB93C /* RispFixupHook.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62CD197523BC002CB93C /* RispFixupHook.h */; };
+		301F6375197523BD002CB93C /* RispFixupHook.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62CE197523BC002CB93C /* RispFixupHook.m */; };
+		301F6376197523BD002CB93C /* RispBodyParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62D0197523BC002CB93C /* RispBodyParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6377197523BD002CB93C /* RispBodyParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62D1197523BC002CB93C /* RispBodyParser.m */; };
+		301F6378197523BD002CB93C /* RispBaseParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62D2197523BC002CB93C /* RispBaseParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6379197523BD002CB93C /* RispBaseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62D3197523BC002CB93C /* RispBaseParser.m */; };
+		301F637A197523BD002CB93C /* RispBaseReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62D5197523BC002CB93C /* RispBaseReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F637B197523BD002CB93C /* RispBaseReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62D6197523BC002CB93C /* RispBaseReader.m */; };
+		301F637C197523BD002CB93C /* RispDispatchReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62D7197523BC002CB93C /* RispDispatchReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F637D197523BD002CB93C /* RispDispatchReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62D8197523BC002CB93C /* RispDispatchReader.m */; };
+		301F637E197523BD002CB93C /* RispCommentReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62D9197523BC002CB93C /* RispCommentReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F637F197523BD002CB93C /* RispCommentReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62DA197523BC002CB93C /* RispCommentReader.m */; };
+		301F6380197523BD002CB93C /* RispListReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62DB197523BC002CB93C /* RispListReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6381197523BD002CB93C /* RispListReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62DC197523BC002CB93C /* RispListReader.m */; };
+		301F6382197523BD002CB93C /* RispNumberReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62DD197523BC002CB93C /* RispNumberReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6383197523BD002CB93C /* RispNumberReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62DE197523BC002CB93C /* RispNumberReader.m */; };
+		301F6384197523BD002CB93C /* RispRegexReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62DF197523BC002CB93C /* RispRegexReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6385197523BD002CB93C /* RispRegexReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62E0197523BC002CB93C /* RispRegexReader.m */; };
+		301F6386197523BD002CB93C /* RispStringReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62E1197523BC002CB93C /* RispStringReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6387197523BD002CB93C /* RispStringReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62E2197523BC002CB93C /* RispStringReader.m */; };
+		301F6388197523BD002CB93C /* RispSyntaxQuoteReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62E3197523BC002CB93C /* RispSyntaxQuoteReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6389197523BD002CB93C /* RispSyntaxQuoteReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62E4197523BC002CB93C /* RispSyntaxQuoteReader.m */; };
+		301F638A197523BD002CB93C /* RispTokenReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62E5197523BC002CB93C /* RispTokenReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F638B197523BD002CB93C /* RispTokenReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62E6197523BC002CB93C /* RispTokenReader.m */; };
+		301F638C197523BD002CB93C /* RispUnmatchedDelimiterReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62E7197523BC002CB93C /* RispUnmatchedDelimiterReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F638D197523BD002CB93C /* RispUnmatchedDelimiterReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62E8197523BC002CB93C /* RispUnmatchedDelimiterReader.m */; };
+		301F638E197523BD002CB93C /* RispUnquoteReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62E9197523BC002CB93C /* RispUnquoteReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F638F197523BD002CB93C /* RispUnquoteReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62EA197523BC002CB93C /* RispUnquoteReader.m */; };
+		301F6390197523BD002CB93C /* RispWrappingReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62EB197523BC002CB93C /* RispWrappingReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6391197523BD002CB93C /* RispWrappingReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62EC197523BC002CB93C /* RispWrappingReader.m */; };
+		301F6392197523BD002CB93C /* RispAnonymousFunctionReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62ED197523BC002CB93C /* RispAnonymousFunctionReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6393197523BD002CB93C /* RispAnonymousFunctionReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62EE197523BC002CB93C /* RispAnonymousFunctionReader.m */; };
+		301F6394197523BD002CB93C /* RispArgumentsReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62EF197523BC002CB93C /* RispArgumentsReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6395197523BD002CB93C /* RispArgumentsReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62F0197523BC002CB93C /* RispArgumentsReader.m */; };
+		301F6396197523BD002CB93C /* RispVectorReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62F1197523BC002CB93C /* RispVectorReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6397197523BD002CB93C /* RispVectorReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62F2197523BC002CB93C /* RispVectorReader.m */; };
+		301F6398197523BD002CB93C /* RispMapReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62F3197523BC002CB93C /* RispMapReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F6399197523BD002CB93C /* RispMapReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62F4197523BC002CB93C /* RispMapReader.m */; };
+		301F639A197523BD002CB93C /* RispPushBackReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62F5197523BC002CB93C /* RispPushBackReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F639B197523BD002CB93C /* RispPushBackReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62F6197523BC002CB93C /* RispPushBackReader.m */; };
+		301F639C197523BD002CB93C /* RispReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62F7197523BC002CB93C /* RispReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F639D197523BD002CB93C /* RispReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62F8197523BC002CB93C /* RispReader.m */; };
+		301F639E197523BD002CB93C /* Risp.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62FA197523BC002CB93C /* Risp.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F639F197523BD002CB93C /* Risp.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62FB197523BC002CB93C /* Risp.m */; };
+		301F63A4197523BD002CB93C /* RispCompiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6302197523BC002CB93C /* RispCompiler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F63A5197523BD002CB93C /* RispCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6303197523BC002CB93C /* RispCompiler.m */; };
+		301F63A6197523BD002CB93C /* RispContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6304197523BC002CB93C /* RispContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F63A7197523BD002CB93C /* RispContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6305197523BC002CB93C /* RispContext.m */; };
+		301F63B0197523BD002CB93C /* RispLocalBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F630F197523BC002CB93C /* RispLocalBinding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F63B1197523BD002CB93C /* RispLocalBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6310197523BC002CB93C /* RispLocalBinding.m */; };
+		301F63B2197523BD002CB93C /* RispRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F6311197523BC002CB93C /* RispRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		301F63B3197523BD002CB93C /* RispRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F6312197523BC002CB93C /* RispRuntime.m */; };
+		301F63B819752409002CB93C /* Risp+DEBUG.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F63B519752409002CB93C /* Risp+DEBUG.m */; };
+		301F63B919752409002CB93C /* Risp-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 301F63B619752409002CB93C /* Risp-Prefix.pch */; };
+		301F63BC1975255B002CB93C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301F63BA1975255B002CB93C /* CoreFoundation.framework */; };
+		301F63BD1975255B002CB93C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301F63BB1975255B002CB93C /* Foundation.framework */; };
+		301F63C719752823002CB93C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F63C619752823002CB93C /* main.m */; };
+		301F63CA19752823002CB93C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F63C919752823002CB93C /* AppDelegate.m */; };
+		301F63CD19752823002CB93C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F63CC19752823002CB93C /* ViewController.m */; };
+		301F63D019752823002CB93C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 301F63CE19752823002CB93C /* Main.storyboard */; };
+		301F63D219752823002CB93C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 301F63D119752823002CB93C /* Images.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		301F624F197522DF002CB93C /* Risp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Risp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		301F6253197522DF002CB93C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		301F626B197523BC002CB93C /* RispIRCodeGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispIRCodeGenerator.h; sourceTree = "<group>"; };
+		301F626C197523BC002CB93C /* RispInvokeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispInvokeProtocol.h; sourceTree = "<group>"; };
+		301F626D197523BC002CB93C /* RispFnProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispFnProtocol.h; sourceTree = "<group>"; };
+		301F626E197523BC002CB93C /* RispBaseExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBaseExpression.h; sourceTree = "<group>"; };
+		301F626F197523BC002CB93C /* RispBaseExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispBaseExpression.m; sourceTree = "<group>"; };
+		301F6270197523BC002CB93C /* RispBaseExpression+ASTDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RispBaseExpression+ASTDescription.h"; sourceTree = "<group>"; };
+		301F6271197523BC002CB93C /* RispBaseExpression+ASTDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RispBaseExpression+ASTDescription.m"; sourceTree = "<group>"; };
+		301F6272197523BC002CB93C /* RispLiteralExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispLiteralExpression.h; sourceTree = "<group>"; };
+		301F6273197523BC002CB93C /* RispLiteralExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispLiteralExpression.m; sourceTree = "<group>"; };
+		301F6274197523BC002CB93C /* RispNilExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispNilExpression.h; sourceTree = "<group>"; };
+		301F6275197523BC002CB93C /* RispNilExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispNilExpression.m; sourceTree = "<group>"; };
+		301F6276197523BC002CB93C /* RispTrueExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispTrueExpression.h; sourceTree = "<group>"; };
+		301F6277197523BC002CB93C /* RispTrueExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispTrueExpression.m; sourceTree = "<group>"; };
+		301F6278197523BC002CB93C /* RispFalseExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispFalseExpression.h; sourceTree = "<group>"; };
+		301F6279197523BC002CB93C /* RispFalseExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispFalseExpression.m; sourceTree = "<group>"; };
+		301F627A197523BC002CB93C /* RispKeywordExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispKeywordExpression.h; sourceTree = "<group>"; };
+		301F627B197523BC002CB93C /* RispKeywordExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispKeywordExpression.m; sourceTree = "<group>"; };
+		301F627C197523BC002CB93C /* RispMapExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispMapExpression.h; sourceTree = "<group>"; };
+		301F627D197523BC002CB93C /* RispMapExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispMapExpression.m; sourceTree = "<group>"; };
+		301F627E197523BC002CB93C /* RispNumberExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispNumberExpression.h; sourceTree = "<group>"; };
+		301F627F197523BC002CB93C /* RispNumberExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispNumberExpression.m; sourceTree = "<group>"; };
+		301F6280197523BC002CB93C /* RispStringExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispStringExpression.h; sourceTree = "<group>"; };
+		301F6281197523BC002CB93C /* RispStringExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispStringExpression.m; sourceTree = "<group>"; };
+		301F6282197523BC002CB93C /* RispVectorExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispVectorExpression.h; sourceTree = "<group>"; };
+		301F6283197523BC002CB93C /* RispVectorExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispVectorExpression.m; sourceTree = "<group>"; };
+		301F6284197523BC002CB93C /* RispFnExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispFnExpression.h; sourceTree = "<group>"; };
+		301F6285197523BC002CB93C /* RispFnExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispFnExpression.m; sourceTree = "<group>"; };
+		301F6286197523BC002CB93C /* RispMethodExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispMethodExpression.h; sourceTree = "<group>"; };
+		301F6287197523BC002CB93C /* RispMethodExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispMethodExpression.m; sourceTree = "<group>"; };
+		301F6288197523BC002CB93C /* RispBodyExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBodyExpression.h; sourceTree = "<group>"; };
+		301F6289197523BC002CB93C /* RispBodyExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispBodyExpression.m; sourceTree = "<group>"; };
+		301F628A197523BC002CB93C /* RispKeywordInvokeExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispKeywordInvokeExpression.h; sourceTree = "<group>"; };
+		301F628B197523BC002CB93C /* RispKeywordInvokeExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispKeywordInvokeExpression.m; sourceTree = "<group>"; };
+		301F628C197523BC002CB93C /* RispDotExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispDotExpression.h; sourceTree = "<group>"; };
+		301F628D197523BC002CB93C /* RispDotExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispDotExpression.m; sourceTree = "<group>"; };
+		301F628E197523BC002CB93C /* RispBlockExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBlockExpression.h; sourceTree = "<group>"; };
+		301F628F197523BC002CB93C /* RispBlockExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispBlockExpression.m; sourceTree = "<group>"; };
+		301F6290197523BC002CB93C /* RispIfExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispIfExpression.h; sourceTree = "<group>"; };
+		301F6291197523BC002CB93C /* RispIfExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispIfExpression.m; sourceTree = "<group>"; };
+		301F6292197523BC002CB93C /* RispDefExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispDefExpression.h; sourceTree = "<group>"; };
+		301F6293197523BC002CB93C /* RispDefExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispDefExpression.m; sourceTree = "<group>"; };
+		301F6294197523BC002CB93C /* RispDefnExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispDefnExpression.h; sourceTree = "<group>"; };
+		301F6295197523BC002CB93C /* RispDefnExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispDefnExpression.m; sourceTree = "<group>"; };
+		301F6296197523BC002CB93C /* RispConstantExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispConstantExpression.h; sourceTree = "<group>"; };
+		301F6297197523BC002CB93C /* RispConstantExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispConstantExpression.m; sourceTree = "<group>"; };
+		301F6298197523BC002CB93C /* RispClosureExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispClosureExpression.h; sourceTree = "<group>"; };
+		301F6299197523BC002CB93C /* RispClosureExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispClosureExpression.m; sourceTree = "<group>"; };
+		301F629A197523BC002CB93C /* RispInvokeExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispInvokeExpression.h; sourceTree = "<group>"; };
+		301F629B197523BC002CB93C /* RispInvokeExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispInvokeExpression.m; sourceTree = "<group>"; };
+		301F629C197523BC002CB93C /* RispLetExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispLetExpression.h; sourceTree = "<group>"; };
+		301F629D197523BC002CB93C /* RispLetExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispLetExpression.m; sourceTree = "<group>"; };
+		301F629E197523BC002CB93C /* RispAbstractSyntaxTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispAbstractSyntaxTree.h; sourceTree = "<group>"; };
+		301F629F197523BC002CB93C /* RispAbstractSyntaxTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispAbstractSyntaxTree.m; sourceTree = "<group>"; };
+		301F62A1197523BC002CB93C /* init.risp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init.risp; sourceTree = "<group>"; };
+		301F62A3197523BC002CB93C /* RispEnvironmentVariables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispEnvironmentVariables.h; sourceTree = "<group>"; };
+		301F62A4197523BC002CB93C /* RispEnvironmentVariables.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispEnvironmentVariables.m; sourceTree = "<group>"; };
+		301F62A5197523BC002CB93C /* RispKeyword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispKeyword.h; sourceTree = "<group>"; };
+		301F62A6197523BC002CB93C /* RispKeyword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispKeyword.m; sourceTree = "<group>"; };
+		301F62A7197523BC002CB93C /* RispLexicalScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispLexicalScope.h; sourceTree = "<group>"; };
+		301F62A8197523BC002CB93C /* RispLexicalScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispLexicalScope.m; sourceTree = "<group>"; };
+		301F62A9197523BC002CB93C /* RispList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispList.h; sourceTree = "<group>"; };
+		301F62AA197523BC002CB93C /* RispList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispList.m; sourceTree = "<group>"; };
+		301F62AB197523BC002CB93C /* RispSequenceProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispSequenceProtocol.h; sourceTree = "<group>"; };
+		301F62AC197523BC002CB93C /* RispSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispSequence.h; sourceTree = "<group>"; };
+		301F62AD197523BC002CB93C /* RispSequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispSequence.m; sourceTree = "<group>"; };
+		301F62AE197523BC002CB93C /* RispSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispSymbol.h; sourceTree = "<group>"; };
+		301F62AF197523BC002CB93C /* RispSymbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispSymbol.m; sourceTree = "<group>"; };
+		301F62B0197523BC002CB93C /* RispSymbol+BIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RispSymbol+BIF.h"; sourceTree = "<group>"; };
+		301F62B1197523BC002CB93C /* RispSymbol+BIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RispSymbol+BIF.m"; sourceTree = "<group>"; };
+		301F62B2197523BC002CB93C /* RispToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispToken.h; sourceTree = "<group>"; };
+		301F62B3197523BC002CB93C /* RispToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispToken.m; sourceTree = "<group>"; };
+		301F62B4197523BC002CB93C /* RispVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispVector.h; sourceTree = "<group>"; };
+		301F62B5197523BC002CB93C /* RispVector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispVector.m; sourceTree = "<group>"; };
+		301F62B6197523BC002CB93C /* RispMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispMap.h; sourceTree = "<group>"; };
+		301F62B7197523BC002CB93C /* RispMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispMap.m; sourceTree = "<group>"; };
+		301F62B8197523BC002CB93C /* RispLazySequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispLazySequence.h; sourceTree = "<group>"; };
+		301F62B9197523BC002CB93C /* RispLazySequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispLazySequence.m; sourceTree = "<group>"; };
+		301F62BA197523BC002CB93C /* NSObject+RispMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RispMeta.h"; sourceTree = "<group>"; };
+		301F62BB197523BC002CB93C /* NSObject+RispMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RispMeta.m"; sourceTree = "<group>"; };
+		301F62BC197523BC002CB93C /* RispMetaKeyDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispMetaKeyDefinition.h; sourceTree = "<group>"; };
+		301F62BD197523BC002CB93C /* RispMetaKeyDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispMetaKeyDefinition.m; sourceTree = "<group>"; };
+		301F62BE197523BC002CB93C /* RispVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispVariable.h; sourceTree = "<group>"; };
+		301F62BF197523BC002CB93C /* RispVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispVariable.m; sourceTree = "<group>"; };
+		301F62C0197523BC002CB93C /* RispCharSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispCharSequence.h; sourceTree = "<group>"; };
+		301F62C1197523BC002CB93C /* RispCharSequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispCharSequence.m; sourceTree = "<group>"; };
+		301F62C3197523BC002CB93C /* Risp+DEBUG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Risp+DEBUG.h"; path = "../Risp+DEBUG.h"; sourceTree = "<group>"; };
+		301F62C4197523BC002CB93C /* Risp+DEBUG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Risp+DEBUG.m"; path = "../Risp+DEBUG.m"; sourceTree = "<group>"; };
+		301F62C5197523BC002CB93C /* __RispFXNSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __RispFXNSString.h; sourceTree = "<group>"; };
+		301F62C6197523BC002CB93C /* __RispFXNSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = __RispFXNSString.m; sourceTree = "<group>"; };
+		301F62C7197523BC002CB93C /* __RispFXHookNSCFBoolean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __RispFXHookNSCFBoolean.h; sourceTree = "<group>"; };
+		301F62C8197523BC002CB93C /* __RispFXHookNSCFBoolean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = __RispFXHookNSCFBoolean.m; sourceTree = "<group>"; };
+		301F62C9197523BC002CB93C /* NSNull+Risp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNull+Risp.h"; sourceTree = "<group>"; };
+		301F62CA197523BC002CB93C /* NSNull+Risp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+Risp.m"; sourceTree = "<group>"; };
+		301F62CB197523BC002CB93C /* NSDecimalNumber+Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDecimalNumber+Math.h"; sourceTree = "<group>"; };
+		301F62CC197523BC002CB93C /* NSDecimalNumber+Math.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDecimalNumber+Math.m"; sourceTree = "<group>"; };
+		301F62CD197523BC002CB93C /* RispFixupHook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispFixupHook.h; sourceTree = "<group>"; };
+		301F62CE197523BC002CB93C /* RispFixupHook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispFixupHook.m; sourceTree = "<group>"; };
+		301F62D0197523BC002CB93C /* RispBodyParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBodyParser.h; sourceTree = "<group>"; };
+		301F62D1197523BC002CB93C /* RispBodyParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispBodyParser.m; sourceTree = "<group>"; };
+		301F62D2197523BC002CB93C /* RispBaseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBaseParser.h; sourceTree = "<group>"; };
+		301F62D3197523BC002CB93C /* RispBaseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispBaseParser.m; sourceTree = "<group>"; };
+		301F62D5197523BC002CB93C /* RispBaseReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBaseReader.h; sourceTree = "<group>"; };
+		301F62D6197523BC002CB93C /* RispBaseReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispBaseReader.m; sourceTree = "<group>"; };
+		301F62D7197523BC002CB93C /* RispDispatchReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispDispatchReader.h; sourceTree = "<group>"; };
+		301F62D8197523BC002CB93C /* RispDispatchReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispDispatchReader.m; sourceTree = "<group>"; };
+		301F62D9197523BC002CB93C /* RispCommentReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispCommentReader.h; sourceTree = "<group>"; };
+		301F62DA197523BC002CB93C /* RispCommentReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispCommentReader.m; sourceTree = "<group>"; };
+		301F62DB197523BC002CB93C /* RispListReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispListReader.h; sourceTree = "<group>"; };
+		301F62DC197523BC002CB93C /* RispListReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispListReader.m; sourceTree = "<group>"; };
+		301F62DD197523BC002CB93C /* RispNumberReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispNumberReader.h; sourceTree = "<group>"; };
+		301F62DE197523BC002CB93C /* RispNumberReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispNumberReader.m; sourceTree = "<group>"; };
+		301F62DF197523BC002CB93C /* RispRegexReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispRegexReader.h; sourceTree = "<group>"; };
+		301F62E0197523BC002CB93C /* RispRegexReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispRegexReader.m; sourceTree = "<group>"; };
+		301F62E1197523BC002CB93C /* RispStringReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispStringReader.h; sourceTree = "<group>"; };
+		301F62E2197523BC002CB93C /* RispStringReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispStringReader.m; sourceTree = "<group>"; };
+		301F62E3197523BC002CB93C /* RispSyntaxQuoteReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispSyntaxQuoteReader.h; sourceTree = "<group>"; };
+		301F62E4197523BC002CB93C /* RispSyntaxQuoteReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispSyntaxQuoteReader.m; sourceTree = "<group>"; };
+		301F62E5197523BC002CB93C /* RispTokenReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispTokenReader.h; sourceTree = "<group>"; };
+		301F62E6197523BC002CB93C /* RispTokenReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispTokenReader.m; sourceTree = "<group>"; };
+		301F62E7197523BC002CB93C /* RispUnmatchedDelimiterReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispUnmatchedDelimiterReader.h; sourceTree = "<group>"; };
+		301F62E8197523BC002CB93C /* RispUnmatchedDelimiterReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispUnmatchedDelimiterReader.m; sourceTree = "<group>"; };
+		301F62E9197523BC002CB93C /* RispUnquoteReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispUnquoteReader.h; sourceTree = "<group>"; };
+		301F62EA197523BC002CB93C /* RispUnquoteReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispUnquoteReader.m; sourceTree = "<group>"; };
+		301F62EB197523BC002CB93C /* RispWrappingReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispWrappingReader.h; sourceTree = "<group>"; };
+		301F62EC197523BC002CB93C /* RispWrappingReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispWrappingReader.m; sourceTree = "<group>"; };
+		301F62ED197523BC002CB93C /* RispAnonymousFunctionReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispAnonymousFunctionReader.h; sourceTree = "<group>"; };
+		301F62EE197523BC002CB93C /* RispAnonymousFunctionReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispAnonymousFunctionReader.m; sourceTree = "<group>"; };
+		301F62EF197523BC002CB93C /* RispArgumentsReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispArgumentsReader.h; sourceTree = "<group>"; };
+		301F62F0197523BC002CB93C /* RispArgumentsReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispArgumentsReader.m; sourceTree = "<group>"; };
+		301F62F1197523BC002CB93C /* RispVectorReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispVectorReader.h; sourceTree = "<group>"; };
+		301F62F2197523BC002CB93C /* RispVectorReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispVectorReader.m; sourceTree = "<group>"; };
+		301F62F3197523BC002CB93C /* RispMapReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispMapReader.h; sourceTree = "<group>"; };
+		301F62F4197523BC002CB93C /* RispMapReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispMapReader.m; sourceTree = "<group>"; };
+		301F62F5197523BC002CB93C /* RispPushBackReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispPushBackReader.h; sourceTree = "<group>"; };
+		301F62F6197523BC002CB93C /* RispPushBackReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispPushBackReader.m; sourceTree = "<group>"; };
+		301F62F7197523BC002CB93C /* RispReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispReader.h; sourceTree = "<group>"; };
+		301F62F8197523BC002CB93C /* RispReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispReader.m; sourceTree = "<group>"; };
+		301F62FA197523BC002CB93C /* Risp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Risp.h; path = ../../../Risp/Risp/Risp.h; sourceTree = "<group>"; };
+		301F62FB197523BC002CB93C /* Risp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Risp.m; path = ../../../Risp/Risp/Risp.m; sourceTree = "<group>"; };
+		301F6302197523BC002CB93C /* RispCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispCompiler.h; sourceTree = "<group>"; };
+		301F6303197523BC002CB93C /* RispCompiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispCompiler.m; sourceTree = "<group>"; };
+		301F6304197523BC002CB93C /* RispContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispContext.h; sourceTree = "<group>"; };
+		301F6305197523BC002CB93C /* RispContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispContext.m; sourceTree = "<group>"; };
+		301F630F197523BC002CB93C /* RispLocalBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispLocalBinding.h; sourceTree = "<group>"; };
+		301F6310197523BC002CB93C /* RispLocalBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispLocalBinding.m; sourceTree = "<group>"; };
+		301F6311197523BC002CB93C /* RispRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispRuntime.h; sourceTree = "<group>"; };
+		301F6312197523BC002CB93C /* RispRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispRuntime.m; sourceTree = "<group>"; };
+		301F63B419752409002CB93C /* Risp+DEBUG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Risp+DEBUG.h"; path = "/SourceCache/Risp/Risp/RispMobile/../Risp/Risp+DEBUG.h"; sourceTree = "<absolute>"; };
+		301F63B519752409002CB93C /* Risp+DEBUG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Risp+DEBUG.m"; path = "/SourceCache/Risp/Risp/RispMobile/../Risp/Risp+DEBUG.m"; sourceTree = "<absolute>"; };
+		301F63B619752409002CB93C /* Risp-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Risp-Prefix.pch"; path = "/SourceCache/Risp/Risp/RispMobile/../Risp/Risp-Prefix.pch"; sourceTree = "<absolute>"; };
+		301F63BA1975255B002CB93C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		301F63BB1975255B002CB93C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		301F63C219752823002CB93C /* RispReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RispReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		301F63C519752823002CB93C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		301F63C619752823002CB93C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		301F63C819752823002CB93C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		301F63C919752823002CB93C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		301F63CB19752823002CB93C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		301F63CC19752823002CB93C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		301F63CF19752823002CB93C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		301F63D119752823002CB93C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		301F624B197522DF002CB93C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				301F63BC1975255B002CB93C /* CoreFoundation.framework in Frameworks */,
+				301F63BD1975255B002CB93C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		301F63BF19752823002CB93C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		301F6245197522DF002CB93C = {
+			isa = PBXGroup;
+			children = (
+				301F6251197522DF002CB93C /* Risp */,
+				301F63C319752823002CB93C /* RispReader */,
+				301F6250197522DF002CB93C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		301F6250197522DF002CB93C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				301F624F197522DF002CB93C /* Risp.framework */,
+				301F63C219752823002CB93C /* RispReader.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		301F6251197522DF002CB93C /* Risp */ = {
+			isa = PBXGroup;
+			children = (
+				301F62A0197523BC002CB93C /* AST */,
+				301F62A2197523BC002CB93C /* Core */,
+				301F62C2197523BC002CB93C /* DataContainer */,
+				301F62CF197523BC002CB93C /* FixupHook */,
+				301F62D4197523BC002CB93C /* Parser */,
+				301F62F9197523BC002CB93C /* Reader */,
+				301F63B419752409002CB93C /* Risp+DEBUG.h */,
+				301F63B519752409002CB93C /* Risp+DEBUG.m */,
+				301F63B619752409002CB93C /* Risp-Prefix.pch */,
+				301F62FA197523BC002CB93C /* Risp.h */,
+				301F62FB197523BC002CB93C /* Risp.m */,
+				301F6313197523BC002CB93C /* VM */,
+				301F6252197522DF002CB93C /* Supporting Files */,
+			);
+			path = Risp;
+			sourceTree = "<group>";
+		};
+		301F6252197522DF002CB93C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				301F63BA1975255B002CB93C /* CoreFoundation.framework */,
+				301F63BB1975255B002CB93C /* Foundation.framework */,
+				301F6253197522DF002CB93C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		301F62A0197523BC002CB93C /* AST */ = {
+			isa = PBXGroup;
+			children = (
+				301F626B197523BC002CB93C /* RispIRCodeGenerator.h */,
+				301F626C197523BC002CB93C /* RispInvokeProtocol.h */,
+				301F626D197523BC002CB93C /* RispFnProtocol.h */,
+				301F626E197523BC002CB93C /* RispBaseExpression.h */,
+				301F626F197523BC002CB93C /* RispBaseExpression.m */,
+				301F6270197523BC002CB93C /* RispBaseExpression+ASTDescription.h */,
+				301F6271197523BC002CB93C /* RispBaseExpression+ASTDescription.m */,
+				301F6272197523BC002CB93C /* RispLiteralExpression.h */,
+				301F6273197523BC002CB93C /* RispLiteralExpression.m */,
+				301F6274197523BC002CB93C /* RispNilExpression.h */,
+				301F6275197523BC002CB93C /* RispNilExpression.m */,
+				301F6276197523BC002CB93C /* RispTrueExpression.h */,
+				301F6277197523BC002CB93C /* RispTrueExpression.m */,
+				301F6278197523BC002CB93C /* RispFalseExpression.h */,
+				301F6279197523BC002CB93C /* RispFalseExpression.m */,
+				301F627A197523BC002CB93C /* RispKeywordExpression.h */,
+				301F627B197523BC002CB93C /* RispKeywordExpression.m */,
+				301F627C197523BC002CB93C /* RispMapExpression.h */,
+				301F627D197523BC002CB93C /* RispMapExpression.m */,
+				301F627E197523BC002CB93C /* RispNumberExpression.h */,
+				301F627F197523BC002CB93C /* RispNumberExpression.m */,
+				301F6280197523BC002CB93C /* RispStringExpression.h */,
+				301F6281197523BC002CB93C /* RispStringExpression.m */,
+				301F6282197523BC002CB93C /* RispVectorExpression.h */,
+				301F6283197523BC002CB93C /* RispVectorExpression.m */,
+				301F6284197523BC002CB93C /* RispFnExpression.h */,
+				301F6285197523BC002CB93C /* RispFnExpression.m */,
+				301F6286197523BC002CB93C /* RispMethodExpression.h */,
+				301F6287197523BC002CB93C /* RispMethodExpression.m */,
+				301F6288197523BC002CB93C /* RispBodyExpression.h */,
+				301F6289197523BC002CB93C /* RispBodyExpression.m */,
+				301F628A197523BC002CB93C /* RispKeywordInvokeExpression.h */,
+				301F628B197523BC002CB93C /* RispKeywordInvokeExpression.m */,
+				301F628C197523BC002CB93C /* RispDotExpression.h */,
+				301F628D197523BC002CB93C /* RispDotExpression.m */,
+				301F628E197523BC002CB93C /* RispBlockExpression.h */,
+				301F628F197523BC002CB93C /* RispBlockExpression.m */,
+				301F6290197523BC002CB93C /* RispIfExpression.h */,
+				301F6291197523BC002CB93C /* RispIfExpression.m */,
+				301F6292197523BC002CB93C /* RispDefExpression.h */,
+				301F6293197523BC002CB93C /* RispDefExpression.m */,
+				301F6294197523BC002CB93C /* RispDefnExpression.h */,
+				301F6295197523BC002CB93C /* RispDefnExpression.m */,
+				301F6296197523BC002CB93C /* RispConstantExpression.h */,
+				301F6297197523BC002CB93C /* RispConstantExpression.m */,
+				301F6298197523BC002CB93C /* RispClosureExpression.h */,
+				301F6299197523BC002CB93C /* RispClosureExpression.m */,
+				301F629A197523BC002CB93C /* RispInvokeExpression.h */,
+				301F629B197523BC002CB93C /* RispInvokeExpression.m */,
+				301F629C197523BC002CB93C /* RispLetExpression.h */,
+				301F629D197523BC002CB93C /* RispLetExpression.m */,
+				301F629E197523BC002CB93C /* RispAbstractSyntaxTree.h */,
+				301F629F197523BC002CB93C /* RispAbstractSyntaxTree.m */,
+			);
+			name = AST;
+			path = ../../../Risp/Risp/Expression;
+			sourceTree = "<group>";
+		};
+		301F62A2197523BC002CB93C /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				301F62A1197523BC002CB93C /* init.risp */,
+			);
+			name = Core;
+			path = ../../../Risp/Risp/Core;
+			sourceTree = "<group>";
+		};
+		301F62C2197523BC002CB93C /* DataContainer */ = {
+			isa = PBXGroup;
+			children = (
+				301F62A3197523BC002CB93C /* RispEnvironmentVariables.h */,
+				301F62A4197523BC002CB93C /* RispEnvironmentVariables.m */,
+				301F62A5197523BC002CB93C /* RispKeyword.h */,
+				301F62A6197523BC002CB93C /* RispKeyword.m */,
+				301F62A7197523BC002CB93C /* RispLexicalScope.h */,
+				301F62A8197523BC002CB93C /* RispLexicalScope.m */,
+				301F62A9197523BC002CB93C /* RispList.h */,
+				301F62AA197523BC002CB93C /* RispList.m */,
+				301F62AB197523BC002CB93C /* RispSequenceProtocol.h */,
+				301F62AC197523BC002CB93C /* RispSequence.h */,
+				301F62AD197523BC002CB93C /* RispSequence.m */,
+				301F62AE197523BC002CB93C /* RispSymbol.h */,
+				301F62AF197523BC002CB93C /* RispSymbol.m */,
+				301F62B0197523BC002CB93C /* RispSymbol+BIF.h */,
+				301F62B1197523BC002CB93C /* RispSymbol+BIF.m */,
+				301F62B2197523BC002CB93C /* RispToken.h */,
+				301F62B3197523BC002CB93C /* RispToken.m */,
+				301F62B4197523BC002CB93C /* RispVector.h */,
+				301F62B5197523BC002CB93C /* RispVector.m */,
+				301F62B6197523BC002CB93C /* RispMap.h */,
+				301F62B7197523BC002CB93C /* RispMap.m */,
+				301F62B8197523BC002CB93C /* RispLazySequence.h */,
+				301F62B9197523BC002CB93C /* RispLazySequence.m */,
+				301F62BA197523BC002CB93C /* NSObject+RispMeta.h */,
+				301F62BB197523BC002CB93C /* NSObject+RispMeta.m */,
+				301F62BC197523BC002CB93C /* RispMetaKeyDefinition.h */,
+				301F62BD197523BC002CB93C /* RispMetaKeyDefinition.m */,
+				301F62BE197523BC002CB93C /* RispVariable.h */,
+				301F62BF197523BC002CB93C /* RispVariable.m */,
+				301F62C0197523BC002CB93C /* RispCharSequence.h */,
+				301F62C1197523BC002CB93C /* RispCharSequence.m */,
+			);
+			name = DataContainer;
+			path = ../../../Risp/Risp/DataContainer;
+			sourceTree = "<group>";
+		};
+		301F62CF197523BC002CB93C /* FixupHook */ = {
+			isa = PBXGroup;
+			children = (
+				301F62C3197523BC002CB93C /* Risp+DEBUG.h */,
+				301F62C4197523BC002CB93C /* Risp+DEBUG.m */,
+				301F62C5197523BC002CB93C /* __RispFXNSString.h */,
+				301F62C6197523BC002CB93C /* __RispFXNSString.m */,
+				301F62C7197523BC002CB93C /* __RispFXHookNSCFBoolean.h */,
+				301F62C8197523BC002CB93C /* __RispFXHookNSCFBoolean.m */,
+				301F62C9197523BC002CB93C /* NSNull+Risp.h */,
+				301F62CA197523BC002CB93C /* NSNull+Risp.m */,
+				301F62CB197523BC002CB93C /* NSDecimalNumber+Math.h */,
+				301F62CC197523BC002CB93C /* NSDecimalNumber+Math.m */,
+				301F62CD197523BC002CB93C /* RispFixupHook.h */,
+				301F62CE197523BC002CB93C /* RispFixupHook.m */,
+			);
+			name = FixupHook;
+			path = ../../../Risp/Risp/FixupHook;
+			sourceTree = "<group>";
+		};
+		301F62D4197523BC002CB93C /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				301F62D0197523BC002CB93C /* RispBodyParser.h */,
+				301F62D1197523BC002CB93C /* RispBodyParser.m */,
+				301F62D2197523BC002CB93C /* RispBaseParser.h */,
+				301F62D3197523BC002CB93C /* RispBaseParser.m */,
+			);
+			name = Parser;
+			path = ../../../Risp/Risp/Parser;
+			sourceTree = "<group>";
+		};
+		301F62F9197523BC002CB93C /* Reader */ = {
+			isa = PBXGroup;
+			children = (
+				301F62D5197523BC002CB93C /* RispBaseReader.h */,
+				301F62D6197523BC002CB93C /* RispBaseReader.m */,
+				301F62D7197523BC002CB93C /* RispDispatchReader.h */,
+				301F62D8197523BC002CB93C /* RispDispatchReader.m */,
+				301F62D9197523BC002CB93C /* RispCommentReader.h */,
+				301F62DA197523BC002CB93C /* RispCommentReader.m */,
+				301F62DB197523BC002CB93C /* RispListReader.h */,
+				301F62DC197523BC002CB93C /* RispListReader.m */,
+				301F62DD197523BC002CB93C /* RispNumberReader.h */,
+				301F62DE197523BC002CB93C /* RispNumberReader.m */,
+				301F62DF197523BC002CB93C /* RispRegexReader.h */,
+				301F62E0197523BC002CB93C /* RispRegexReader.m */,
+				301F62E1197523BC002CB93C /* RispStringReader.h */,
+				301F62E2197523BC002CB93C /* RispStringReader.m */,
+				301F62E3197523BC002CB93C /* RispSyntaxQuoteReader.h */,
+				301F62E4197523BC002CB93C /* RispSyntaxQuoteReader.m */,
+				301F62E5197523BC002CB93C /* RispTokenReader.h */,
+				301F62E6197523BC002CB93C /* RispTokenReader.m */,
+				301F62E7197523BC002CB93C /* RispUnmatchedDelimiterReader.h */,
+				301F62E8197523BC002CB93C /* RispUnmatchedDelimiterReader.m */,
+				301F62E9197523BC002CB93C /* RispUnquoteReader.h */,
+				301F62EA197523BC002CB93C /* RispUnquoteReader.m */,
+				301F62EB197523BC002CB93C /* RispWrappingReader.h */,
+				301F62EC197523BC002CB93C /* RispWrappingReader.m */,
+				301F62ED197523BC002CB93C /* RispAnonymousFunctionReader.h */,
+				301F62EE197523BC002CB93C /* RispAnonymousFunctionReader.m */,
+				301F62EF197523BC002CB93C /* RispArgumentsReader.h */,
+				301F62F0197523BC002CB93C /* RispArgumentsReader.m */,
+				301F62F1197523BC002CB93C /* RispVectorReader.h */,
+				301F62F2197523BC002CB93C /* RispVectorReader.m */,
+				301F62F3197523BC002CB93C /* RispMapReader.h */,
+				301F62F4197523BC002CB93C /* RispMapReader.m */,
+				301F62F5197523BC002CB93C /* RispPushBackReader.h */,
+				301F62F6197523BC002CB93C /* RispPushBackReader.m */,
+				301F62F7197523BC002CB93C /* RispReader.h */,
+				301F62F8197523BC002CB93C /* RispReader.m */,
+			);
+			name = Reader;
+			path = ../../../Risp/Risp/Reader;
+			sourceTree = "<group>";
+		};
+		301F6313197523BC002CB93C /* VM */ = {
+			isa = PBXGroup;
+			children = (
+				301F6302197523BC002CB93C /* RispCompiler.h */,
+				301F6303197523BC002CB93C /* RispCompiler.m */,
+				301F6304197523BC002CB93C /* RispContext.h */,
+				301F6305197523BC002CB93C /* RispContext.m */,
+				301F630F197523BC002CB93C /* RispLocalBinding.h */,
+				301F6310197523BC002CB93C /* RispLocalBinding.m */,
+				301F6311197523BC002CB93C /* RispRuntime.h */,
+				301F6312197523BC002CB93C /* RispRuntime.m */,
+			);
+			name = VM;
+			path = ../../../Risp/Risp/VM;
+			sourceTree = "<group>";
+		};
+		301F63C319752823002CB93C /* RispReader */ = {
+			isa = PBXGroup;
+			children = (
+				301F63C819752823002CB93C /* AppDelegate.h */,
+				301F63C919752823002CB93C /* AppDelegate.m */,
+				301F63CB19752823002CB93C /* ViewController.h */,
+				301F63CC19752823002CB93C /* ViewController.m */,
+				301F63CE19752823002CB93C /* Main.storyboard */,
+				301F63D119752823002CB93C /* Images.xcassets */,
+				301F63C419752823002CB93C /* Supporting Files */,
+			);
+			path = RispReader;
+			sourceTree = "<group>";
+		};
+		301F63C419752823002CB93C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				301F63C519752823002CB93C /* Info.plist */,
+				301F63C619752823002CB93C /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		301F624C197522DF002CB93C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				301F6354197523BC002CB93C /* RispSequence.h in Headers */,
+				301F6351197523BC002CB93C /* RispList.h in Headers */,
+				301F6315197523BC002CB93C /* RispIRCodeGenerator.h in Headers */,
+				301F634D197523BC002CB93C /* RispKeyword.h in Headers */,
+				301F634F197523BC002CB93C /* RispLexicalScope.h in Headers */,
+				301F631A197523BC002CB93C /* RispBaseExpression+ASTDescription.h in Headers */,
+				301F634B197523BC002CB93C /* RispEnvironmentVariables.h in Headers */,
+				301F631E197523BC002CB93C /* RispNilExpression.h in Headers */,
+				301F638C197523BD002CB93C /* RispUnmatchedDelimiterReader.h in Headers */,
+				301F6386197523BD002CB93C /* RispStringReader.h in Headers */,
+				301F635A197523BC002CB93C /* RispToken.h in Headers */,
+				301F638E197523BD002CB93C /* RispUnquoteReader.h in Headers */,
+				301F6316197523BC002CB93C /* RispInvokeProtocol.h in Headers */,
+				301F6392197523BD002CB93C /* RispAnonymousFunctionReader.h in Headers */,
+				301F6384197523BD002CB93C /* RispRegexReader.h in Headers */,
+				301F6390197523BD002CB93C /* RispWrappingReader.h in Headers */,
+				301F6344197523BC002CB93C /* RispInvokeExpression.h in Headers */,
+				301F633C197523BC002CB93C /* RispDefExpression.h in Headers */,
+				301F6380197523BD002CB93C /* RispListReader.h in Headers */,
+				301F6334197523BC002CB93C /* RispKeywordInvokeExpression.h in Headers */,
+				301F6317197523BC002CB93C /* RispFnProtocol.h in Headers */,
+				301F6328197523BC002CB93C /* RispNumberExpression.h in Headers */,
+				301F639A197523BD002CB93C /* RispPushBackReader.h in Headers */,
+				301F6360197523BC002CB93C /* RispLazySequence.h in Headers */,
+				301F6356197523BC002CB93C /* RispSymbol.h in Headers */,
+				301F635C197523BC002CB93C /* RispVector.h in Headers */,
+				301F6326197523BC002CB93C /* RispMapExpression.h in Headers */,
+				301F6388197523BD002CB93C /* RispSyntaxQuoteReader.h in Headers */,
+				301F6320197523BC002CB93C /* RispTrueExpression.h in Headers */,
+				301F635E197523BC002CB93C /* RispMap.h in Headers */,
+				301F6376197523BD002CB93C /* RispBodyParser.h in Headers */,
+				301F6368197523BC002CB93C /* RispCharSequence.h in Headers */,
+				301F6318197523BC002CB93C /* RispBaseExpression.h in Headers */,
+				301F6394197523BD002CB93C /* RispArgumentsReader.h in Headers */,
+				301F637A197523BD002CB93C /* RispBaseReader.h in Headers */,
+				301F6346197523BC002CB93C /* RispLetExpression.h in Headers */,
+				301F632C197523BC002CB93C /* RispVectorExpression.h in Headers */,
+				301F6366197523BC002CB93C /* RispVariable.h in Headers */,
+				301F639C197523BD002CB93C /* RispReader.h in Headers */,
+				301F639E197523BD002CB93C /* Risp.h in Headers */,
+				301F6340197523BC002CB93C /* RispConstantExpression.h in Headers */,
+				301F632E197523BC002CB93C /* RispFnExpression.h in Headers */,
+				301F632A197523BC002CB93C /* RispStringExpression.h in Headers */,
+				301F6358197523BC002CB93C /* RispSymbol+BIF.h in Headers */,
+				301F6322197523BC002CB93C /* RispFalseExpression.h in Headers */,
+				301F6364197523BC002CB93C /* RispMetaKeyDefinition.h in Headers */,
+				301F633A197523BC002CB93C /* RispIfExpression.h in Headers */,
+				301F6332197523BC002CB93C /* RispBodyExpression.h in Headers */,
+				301F6353197523BC002CB93C /* RispSequenceProtocol.h in Headers */,
+				301F6362197523BC002CB93C /* NSObject+RispMeta.h in Headers */,
+				301F6396197523BD002CB93C /* RispVectorReader.h in Headers */,
+				301F638A197523BD002CB93C /* RispTokenReader.h in Headers */,
+				301F6330197523BC002CB93C /* RispMethodExpression.h in Headers */,
+				301F6398197523BD002CB93C /* RispMapReader.h in Headers */,
+				301F6378197523BD002CB93C /* RispBaseParser.h in Headers */,
+				301F6324197523BC002CB93C /* RispKeywordExpression.h in Headers */,
+				301F6336197523BC002CB93C /* RispDotExpression.h in Headers */,
+				301F6342197523BC002CB93C /* RispClosureExpression.h in Headers */,
+				301F63A4197523BD002CB93C /* RispCompiler.h in Headers */,
+				301F637C197523BD002CB93C /* RispDispatchReader.h in Headers */,
+				301F63B2197523BD002CB93C /* RispRuntime.h in Headers */,
+				301F6348197523BC002CB93C /* RispAbstractSyntaxTree.h in Headers */,
+				301F633E197523BC002CB93C /* RispDefnExpression.h in Headers */,
+				301F6382197523BD002CB93C /* RispNumberReader.h in Headers */,
+				301F637E197523BD002CB93C /* RispCommentReader.h in Headers */,
+				301F63A6197523BD002CB93C /* RispContext.h in Headers */,
+				301F63B0197523BD002CB93C /* RispLocalBinding.h in Headers */,
+				301F636A197523BC002CB93C /* Risp+DEBUG.h in Headers */,
+				301F6338197523BC002CB93C /* RispBlockExpression.h in Headers */,
+				301F631C197523BC002CB93C /* RispLiteralExpression.h in Headers */,
+				301F6370197523BC002CB93C /* NSNull+Risp.h in Headers */,
+				301F6374197523BD002CB93C /* RispFixupHook.h in Headers */,
+				301F63B919752409002CB93C /* Risp-Prefix.pch in Headers */,
+				301F6372197523BD002CB93C /* NSDecimalNumber+Math.h in Headers */,
+				301F636A197523BC002CB93C /* Risp+DEBUG.h in Headers */,
+				301F636E197523BC002CB93C /* __RispFXHookNSCFBoolean.h in Headers */,
+				301F636C197523BC002CB93C /* __RispFXNSString.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		301F624E197522DF002CB93C /* Risp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 301F6265197522DF002CB93C /* Build configuration list for PBXNativeTarget "Risp" */;
+			buildPhases = (
+				301F624A197522DF002CB93C /* Sources */,
+				301F624B197522DF002CB93C /* Frameworks */,
+				301F624C197522DF002CB93C /* Headers */,
+				301F624D197522DF002CB93C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Risp;
+			productName = Risp;
+			productReference = 301F624F197522DF002CB93C /* Risp.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		301F63C119752823002CB93C /* RispReader */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 301F63DF19752823002CB93C /* Build configuration list for PBXNativeTarget "RispReader" */;
+			buildPhases = (
+				301F63BE19752823002CB93C /* Sources */,
+				301F63BF19752823002CB93C /* Frameworks */,
+				301F63C019752823002CB93C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RispReader;
+			productName = RispReader;
+			productReference = 301F63C219752823002CB93C /* RispReader.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		301F6246197522DF002CB93C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = closure;
+				TargetAttributes = {
+					301F624E197522DF002CB93C = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					301F63C119752823002CB93C = {
+						CreatedOnToolsVersion = 6.0;
+					};
+				};
+			};
+			buildConfigurationList = 301F6249197522DF002CB93C /* Build configuration list for PBXProject "Risp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 301F6245197522DF002CB93C;
+			productRefGroup = 301F6250197522DF002CB93C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				301F624E197522DF002CB93C /* Risp */,
+				301F63C119752823002CB93C /* RispReader */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		301F624D197522DF002CB93C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				301F634A197523BC002CB93C /* init.risp in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		301F63C019752823002CB93C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				301F63D019752823002CB93C /* Main.storyboard in Resources */,
+				301F63D219752823002CB93C /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		301F624A197522DF002CB93C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				301F6393197523BD002CB93C /* RispAnonymousFunctionReader.m in Sources */,
+				301F6355197523BC002CB93C /* RispSequence.m in Sources */,
+				301F637B197523BD002CB93C /* RispBaseReader.m in Sources */,
+				301F6345197523BC002CB93C /* RispInvokeExpression.m in Sources */,
+				301F6347197523BC002CB93C /* RispLetExpression.m in Sources */,
+				301F6321197523BC002CB93C /* RispTrueExpression.m in Sources */,
+				301F6361197523BC002CB93C /* RispLazySequence.m in Sources */,
+				301F6363197523BC002CB93C /* NSObject+RispMeta.m in Sources */,
+				301F6323197523BC002CB93C /* RispFalseExpression.m in Sources */,
+				301F6381197523BD002CB93C /* RispListReader.m in Sources */,
+				301F633F197523BC002CB93C /* RispDefnExpression.m in Sources */,
+				301F633B197523BC002CB93C /* RispIfExpression.m in Sources */,
+				301F632B197523BC002CB93C /* RispStringExpression.m in Sources */,
+				301F6349197523BC002CB93C /* RispAbstractSyntaxTree.m in Sources */,
+				301F6337197523BC002CB93C /* RispDotExpression.m in Sources */,
+				301F63B819752409002CB93C /* Risp+DEBUG.m in Sources */,
+				301F6341197523BC002CB93C /* RispConstantExpression.m in Sources */,
+				301F6383197523BD002CB93C /* RispNumberReader.m in Sources */,
+				301F6389197523BD002CB93C /* RispSyntaxQuoteReader.m in Sources */,
+				301F6352197523BC002CB93C /* RispList.m in Sources */,
+				301F6333197523BC002CB93C /* RispBodyExpression.m in Sources */,
+				301F6375197523BD002CB93C /* RispFixupHook.m in Sources */,
+				301F6327197523BC002CB93C /* RispMapExpression.m in Sources */,
+				301F6385197523BD002CB93C /* RispRegexReader.m in Sources */,
+				301F637F197523BD002CB93C /* RispCommentReader.m in Sources */,
+				301F6379197523BD002CB93C /* RispBaseParser.m in Sources */,
+				301F632D197523BC002CB93C /* RispVectorExpression.m in Sources */,
+				301F6371197523BC002CB93C /* NSNull+Risp.m in Sources */,
+				301F635B197523BC002CB93C /* RispToken.m in Sources */,
+				301F6329197523BC002CB93C /* RispNumberExpression.m in Sources */,
+				301F6343197523BC002CB93C /* RispClosureExpression.m in Sources */,
+				301F637D197523BD002CB93C /* RispDispatchReader.m in Sources */,
+				301F6395197523BD002CB93C /* RispArgumentsReader.m in Sources */,
+				301F636F197523BC002CB93C /* __RispFXHookNSCFBoolean.m in Sources */,
+				301F631B197523BC002CB93C /* RispBaseExpression+ASTDescription.m in Sources */,
+				301F635F197523BC002CB93C /* RispMap.m in Sources */,
+				301F6319197523BC002CB93C /* RispBaseExpression.m in Sources */,
+				301F6387197523BD002CB93C /* RispStringReader.m in Sources */,
+				301F631D197523BC002CB93C /* RispLiteralExpression.m in Sources */,
+				301F63B1197523BD002CB93C /* RispLocalBinding.m in Sources */,
+				301F639D197523BD002CB93C /* RispReader.m in Sources */,
+				301F636B197523BC002CB93C /* Risp+DEBUG.m in Sources */,
+				301F634E197523BC002CB93C /* RispKeyword.m in Sources */,
+				301F63B3197523BD002CB93C /* RispRuntime.m in Sources */,
+				301F6377197523BD002CB93C /* RispBodyParser.m in Sources */,
+				301F6350197523BC002CB93C /* RispLexicalScope.m in Sources */,
+				301F6369197523BC002CB93C /* RispCharSequence.m in Sources */,
+				301F638B197523BD002CB93C /* RispTokenReader.m in Sources */,
+				301F638F197523BD002CB93C /* RispUnquoteReader.m in Sources */,
+				301F631F197523BC002CB93C /* RispNilExpression.m in Sources */,
+				301F6391197523BD002CB93C /* RispWrappingReader.m in Sources */,
+				301F63A7197523BD002CB93C /* RispContext.m in Sources */,
+				301F633D197523BC002CB93C /* RispDefExpression.m in Sources */,
+				301F6325197523BC002CB93C /* RispKeywordExpression.m in Sources */,
+				301F63A5197523BD002CB93C /* RispCompiler.m in Sources */,
+				301F6365197523BC002CB93C /* RispMetaKeyDefinition.m in Sources */,
+				301F639F197523BD002CB93C /* Risp.m in Sources */,
+				301F635D197523BC002CB93C /* RispVector.m in Sources */,
+				301F6339197523BC002CB93C /* RispBlockExpression.m in Sources */,
+				301F6373197523BD002CB93C /* NSDecimalNumber+Math.m in Sources */,
+				301F6397197523BD002CB93C /* RispVectorReader.m in Sources */,
+				301F6335197523BC002CB93C /* RispKeywordInvokeExpression.m in Sources */,
+				301F6359197523BC002CB93C /* RispSymbol+BIF.m in Sources */,
+				301F634C197523BC002CB93C /* RispEnvironmentVariables.m in Sources */,
+				301F639B197523BD002CB93C /* RispPushBackReader.m in Sources */,
+				301F6399197523BD002CB93C /* RispMapReader.m in Sources */,
+				301F632F197523BC002CB93C /* RispFnExpression.m in Sources */,
+				301F6357197523BC002CB93C /* RispSymbol.m in Sources */,
+				301F638D197523BD002CB93C /* RispUnmatchedDelimiterReader.m in Sources */,
+				301F6367197523BC002CB93C /* RispVariable.m in Sources */,
+				301F6331197523BC002CB93C /* RispMethodExpression.m in Sources */,
+				301F636D197523BC002CB93C /* __RispFXNSString.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		301F63BE19752823002CB93C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				301F63CD19752823002CB93C /* ViewController.m in Sources */,
+				301F63CA19752823002CB93C /* AppDelegate.m in Sources */,
+				301F63C719752823002CB93C /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		301F63CE19752823002CB93C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				301F63CF19752823002CB93C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		301F6263197522DF002CB93C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				METAL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		301F6264197522DF002CB93C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		301F6266197522DF002CB93C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "/SourceCache/Risp/Risp/Risp/Risp-Prefix.pch";
+				INFOPLIST_FILE = Risp/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		301F6267197522DF002CB93C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "/SourceCache/Risp/Risp/Risp/Risp-Prefix.pch";
+				INFOPLIST_FILE = Risp/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		301F63E019752823002CB93C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = RispReader/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		301F63E119752823002CB93C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = RispReader/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		301F6249197522DF002CB93C /* Build configuration list for PBXProject "Risp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				301F6263197522DF002CB93C /* Debug */,
+				301F6264197522DF002CB93C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		301F6265197522DF002CB93C /* Build configuration list for PBXNativeTarget "Risp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				301F6266197522DF002CB93C /* Debug */,
+				301F6267197522DF002CB93C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		301F63DF19752823002CB93C /* Build configuration list for PBXNativeTarget "RispReader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				301F63E019752823002CB93C /* Debug */,
+				301F63E119752823002CB93C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 301F6246197522DF002CB93C /* Project object */;
+}
