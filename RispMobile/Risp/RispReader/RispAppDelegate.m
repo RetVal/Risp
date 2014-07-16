@@ -6,14 +6,14 @@
 //  Copyright (c) 2014 closure. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "RispAppDelegate.h"
 
-@interface AppDelegate ()
+@interface RispAppDelegate ()
             
 
 @end
 
-@implementation AppDelegate
+@implementation RispAppDelegate
             
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

@@ -159,11 +159,22 @@
 		301F63BC1975255B002CB93C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301F63BA1975255B002CB93C /* CoreFoundation.framework */; };
 		301F63BD1975255B002CB93C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301F63BB1975255B002CB93C /* Foundation.framework */; };
 		301F63C719752823002CB93C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F63C619752823002CB93C /* main.m */; };
-		301F63CA19752823002CB93C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F63C919752823002CB93C /* AppDelegate.m */; };
-		301F63CD19752823002CB93C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F63CC19752823002CB93C /* ViewController.m */; };
+		301F63CA19752823002CB93C /* RispAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F63C919752823002CB93C /* RispAppDelegate.m */; };
 		301F63D019752823002CB93C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 301F63CE19752823002CB93C /* Main.storyboard */; };
 		301F63D219752823002CB93C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 301F63D119752823002CB93C /* Images.xcassets */; };
+		3075447919754D5600119B33 /* Risp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301F624F197522DF002CB93C /* Risp.framework */; };
+		309643E719758E9200270EC1 /* RispEvalCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 309643E619758E9200270EC1 /* RispEvalCore.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3075447A19754D5B00119B33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 301F6246197522DF002CB93C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 301F624E197522DF002CB93C;
+			remoteInfo = Risp;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		301F624F197522DF002CB93C /* Risp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Risp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,12 +334,14 @@
 		301F63C219752823002CB93C /* RispReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RispReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		301F63C519752823002CB93C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		301F63C619752823002CB93C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		301F63C819752823002CB93C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		301F63C919752823002CB93C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		301F63CB19752823002CB93C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		301F63CC19752823002CB93C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		301F63C819752823002CB93C /* RispAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RispAppDelegate.h; sourceTree = "<group>"; };
+		301F63C919752823002CB93C /* RispAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RispAppDelegate.m; sourceTree = "<group>"; };
 		301F63CF19752823002CB93C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		301F63D119752823002CB93C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		3075447C1975698000119B33 /* RispReader-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RispReader-Bridging-Header.h"; sourceTree = "<group>"; };
+		309643E519758E9200270EC1 /* RispEvalCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RispEvalCore.h; path = Model/RispEvalCore.h; sourceTree = "<group>"; };
+		309643E619758E9200270EC1 /* RispEvalCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RispEvalCore.m; path = Model/RispEvalCore.m; sourceTree = "<group>"; };
+		30BE980719764D8500A72C37 /* RispReader-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RispReader-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -345,6 +358,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3075447919754D5600119B33 /* Risp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,13 +617,14 @@
 		301F63C319752823002CB93C /* RispReader */ = {
 			isa = PBXGroup;
 			children = (
-				301F63C819752823002CB93C /* AppDelegate.h */,
-				301F63C919752823002CB93C /* AppDelegate.m */,
-				301F63CB19752823002CB93C /* ViewController.h */,
-				301F63CC19752823002CB93C /* ViewController.m */,
+				301F63C819752823002CB93C /* RispAppDelegate.h */,
+				301F63C919752823002CB93C /* RispAppDelegate.m */,
+				309643E519758E9200270EC1 /* RispEvalCore.h */,
+				309643E619758E9200270EC1 /* RispEvalCore.m */,
 				301F63CE19752823002CB93C /* Main.storyboard */,
 				301F63D119752823002CB93C /* Images.xcassets */,
 				301F63C419752823002CB93C /* Supporting Files */,
+				3075447C1975698000119B33 /* RispReader-Bridging-Header.h */,
 			);
 			path = RispReader;
 			sourceTree = "<group>";
@@ -619,6 +634,7 @@
 			children = (
 				301F63C519752823002CB93C /* Info.plist */,
 				301F63C619752823002CB93C /* main.m */,
+				30BE980719764D8500A72C37 /* RispReader-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -742,6 +758,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3075447B19754D5B00119B33 /* PBXTargetDependency */,
 			);
 			name = RispReader;
 			productName = RispReader;
@@ -754,6 +771,7 @@
 		301F6246197522DF002CB93C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = Risp;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = closure;
 				TargetAttributes = {
@@ -888,13 +906,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				301F63CD19752823002CB93C /* ViewController.m in Sources */,
-				301F63CA19752823002CB93C /* AppDelegate.m in Sources */,
+				301F63CA19752823002CB93C /* RispAppDelegate.m in Sources */,
 				301F63C719752823002CB93C /* main.m in Sources */,
+				309643E719758E9200270EC1 /* RispEvalCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3075447B19754D5B00119B33 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 301F624E197522DF002CB93C /* Risp */;
+			targetProxy = 3075447A19754D5B00119B33 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		301F63CE19752823002CB93C /* Main.storyboard */ = {
@@ -1031,6 +1057,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RispReader/RispReader-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1039,6 +1068,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				METAL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "RispReader/RispReader-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -1047,10 +1078,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RispReader/RispReader-Prefix.pch";
 				INFOPLIST_FILE = RispReader/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "RispReader/RispReader-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -1073,6 +1108,7 @@
 				301F6267197522DF002CB93C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		301F63DF19752823002CB93C /* Build configuration list for PBXNativeTarget "RispReader" */ = {
 			isa = XCConfigurationList;
@@ -1081,6 +1117,7 @@
 				301F63E119752823002CB93C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
