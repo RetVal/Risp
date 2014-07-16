@@ -1,0 +1,15 @@
+//
+//  RispReader-Prefix.pch
+//  Risp
+//
+//  Created by closure on 7/16/14.
+//  Copyright (c) 2014 closure. All rights reserved.
+//
+
+#ifndef Risp_RispReader_Prefix_pch
+#define Risp_RispReader_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import <Risp/Risp.h>
+#endif

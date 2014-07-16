@@ -1,0 +1,11 @@
+(defn test [f r]
+	(if (= r (f))
+		true
+		false))
+
+(defn identity [x] x)
+
+(defn = 
+	([x] x)
+	([x y] (. x isEqualTo: y))
+	([x y z] (and (. x isEqualTo: y) (. x isEqualTo: z))))

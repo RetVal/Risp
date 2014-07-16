@@ -1,0 +1,31 @@
+(def x (fn [x y] (. x decimalNumberByAdding: y)))
+
+(def x (. 1 decimalNumberByAdding: 2))
+x
+
+(def x (. NSImage imageNamed: "QQ20140423-3"))
+x
+
+[[NSImage alloc] initWithContentsOfFile:[@"~/Desktop/1.gif" stringByStandardizingPath]]
+
+(. (. NSImage alloc) initWithContentsOfFile: (. "~/Pictures/psb.png" stringByStandardizingPath))
+
+(def x (. (. NSImage alloc) initWithContentsOfFile: (. "~/Desktop/1.gif" stringByStandardizingPath)))
+
+(def x (. (. NSFileWrapper alloc) initWithPath: (. "~/Desktop/1.gif" stringByStandardizingPath)))
+x
+
+(def x (. (. NSFileWrapper alloc) initWithPath: (. "~/Desktop/1.gif" stringByStandardizingPath)))
+x
+
+(def x (. (. NSImage alloc) initWithContentsOfFile: (. "~/Pictures/psb.png" stringByStandardizingPath)))
+
+(defn 我是 [x n]
+	(if (zero? n)
+		'()
+		(cons x (我是 x (dec n)))))
+(def 猫 (. (. NSImage alloc) initWithContentsOfFile: (. "~/Desktop/1.png" stringByStandardizingPath)))
+
+(def 三 3)
+
+(我是 猫 三)
