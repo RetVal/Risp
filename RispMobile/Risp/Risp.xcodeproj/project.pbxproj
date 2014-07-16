@@ -371,7 +371,6 @@
 		301F6245197522DF002CB93C = {
 			isa = PBXGroup;
 			children = (
-				30B5800A197691C70047208B /* UIKit.framework */,
 				301F6251197522DF002CB93C /* Risp */,
 				301F63C319752823002CB93C /* RispReader */,
 				301F6250197522DF002CB93C /* Products */,
@@ -636,6 +635,7 @@
 		301F63C419752823002CB93C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				30B5800A197691C70047208B /* UIKit.framework */,
 				301F63C519752823002CB93C /* Info.plist */,
 				301F63C619752823002CB93C /* main.m */,
 			);
