@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6185.11" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="uBv-jM-JfA">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6190.4"/>
+    </dependencies>
+    <scenes>
+        <!--Waiting...-->
+        <scene sceneID="MfV-V8-pTh">
+            <objects>
+                <viewController id="LFF-Lw-Tke" customClass="RispRemoteClientViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="71q-5R-QsO"/>
+                        <viewControllerLayoutGuide type="bottom" id="qAh-AX-BIH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lbp-na-1f2">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Waiting..." id="uNI-wJ-VZV">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="HQs-x8-6pk">
+                            <connections>
+                                <action selector="reconnectButtonPressed:" destination="LFF-Lw-Tke" id="aub-wT-vwF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9rc-X6-GFe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1086" y="489"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="qCB-J0-myc">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uBv-jM-JfA" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LZQ-SZ-3LC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="LFF-Lw-Tke" kind="relationship" relationship="rootViewController" id="VpY-lx-S4r"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kz2-AS-IhH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="168" y="489"/>
+        </scene>
+    </scenes>
+</document>

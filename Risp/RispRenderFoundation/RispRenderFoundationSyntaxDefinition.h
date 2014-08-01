@@ -1,0 +1,36 @@
+//
+//  RispRenderFoundationSyntaxDefinition.h
+//  Fragaria
+//
+//  Created by Jonathan on 16/04/2013.
+//
+//
+
+#import <Cocoa/Cocoa.h>
+
+// syntax definition dictionary keys
+extern NSString *RispRenderFoundationSyntaxDefinitionAllowSyntaxColouring ;
+extern NSString *RispRenderFoundationSyntaxDefinitionKeywords;
+extern NSString *RispRenderFoundationSyntaxDefinitionAutocompleteWords;
+extern NSString *RispRenderFoundationSyntaxDefinitionRecolourKeywordIfAlreadyColoured ;
+extern NSString *RispRenderFoundationSyntaxDefinitionKeywordsCaseSensitive ;
+extern NSString *RispRenderFoundationSyntaxDefinitionBeginCommand;
+extern NSString *RispRenderFoundationSyntaxDefinitionEndCommand;
+extern NSString *RispRenderFoundationSyntaxDefinitionBeginInstruction;
+extern NSString *RispRenderFoundationSyntaxDefinitionEndInstruction ;
+extern NSString *RispRenderFoundationSyntaxDefinitionBeginVariable;
+extern NSString *RispRenderFoundationSyntaxDefinitionEndVariable;
+extern NSString *RispRenderFoundationSyntaxDefinitionFirstString;
+extern NSString *RispRenderFoundationSyntaxDefinitionSecondString;
+extern NSString *RispRenderFoundationSyntaxDefinitionFirstSingleLineComment;
+extern NSString *RispRenderFoundationSyntaxDefinitionSecondSingleLineComment;
+extern NSString *RispRenderFoundationSyntaxDefinitionBeginFirstMultiLineComment;
+extern NSString *RispRenderFoundationSyntaxDefinitionEndFirstMultiLineComment ;
+extern NSString *RispRenderFoundationSyntaxDefinitionBeginSecondMultiLineComment;
+extern NSString *RispRenderFoundationSyntaxDefinitionEndSecondMultiLineComment;
+extern NSString *RispRenderFoundationSyntaxDefinitionFunctionDefinition;
+extern NSString *RispRenderFoundationSyntaxDefinitionRemoveFromFunction ;
+extern NSString *RispRenderFoundationSyntaxDefinitionExcludeFromKeywordStartCharacterSet;
+extern NSString *RispRenderFoundationSyntaxDefinitionExcludeFromKeywordEndCharacterSet;
+extern NSString *RispRenderFoundationSyntaxDefinitionIncludeInKeywordStartCharacterSet;
+extern NSString *RispRenderFoundationSyntaxDefinitionIncludeInKeywordEndCharacterSet;

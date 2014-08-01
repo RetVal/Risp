@@ -1,0 +1,21 @@
+(defn absolute-path [path]
+	(. path stringByStandardizingPath))
+
+(defn read-file [file-path]
+	(. NSData dataWithContentsOfFile: (absolute-path file-path)))
+
+(defn open [file-path flag]
+	(cond 
+		(= flag :read-only) (. NSFileHandle fileHandleForReadingAtPath: file-path)
+		(= flag :write-only) (. NSFileHandle fileHandleForWritingAtPath: file-path)
+		:else (. NSFileHandle fileHandleForUpdatingAtPath: file-path)))
+
+(defn cond [& clauses]
+	(if (not (nil? clauses))
+		(if (even? (count clauses))
+			(if (first clauses)
+				(if (next clauses)
+					(second clauses)
+					nil)
+				(cond (next (next clauses)))))))
+

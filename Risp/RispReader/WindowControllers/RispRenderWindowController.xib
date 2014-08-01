@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<<<<<<< HEAD
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6185.11" systemVersion="14A261i" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6185.11"/>
+=======
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6154.17" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6154.17"/>
+>>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="RispRenderWindowController">
+            <connections>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+<<<<<<< HEAD
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+=======
+        <customObject id="-3" userLabel="Application"/>
+>>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5" customClass="RispAutoHideWindow">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="525" height="411"/>
+<<<<<<< HEAD
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+=======
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+>>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
+            <view key="contentView" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="525" height="411"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <splitView dividerStyle="thin" translatesAutoresizingMaskIntoConstraints="NO" id="PGl-QZ-49X">
+                        <rect key="frame" x="0.0" y="0.0" width="525" height="411"/>
+                        <subviews>
+                            <customView fixedFrame="YES" id="kah-ja-qYv">
+                                <rect key="frame" x="0.0" y="0.0" width="525" height="279"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </customView>
+                            <customView fixedFrame="YES" id="zmg-tZ-96J">
+                                <rect key="frame" x="0.0" y="280" width="525" height="131"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </customView>
+                        </subviews>
+                        <holdingPriorities>
+                            <real value="250"/>
+                            <real value="250"/>
+                        </holdingPriorities>
+                    </splitView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="PGl-QZ-49X" secondAttribute="trailing" id="cDq-Jn-sir"/>
+                    <constraint firstAttribute="bottom" secondItem="PGl-QZ-49X" secondAttribute="bottom" id="jsO-ZU-yQO"/>
+                    <constraint firstItem="PGl-QZ-49X" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="rcA-eV-GYl"/>
+                    <constraint firstItem="PGl-QZ-49X" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="tE1-av-PCV"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+        </window>
+    </objects>
+</document>
