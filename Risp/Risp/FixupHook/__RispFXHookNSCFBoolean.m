@@ -63,7 +63,6 @@
 }
 
 - (NSString *)description {
-<<<<<<< HEAD
 #if TARGET_OS_IPHONE
     if (0 == strcmp(@encode(char), [self objCType])) {
         return ([self isEqual: @YES]) ? @"true" : @"false";
@@ -80,14 +79,6 @@
 
 
 
-=======
-    if (0 == strcmp(@encode(BOOL), [self objCType])) {
-        return ([self  isEqual: @YES]) ? @"true" : @"false";
-    }
-    return [super description];
-}
-
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 - (NSString *)debugDescription {
     return [self description];
 }

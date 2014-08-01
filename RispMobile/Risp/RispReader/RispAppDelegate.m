@@ -9,10 +9,6 @@
 #import "RispAppDelegate.h"
 
 @interface RispAppDelegate ()
-<<<<<<< HEAD
-=======
-            
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 
 @end
 

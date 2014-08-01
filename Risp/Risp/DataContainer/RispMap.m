@@ -9,10 +9,6 @@
 #import <Risp/RispVector.h>
 #import "RispMap.h"
 #include <objc/runtime.h>
-<<<<<<< HEAD
-=======
-#include <objc/Protocol.h>
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 #include <Risp/RispRuntime.h>
 
 @interface RispKVBucket : NSObject

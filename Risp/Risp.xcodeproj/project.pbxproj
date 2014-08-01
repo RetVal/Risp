@@ -1483,10 +1483,7 @@
 				300CB30B18FE436000ABC71C /* RispRenderFoundation.framework */,
 				30805EB418FEA20800D51EE7 /* RispKeyboardBinding.framework */,
 				304E04061907822200E2D438 /* RispDotOperationCodeGen */,
-<<<<<<< HEAD
 				309C9D67197FD85400C92BDA /* RispCode.app */,
-=======
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1494,10 +1491,7 @@
 		30970F0818FCE2830091F83D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				309C9DA4197FDD3E00C92BDA /* CoreWebSocket.framework */,
-=======
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 				3090803D1974E0600036BEEA /* RispIDEView.framework */,
 				30827062194D97DC00263F44 /* libLLVM-3.5.0svn.dylib */,
 				306B869C1936276800B0B17A /* WebKit.framework */,
@@ -1579,7 +1573,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
 		309C9D8C197FD89100C92BDA /* RispCode */ = {
 			isa = PBXGroup;
 			children = (
@@ -1599,8 +1592,6 @@
 			path = RispCode;
 			sourceTree = "<group>";
 		};
-=======
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 		30A4104B193B78EB005521B7 /* RispLLVM */ = {
 			isa = PBXGroup;
 			children = (
@@ -2012,7 +2003,6 @@
 			productReference = 30970F8618FCF5000091F83D /* RispReader.app */;
 			productType = "com.apple.product-type.application";
 		};
-<<<<<<< HEAD
 		309C9D66197FD85400C92BDA /* RispCode */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 309C9D84197FD85500C92BDA /* Build configuration list for PBXNativeTarget "RispCode" */;
@@ -2031,8 +2021,6 @@
 			productReference = 309C9D67197FD85400C92BDA /* RispCode.app */;
 			productType = "com.apple.product-type.application";
 		};
-=======
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2042,14 +2030,11 @@
 				CLASSPREFIX = Risp;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = closure;
-<<<<<<< HEAD
 				TargetAttributes = {
 					309C9D66197FD85400C92BDA = {
 						CreatedOnToolsVersion = 6.0;
 					};
 				};
-=======
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 			};
 			buildConfigurationList = 30970F0018FCE2820091F83D /* Build configuration list for PBXProject "Risp" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2069,10 +2054,7 @@
 				30805EB318FEA20800D51EE7 /* RispKeyboardBinding */,
 				30970F8518FCF5000091F83D /* RispReader */,
 				304E04051907822200E2D438 /* RispDotOperationCodeGen */,
-<<<<<<< HEAD
 				309C9D66197FD85400C92BDA /* RispCode */,
-=======
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 			);
 		};
 /* End PBXProject section */
@@ -2135,7 +2117,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-<<<<<<< HEAD
 		309C9D65197FD85400C92BDA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2146,8 +2127,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-=======
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -2328,7 +2307,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-<<<<<<< HEAD
 		309C9D63197FD85400C92BDA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2341,8 +2319,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-=======
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2366,14 +2342,11 @@
 			target = 30970F0518FCE2830091F83D /* Risp */;
 			targetProxy = 30970FB318FCF51E0091F83D /* PBXContainerItemProxy */;
 		};
-<<<<<<< HEAD
 		309C9DA3197FDD2B00C92BDA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 30970F0518FCE2830091F83D /* Risp */;
 			targetProxy = 309C9DA2197FDD2B00C92BDA /* PBXContainerItemProxy */;
 		};
-=======
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -2417,7 +2390,6 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
 		309C9D8F197FD89100C92BDA /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2426,8 +2398,6 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-=======
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -2766,7 +2736,6 @@
 			};
 			name = Release;
 		};
-<<<<<<< HEAD
 		309C9D85197FD85500C92BDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2811,8 +2780,6 @@
 			};
 			name = Release;
 		};
-=======
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2870,7 +2837,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-<<<<<<< HEAD
 		309C9D84197FD85500C92BDA /* Build configuration list for PBXNativeTarget "RispCode" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2879,8 +2845,6 @@
 			);
 			defaultConfigurationIsVisible = 0;
 		};
-=======
->>>>>>> 4aab34e3979f1c676d938d67eceb46aaa0dbc5df
 /* End XCConfigurationList section */
 	};
 	rootObject = 30970EFD18FCE2820091F83D /* Project object */;
