@@ -33,92 +33,6 @@
     return nil;
 }
 
-/*
-static LocalBinding referenceLocal(Symbol sym) {
-    if(!LOCAL_ENV.isBound())
-        return null;
-    LocalBinding b = (LocalBinding) RT.get(LOCAL_ENV.deref(), sym);
-    if(b != null)
-    {
-        ObjMethod method = (ObjMethod) METHOD.deref();
-        closeOver(b, method);
-    }
-    return b;
-}
-
- 
-static public Var isMacro(Object op) {
-    //no local macros for now
-    if(op instanceof Symbol && referenceLocal((Symbol) op) != null)
-        return null;
-    if(op instanceof Symbol || op instanceof Var)
-    {
-        Var v = (op instanceof Var) ? (Var) op : lookupVar((Symbol) op, false, false);
-        if(v != null && v.isMacro())
-        {
-            if(v.ns != currentNS() && !v.isPublic())
-                throw new IllegalStateException("var: " + v + " is not public");
-            return v;
-        }
-    }
-    return null;
-}
- 
-public static Object eval(Object form, boolean freshLoader) {
-    boolean createdLoader = false;
-    if(true)//!LOADER.isBound())
-    {
-        Var.pushThreadBindings(RT.map(LOADER, RT.makeClassLoader()));
-        createdLoader = true;
-    }
-    try
-    {
-        Object line = lineDeref();
-        Object column = columnDeref();
-        if(RT.meta(form) != null && RT.meta(form).containsKey(RT.LINE_KEY))
-            line = RT.meta(form).valAt(RT.LINE_KEY);
-        if(RT.meta(form) != null && RT.meta(form).containsKey(RT.COLUMN_KEY))
-            column = RT.meta(form).valAt(RT.COLUMN_KEY);
-        Var.pushThreadBindings(RT.map(LINE, line, COLUMN, column));
-        try
-        {
-            form = macroexpand(form);
-            if(form instanceof ISeq && Util.equals(RT.first(form), DO))
-            {
-                ISeq s = RT.next(form);
-                for(; RT.next(s) != null; s = RT.next(s))
-                    eval(RT.first(s), false);
-                return eval(RT.first(s), false);
-            }
-            else if((form instanceof IType) ||
-                    (form instanceof IPersistentCollection
-                     && !(RT.first(form) instanceof Symbol
-                          && ((Symbol) RT.first(form)).name.startsWith("def"))))
-            {
-                ObjExpr fexpr = (ObjExpr) analyze(C.EXPRESSION, RT.list(FN, PersistentVector.EMPTY, form),
-                                                  "eval" + RT.nextID());
-                IFn fn = (IFn) fexpr.eval();
-                return fn.invoke();
-            }
-            else
-            {
-                Expr expr = analyze(C.EVAL, form);
-                return expr.eval();
-            }
-        }
-        finally
-        {
-            Var.popThreadBindings();
-        }
-    }
-    
-    finally
-    {
-        if(createdLoader)
-            Var.popThreadBindings();
-    }
-}*/
-
 - (id)initWithObject:(id)object {
     if (self = [super init]) {
         _object = object;
@@ -212,9 +126,7 @@ public static Object eval(Object form, boolean freshLoader) {
             // macroexpand
             form = [RispCompiler macroexpand:form];
             if ([form conformsToProtocol:@protocol(RispSequence)] && [[form first] isEqualTo: [RispSymbol DO]]) {
-                for (id <RispSequence>seq = [form next]; seq != nil; seq = [seq next]) {
-                    [self compile:context form:seq];
-                }
+                return [RispBodyExpression parser:form context:context];
             } else {
                 return [RispBaseParser analyze:context form:form];
             }
@@ -244,7 +156,6 @@ public static Object eval(Object form, boolean freshLoader) {
     }
     return v;
 }
-
 
 - (id)isMacro:(id)op {
     if ([op isKindOfClass:[RispSymbol class]] && op) {

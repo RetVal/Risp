@@ -9,5 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 @interface RispEvalCore : NSObject
-+ (NSArray *)evalCurrentLine:(NSString *)sender expressions:(NSArray **)expressions;
++ (NSArray *)evalCurrentLine:(NSString *)sender evalResult:(NSDictionary **)dict; // return keys in order
 @end
+
+FOUNDATION_EXPORT NSString * RispExpressionKey;
+FOUNDATION_EXPORT NSString * RispEvalValueKey;
+FOUNDATION_EXPORT NSString * RispExceptionKey;

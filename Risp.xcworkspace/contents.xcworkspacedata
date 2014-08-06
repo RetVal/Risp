@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:RispMobile/Risp/Risp.xcodeproj">
+      location = "group:Risp/Risp.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Risp/Risp.xcodeproj">
+      location = "group:RispMobile/Risp/Risp.xcodeproj">
    </FileRef>
 </Workspace>

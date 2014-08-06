@@ -27,8 +27,10 @@
 
 - (id)objectReturnValue {
     void *pointer = nil;
+    if ([[self methodSignature] methodReturnLength] == 0) {
+        return [NSNull null];
+    }
     [self getReturnValue:&pointer];
-    
     __unsafe_unretained id result = (__bridge id)pointer;
     return [RispDotExpression objectiveC:(void *)result methodSignature:[self methodSignature]];
 }

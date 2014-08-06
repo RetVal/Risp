@@ -27,6 +27,8 @@
 		301FC1DA19306FB700D7E70A /* RispAbstractSyntaxTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 301FC1D819306FB700D7E70A /* RispAbstractSyntaxTree.m */; };
 		301FC1DE1930751600D7E70A /* RispBaseExpression+ASTDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 301FC1DC1930751600D7E70A /* RispBaseExpression+ASTDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		301FC1DF1930751600D7E70A /* RispBaseExpression+ASTDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 301FC1DD1930751600D7E70A /* RispBaseExpression+ASTDescription.m */; };
+		301FFD8919927D000023C569 /* __RispLLVMTargetCodeGenInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 301FFD8719927D000023C569 /* __RispLLVMTargetCodeGenInfo.h */; };
+		301FFD8A19927D000023C569 /* __RispLLVMTargetCodeGenInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 301FFD8819927D000023C569 /* __RispLLVMTargetCodeGenInfo.mm */; };
 		30208B87190BA49A00A4C8B5 /* 穹.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 30208B86190BA49A00A4C8B5 /* 穹.jpg */; };
 		3020D3AA1906430600BC6C66 /* RispBodyExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3020D3A81906430600BC6C66 /* RispBodyExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3020D3AB1906430600BC6C66 /* RispBodyExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 3020D3A91906430600BC6C66 /* RispBodyExpression.m */; };
@@ -92,9 +94,6 @@
 		305E982A190A713800A4B7FB /* RispReaderEvalCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E981F190A713800A4B7FB /* RispReaderEvalCore.m */; };
 		305E982F190A713800A4B7FB /* RispAutoHideWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E9829190A713800A4B7FB /* RispAutoHideWindow.m */; };
 		305E9838190B5CF900A4B7FB /* RispWindowBlurer.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E9837190B5CF900A4B7FB /* RispWindowBlurer.m */; };
-		305E987F190B8CBC00A4B7FB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 305E987B190B8CBC00A4B7FB /* LICENSE */; };
-		305E9880190B8CBC00A4B7FB /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 305E987C190B8CBC00A4B7FB /* README.md */; };
-		305E9881190B8CBC00A4B7FB /* RMBlurredView.m in Sources */ = {isa = PBXBuildFile; fileRef = 305E987E190B8CBC00A4B7FB /* RMBlurredView.m */; };
 		3062573D1924692E00518B60 /* RispDispatchReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 3062573B1924692E00518B60 /* RispDispatchReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3062573E1924692E00518B60 /* RispDispatchReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3062573C1924692E00518B60 /* RispDispatchReader.m */; };
 		3063C1E71904DD16000FBB7F /* RispVectorExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3063C1E51904DD16000FBB7F /* RispVectorExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -596,6 +595,8 @@
 		301FC1D819306FB700D7E70A /* RispAbstractSyntaxTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispAbstractSyntaxTree.m; sourceTree = "<group>"; };
 		301FC1DC1930751600D7E70A /* RispBaseExpression+ASTDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RispBaseExpression+ASTDescription.h"; sourceTree = "<group>"; };
 		301FC1DD1930751600D7E70A /* RispBaseExpression+ASTDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RispBaseExpression+ASTDescription.m"; sourceTree = "<group>"; };
+		301FFD8719927D000023C569 /* __RispLLVMTargetCodeGenInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __RispLLVMTargetCodeGenInfo.h; sourceTree = "<group>"; };
+		301FFD8819927D000023C569 /* __RispLLVMTargetCodeGenInfo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = __RispLLVMTargetCodeGenInfo.mm; sourceTree = "<group>"; };
 		30208B86190BA49A00A4C8B5 /* 穹.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "穹.jpg"; sourceTree = "<group>"; };
 		3020D3A81906430600BC6C66 /* RispBodyExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBodyExpression.h; sourceTree = "<group>"; };
 		3020D3A91906430600BC6C66 /* RispBodyExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispBodyExpression.m; sourceTree = "<group>"; };
@@ -670,10 +671,6 @@
 		305E9829190A713800A4B7FB /* RispAutoHideWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispAutoHideWindow.m; sourceTree = "<group>"; };
 		305E9836190B5CF900A4B7FB /* RispWindowBlurer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispWindowBlurer.h; sourceTree = "<group>"; };
 		305E9837190B5CF900A4B7FB /* RispWindowBlurer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispWindowBlurer.m; sourceTree = "<group>"; };
-		305E987B190B8CBC00A4B7FB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		305E987C190B8CBC00A4B7FB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		305E987D190B8CBC00A4B7FB /* RMBlurredView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMBlurredView.h; sourceTree = "<group>"; };
-		305E987E190B8CBC00A4B7FB /* RMBlurredView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMBlurredView.m; sourceTree = "<group>"; };
 		3062573B1924692E00518B60 /* RispDispatchReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispDispatchReader.h; sourceTree = "<group>"; };
 		3062573C1924692E00518B60 /* RispDispatchReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispDispatchReader.m; sourceTree = "<group>"; };
 		3063C1E51904DD16000FBB7F /* RispVectorExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispVectorExpression.h; sourceTree = "<group>"; };
@@ -1236,20 +1233,8 @@
 			isa = PBXGroup;
 			children = (
 				30A58D8919363BD700D45D2C /* RispHUD */,
-				305E987A190B8CBC00A4B7FB /* RMBlurredView */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		305E987A190B8CBC00A4B7FB /* RMBlurredView */ = {
-			isa = PBXGroup;
-			children = (
-				305E987B190B8CBC00A4B7FB /* LICENSE */,
-				305E987C190B8CBC00A4B7FB /* README.md */,
-				305E987D190B8CBC00A4B7FB /* RMBlurredView.h */,
-				305E987E190B8CBC00A4B7FB /* RMBlurredView.m */,
-			);
-			path = RMBlurredView;
 			sourceTree = "<group>";
 		};
 		3065BEC8190EA6D900953287 /* RispRenderFoundation */ = {
@@ -1599,6 +1584,8 @@
 				304C36811961602200191C6B /* _RispLLVMModule.m */,
 				304C36821961602200191C6B /* RispCodeGeneratorContext.h */,
 				304C36831961602200191C6B /* RispCodeGeneratorContext.m */,
+				301FFD8719927D000023C569 /* __RispLLVMTargetCodeGenInfo.h */,
+				301FFD8819927D000023C569 /* __RispLLVMTargetCodeGenInfo.mm */,
 				3006AF4919471CA8002E01B4 /* __RispLLVMFoundation.h */,
 				3006AF4A19471CA8002E01B4 /* __RispLLVMFoundation.mm */,
 				30827059194D802400263F44 /* RispLLVM.h */,
@@ -1824,6 +1811,7 @@
 			files = (
 				30F344351928FA1000A3DF56 /* RispCharSequence.h in Headers */,
 				30D8DA1B18FECDE700477849 /* RispBaseReader.h in Headers */,
+				301FFD8919927D000023C569 /* __RispLLVMTargetCodeGenInfo.h in Headers */,
 				30D8DA3318FECDE700477849 /* RispWrappingReader.h in Headers */,
 				30D8DA2D18FECDE700477849 /* RispTokenReader.h in Headers */,
 				30D8DA1F18FECDE700477849 /* RispListReader.h in Headers */,
@@ -2105,11 +2093,9 @@
 				30E68394192326DA003423DE /* Media.xcassets in Resources */,
 				3046270F1911912100D17F0F /* MainMenu.xib in Resources */,
 				30970F8D18FCF5000091F83D /* InfoPlist.strings in Resources */,
-				305E987F190B8CBC00A4B7FB /* LICENSE in Resources */,
 				30208B87190BA49A00A4C8B5 /* 穹.jpg in Resources */,
 				30970F9318FCF5000091F83D /* Credits.rtf in Resources */,
 				3065BEC7190EA67B00953287 /* RispREPLAlphaWindowController.xib in Resources */,
-				305E9880190B8CBC00A4B7FB /* README.md in Resources */,
 				304E04141907C02400E2D438 /* 1.png in Resources */,
 				30EF2CB8190E0E290090BE3C /* RispRenderWindowController.xib in Resources */,
 				3033B6E4194554D70012A6F9 /* ASUserNotificationDefaultSound.aif in Resources */,
@@ -2204,6 +2190,7 @@
 				30E3584C18FFDE5D00412E48 /* RispSequence.m in Sources */,
 				30D8DA3218FECDE700477849 /* RispUnquoteReader.m in Sources */,
 				30D8DA2618FECDE700477849 /* RispReader.m in Sources */,
+				301FFD8A19927D000023C569 /* __RispLLVMTargetCodeGenInfo.mm in Sources */,
 				3033227419358981002810E7 /* RispKeywordInvokeExpression.m in Sources */,
 				30E3584018FFAF0300412E48 /* RispRuntime.m in Sources */,
 				301FC1DF1930751600D7E70A /* RispBaseExpression+ASTDescription.m in Sources */,
@@ -2298,7 +2285,6 @@
 				30EF2CB7190E0E290090BE3C /* RispRenderWindowController.m in Sources */,
 				30A58D9A19363C4100D45D2C /* RispTextFieldVCenteredCell.m in Sources */,
 				3033B6E5194554D70012A6F9 /* ASUserNotificationFeature.m in Sources */,
-				305E9881190B8CBC00A4B7FB /* RMBlurredView.m in Sources */,
 				30A58D9619363BFE00D45D2C /* RispHUDWindowController.m in Sources */,
 				30A58D8F19363BDE00D45D2C /* MDBorderlessWindow.m in Sources */,
 				305E982A190A713800A4B7FB /* RispReaderEvalCore.m in Sources */,
@@ -2844,6 +2830,7 @@
 				309C9D86197FD85500C92BDA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

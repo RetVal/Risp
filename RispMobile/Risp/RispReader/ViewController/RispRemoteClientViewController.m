@@ -8,6 +8,7 @@
 
 #import "RispRemoteClientViewController.h"
 #import "__RispReaderRemoteService.h"
+#import "RispEvalCore.h"
 
 static NSString * const kJSQDemoAvatarNameCook = @"Tim Cook";
 static NSString * const kJSQDemoAvatarNameJobs = @"Jobs";
@@ -36,14 +37,6 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
     UIImage *rispImage = [JSQMessagesAvatarFactory avatarWithImage:[UIImage imageNamed:@"Risp"] diameter:outgoingDiameter];
     self.avatars = @{ self.sender: rispImage,
                       kRispRemoteClientAvatarNameRispCode: rispCodeImage};
-    /**
-     *  Change to add more messages for testing
-     */
-    
-    /**
-     *  Change to YES to add a super long message for testing
-     *  You should see "END" twice
-     */
     [self reconnectButtonPressed:self];
 }
 
@@ -63,9 +56,8 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.sender = kRispRemoteClientAvatarNameRisp;
+    [self setSender:kRispRemoteClientAvatarNameRisp];
     [self _setup];
-    
     /**
      *  Remove camera button since media messages are not yet implemented
      *
@@ -114,6 +106,8 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
 
 #pragma mark - Actions
 - (IBAction)reconnectButtonPressed:(id)sender {
+    [[self messages] removeAllObjects];
+    [[self collectionView] reloadData];
     [_service reconnect];
 }
 
@@ -171,6 +165,7 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
 
 - (void)remoteServiceDidOpen:(__RispReaderRemoteService *)service {
     [self setTitle:@"Connected"];
+    NSLog(@"Connected");
 }
 
 - (void)remoteService:(__RispReaderRemoteService *)service didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
@@ -180,7 +175,31 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
 
 - (void)remoteService:(__RispReaderRemoteService *)service didReceiveContent:(id)content {
     if ([content isKindOfClass:[NSString class]]) {
-        NSLog(@"%@", content);
+        JSQMessage *message = [JSQMessage messageWithText:content sender:kRispRemoteClientAvatarNameRispCode];
+        [[self messages] addObject:message];
+        [self finishReceivingMessage];
+        
+        NSDictionary *expressions = nil;
+        NSArray *results = [RispEvalCore evalCurrentLine:content evalResult:&expressions];
+        
+        @autoreleasepool {
+            [results enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                NSMutableString *desc = [[NSMutableString alloc] init];
+                NSDictionary *info = expressions[obj];
+                if (info[RispExceptionKey]) {
+                    NSException *exception = info[RispExceptionKey];
+                    [desc appendFormat:@"%@ -> %@", obj, exception];
+                    [[__RispReaderRemoteService defaultService] send:[NSString stringWithFormat:@"%@ -> %@", obj, [exception callStackSymbols]]];
+                } else {
+                    [desc appendFormat:@"%@ -> %@\n", obj, info[RispEvalValueKey]];
+                }
+                
+                JSQMessage *messageResult = [[JSQMessage alloc] initWithText:desc sender:kRispRemoteClientAvatarNameRisp date:[NSDate date]];
+                [[self messages] addObject:messageResult];
+                [self finishSendingMessage];
+            }];
+        }
+        NSLog(@"%@ -> done", content);
     } else if ([content isKindOfClass:[NSData class]]) {
         assert(NO);
     } else {
@@ -191,6 +210,15 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
 - (void)remoteService:(__RispReaderRemoteService *)service didFailWithError:(NSError *)error {
     NSLog(@"failed with error -> %@", error);
     [self setTitle:@"Error"];
+}
+
+- (void)finishSendingMessage {
+    [[__RispReaderRemoteService defaultService] send:[[[self messages] lastObject] text]];
+    [super finishSendingMessage];
+}
+
+- (void)finishReceivingMessage {
+    [super finishReceivingMessage];
 }
 
 #pragma mark - JSQMessagesViewController method overrides

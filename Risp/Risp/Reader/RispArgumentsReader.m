@@ -24,24 +24,8 @@
     [[[RispContext currentContext] currentScope] setObject:symbol forKey:symbol];
     return symbol;
 }
-//static Symbol registerArg(int n){
-//	PersistentTreeMap argsyms = (PersistentTreeMap) ARG_ENV.deref();
-//	if(argsyms == null)
-//    {
-//		throw new IllegalStateException("arg literal not in #()");
-//    }
-//	Symbol ret = (Symbol) argsyms.valAt(n);
-//	if(ret == null)
-//    {
-//		ret = garg(n);
-//		ARG_ENV.set(argsyms.assoc(n, ret));
-//    }
-//	return ret;
-//}
+
 - (id)invoke:(RispReader *)reader object:(id)object {
-//    if ([rt isDeref] == nil) {
-//        return [reader interpretToken:[[[RispTokenReader alloc] init] invoke:reader object:object]];
-//    }
     RispPushBackReader *r = [reader reader];
     unichar ch = [r read1];
     [r unread:ch];
@@ -59,25 +43,5 @@
         [NSException raise:RispIllegalArgumentException format:@"arg literal must be %%, %%& or %%integer"];
     }
     return [self registerArguments:[n intValue]];
-//    {
-//		PushbackReader r = (PushbackReader) reader;
-//		if(ARG_ENV.deref() == null)
-//        {
-//			return interpretToken(readToken(r, '%'));
-//        }
-//		int ch = read1(r);
-//		unread(r, ch);
-//		//% alone is first arg
-//		if(ch == -1 || isWhitespace(ch) || isTerminatingMacro(ch))
-//        {
-//			return registerArg(1);
-//        }
-//		Object n = read(r, true, null, true);
-//		if(n.equals(Compiler._AMP_))
-//			return registerArg(-1);
-//		if(!(n instanceof Number))
-//			throw new IllegalStateException("arg literal must be %, %& or %integer");
-//		return registerArg(((Number) n).intValue());
-//	}
 }
 @end

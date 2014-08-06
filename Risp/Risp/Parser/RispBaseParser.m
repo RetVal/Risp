@@ -74,6 +74,8 @@
         return [RispFnExpression parse:me context:context];
     } else if ((p = [context specialForKey:op])) {
         return [[p class] parser:sequence context:context];
+    } else if ([op isEqualTo:[RispSymbol DO]]) {
+        return [RispBodyExpression parser:me context:context];
     }
     return [RispInvokeExpression parser:sequence context:context];
 }

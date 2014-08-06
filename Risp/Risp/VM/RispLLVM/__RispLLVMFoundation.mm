@@ -7,31 +7,6 @@
 //
 
 #import "__RispLLVMFoundation.h"
-#include <objc/runtime.h>
-#include "llvm-c/Core.h"
-
-#include "llvm/InitializePasses.h"
-#include "llvm/IR/IRBuilder.h"
-#include "llvm/IR/Module.h"
-#include "llvm/CodeGen/ValueTypes.h"
-#include "llvm/IR/DerivedTypes.h"
-#include "llvm/IR/Verifier.h"
-#include "llvm/IR/LLVMContext.h"
-#include "llvm/Support/CodeGen.h"
-#include "llvm/ExecutionEngine/ExecutionEngine.h"
-#include "llvm/ExecutionEngine/JIT.h"
-
-#include "llvm/IR/Type.h"
-#include "llvm/Pass.h"
-#include "llvm/PassManager.h"
-#include "llvm/PassRegistry.h"
-#include "llvm/InitializePasses.h"
-#include "llvm/Transforms/Scalar.h"
-#include "llvm/IR/DataLayout.h"
-#include "llvm/Support/StringPool.h"
-#include <cstdio>
-#include <sstream>
-
 #include "RispLLVM.h"
 
 namespace RispLLVM {
@@ -42,7 +17,9 @@ namespace RispLLVM {
         }
         
         Selector(SEL sel) : _selector(sel) {
-            
+            if (!_methodSingature) {
+                _methodSingature = [NSMethodSignature methodSignatureForSelector:_selector];
+            }
         }
         
         Selector(int idx) : _selector(reinterpret_cast<SEL>(idx)) {
@@ -64,12 +41,39 @@ namespace RispLLVM {
         bool operator==(RispLLVM::Selector RHS) const {
             return sel_isEqual(_selector, RHS._selector);
         }
+        
+        bool isNull() const {
+            return _selector == nil || _selector == reinterpret_cast<SEL>(-1) || _selector == reinterpret_cast<SEL>(-2);
+        }
+        
+        unsigned getNumArgs() const {
+            if (isNull()) {
+                return 0;
+            }
+            return (unsigned)[_methodSingature numberOfArguments] - 2; // self, _cmd
+        }
     private:
         SEL _selector;
+        NSMethodSignature *_methodSingature;
     };
     
     class IdentifierInfo {
         
+    public:
+        IdentifierInfo(StringRef name) : _name(name) {
+            
+        }
+        
+        ~IdentifierInfo() {
+            
+        }
+        
+        llvm::StringRef getName() const {
+            return _name;
+        }
+        
+    private:
+        StringRef _name;
     };
 }
 
@@ -126,31 +130,302 @@ using namespace llvm;
 
 typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 
-@interface __RispLLVMFoundation (Type)
-- (IntegerType *)intType;
-- (IntegerType *)charType;
-- (PointerType *)intptrType;
-- (IntegerType *)int64Type;
-- (IntegerType *)longType;
-- (PointerType *)idType;
-- (PointerType *)selectorType;
-- (Type *)voidType;
-- (Type *)llvmTypeFromObjectiveCType:(const char *)type;
+@interface __RispLLVMFoundation (Context)
+- (llvm::LLVMContext *)llvmContext;
+@end
+
+@interface __RispLLVMObjcType () {
+@private
+    llvm::IntegerType *_intTy;
+    llvm::IntegerType *_charTy;
+    llvm::IntegerType *_int64Ty;
+    llvm::IntegerType *_longTy;
+    llvm::IntegerType *_unsignedIntTy;
+    llvm::PointerType *_intptrTy;
+    llvm::PointerType *_int8PtrTy;
+    llvm::PointerType *_int8PtrPtrTy;
+    
+    llvm::PointerType *_idTy;
+    llvm::PointerType *_selectorTy;
+    llvm::Type *_voidTy;
+    
+    llvm::Type *_ivarOffsetVarTy;
+    
+//    llvm::StructType *_propertynfABITy;
+//    llvm::StructType *_propertyListTy;
+//    llvm::PointerType *_propertyListPtrTy;
+//    llvm::StructType *_methodnfABITy;
+//    llvm::StructType *_cachenfABITy;
+//    llvm::PointerType *_cachenfABIPtrTy;
+//    
+//    llvm::StructType *_methodListnfABITy;
+//    llvm::Type *_methodListnfABIPtrTy;
+//    llvm::StructType *_protocolnfABITy;
+//    llvm::Type *_protocolnfABIPtrTy;
+//    llvm::StructType *_protocolListnfABITy;
+//    llvm::Type *_protocolListnfABIPtrTy;
+//    llvm::StructType *_classnfABITy;
+//    llvm::Type *_classnfABIPtrTy;
+//    llvm::StructType *_ivarnfABITy;
+////    llvm::Type *_ivarnfABIPtrTy;
+//    llvm::StructType *_ivarListnfABITy;
+//    llvm::Type *_ivarListnfABIPtrTy;
+//    llvm::StructType *_classRonfABITy;
+//    llvm::Type *_impnfABITy;;
+//    llvm::StructType *_categorynfABITy;
+//    llvm::StructType *_messageRefTy;
+//    llvm::Type *_messageRefPtrTy;
+//    llvm::FunctionType *_messengerTy;
+//    llvm::StructType *_superMessageRefTy;
+//    llvm::Type *_superMessageRefPtrTy;
+}
+@end
+
+@implementation __RispLLVMObjcType
++ (instancetype)helper {
+    static dispatch_once_t onceToken;
+    static __RispLLVMObjcType *objcType;
+    dispatch_once(&onceToken, ^{
+        objcType = [[__RispLLVMObjcType alloc] init];
+    });
+    return objcType;
+}
+
+- (Type *)llvmTypeFromObjectiveCType:(const char *)type {
+#define IF_ISTYPE(t) if(strcmp(@encode(t), type) == 0)
+#define INT_TYPE(t) IF_ISTYPE(t) return IntegerType::get(llvm::getGlobalContext(), sizeof(t) * CHAR_BIT)
+#define PTR_TYPE(t) IF_ISTYPE(t) return PointerType::getUnqual([self charType])
+    INT_TYPE(char);
+    INT_TYPE(short);
+    INT_TYPE(int);
+    INT_TYPE(long);
+    INT_TYPE(long long);
+    INT_TYPE(unsigned char);
+    INT_TYPE(unsigned short);
+    INT_TYPE(unsigned int);
+    INT_TYPE(unsigned long);
+    INT_TYPE(unsigned long long);
+    IF_ISTYPE(float) return Type::getFloatTy(llvm::getGlobalContext());
+    IF_ISTYPE(double) return Type::getDoubleTy(llvm::getGlobalContext());
+    IF_ISTYPE(void) return Type::getVoidTy(llvm::getGlobalContext());
+    PTR_TYPE(char *);
+    PTR_TYPE(id);
+    PTR_TYPE(SEL);
+    PTR_TYPE(Class);
+    if(type[0] == '^') return PointerType::getUnqual([self charType]);
+    
+    return NULL;
+#undef IF_ISTYPE
+#undef INT_TYPE
+#undef PTR_TYPE
+}
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _intTy = llvm::IntegerType::get(llvm::getGlobalContext(), sizeof(int) * CHAR_BIT);
+        _charTy = llvm::IntegerType::get(llvm::getGlobalContext(), CHAR_BIT);
+        _intptrTy = llvm::IntegerType::getInt32PtrTy(llvm::getGlobalContext());
+        _idTy = llvm::PointerType::getUnqual([self charType]);;
+        _selectorTy = llvm::PointerType::getUnqual([self charType]);
+        _int64Ty = llvm::IntegerType::get(llvm::getGlobalContext(), sizeof(int64_t) * CHAR_BIT);
+        _longTy = llvm::IntegerType::get(llvm::getGlobalContext(), sizeof(long) * CHAR_BIT);
+        _unsignedIntTy = llvm::IntegerType::get(llvm::getGlobalContext(), sizeof(unsigned int) * CHAR_BIT);
+        _int8PtrTy = llvm::PointerType::getUnqual(llvm::IntegerType::get(llvm::getGlobalContext(), sizeof(int8_t) * CHAR_BIT));
+        _int8PtrPtrTy = llvm::PointerType::getUnqual([self int8PtrType]);
+        _voidTy = llvm::PointerType::getVoidTy(llvm::getGlobalContext());
+        
+        //amd64 _ivarOffsetVarTy = _uint
+        _ivarOffsetVarTy = _longTy;
+        
+        // struct _prop_t {
+        //   char *name;
+        //   char *attributes;
+        // }
+        _propertyTy = llvm::StructType::create("struct._prop_t", _int8PtrTy, _int8PtrTy, nil);
+        
+        // struct _prop_list_t {
+        //   uint32_t entsize;      // sizeof(struct _prop_t)
+        //   uint32_t count_of_properties;
+        //   struct _prop_t prop_list[count_of_properties];
+        // }
+        _propertyListTy = llvm::StructType::create("struct._prop_list_t", _intTy, _intTy, llvm::ArrayType::get(_propertyTy, 0), nil);
+        _propertyListPtrTy = llvm::PointerType::getUnqual(_propertyListTy);
+        
+        // struct _objc_method {
+        //   SEL _cmd;
+        //   char *method_type;
+        //   char *_imp;
+        // }
+        _methodnfABITy = llvm::StructType::create("struct._objc_method", _selectorTy, _int8PtrTy, _int8PtrTy, nil);
+        
+        _cacheTy = llvm::StructType::create(llvm::getGlobalContext(), "struct._objc_cache");
+        _cachePtrTy = llvm::PointerType::getUnqual(_cacheTy);
+        
+        // struct _method_list_t {
+        //   uint32_t entsize;  // sizeof(struct _objc_method)
+        //   uint32_t method_count;
+        //   struct _objc_method method_list[method_count];
+        // }
+        _methodListnfABITy = llvm::StructType::create("struct.__method_list_t", _intTy, _intTy, llvm::ArrayType::get(_methodnfABITy, 0), nil);
+        _methodListnfABIPtrTy = llvm::PointerType::getUnqual(_methodListnfABITy);
+        
+        _protocolListnfABITy = llvm::StructType::create(llvm::getGlobalContext(), "struct._objc_protocol_list");
+        
+        // struct _protocol_t {
+        //   id isa;  // NULL
+        //   const char * const protocol_name;
+        //   const struct _protocol_list_t * protocol_list; // super protocols
+        //   const struct method_list_t * const instance_methods;
+        //   const struct method_list_t * const class_methods;
+        //   const struct method_list_t *optionalInstanceMethods;
+        //   const struct method_list_t *optionalClassMethods;
+        //   const struct _prop_list_t * properties;
+        //   const uint32_t size;  // sizeof(struct _protocol_t)
+        //   const uint32_t flags;  // = 0
+        //   const char ** extendedMethodTypes;
+        // }
+        _protocolnfABITy = llvm::StructType::create("struct._protocol_t", _idTy, _int8PtrTy,
+                                                    llvm::PointerType::getUnqual(_protocolListnfABITy),
+                                                    _methodListnfABIPtrTy, _methodListnfABIPtrTy,
+                                                    _methodListnfABIPtrTy, _methodListnfABIPtrTy,
+                                                    _protocolListnfABIPtrTy, _intTy, _intTy,
+                                                    _int8PtrPtrTy, nil);
+        // struct _protocol_t*
+        _protocolnfABIPtrTy = llvm::PointerType::getUnqual(_protocolnfABITy);
+        
+        // struct _protocol_list_t {
+        //   long protocol_count;   // Note, this is 32/64 bit
+        //   struct _protocol_t *[protocol_count];
+        // }
+        _protocolListnfABITy->setBody(_longTy, llvm::ArrayType::get(_protocolnfABIPtrTy, 0), nil);
+        
+        _protocolListnfABIPtrTy = llvm::PointerType::getUnqual(_protocolListnfABITy);
+        
+        // struct _ivar_t {
+        //   unsigned [long] int *offset;  // pointer to ivar offset location
+        //   char *name;
+        //   char *type;
+        //   uint32_t alignment;
+        //   uint32_t size;
+        // }
+        _ivarnfABITy = llvm::StructType::create("struct._ivar_t", llvm::PointerType::getUnqual(_ivarOffsetVarTy), _int8PtrTy, _int8PtrTy, _intTy, _intTy, nil);
+        
+        // struct _ivar_list_t {
+        //   uint32 entsize;  // sizeof(struct _ivar_t)
+        //   uint32 count;
+        //   struct _iver_t list[count];
+        // }
+        _ivarListnfABITy = llvm::StructType::create("struct._ivar_list_t", _intTy, _intTy, llvm::ArrayType::get(_ivarnfABITy, 0), nil);
+        _ivarnfABIPtrTy = llvm::PointerType::getUnqual(_ivarnfABITy);
+        
+        // struct _class_ro_t {
+        //   uint32_t const flags;
+        //   uint32_t const instanceStart;
+        //   uint32_t const instanceSize;
+        //   uint32_t const reserved;  // only when building for 64bit targets
+        //   const uint8_t * const ivarLayout;
+        //   const char *const name;
+        //   const struct _method_list_t * const baseMethods;
+        //   const struct _objc_protocol_list *const baseProtocols;
+        //   const struct _ivar_list_t *const ivars;
+        //   const uint8_t * const weakIvarLayout;
+        //   const struct _prop_list_t * const properties;
+        // }
+        _classRonfABITy = llvm::StructType::create("struct._class_ro_t",
+                                                   _intTy, _intTy, _intTy, _int8PtrTy,
+                                                   _int8PtrTy, _methodListnfABIPtrTy,
+                                                   _protocolListnfABIPtrTy,
+                                                   _ivarListnfABIPtrTy,
+                                                   _int8PtrTy, _propertyListPtrTy, nil);
+        // ImpnfABITy - LLVM for id (*)(id, SEL, ...)
+        llvm::Type *params[] = {_idTy, _selectorTy};
+        _impnfABITy = llvm::FunctionType::get(_idTy, params, false)->getPointerTo();
+        // struct _class_t {
+        //   struct _class_t *isa;
+        //   struct _class_t * const superclass;
+        //   void *cache;
+        //   IMP *vtable;
+        //   struct class_ro_t *ro;
+        // }
+        _classnfABITy = llvm::StructType::create(llvm::getGlobalContext(), "struct._class_t");
+        _classnfABITy->setBody(llvm::PointerType::getUnqual(_classnfABITy),
+                              llvm::PointerType::getUnqual(_classnfABITy),
+                              _cachePtrTy,
+                              llvm::PointerType::getUnqual(_impnfABITy),
+                              llvm::PointerType::getUnqual(_classRonfABITy),
+                              nil);
+        // LLVM for struct _class_t *
+        _classnfABIPtrTy = llvm::PointerType::getUnqual(_classnfABITy);
+        // struct _category_t {
+        //   const char * const name;
+        //   struct _class_t *const cls;
+        //   const struct _method_list_t * const instance_methods;
+        //   const struct _method_list_t * const class_methods;
+        //   const struct _protocol_list_t * const protocols;
+        //   const struct _prop_list_t * const properties;
+        // }
+        _categorynfABITy = llvm::StructType::create("struct._category_t",
+                                                    _int8PtrTy, _classnfABIPtrTy,
+                                                    _methodListnfABIPtrTy,
+                                                    _methodListnfABIPtrTy,
+                                                    _protocolListnfABIPtrTy,
+                                                    _propertyListPtrTy,
+                                                    nil);
+        
+        // MessageRefTy - LLVM for:
+        // struct _message_ref_t {
+        //   IMP messenger;
+        //   SEL name;
+        // };
+        _messageRefTy = llvm::StructType::create("struct._message_ref_t", _voidTy, _selectorTy, nil); // CGObjcMac.cpp - line 5440
+        // MessageRefPtrTy - LLVM for struct _message_ref_t*
+        _messageRefPtrTy = llvm::PointerType::getUnqual(_messageRefTy);
+        // SuperMessageRefTy - LLVM for:
+        // struct _super_message_ref_t {
+        //   SUPER_IMP messenger;
+        //   SEL name;
+        // };
+        _superMessageRefTy = llvm::StructType::create("struct._super_message_ref_t", _impnfABITy, _selectorTy, nil);
+        _superMessageRefPtrTy = llvm::PointerType::getUnqual(_superMessageRefTy);
+        
+        _ehTypeTy = llvm::StructType::create("struct._objc_typeinfo", llvm::PointerType::getUnqual(_int8PtrTy), _int8PtrTy, _classnfABIPtrTy, nil);
+        _ehTypePtrTy = llvm::PointerType::getUnqual(_ehTypeTy);
+    }
+    return self;
+}
+
+//- (llvm::Constant *)messageSendFn {
+//    llvm::Type *params[] = {};
+//    return [];
+//}
+@end
+
+
+@interface __RispLLVMFoundation (TypeHelper)
+- (llvm::IntegerType *)intType;
+- (llvm::IntegerType *)charType;
+- (llvm::PointerType *)intptrType;
+- (llvm::IntegerType *)int64Type;
+- (llvm::IntegerType *)longType;
+- (llvm::PointerType *)idType;
+- (llvm::PointerType *)selectorType;
+- (llvm::Type *)voidType;
+- (llvm::Type *)llvmTypeFromObjectiveCType:(const char *)type;
 @end
 
 @interface __RispLLVMFoundation (Value)
-- (Value *)valueForPointer:(void *)ptr builder:(IRBuilder<> &)builder type:(Type *)type name:(const char *)name;
-- (Value *)valueForSelector:(SEL)aSEL builder:(IRBuilder<> &)builder;
-- (Value *)valueForClass:(Class)aClass builder:(IRBuilder<> &)builder;
+- (llvm::Value *)valueForPointer:(void *)ptr builder:(llvm::IRBuilder<> &)builder type:(llvm::Type *)type name:(const char *)name;
+- (llvm::Value *)valueForSelector:(SEL)aSEL builder:(llvm::IRBuilder<> &)builder;
+- (llvm::Value *)valueForClass:(Class)aClass builder:(llvm::IRBuilder<> &)builder;
 @end
 
 @interface __RispLLVMFoundation (Function)
-- (Function *)msgSend;
+- (llvm::Function *)msgSend;
 @end
 
 @interface __RispLLVMFoundation (Call)
-- (Value *)msgSendToTarget:(id)target selector:(SEL)cmd arguments:(NSArray *)arguments;
-- (llvm::Value *)msgSend:(Value *)target selector:(SEL)cmd arguments:(std::vector<Value *>)arguments;
+- (llvm::Value *)msgSendToTarget:(id)target selector:(SEL)cmd arguments:(NSArray *)arguments;
+- (llvm::Value *)msgSend:(llvm::Value *)target selector:(SEL)cmd arguments:(std::vector<Value *>)arguments;
 @end
 
 @interface __RispLLVMFoundation (Literal)
@@ -160,7 +435,15 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 @end
 
 @interface __RispLLVMFoundation (Class)
-- (llvm::StringRef)objcClassSymbolPrefix;
+- (std::string)objcClassSymbolPrefix;
+- (std::string)metaClassSymbolPrefix;
+- (llvm::GlobalVariable *)classGlobalWithName:(const std::string&)name isWeak:(BOOL)weak;
+- (llvm::Value *)emitClassRefFromId:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak;
+- (llvm::Value *)emitAutoreleasePoolClassRef;
+- (llvm::Value *)emitClassNamed:(NSString *)name isWeak:(BOOL)weak;
+- (llvm::Value *)emitSuperClassRef:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak;
+- (llvm::Value *)emitMetaClassRef:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak;
+- (llvm::Value *)classFromIdentifierInfo:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak;
 @end
 
 @interface __RispLLVMFoundation (Selector)
@@ -175,15 +458,21 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 - (void)addUsedGlobal:(llvm::GlobalValue *)gv;
 - (void)addCompilerUsedGlobal:(llvm::GlobalValue *)gv;
 - (void)emitLLVMUsed;
-+ (void)emitUsed:(__RispLLVMFoundation *)cgm name:(llvm::StringRef)name list:(std::vector<llvm::WeakVH> &)list;
+- (void)emitUsedName:(llvm::StringRef)name list:(std::vector<llvm::WeakVH> &)list;
 @end
 
 @interface __RispLLVMFoundation () {
     llvm::LLVMContext *_context;
     llvm::Module *_theModule;
+    llvm::DataLayout *_dataLayout;
+    
+    __RispLLVMTargetCodeGenInfo *_targetCodeGenInfo;
+    
     std::map <std::string, llvm::Value *>_nameValues;
     llvm::IRBuilder<> *_builder;
     ExecutionEngine *_executeEngine;
+    
+    __RispLLVMObjcType *_objcType;
     
     llvm::SmallPtrSet<llvm::GlobalValue*, 10> WeakRefReferences;
     llvm::StringMap<Constant *>NSConstantStringMap;
@@ -192,25 +481,15 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     
     llvm::DenseMap<RispLLVM::Selector, llvm::GlobalVariable*> SelectorReferences;
     llvm::DenseMap<RispLLVM::IdentifierInfo*, llvm::GlobalVariable*> ClassReferences;
+    llvm::DenseMap<RispLLVM::IdentifierInfo*, llvm::GlobalVariable*> SuperClassReferences;
+    llvm::DenseMap<RispLLVM::IdentifierInfo*, llvm::GlobalVariable*> MetaClassReferences;
     llvm::DenseMap<RispLLVM::Selector, llvm::GlobalVariable*> MethodVarNames;
     
     llvm::StructType * _NSConstantStringClassTy;
     llvm::Value *_CFConstantStringClassReference;
     
     const LangAS::Map *_addrSpaceMap;
-    
-    
-    llvm::IntegerType *_intTy;
-    llvm::IntegerType *_charTy;
-    llvm::IntegerType *_int64Ty;
-    llvm::IntegerType *_longTy;
-    llvm::IntegerType *_unsignedIntTy;
-    llvm::PointerType *_intptrTy;
-    llvm::PointerType *_int8PtrTy;
-    llvm::PointerType *_idTy;
-    llvm::PointerType *_selectorTy;
-    llvm::Type *_voidTy;
-    
+
     std::vector<llvm::WeakVH> LLVMUsed;
     std::vector<llvm::WeakVH> LLVMCompilerUsed;
     
@@ -221,6 +500,8 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 - (llvm::IRBuilder<> *)builder;
 - (llvm::StringMap<Constant *>)stringMap;
 - (llvm::StructType *)NSConstantStringClassTy;
+
+- (llvm::CallingConv::ID)runtimeCC;
 @end
 
 @implementation __RispLLVMFoundation
@@ -243,21 +524,25 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 - (llvm::StructType *)NSConstantStringClassTy {
     if (!_NSConstantStringClassTy) {
         llvm::Type *fieldTypes[4];
-        fieldTypes[0] = llvm::PointerType::getUnqual([self intType]);
+        fieldTypes[0] = llvm::PointerType::getUnqual([_objcType intType]);
         fieldTypes[1] = llvm::IntegerType::getInt32Ty(*_context);
-        fieldTypes[2] = [self selectorType];
-        fieldTypes[3] = [self longType];
-        _NSConstantStringClassTy = llvm::StructType::create(*_context, fieldTypes, "NSConstantString");
+        fieldTypes[2] = [_objcType selectorType];
+        fieldTypes[3] = [_objcType longType];
+        _NSConstantStringClassTy = llvm::StructType::create(*_context, fieldTypes, "struct.NSConstantString");
     }
     return _NSConstantStringClassTy;
 }
 
+- (llvm::CallingConv::ID)runtimeCC {
+    return [_targetCodeGenInfo runtimeCC];
+}
+
 - (llvm::Value *)CFConstantStringClassReference {
     if (!_CFConstantStringClassReference) {
-        llvm::Type *ty = [self intType];
+        llvm::Type *ty = [_objcType intType];
         ty = llvm::ArrayType::get(ty, 0);
         llvm::Constant *gv = [self getOrCreateLLVMGlobal:"__CFConstantStringClassReference" type:llvm::PointerType::getUnqual(ty) unnamedAddress:YES];
-        llvm::Constant *zero = llvm::Constant::getNullValue([self intType]);
+        llvm::Constant *zero = llvm::Constant::getNullValue([_objcType intType]);
         llvm::Constant *zeros[] = { zero, zero };
         _CFConstantStringClassReference = llvm::ConstantExpr::getGetElementPtr(gv, zeros);
     }
@@ -268,6 +553,11 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     if (self = [super init]) {
         _context = &getGlobalContext();
         _ObjCABI = 2;
+        _theModule = new Module("top", *(_context));
+        _builder = new IRBuilder<>(*_context);
+        _dataLayout = new llvm::DataLayout([self module]);
+        _objcType = [__RispLLVMObjcType helper];
+        _targetCodeGenInfo = [[__RispLLVMTargetCodeGenInfo alloc] init];
     }
     return self;
 }
@@ -336,7 +626,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     if (llvm::isa<llvm::FunctionType>(ty)) {
         FTy = llvm::cast<llvm::FunctionType>(ty);
     } else {
-        FTy = llvm::FunctionType::get([self voidType], false);
+        FTy = llvm::FunctionType::get([_objcType voidType], false);
         isIncompleteFunction = true;
     }
     
@@ -428,36 +718,50 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     return c;
 }
 
+- (llvm::Constant *)createRuntimeFunciton:(llvm::FunctionType *)functionTy name:(StringRef)name extraAttributes:(llvm::AttributeSet)extraAttrs {
+    llvm::Constant *c = [self getOrCreateLLVMFunction:name type:functionTy forVTable:false dontDefer:false attribute:extraAttrs];
+    if (llvm::Function *f = dyn_cast<llvm::Function>(c)) {
+        if (f->empty()) {
+            f->setCallingConv([self runtimeCC]);
+        }
+    }
+    return c;
+}
 
 + (void)load {
     LLVMInitializeNativeTarget();
     __RispLLVMFoundation *llvm = [[__RispLLVMFoundation alloc] init];
     
     LLVMContext &context = getGlobalContext();
-    llvm->_theModule = new Module("top", context);
-    llvm->_builder = new IRBuilder<>(context);
-    llvm->_executeEngine = ExecutionEngine::create(llvm->_theModule);
+    llvm->_executeEngine = ExecutionEngine::create([llvm module]);
     
     FunctionType *mainFuncType = FunctionType::get([llvm intType], NO);
     Function *mainFunc = Function::Create(mainFuncType, llvm::GlobalValue::PrivateLinkage, "main", [llvm module]);
-    
         
     BasicBlock* label_entry = BasicBlock::Create([llvm module]->getContext(), "entry", mainFunc, 0);
-    llvm->_builder->SetInsertPoint(label_entry);
+    [llvm builder]->SetInsertPoint(label_entry);
     std::vector<Type *>logArgs;
     logArgs.push_back([llvm idType]);
-    FunctionType *logType = FunctionType::get(llvm->_builder->getVoidTy(), logArgs, YES);
-    Constant *nslog = llvm->_theModule->getOrInsertFunction("NSLog", logType);
+    FunctionType *logType = FunctionType::get([llvm builder]->getVoidTy(), logArgs, YES);
+    Constant *nslog = [llvm module]->getOrInsertFunction("NSLog", logType);
     if (nslog) {
         NSLog(@"have nslog");
-        llvm::Constant *objcstr = [llvm emitObjCStringLiteral:@"test code-gen for constant string"];
-        llvm->_builder->CreateCall(nslog, llvm::ConstantExpr::getBitCast(objcstr, [llvm idType]));
         
-        [llvm emitSelector:RispLLVM::Selector(@selector(numberWithFloat:)) isValue:YES];
+        if (1) {
+            // create NSNumber
+            [llvm emitClassNamed:@"NSNumber" isWeak:NO];
+            [llvm emitSelector:RispLLVM::Selector(@selector(numberWithFloat:)) isValue:NO];
+            [llvm emitSelector:RispLLVM::Selector(@selector(description)) isValue:NO];
+        }
+        
+        llvm::Constant *objcstr = [llvm emitObjCStringLiteral:@"test code-gen for constant string"];
+        [llvm builder]->CreateCall(nslog, llvm::ConstantExpr::getBitCast(objcstr, [llvm idType]));
+        
+        
     }
-    //    llvm->_builder->CreateCall(fib, ConstantInt::get([llvm intType], 20));
-    //    llvm->_builder->CreateRet(stringAlloc);
-    llvm->_builder->CreateRet(ConstantInt::get([llvm intType], 0));
+    //    [llvm builder]->CreateCall(fib, ConstantInt::get([llvm intType], 20));
+    //    [llvm builder]->CreateRet(stringAlloc);
+    [llvm builder]->CreateRet(ConstantInt::get([llvm intType], 0));
 
 //        ReturnInst::Create([llvm module]->getContext())
     
@@ -478,39 +782,39 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     
     // (defn fib [x] (if (< x 2) 1 (+ (fib (dec x)) (fib (- x 2)))))
 
-    SmallVector<Type *, 1>fibArgs;
-    fibArgs.push_back([llvm intType]);
-    FunctionType *fibType = FunctionType::get(llvm->_builder->getInt32Ty(), makeArrayRef(fibArgs), false);
-    Function *fib = Function::Create(fibType, Function::ExternalLinkage, "fib", llvm->_theModule);
-    int Idx = 0;
-    for (Function::arg_iterator AI = fib->arg_begin(); Idx != fibArgs.size();
-         ++AI, ++Idx) {
-        AI->setName("x");
-        // Add arguments to variable symbol table.
-    }
-
-    BasicBlock *fibEntry = BasicBlock::Create(context, "entry-point", fib);
-    llvm->_builder->SetInsertPoint(fibEntry);
-    
-    // code gen for if
-    Value *condV = llvm->_builder->CreateICmpSLT(&fib->getArgumentList().front(), ConstantInt::get([llvm intType], 2));
-    BasicBlock *thenBlock = BasicBlock::Create(context, "then-entry", fib);
-    BasicBlock *elseBlock = BasicBlock::Create(context, "else-entry", fib);
-//    BasicBlock *mergeBlock = BasicBlock::Create(context, "merge-entry", fib);
-    llvm->_builder->CreateCondBr(condV, thenBlock, elseBlock);
-    llvm->_builder->SetInsertPoint(thenBlock);
-    llvm->_builder->CreateRet(ConstantInt::get([llvm intType], 1));
-//    llvm->_builder->CreateBr(mergeBlock);
-    
-    llvm->_builder->SetInsertPoint(elseBlock);
-    llvm->_builder->CreateRet(llvm->_builder->CreateAdd((llvm->_builder->CreateCall(fib, (llvm->_builder->CreateSub(&fib->getArgumentList().front(), ConstantInt::get([llvm intType], 1))))),
-                                                        (llvm->_builder->CreateCall(fib, (llvm->_builder->CreateSub(&fib->getArgumentList().front(), ConstantInt::get([llvm intType], 2)))))));
+//    SmallVector<Type *, 1>fibArgs;
+//    fibArgs.push_back([llvm intType]);
+//    FunctionType *fibType = FunctionType::get([llvm builder]->getInt32Ty(), makeArrayRef(fibArgs), false);
+//    Function *fib = Function::Create(fibType, Function::ExternalLinkage, "fib", [llvm module]);
+//    int Idx = 0;
+//    for (Function::arg_iterator AI = fib->arg_begin(); Idx != fibArgs.size();
+//         ++AI, ++Idx) {
+//        AI->setName("x");
+//        // Add arguments to variable symbol table.
+//    }
+//
+//    BasicBlock *fibEntry = BasicBlock::Create(context, "entry-point", fib);
+//    [llvm builder]->SetInsertPoint(fibEntry);
+//    
+//    // code gen for if
+//    Value *condV = [llvm builder]->CreateICmpSLT(&fib->getArgumentList().front(), ConstantInt::get([llvm intType], 2));
+//    BasicBlock *thenBlock = BasicBlock::Create(context, "then-entry", fib);
+//    BasicBlock *elseBlock = BasicBlock::Create(context, "else-entry", fib);
+////    BasicBlock *mergeBlock = BasicBlock::Create(context, "merge-entry", fib);
+//    [llvm builder]->CreateCondBr(condV, thenBlock, elseBlock);
+//    [llvm builder]->SetInsertPoint(thenBlock);
+//    [llvm builder]->CreateRet(ConstantInt::get([llvm intType], 1));
+////    [llvm builder]->CreateBr(mergeBlock);
+//    
+//    [llvm builder]->SetInsertPoint(elseBlock);
+//    [llvm builder]->CreateRet([llvm builder]->CreateAdd(([llvm builder]->CreateCall(fib, ([llvm builder]->CreateSub(&fib->getArgumentList().front(), ConstantInt::get([llvm intType], 1))))),
+//                                                        ([llvm builder]->CreateCall(fib, ([llvm builder]->CreateSub(&fib->getArgumentList().front(), ConstantInt::get([llvm intType], 2)))))));
 //    std::vector<Type *> putsArgs;
-//    putsArgs.push_back(llvm->_builder->getInt8Ty()->getPointerTo());
+//    putsArgs.push_back([llvm builder]->getInt8Ty()->getPointerTo());
 //    ArrayRef<Type *> argsRef(putsArgs);
-//    FunctionType *putsType = FunctionType::get(llvm->_builder->getInt32Ty(), argsRef, false);
-//    Constant *putsFunc = llvm->_theModule->getOrInsertFunction("puts", putsType);
-//    llvm->_builder->CreateCall(putsFunc, helloWorld);
+//    FunctionType *putsType = FunctionType::get([llvm builder]->getInt32Ty(), argsRef, false);
+//    Constant *putsFunc = [llvm module]->getOrInsertFunction("puts", putsType);
+//    [llvm builder]->CreateCall(putsFunc, helloWorld);
 //    Value *stringAlloc = [llvm msgSendToTarget:[NSString class] selector:@selector(alloc) arguments:nil];
 //    
 //    stringAlloc = [llvm msgSend:stringAlloc selector:@selector(initWithUTF8String:) arguments:std::vector<Value *>{helloWorld}];
@@ -520,8 +824,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 //    Constant *cs = llvm::ConstantStruct::get([llvm NSConstantStringClassTy],
 //                                             makeArrayRef(std::vector<Constant *> {ConstantInt::get([llvm int64Type], APInt(sizeof(int64_t) * CHAR_BIT, 123)), ConstantInt::get([llvm intType], APInt(sizeof(int) * CHAR_BIT, 3)), helloWorld}));
     
-    
-    FunctionPassManager *fpm = new FunctionPassManager(llvm->_theModule);;
+    FunctionPassManager *fpm = new FunctionPassManager([llvm module]);;
     fpm->add(new DataLayoutPass(*llvm->_executeEngine->getDataLayout()));
     fpm->add(createPromoteMemoryToRegisterPass());
     fpm->add(createInstructionCombiningPass());
@@ -533,7 +836,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     fpm->run(*mainFunc);
     
 //    [llvm emitLLVMUsed];
-    llvm->_theModule->dump();
+    [llvm module]->dump();
     void* ptr = llvm->_executeEngine->getPointerToFunction(mainFunc);
     int (*mainptr)(void) = (int (*)(void))ptr;
 //    int n = 20;
@@ -541,7 +844,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     
     llvm = nil;
     
-    
+    exit(0);
     return;
 }
 
@@ -578,8 +881,6 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 
 @implementation __RispLLVMFoundation (CPP)
 
-
-
 @end
 
 @interface RispNumberExpression (CodeGen)
@@ -594,128 +895,56 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 }
 @end
 
-@implementation __RispLLVMFoundation (Type)
-- (IntegerType *)intType {
-    if (!_int64Ty) {
-        _int64Ty = IntegerType::get(*_context, sizeof(int) * CHAR_BIT);
-    }
-    return _int64Ty;
+@implementation __RispLLVMFoundation (TypeHelper)
+- (llvm::IntegerType *)intType {
+    return [_objcType intType];
 }
 
-- (IntegerType *)charType {
-    if (!_charTy) {
-        _charTy = IntegerType::get(*_context, CHAR_BIT);
-    }
-    return _charTy;
+- (llvm::IntegerType *)charType {
+    return [_objcType charType];
 }
 
-- (PointerType *)intptrType {
-    if (!_intptrTy) {
-        _intptrTy = IntegerType::getInt32PtrTy(*_context);
-    }
-    return _intptrTy;
-}
-
-- (PointerType *)idType {
-    if (!_idTy) {
-        _idTy = PointerType::getUnqual([self charType]);;
-    }
-    return _idTy;
-}
-
-- (PointerType *)selectorType {
-    if (!_selectorTy) {
-        _selectorTy = PointerType::getUnqual([self charType]);
-    }
-    return _selectorTy;
-}
-
-- (llvm::PointerType *)charPtrType {
-    if (!_selectorTy) {
-        _selectorTy = llvm::PointerType::getUnqual([self charType]);
-    }
-    return _selectorTy;
+- (llvm::PointerType *)intptrType {
+    return [_objcType intptrType];
 }
 
 - (llvm::IntegerType *)int64Type {
-    if (!_int64Ty) {
-        _int64Ty = llvm::IntegerType::get(*_context, sizeof(int64_t) * CHAR_BIT);
-    }
-    return _int64Ty;
+    return [_objcType int64Type];
 }
 
 - (llvm::IntegerType *)longType {
-    if (!_longTy) {
-        _longTy = llvm::IntegerType::get(*_context, sizeof(long) * CHAR_BIT);
-    }
-    return _longTy;
+    return [_objcType longType];
 }
 
-- (llvm::IntegerType *)unsignedIntType {
-    if (!_unsignedIntTy) {
-        _unsignedIntTy = llvm::IntegerType::get(*_context, sizeof(unsigned int) * CHAR_BIT);
-    }
-    return _unsignedIntTy;
+- (llvm::PointerType *)idType {
+    return [_objcType idType];
 }
 
-- (llvm::PointerType *)int8PtrType {
-    if (!_int8PtrTy) {
-        _int8PtrTy = llvm::PointerType::getUnqual(llvm::IntegerType::get(*_context, sizeof(int8_t) * CHAR_BIT));
-    }
-    return _int8PtrTy;
+- (llvm::PointerType *)selectorType {
+    return [_objcType selectorType];
 }
 
 - (llvm::Type *)voidType {
-    if (!_voidTy) {
-        _voidTy = llvm::PointerType::getVoidTy(*_context);
-    }
-    return _voidTy;
+    return [_objcType voidType];
 }
 
-
-
-- (Type *)llvmTypeFromObjectiveCType:(const char *)type {
-#define IF_ISTYPE(t) if(strcmp(@encode(t), type) == 0)
-#define INT_TYPE(t) IF_ISTYPE(t) return IntegerType::get(*_context, sizeof(t) * CHAR_BIT)
-#define PTR_TYPE(t) IF_ISTYPE(t) return PointerType::getUnqual([self charType])
-    INT_TYPE(char);
-    INT_TYPE(short);
-    INT_TYPE(int);
-    INT_TYPE(long);
-    INT_TYPE(long long);
-    INT_TYPE(unsigned char);
-    INT_TYPE(unsigned short);
-    INT_TYPE(unsigned int);
-    INT_TYPE(unsigned long);
-    INT_TYPE(unsigned long long);
-    IF_ISTYPE(float) return Type::getFloatTy(*_context);
-    IF_ISTYPE(double) return Type::getDoubleTy(*_context);
-    IF_ISTYPE(void) return Type::getVoidTy(*_context);
-    PTR_TYPE(char *);
-    PTR_TYPE(id);
-    PTR_TYPE(SEL);
-    PTR_TYPE(Class);
-    if(type[0] == '^') return PointerType::getUnqual([self charType]);
-    
-    return NULL;
-#undef IF_ISTYPE
-#undef INT_TYPE
-#undef PTR_TYPE
+- (llvm::Type *)llvmTypeFromObjectiveCType:(const char *)type {
+    return [_objcType llvmTypeFromObjectiveCType:type];
 }
 @end
 
 @implementation __RispLLVMFoundation (Value)
 - (Value *)valueForPointer:(void *)ptr builder:(IRBuilder<> &)builder type:(Type *)type name:(const char *)name {
-    Value *intv = ConstantInt::get([self int64Type], (int64_t)ptr, 0);
+    Value *intv = ConstantInt::get([_objcType int64Type], (int64_t)ptr, 0);
     return builder.CreateIntToPtr(intv, type, name);
 }
 
 - (Value *)valueForSelector:(SEL)aSEL builder:(IRBuilder<> &)builder {
-    return [self valueForPointer:aSEL builder:builder type:[self selectorType] name:sel_getName(aSEL)];
+    return [self valueForPointer:aSEL builder:builder type:[_objcType selectorType] name:sel_getName(aSEL)];
 }
 
 - (Value *)valueForClass:(Class)aClass builder:(IRBuilder<> &)builder {
-    return [self valueForPointer:(__bridge void *)aClass builder:builder type:[self idType] name:class_getName(aClass)];
+    return [self valueForPointer:(__bridge void *)aClass builder:builder type:[_objcType idType] name:class_getName(aClass)];
 }
 @end
 
@@ -726,12 +955,11 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     static Function *f;
     if(!f)
     {
-        
         SmallVector<Type *, 16> vec;
-        vec.append(1, [self idType]);
-        vec.append(1, [self selectorType]);
+        vec.append(1, [_objcType idType]);
+        vec.append(1, [_objcType selectorType]);
         ArrayRef<Type *> msgSendArgTypes = makeArrayRef(vec);
-        FunctionType *msgSendType = FunctionType::get([self idType], msgSendArgTypes, true);
+        FunctionType *msgSendType = FunctionType::get([_objcType idType], msgSendArgTypes, true);
         f = Function::Create(msgSendType,
                              Function::ExternalLinkage,
                              "objc_msgSend",
@@ -755,7 +983,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 }
 
 - (llvm::Value *)_msgSendToTarget:(id)target selector:(SEL)cmd arguments:(std::vector<Value *>)arguments {
-    return [self msgSend:[self valueForPointer:(__bridge void *)target builder:*_builder type:[self idType] name:"self"] selector:cmd arguments:arguments];
+    return [self msgSend:[self valueForPointer:(__bridge void *)target builder:*_builder type:[_objcType idType] name:"self"] selector:cmd arguments:arguments];
 }
 
 - (llvm::Value *)msgSend:(Value *)target selector:(SEL)cmd arguments:(std::vector<Value *>)arguments {
@@ -827,8 +1055,8 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     if (llvm::Constant *c = entry.getValue()) {
         return c;
     }
-    llvm::Type *ty = [self intType];
-    llvm::Constant *zero = llvm::Constant::getNullValue([self intType]);
+    llvm::Type *ty = [_objcType intType];
+    llvm::Constant *zero = llvm::Constant::getNullValue([_objcType intType]);
     llvm::Constant *zeros[] = { zero, zero };
     
     llvm::StructType *sty = cast<llvm::StructType>([self NSConstantStringClassTy]);
@@ -855,9 +1083,9 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     }
     fields[2] = llvm::ConstantExpr::getGetElementPtr(gv, zeros);
     if (isUTF16) {
-        fields[2] = llvm::ConstantExpr::getBitCast(fields[2], [self int8PtrType]);
+        fields[2] = llvm::ConstantExpr::getBitCast(fields[2], [_objcType int8PtrType]);
     }
-    ty = [self longType];
+    ty = [_objcType longType];
     fields[3] = llvm::ConstantInt::get(ty, length);
     c = llvm::ConstantStruct::get(sty, fields);
     gv = new llvm::GlobalVariable(*[self module], c->getType(), true, llvm::GlobalVariable::PrivateLinkage, c, "_unamed_cfstring_");
@@ -893,8 +1121,14 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 - (llvm::Value *)emitSelector:(RispLLVM::Selector)selector isValue:(BOOL)lval {
     llvm::GlobalVariable *&entry = SelectorReferences[selector];
     if (!entry) {
-        llvm::Constant *casted = llvm::ConstantExpr::getBitCast([self methodVarName:selector], [self selectorType]);
-        entry = [self createMetadataVar:"\01L_OBJC_SELECTOR_REFERENCES_" init:casted section:"__OBJC,__message_refs,literal_pointers,no_dead_strip" alignment:4 addToUse:YES];
+        llvm::Constant *casted = llvm::ConstantExpr::getBitCast([self methodVarName:selector],
+                                                                [_objcType selectorType]);
+        
+//        entry = [self createMetadataVar:"\01L_OBJC_SELECTOR_REFERENCES_" init:casted
+//                                section:"__OBJC,__message_refs,literal_pointers,no_dead_strip" alignment:4 addToUse:YES];
+        entry = new llvm::GlobalVariable(*[self module], [_objcType selectorType], false,
+                                         llvm::GlobalValue::PrivateLinkage,
+                                         casted, "\01L_OBJC_SELECTOR_REFERENCES_");
         entry->setExternallyInitialized(true);
         entry->setSection("__DATA, __objc_selrefs, literal_pointers, no_dead_strip");
         [self addCompilerUsedGlobal:entry];
@@ -903,7 +1137,8 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
         return entry;
     }
     llvm::LoadInst *li = [self builder]->CreateLoad(entry);
-    li->setMetadata((*[self module]).getMDKindID("invariant.load"), llvm::MDNode::get(*_context, llvm::ArrayRef<llvm::Value *>()));
+    li->setMetadata((*[self module]).getMDKindID("invariant.load"),
+                    llvm::MDNode::get(*_context, llvm::ArrayRef<llvm::Value *>()));
     return li;
 }
 
@@ -911,8 +1146,90 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 
 @implementation __RispLLVMFoundation (Class)
 
-- (llvm::StringRef)objcClassSymbolPrefix {
+- (std::string)objcClassSymbolPrefix {
     return "OBJC_CLASS_$_";
+}
+
+- (std::string)metaClassSymbolPrefix {
+    return "OBJC_METACLASS_$_";
+}
+
+- (llvm::GlobalVariable *)classGlobalWithName:(const std::string&)name isWeak:(BOOL)weak {
+    llvm::GlobalValue::LinkageTypes L = weak ? llvm::GlobalValue::ExternalWeakLinkage : llvm::GlobalValue::ExternalLinkage;
+    llvm::GlobalVariable *gv = [self module]->getGlobalVariable(name);
+    if (!gv) {
+        gv = new llvm::GlobalVariable(*[self module], [[__RispLLVMObjcType helper] classnfABITy],
+                                      false, L, 0, name);
+    }
+    assert(gv->getLinkage() == L);
+    return gv;
+}
+
+- (llvm::Value *)emitClassRefFromId:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak {
+    llvm::GlobalVariable *&entry = ClassReferences[II];
+    if (!entry) {
+        std::string className([self objcClassSymbolPrefix] + II->getName().str());
+        llvm::GlobalVariable *classGV = [self classGlobalWithName:className isWeak:weak];
+        entry = new llvm::GlobalVariable(*[self module], [[__RispLLVMObjcType helper] classnfABIPtrTy],
+                                         false, llvm::GlobalValue::PrivateLinkage,
+                                         classGV,
+                                         "\01L_OBJC_CLASSLIST_REFERENCES_$_");
+        entry->setAlignment(_dataLayout->getABITypeAlignment([_objcType classnfABIPtrTy]));
+        entry->setSection("__DATA, __objc_classrefs, regular, no_dead_strip");
+        [self addCompilerUsedGlobal:entry];
+    }
+    return [self builder]->CreateLoad(entry);
+}
+
+- (llvm::Value *)emitAutoreleasePoolClassRef {
+    return [self emitClassNamed:@"NSAutoreleasePool" isWeak:NO];
+}
+
+- (llvm::Value *)emitClassNamed:(NSString *)name isWeak:(BOOL)weak {
+    RispLLVM::IdentifierInfo II = RispLLVM::IdentifierInfo([name UTF8String]);
+    return [self emitClassRefFromId:&II isWeak:weak];
+}
+
+- (llvm::Value *)emitSuperClassRef:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak {
+    llvm::GlobalVariable *&entry = SuperClassReferences[II];
+    if (!entry) {
+        std::string className([self objcClassSymbolPrefix] + II->getName().str());
+        llvm::GlobalVariable *classGV = [self classGlobalWithName:className isWeak:weak];
+        entry = new llvm::GlobalVariable(*[self module], [_objcType classnfABIPtrTy],
+                                         false, llvm::GlobalValue::PrivateLinkage,
+                                         classGV,
+                                         "\01L_OBJC_CLASSLIST_SUP_REFS_$_");
+        entry->setAlignment(_dataLayout->getABITypeAlignment([_objcType classnfABIPtrTy]));
+        entry->setSection("__DATA, __objc_superrefs, regular, no_dead_strip");
+        [self addCompilerUsedGlobal:entry];
+    }
+    return [self builder]->CreateLoad(entry);
+}
+
+- (llvm::Value *)emitMetaClassRef:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak {
+    llvm::GlobalVariable *&entry = MetaClassReferences[II];
+    if (!entry) {
+        std::string metaClassName([self metaClassSymbolPrefix] + II->getName().str());
+        llvm::GlobalVariable *metaClassGV = [self classGlobalWithName:metaClassName isWeak:weak];
+        entry = new llvm::GlobalVariable(*[self module], [_objcType classnfABIPtrTy],
+                                         false, llvm::GlobalValue::PrivateLinkage,
+                                         metaClassGV,
+                                         "\01L_OBJC_CLASSLIST_SUP_REFS_$_");
+        entry->setAlignment(_dataLayout->getABITypeAlignment([_objcType classnfABIPtrTy]));
+        entry->setSection("__DATA, __objc_superrefs, regular, no_dead_strip");
+        [self addCompilerUsedGlobal:entry];
+    }
+    return [self builder]->CreateLoad(entry);
+}
+
+- (llvm::Value *)classFromIdentifierInfo:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak {
+    if (weak) {
+        std::string className([self objcClassSymbolPrefix] + II->getName().str());
+        llvm::GlobalVariable *classGV = [self classGlobalWithName:className isWeak:true];
+        (void)classGV;
+        assert(classGV->getLinkage() == llvm::GlobalVariable::ExternalWeakLinkage);
+    }
+    return [self emitClassRefFromId:II isWeak:weak];
 }
 
 - (llvm::Value *)emitClass {
@@ -935,28 +1252,28 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     LLVMCompilerUsed.push_back(gv);
 }
 
-+ (void)emitUsed:(__RispLLVMFoundation *)cgm name:(llvm::StringRef)name list:(std::vector<llvm::WeakVH> &)list {
+- (void)emitUsedName:(llvm::StringRef)name list:(std::vector<llvm::WeakVH> &)list {
     if (list.empty()) {
         return;
     }
     llvm::SmallVector<llvm::Constant*, 8> usedArray;
     usedArray.resize((unsigned int)list.size());
     for (unsigned idx = 0, e = (unsigned)list.size(); idx != e; idx++) {
-        usedArray[idx] = llvm::ConstantExpr::getBitCast(cast<llvm::Constant>(&*list[idx]), [cgm int8PtrType]);
+        usedArray[idx] = llvm::ConstantExpr::getBitCast(cast<llvm::Constant>(&*list[idx]), [_objcType int8PtrType]);
     }
     
     if (usedArray.empty()) {
         return;
     }
     
-    llvm::ArrayType *aty = llvm::ArrayType::get([cgm int8PtrType], usedArray.size());
-    llvm::GlobalVariable *gv = new llvm::GlobalVariable(*[cgm module], aty, false, llvm::GlobalValue::AppendingLinkage, llvm::ConstantArray::get(aty, usedArray), name);
+    llvm::ArrayType *aty = llvm::ArrayType::get([_objcType int8PtrType], usedArray.size());
+    llvm::GlobalVariable *gv = new llvm::GlobalVariable(*[self module], aty, false, llvm::GlobalValue::AppendingLinkage, llvm::ConstantArray::get(aty, usedArray), name);
     gv->setSection("llvm.metadata");
 }
 
 - (void)emitLLVMUsed {
-    [__RispLLVMFoundation emitUsed:self name:"llvm.used" list:LLVMUsed];
-    [__RispLLVMFoundation emitUsed:self name:"llvm.compiler.used" list:LLVMCompilerUsed];
+    [self emitUsedName:"llvm.used" list:LLVMUsed];
+    [self emitUsedName:"llvm.compiler.used" list:LLVMCompilerUsed];
 }
 
 @end

@@ -46,7 +46,7 @@
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {
-    return YES;
+    return NO;
 }
 
 - (IBAction)evalCurrentLine:(id)sender {
@@ -84,5 +84,13 @@
 
 - (void)userNotificationCenter:(ASUserNotificationCenter *)center didDeliverNotification:(ASUserNotification *)notification {
     //    NSLog(@"userNotificationCenter:didDeliverNotification: %@", notification);
+}
+
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
+    if (flag == NO) {
+        [[_hudWindowController window] makeKeyAndOrderFront:self];
+        [[_replWindowController window] makeKeyAndOrderFront:self];
+    }
+    return NO;
 }
 @end

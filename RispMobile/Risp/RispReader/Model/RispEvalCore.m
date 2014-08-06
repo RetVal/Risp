@@ -8,13 +8,68 @@
 
 #import "RispEvalCore.h"
 
+NSString * RispExpressionKey = @"expression";
+NSString * RispEvalValueKey = @"eval";
+NSString * RispExceptionKey = @"exception";
+
 @implementation RispEvalCore
+
++ (NSArray *)evalCurrentLine:(NSString *)sender evalResult:(NSDictionary **)dict {
+    NSMutableArray *keys = [[NSMutableArray alloc] init];
+    RispContext *context = [RispContext currentContext];
+    RispReader *reader = [[RispReader alloc] initWithContent:sender fileNamed:@"RispREPL"];
+    id value = nil;
+    NSMutableDictionary *infos = nil;
+    if (dict) {
+        infos = [[NSMutableDictionary alloc] init];
+        *dict = infos;
+    }
+    while (![reader isEnd]) {
+        @autoreleasepool {
+            NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
+            @try {
+                value = [reader readEofIsError:YES eofValue:nil isRecursive:YES];
+                [[reader reader] skip];
+                if (value == reader) {
+                    // comment
+                    continue;
+                }
+                id expr = [RispCompiler compile:context form:value];
+                
+                if (expr) {
+                    info[RispExpressionKey] = expr;
+                }
+                
+                id v = [expr eval];
+                info[RispEvalValueKey] = v ?: [NSNull null];
+                
+                if ([expr conformsToProtocol:@protocol(RispExpression)]) {
+                    NSLog(@"%@ -\n%@\n-> %@", value, [[[RispAbstractSyntaxTree alloc] initWithExpression:expr] description], v);
+                } else {
+                    NSLog(@"%@ -\n%@\n-> %@", value, [RispAbstractSyntaxTree descriptionAppendIndentation:0 forObject:expr], v);
+                }
+            }
+            @catch (NSException *exception) {
+                info[RispExceptionKey] = exception;
+                NSLog(@"%@ - %@\n%@", value, exception, [exception callStackSymbols]);
+            }
+            @finally {
+                id key = [value description];
+                infos[key] = info;
+                [keys addObject:key];
+            }
+        }
+    }
+    return keys;
+}
+
 + (NSArray *)evalCurrentLine:(NSString *)sender expressions:(NSArray **)expressions {
     RispContext *context = [RispContext currentContext];
     RispReader *_reader = [[RispReader alloc] initWithContent:sender fileNamed:@"RispREPL"];
     id value = nil;
     NSMutableArray *values = [[NSMutableArray alloc] init];
     NSMutableArray *exprs = nil;
+
     if (expressions) {
         exprs = [[NSMutableArray alloc] init];
         *expressions = exprs;
@@ -42,12 +97,7 @@
                 }
             }
             @catch (NSException *exception) {
-//                ASUserNotification *notification = [[ASUserNotification alloc] init];
-//                [notification setTitle:[exception name]];
-//                [notification setSubtitle:[NSString stringWithFormat:@"%@", value]];
-//                [notification setInformativeText:[NSString stringWithFormat:@"%@", exception]];
-//                [notification setHasActionButton: NO];
-//                [[ASUserNotificationCenter customUserNotificationCenter] deliverNotification:notification];
+                [exprs addObject:exception];
                 NSLog(@"%@ - %@\n%@", value, exception, [exception callStackSymbols]);
             }
         }
