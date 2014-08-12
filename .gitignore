@@ -158,3 +158,13 @@ xcuserdata
 # UNKNOWN: recommended by others, but I can't discover what these files are
 #
 # ...none. Everything is now explained.
+RispRemoteServer/_obj/_cgo_defun.c
+RispRemoteServer/_obj/_cgo_export.c
+RispRemoteServer/_obj/_cgo_export.h
+RispRemoteServer/_obj/_cgo_flags
+RispRemoteServer/_obj/_cgo_gotypes.go
+RispRemoteServer/_obj/_cgo_main.c
+RispRemoteServer/_obj/ws.cgo1.go
+RispRemoteServer/_obj/ws.cgo2.c
+RispRemoteServer/bin/Risp.plist
+RispRemoteServer/bin/RispWebSocketServer

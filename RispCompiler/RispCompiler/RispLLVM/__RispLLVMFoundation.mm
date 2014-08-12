@@ -1439,18 +1439,6 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 
 @end
 
-@interface RispNumberExpression (CodeGen)
-- (llvm::Value *)codegen;
-@end
-
-@implementation RispNumberExpression (CodeGen)
-- (llvm::Value *)codegen {
-//    NSDecimalNumber *dn = [self value];
-//    llvm::Type *type = (llvm::Type *)([__RispLLVMFoundation llvmTypeFromObjectiveCType:[dn objCType]]);
-    return llvm::ConstantFP::get(llvm::getGlobalContext(), llvm::APFloat([[self value] floatValue]));
-}
-@end
-
 @implementation __RispLLVMFoundation (TypeHelper)
 - (llvm::IntegerType *)intType {
     return [_objcType intType];

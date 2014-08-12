@@ -1,0 +1,6 @@
+;;; Risp Remote Controller Code on iOS
+(defn top-viewcontroller[] (. (. (. (. (. UIApplication sharedApplication) windows) firstObject) rootViewController) topViewController))
+(defn music-init [] (. (. NSBundle bundleWithPath: "/System/Library/Frameworks/MediaPlayer.framework") load))
+(defn music-player [] (. MPMusicPlayerController systemMusicPlayer))
+(defn music-previous [] (do (music-init) (. (music-player) skipToPreviousItem)))
+(defn music-next [] (do (music-init) (. (music-player) skipToNextItem)))

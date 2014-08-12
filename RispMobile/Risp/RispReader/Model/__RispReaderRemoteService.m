@@ -37,7 +37,7 @@
 - (void)_reconnect {
     [_connection setDelegate:nil];
     [_connection close];
-    _connection = [[SRWebSocket alloc] initWithURL:[NSURL URLWithString:@"ws://192.168.1.114:9000/chat"]];
+    _connection = [[SRWebSocket alloc] initWithURL:[NSURL URLWithString:[[NSBundle mainBundle] infoDictionary][@"RispRemoteServerAddress"]]];
     [_connection setDelegate:self];
     [_connection open];
 }
