@@ -13,6 +13,7 @@
 #include "llvm/IR/Module.h"
 
 @interface __RispLLVMCodeGenFunction : NSObject
-+ (llvm::Constant *)castFunctionType:(llvm::Constant *)function arguments:(llvm::ArrayRef<llvm::Value *>)args;
+//+ (llvm::Constant *)castFunctionType:(llvm::Constant *)function arguments:(llvm::ArrayRef<llvm::Value *>)args selector:(SEL)selector;
++ (llvm::Constant *)castFunctionType:(llvm::Constant *)function arguments:(llvm::ArrayRef<llvm::Value *>)args selector:(SEL)selector instance:(id)ins;
 + (void)setNamesForFunction:(llvm::Function *)function arugmentNames:(llvm::ArrayRef<llvm::StringRef>)argNames;
 @end

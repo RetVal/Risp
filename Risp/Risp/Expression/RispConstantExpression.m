@@ -12,8 +12,11 @@
 
 @implementation RispConstantExpression
 + (id<RispExpression>)parser:(id)object context:(RispContext *)context {
-    id <RispSequence> seq = object;
-    id v = [seq second];
+    id v = object;
+    if ([object conformsToProtocol:@protocol(RispSequence)]) {
+        id <RispSequence> seq = object;
+        v = [seq second];
+    }
     if (v == nil) {
         return [[[RispNilExpression alloc] init] copyMetaFromObject:object];
     } else if ([v isEqual: @YES]) {

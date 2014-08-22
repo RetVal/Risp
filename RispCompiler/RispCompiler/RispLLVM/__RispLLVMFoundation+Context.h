@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 closure. All rights reserved.
 //
 
-#include "CodenGenModule.h"
+#include "CodeGenModule.h"
 @interface __RispLLVMFoundation (Context)
 - (RispLLVM::CodeGenFunction &)CGF;
 @end

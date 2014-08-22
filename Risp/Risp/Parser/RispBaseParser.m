@@ -23,7 +23,7 @@
 #import <objc/runtime.h>
 
 @interface RispBaseParser (Analyze)
-+ (id <RispExpression>)analyzeSymbol:(RispSymbol *)symbol;
++ (id <RispExpression>)analyzeSymbol:(RispSymbol *)symbol context:(RispContext *)context;
 + (id <RispExpression>)analyzeSequence:(id <RispSequence>)sequence context:(RispContext *)context name:(NSString *)name;
 @end
 
@@ -52,9 +52,9 @@
 
 @implementation RispBaseParser (Analyze)
 
-+ (id <RispExpression>)analyzeSymbol:(RispSymbol *)symbol {
++ (id <RispExpression>)analyzeSymbol:(RispSymbol *)symbol context:(RispContext *)context {
     RispSymbol *tag __unused = [self tagOfObject:symbol];
-    return [[RispLiteralExpression alloc] initWithValue:symbol];
+    return [RispSymbolExpression parser:symbol context:context];
 }
 
 + (id <RispExpression>)analyzeSequence:(id <RispSequence>)sequence context:(RispContext *)context name:(NSString *)name {
@@ -108,7 +108,7 @@
         
         Class fclass = [form class];
         if (fclass == [RispSymbol class]) {
-            return [self analyzeSymbol:form];
+            return [self analyzeSymbol:form context:context];
         } else if (fclass == [RispKeyword class]) {
             // register a keyword
             return [context registerKeyword:form];

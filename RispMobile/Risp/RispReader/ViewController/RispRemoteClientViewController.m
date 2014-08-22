@@ -9,6 +9,7 @@
 #import "RispRemoteClientViewController.h"
 #import "__RispReaderRemoteService.h"
 #import "RispEvalCore.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 static NSString * const kJSQDemoAvatarNameCook = @"Tim Cook";
 static NSString * const kJSQDemoAvatarNameJobs = @"Jobs";

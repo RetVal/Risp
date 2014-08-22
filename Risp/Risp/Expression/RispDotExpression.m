@@ -37,11 +37,6 @@
 
 @end
 
-@interface RispDotExpression ()
-@property (nonatomic, assign, readonly, getter = isClass) BOOL class;
-@property (nonatomic, strong, readonly) NSMethodSignature *methodSignature;
-@property (nonatomic, assign, readonly) BOOL evaled;
-@end
 @implementation RispDotExpression
 + (id)parser:(id <RispSequence>)form context:(RispContext *)context {
     
@@ -49,8 +44,10 @@
     id dot __unused = [form first];
     form = [form next];
     id classNameSymbol = [form first];
+    RispSymbolExpression *targetSymbolExpression = [RispSymbolExpression parser:classNameSymbol context:context];
     form = [form next];
     id selectorSymbol = [form first];
+    RispSelectorExpression *selectorExpression = [RispSelectorExpression parser:selectorSymbol context:context];
     form = [form next];
     SEL sel = NSSelectorFromString([selectorSymbol stringValue]);
     if (sel == nil) {
@@ -76,7 +73,7 @@
                 [exprsArray addObject:[RispBaseParser analyze:context form:form]];
             }
         }
-        return [[[RispDotExpression alloc] initWithTarget:targetSymbol selector:sel methodSignature:nil expressions:exprsArray ? [RispVector listWithObjectsFromArrayNoCopy:exprsArray] : nil  class:isClass] copyMetaFromObject:seq];
+        return [[[RispDotExpression alloc] initWithTarget:targetSymbol selector:sel methodSignature:nil expressions:exprsArray ? [RispVector listWithObjectsFromArrayNoCopy:exprsArray] : nil  class:isClass targetSymbolExpression:targetSymbolExpression selectorExpression:selectorExpression] copyMetaFromObject:seq];
     } else {
         targetSymbol = [classNameSymbol eval];
         form = [form eval];
@@ -93,7 +90,7 @@
             targetSymbol = [RispBaseParser analyze:context form:classNameSymbol];
         } else {
             targetSymbol = [classNameSymbol eval];
-            if ([targetSymbol conformsToProtocol:NSProtocolFromString(@"RispBaseExpression")]) {
+            if ([targetSymbol conformsToProtocol:@protocol(RispExpression)]) {
                 targetSymbol = [targetSymbol eval];
             } else if ([targetSymbol isKindOfClass:[RispSymbol class]]) {
                 targetSymbol = targetSymbol;
@@ -116,7 +113,7 @@
             if ([methodSignature numberOfArguments] - 2 != [form count]) {
                 [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", classNameSymbol, [methodSignature numberOfArguments] - 2, form];
             }
-            return [[[RispDotExpression alloc] initWithTarget:NSClassFromString(className) selector:sel methodSignature:methodSignature arguments:[RispVector listWithObjectsFromArrayNoCopy:[form array]] class:isClass] copyMetaFromObject:seq];
+            return [[[RispDotExpression alloc] initWithTarget:NSClassFromString(className) selector:sel methodSignature:methodSignature arguments:[RispVector listWithObjectsFromArrayNoCopy:[form array]] class:isClass targetSymbolExpression:targetSymbolExpression selectorExpression:selectorExpression] copyMetaFromObject:seq];
         }
         [NSException raise:RispIllegalArgumentException format:@"%@ of %@ is not found", selectorSymbol, className];
     } else {
@@ -128,14 +125,16 @@
         if ([methodSignature numberOfArguments] - 2 != [form count]) {
             [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", targetSymbol, [methodSignature numberOfArguments] - 2, form];
         }
-        return [[[RispDotExpression alloc] initWithTarget:target selector:sel methodSignature:methodSignature arguments:[RispVector listWithObjectsFromArrayNoCopy:[form array]] class:isClass] copyMetaFromObject:seq];
+        return [[[RispDotExpression alloc] initWithTarget:target selector:sel methodSignature:methodSignature arguments:[RispVector listWithObjectsFromArrayNoCopy:[form array]] class:isClass targetSymbolExpression:targetSymbolExpression selectorExpression:selectorExpression] copyMetaFromObject:seq];
     }
     return nil;
 }
 
-- (id)initWithTarget:(id)target selector:(SEL)sel methodSignature:(NSMethodSignature *)methodSignature arguments:(RispVector *)arguments class:(BOOL)class {
+- (id)initWithTarget:(id)target selector:(SEL)sel methodSignature:(NSMethodSignature *)methodSignature arguments:(RispVector *)arguments class:(BOOL)class targetSymbolExpression:(RispSymbolExpression *)targetSymbolExpression selectorExpression:(RispSelectorExpression *)selectorExpression {
     if (self = [super init]) {
         _target = target;
+        _targetExpression = targetSymbolExpression;
+        _selectorExpression = selectorExpression;
         _selector = sel;
         if (arguments) {
             NSMutableArray *args = [[NSMutableArray alloc] init];
@@ -151,12 +150,14 @@
     return self;
 }
 
-- (id)initWithTarget:(id)target selector:(SEL)sel methodSignature:(NSMethodSignature *)methodSignature expressions:(id <RispSequence>)exprs class:(BOOL)class {
+- (id)initWithTarget:(id)target selector:(SEL)sel methodSignature:(NSMethodSignature *)methodSignature expressions:(id <RispSequence>)exprs class:(BOOL)class targetSymbolExpression:(RispSymbolExpression *)targetSymbolExpression selectorExpression:(RispSelectorExpression *)selectorExpression {
     if (self = [super init]) {
         _target = target;
+        _targetExpression = targetSymbolExpression;
+        _selectorExpression = selectorExpression;
         _selector = sel;
         _exprs = exprs;
-        _class = class;
+        _Class = class;
         _evaled = NO;
         _methodSignature = methodSignature;
     }
@@ -209,13 +210,13 @@
         target = [_target eval] ? : [_target description];
         NSString *className = [target respondsToSelector:@selector(stringValue)] ? [target stringValue] : ([target isKindOfClass:[NSString class]] ? target : nil);
         if (className == nil) {
-            _class = NO;
+            _Class = NO;
         } else if (NSClassFromString(className)) {
-            _class = YES;
+            _Class = YES;
             target = NSClassFromString(className);
         }
         arguments = [self _setupArguments];
-        if (_class) {
+        if (_Class) {
             NSMethodSignature *methodSignature = [NSClassFromString(className) methodSignatureForSelector:selector] ? : [NSClassFromString(className) instanceMethodSignatureForSelector:selector];
             if (methodSignature) {
                 if ([methodSignature numberOfArguments] - 2 != [arguments count]) {
@@ -251,22 +252,20 @@
     [_exprs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [argDesc appendFormat:@"%@ ", [obj description]];
     }];
-    NSString *desc = [[NSString alloc] initWithFormat:@"(. %@ %@ %@)", _target, NSStringFromSelector(_selector), argDesc];
+    NSString *desc = [[NSString alloc] initWithFormat:@"(. %@ %@ %@)", _targetExpression, NSStringFromSelector(_selector), argDesc];
     return desc;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    RispDotExpression *copy = [[RispDotExpression alloc] initWithTarget:_target selector:_selector methodSignature:_methodSignature arguments:nil class:_class];
+    RispDotExpression *copy = [[RispDotExpression alloc] initWithTarget:_target selector:_selector methodSignature:_methodSignature arguments:nil class:_Class targetSymbolExpression:_targetExpression selectorExpression:_selectorExpression];
     return copy;
 }
 
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:desc];
     [desc appendFormat:@"%@ %@\n", [self class], [self rispLocationInfomation]];
-    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:desc];
-    [desc appendString:[[NSString alloc] initWithFormat:@"target : %@\n", _target]];
-    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:desc];
-    [desc appendString:[[NSString alloc] initWithFormat:@"selector : %@\n", NSStringFromSelector(_selector)]];
+    [_targetExpression _descriptionWithIndentation:indentation + 1 desc:desc];
+    [_selectorExpression _descriptionWithIndentation:indentation + 1 desc:desc];
     if ([_exprs count]) {
         [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:desc];
         [desc appendString:@"arguments\n"];

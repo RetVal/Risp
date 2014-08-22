@@ -10,6 +10,7 @@
 #import <Risp/RispSequenceProtocol.h>
 #import <Risp/RispContext.h>
 #import <Risp/RispInvokeProtocol.h>
+#import <Risp/RispSymbolExpression.h>
 
 @class RispFnExpression, RispBodyExpression;
 @interface RispMethodExpression : RispBaseExpression <RispInvokeProtocol, NSCopying>
@@ -18,7 +19,7 @@
 @property (nonatomic, strong) NSMutableArray *argstypes;
 @property (nonatomic, strong) NSString *prim;
 @property (nonatomic, strong) RispVector *requiredParms;
-@property (nonatomic, strong) RispSymbol *restParm;
+@property (nonatomic, strong) RispSymbolExpression *restParm;
 
 @property (nonatomic, assign, readonly, getter = isStatics) BOOL statics;
 

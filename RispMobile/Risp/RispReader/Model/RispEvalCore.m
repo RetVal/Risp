@@ -55,8 +55,13 @@ NSString * RispExceptionKey = @"exception";
             }
             @finally {
                 id key = [value description];
-                infos[key] = info;
-                [keys addObject:key];
+                if (!key) {
+                    key = sender;
+                }
+                if (key && info) {
+                    infos[key] = info;
+                    [keys addObject:key];
+                }
             }
         }
     }

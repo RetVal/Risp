@@ -6,8 +6,7 @@
 //  Copyright (c) 2014 closure. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
+#import <RispCompiler/RispASTContext.h>
 //! Project version number for RispCompiler.
 FOUNDATION_EXPORT double RispCompilerVersionNumber;
 

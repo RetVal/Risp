@@ -9,6 +9,7 @@
 #import "__RispLLVMTargetCodeGenInfo.h"
 #import "__RispLLVMFoundation.h"
 #include "llvm/Support/Host.h"
+#import "__RispLLVMObjcType.h"
 
 @implementation __RispLLVMTargetCodeGenInfo
 - (instancetype)init {

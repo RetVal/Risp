@@ -7,7 +7,7 @@
 //
 
 #import <Risp/RispCompiler.h>
-#import <Risp/RispSymbol.h>
+#import <Risp/RispSymbolExpression.h>
 #import <Risp/RispSymbol+BIF.h>
 #import <Risp/RispLexicalScope.h>
 #import <Risp/RispList.h>
@@ -106,19 +106,21 @@
 }
 
 // eval
-                        
+//else if ([form isKindOfClass:[NSString class]] ||
+//         [form isKindOfClass:[NSNumber class]] ||
+//         [form isKindOfClass:[NSRegularExpression class]] ||
+//         [form isKindOfClass:[RispVector class]]) {
+//    return form;
+//}
 + (id)compile:(RispContext *)context form:(id)form {
+    
     @autoreleasepool {
         [RispContext setCurrentContext:context];
         if (!form || [form isKindOfClass:[NSNull class]]) {
             return [[[NSNull alloc] init] copyMetaFromObject:form];
-        } else if ([form isKindOfClass:[NSString class]] ||
-                   [form isKindOfClass:[NSNumber class]] ||
-                   [form isKindOfClass:[NSRegularExpression class]] ||
-                   [form isKindOfClass:[RispVector class]]) {
-            return form;
         } else if ([form isKindOfClass:[RispSymbol class]]) {
-            return [[context currentScope][form] copyMetaFromObject:form];
+//            return [[context currentScope][form] copyMetaFromObject:form];
+            return [RispSymbolExpression parser:form context:context];
         } else if ([form isKindOfClass:[RispKeyword class]]) {
             return [RispKeywordExpression parser:form context:context];
         }

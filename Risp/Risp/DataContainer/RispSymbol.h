@@ -17,4 +17,5 @@
 + (id)named:(NSString *)name;
 - (BOOL)isEqualTo:(id)object;
 - (NSUInteger)length;
+- (id)eval;
 @end

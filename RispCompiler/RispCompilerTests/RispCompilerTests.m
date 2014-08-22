@@ -7,8 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <RispCompiler/RispCompiler.h>
 #import <XCTest/XCTest.h>
-
 @interface RispCompilerTests : XCTestCase
 
 @end
@@ -27,6 +27,14 @@
 
 - (void)testExample {
     // This is an example of a functional test case.
+    @autoreleasepool {
+        RispASTContext *ASTContext = [RispASTContext ASTContext];
+        NSArray *exprs = [RispASTContext expressionFromCurrentLine:@"\"123\""];
+        for (id <RispExpression> expr in exprs) {
+            [ASTContext emitRispAST:[[RispAbstractSyntaxTree alloc] initWithExpression:expr]];
+        }
+        [ASTContext done];
+    }
     XCTAssert(YES, @"Pass");
 }
 
@@ -38,3 +46,4 @@
 }
 
 @end
+

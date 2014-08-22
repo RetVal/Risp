@@ -8,7 +8,7 @@
 
 #import "__RispLLVMTypeConverter.h"
 #import "__RispLLVMFoundation.h"
-#include "CodenGenModule.h"
+#include "CodeGenModule.h"
 
 namespace RispLLVM {
     enum FloatingRank {

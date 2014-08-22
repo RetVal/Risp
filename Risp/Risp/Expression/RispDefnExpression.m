@@ -21,10 +21,10 @@
     }
     [context setStatus:RispContextStatement];
     RispFnExpression *fn = [[RispFnExpression parse:[[object next] cons:[RispSymbol FN]] context:context] copyMetaFromObject:[object next]];
-    return [[[RispDefnExpression alloc] initWithValue:fn forKey:[object first]] copyMetaFromObject:object];
+    return [[[RispDefnExpression alloc] initWithValue:fn forKey:[RispSymbolExpression parser:[object first] context:context]] copyMetaFromObject:object];
 }
 
-- (id)initWithValue:(RispFnExpression *)fn forKey:(RispSymbol *)symbol {
+- (id)initWithValue:(RispFnExpression *)fn forKey:(RispSymbolExpression *)symbol {
     if (self = [super init]) {
         _key = symbol;
         _value = fn;
@@ -34,8 +34,9 @@
 
 - (id)eval {
     if ([[[RispContext currentContext] currentScope] depth] == 0) {
-        [[RispContext currentContext] currentScope][_key] = [_value eval];
-        return _key;
+        id keySymbol = [_key symbol];
+        [[RispContext currentContext] currentScope][keySymbol] = [_value eval];
+        return keySymbol;
     }
     [NSException raise:RispIllegalArgumentException format:@"def must be use at root frame"];
     return nil;

@@ -59,6 +59,8 @@
 #import <Risp/RispKeywordExpression.h>
 #import <Risp/RispNumberExpression.h>
 #import <Risp/RispStringExpression.h>
+#import <Risp/RispSymbolExpression.h>
+#import <Risp/RispSelectorExpression.h>
 #import <Risp/RispVectorExpression.h>
 #import <Risp/RispFnExpression.h>
 #import <Risp/RispTrueExpression.h>

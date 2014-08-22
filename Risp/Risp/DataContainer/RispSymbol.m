@@ -86,4 +86,8 @@ static id __RispSymbolFind(NSString *string) {
 - (NSUInteger)hash {
     return _hashCode;
 }
+
+- (id)eval {
+    return [[[RispContext currentContext] currentScope][self] copyMetaFromObject:self];
+}
 @end

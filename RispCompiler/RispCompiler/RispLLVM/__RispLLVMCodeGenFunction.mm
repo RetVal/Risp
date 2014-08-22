@@ -7,9 +7,10 @@
 //
 
 #import "__RispLLVMCodeGenFunction.h"
+#include "RispLLVMSelector.h"
 
 @implementation __RispLLVMCodeGenFunction
-+ (llvm::Constant *)castFunctionType:(llvm::Constant *)function arguments:(llvm::ArrayRef<llvm::Value *>)args {
++ (llvm::Constant *)castFunctionType:(llvm::Constant *)function arguments:(llvm::ArrayRef<llvm::Value *>)args selector:(SEL)selector instance:(id)ins {
     if (!function) return nil;
     
     llvm::Function *func = llvm::cast<llvm::Function>(function);
@@ -23,7 +24,18 @@
     for (unsigned i = fty->getNumParams(); i < args.size(); i++) {
         argsTypes.push_back(args[i]->getType());
     }
-    fty = llvm::FunctionType::get(fty->getReturnType(), argsTypes, NO);
+    
+    RispLLVM::Selector sel (selector, ins);
+    
+    llvm::Type *funcReturnType = fty->getReturnType();
+    llvm::Type *selReturnType = sel.getLLVMReturnType();
+    llvm::Type *rty = nil;
+    if (funcReturnType != selReturnType) {
+        rty = selReturnType;
+    } else {
+        rty = funcReturnType;
+    }
+    fty = llvm::FunctionType::get(rty, argsTypes, NO);
     return llvm::ConstantExpr::getBitCast(function, fty->getPointerTo());
 }
 

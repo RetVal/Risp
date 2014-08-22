@@ -37,10 +37,12 @@
                 }
             } else if (status == RispCompilerStatusREST) {
                 status = RispCompilerStatusDONE;
-                method->_restParm = p;
+                method->_restParm = [RispSymbolExpression parser:p context:context];
             }
         }
-        method->_requiredParms = parms;
+        method->_requiredParms = [RispRuntime map:parms fn:^id(id object) {
+            return [RispCompiler compile:context form:object];
+        }];
         method->_bodyExpression = [RispBodyExpression parser:body context:context];
         method->_localBinding = [context currentScope];
     }
@@ -73,33 +75,33 @@
 
 + (void)bindArguments:(RispVector *)arguments forMethod:(RispMethodExpression *)method toScope:(RispLexicalScope *)scope {
     if (![method isVariadic]) {
-        [[method requiredParms] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [[method requiredParms] enumerateObjectsUsingBlock:^(RispSymbolExpression *obj, NSUInteger idx, BOOL *stop) {
             id v = arguments[idx];
-            scope[obj] = v;
+            scope[[obj symbol]] = v;
         }];
     } else if ([arguments count] == [method paramsCount] && [[arguments last] isKindOfClass:[RispSequence class]]) {
         NSInteger limit = [method paramsCount] - 1;
-        [[method requiredParms] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [[method requiredParms] enumerateObjectsUsingBlock:^(RispSymbolExpression *obj, NSUInteger idx, BOOL *stop) {
             if (idx < limit) {
                 id v = arguments[idx];
-                scope[obj] = v;
+                scope[[obj symbol]] = v;
             } else {
                 *stop = YES;
             }
         }];
-        scope[[method restParm]] = [arguments last];
+        scope[[[method restParm] symbol]] = [arguments last];
     } else {
         NSInteger limit = [method paramsCount] - 1;
-        [[method requiredParms] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [[method requiredParms] enumerateObjectsUsingBlock:^(RispSymbolExpression *obj, NSUInteger idx, BOOL *stop) {
             if (idx < limit) {
                 id v = arguments[idx];
-                scope[obj] = v;
+                scope[[obj symbol]] = v;
             } else {
                 *stop = YES;
             }
         }];
         RispList *seq = [RispList listWithObjectsFromArray:[[arguments drop:@(limit)] array]];
-        scope[[method restParm]] = seq;
+        scope[[[method restParm] symbol]] = seq;
     }
 }
 
