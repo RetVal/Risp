@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 closure. All rights reserved.
 //
 
-#import <Risp/Risp.h>
+#include <Risp/RispBaseExpression.h>
 
 @interface RispBaseExpression (ASTDescription)
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc;
