@@ -27,6 +27,7 @@
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len;
 
 - (NSArray *)array;
+- (RispVector *)reverse;
 
 - (id)nth:(NSUInteger)idx;
 

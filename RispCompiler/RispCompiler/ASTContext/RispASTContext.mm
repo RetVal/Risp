@@ -28,14 +28,14 @@
 
 - (llvm::Value *)generateCode:(RispASTContext *)context {
     __RispLLVMFoundation *CGM = [context CGM];
-    llvm::Value *RispRispListClass = [CGM emitClassNamed:@"RispSequence" isWeak:NO];
+    llvm::Value *RispRispSequenceClass = [CGM emitClassNamed:@"RispSequence" isWeak:NO];
     
     __block llvm::SmallVector<llvm::Value *, 16> args;
     [[self reverse] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         args.push_back((llvm::Value *)[obj generateCode:context]);
     }];
     args.push_back(llvm::ConstantPointerNull::get([CGM idType]));
-    llvm::Value *ret = [CGM emitMessageCall:RispRispListClass selector:@selector(listWithObjects:) arguments:args instance:[RispList class]];
+    llvm::Value *ret = [CGM emitMessageCall:RispRispSequenceClass selector:@selector(listWithObjects:) arguments:args instance:[RispList class]];
     [[context currentStack] setMeta:RispLLVM::RispLLVMValueMeta("RispSequence") forValue:ret];
     return ret;
 }
@@ -63,6 +63,17 @@
 @implementation RispVector (IR)
 
 - (llvm::Value *)generateCode:(RispASTContext *)context {
+    __RispLLVMFoundation *CGM = [context CGM];
+    llvm::Value *RispRispVectorClass = [CGM emitClassNamed:@"RispVector" isWeak:NO];
+    
+    __block llvm::SmallVector<llvm::Value *, 16> args;
+    [[self reverse] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        args.push_back((llvm::Value *)[obj generateCode:context]);
+    }];
+    args.push_back(llvm::ConstantPointerNull::get([CGM idType]));
+    llvm::Value *ret = [CGM emitMessageCall:RispRispVectorClass selector:@selector(listWithObjects:) arguments:args instance:[RispList class]];
+    [[context currentStack] setMeta:RispLLVM::RispLLVMValueMeta("RispVector") forValue:ret];
+    return ret;
     return nil;
 }
 

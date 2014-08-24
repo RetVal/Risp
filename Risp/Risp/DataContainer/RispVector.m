@@ -98,6 +98,21 @@ static RispVector * __RispEmptyList = nil;
     return _list;
 }
 
+- (RispVector *)reverse {
+    if ([_list count] == 0) {
+        return [RispVector empty];
+    } else if ([_list count] == 1) {
+        return [self copy];
+    }
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    NSInteger cnt = [_list count] - 1;
+    for (NSInteger i = cnt; i >= 0; i--) {
+        [array addObject:_list[i]];
+    }
+    RispVector *r = [[RispVector alloc] initWithArrayNoCopy:array];
+    return r;
+}
+
 - (id)nth:(NSUInteger)idx {
     return _list[idx];
 }
