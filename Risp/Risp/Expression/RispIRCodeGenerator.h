@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @protocol RispIRCodeGenerator <NSObject>
-- (void *)generateCode:(id)context; // RispCodeGeneratorContext
+@optional
+- (void *)generateCode:(id)context; // RispASTContext in RispCompiler.framework, return llvm::Value *
 @end

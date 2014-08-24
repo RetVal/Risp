@@ -7,27 +7,27 @@
 //
 
 #import "RispKeyword.h"
-#include <libkern/OSAtomic.h>
-static NSMutableDictionary *__RispKeywordTable = nil;
-static OSSpinLock __RispKeywordTableLock = OS_SPINLOCK_INIT;
-
-static void __RispKeywordUpdate(NSString *string, RispKeyword *symbol) {
-    if (!string) return;
-    OSSpinLockLock(&__RispKeywordTableLock);
-    if (!__RispKeywordTable) {
-        __RispKeywordTable = [[NSMutableDictionary alloc] init];
-    }
-    __RispKeywordTable[string] = symbol;
-    OSSpinLockUnlock(&__RispKeywordTableLock);
-}
-
-static id __RispKeywordFind(NSString *string) {
-    if (!string) return nil;
-    OSSpinLockLock(&__RispKeywordTableLock);
-    id v = __RispKeywordTable[string];
-    OSSpinLockUnlock(&__RispKeywordTableLock);
-    return v;
-}
+//#include <libkern/OSAtomic.h>
+//static NSMutableDictionary *__RispKeywordTable = nil;
+//static OSSpinLock __RispKeywordTableLock = OS_SPINLOCK_INIT;
+//
+//static void __RispKeywordUpdate(NSString *string, RispKeyword *symbol) {
+//    if (!string) return;
+//    OSSpinLockLock(&__RispKeywordTableLock);
+//    if (!__RispKeywordTable) {
+//        __RispKeywordTable = [[NSMutableDictionary alloc] init];
+//    }
+//    __RispKeywordTable[string] = symbol;
+//    OSSpinLockUnlock(&__RispKeywordTableLock);
+//}
+//
+//static id __RispKeywordFind(NSString *string) {
+//    if (!string) return nil;
+//    OSSpinLockLock(&__RispKeywordTableLock);
+//    id v = __RispKeywordTable[string];
+//    OSSpinLockUnlock(&__RispKeywordTableLock);
+//    return v;
+//}
 
 @implementation RispKeyword
 + (id)named:(NSString *)name {

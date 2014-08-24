@@ -20,14 +20,14 @@ static void __RispTokenUpdate(NSString *string, RispToken *token) {
     __RispTokenTable[string] = token;
     OSSpinLockUnlock(&__RispTokenTableLock);
 }
-
-static RispToken *__RispTokenFind(NSString *string) {
-    if (!string) return nil;
-    OSSpinLockLock(&__RispTokenTableLock);
-    id v = __RispTokenTable[string];
-    OSSpinLockUnlock(&__RispTokenTableLock);
-    return v;
-}
+//
+//static RispToken *__RispTokenFind(NSString *string) {
+//    if (!string) return nil;
+//    OSSpinLockLock(&__RispTokenTableLock);
+//    id v = __RispTokenTable[string];
+//    OSSpinLockUnlock(&__RispTokenTableLock);
+//    return v;
+//}
 
 @implementation RispToken
 

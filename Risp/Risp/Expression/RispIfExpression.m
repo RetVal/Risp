@@ -9,9 +9,10 @@
 #import "RispIfExpression.h"
 #import "RispAbstractSyntaxTree.h"
 #import "RispBaseExpression+ASTDescription.h"
+#import <Risp/RispBaseParser.h>
 
 @implementation RispIfExpression
-+ (id<RispExpression>)parser:(id)object context:(RispContext *)context {
++ (RispBaseExpression *)parser:(id)object context:(RispContext *)context {
     if (![object conformsToProtocol:@protocol(RispSequence)]) {
         [NSException raise:RispIllegalArgumentException format:@"%@ is not a seq", object];
     }

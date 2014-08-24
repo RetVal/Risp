@@ -7,6 +7,7 @@
 //
 
 #import "RispBaseExpression.h"
+#import "NSObject+RispMeta.h"
 
 @implementation RispBaseExpression
 + (id <RispExpression>)parser:(id)object context:(RispContext *)context {

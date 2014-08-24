@@ -7,27 +7,7 @@
 //
 
 #import <Risp/RispSymbol.h>
-#include <libkern/OSAtomic.h>
-static NSMutableDictionary *__RispSymbolTable = nil;
-static OSSpinLock __RispSymbolTableLock = OS_SPINLOCK_INIT;
-
-static void __RispSymbolUpdate(NSString *string, RispSymbol *symbol) {
-    if (!string) return;
-    OSSpinLockLock(&__RispSymbolTableLock);
-    if (!__RispSymbolTable) {
-        __RispSymbolTable = [[NSMutableDictionary alloc] init];
-    }
-    __RispSymbolTable[string] = symbol;
-    OSSpinLockUnlock(&__RispSymbolTableLock);
-}
-
-static id __RispSymbolFind(NSString *string) {
-    if (!string) return nil;
-    OSSpinLockLock(&__RispSymbolTableLock);
-    id v = __RispSymbolTable[string];
-    OSSpinLockUnlock(&__RispSymbolTableLock);
-    return v;
-}
+#import <Risp/RispContext.h>
 
 @implementation RispSymbol
 

@@ -28,12 +28,12 @@
     }
     
     if ([fexpr isKindOfClass:[RispKeywordExpression class]] && [form count] == 2) {
-        return [[[RispKeywordInvokeExpression alloc] initWithTargetExpression:[args firstObject] keyword:fexpr] copyMetaFromObject:form];
+        return [[[RispKeywordInvokeExpression alloc] initWithTargetExpression:[args firstObject] keyword:(RispKeywordExpression *)fexpr] copyMetaFromObject:form];
     }
     return [[[RispInvokeExpression alloc] initWithExpression:fexpr arguments:[RispVector listWithObjectsFromArrayNoCopy:args]] copyMetaFromObject:form];
 }
 
-- (id)initWithExpression:(id <RispExpression>)fnexpression arguments:(RispVector *)arguments {
+- (id)initWithExpression:(RispBaseExpression *)fnexpression arguments:(RispVector *)arguments {
     if (!fnexpression)
         return nil;
     if (self = [super init]) {

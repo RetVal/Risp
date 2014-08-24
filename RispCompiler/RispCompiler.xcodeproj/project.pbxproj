@@ -13,6 +13,10 @@
 		303DC53119AA6DD700A404D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 303DC53019AA6DD700A404D7 /* main.m */; };
 		303DC53519AA6DFE00A404D7 /* RispCompiler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A84B7819991CD4000DC84E /* RispCompiler.framework */; };
 		303DC53619AA6E0A00A404D7 /* Risp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A84B9119991D04000DC84E /* Risp.framework */; };
+		303DC53919AA7AD200A404D7 /* RispNameMangling.h in Headers */ = {isa = PBXBuildFile; fileRef = 303DC53719AA7AD200A404D7 /* RispNameMangling.h */; };
+		303DC53A19AA7AD200A404D7 /* RispNameMangling.m in Sources */ = {isa = PBXBuildFile; fileRef = 303DC53819AA7AD200A404D7 /* RispNameMangling.m */; };
+		303DC53E19AA7AF100A404D7 /* RispBuiltin.h in Headers */ = {isa = PBXBuildFile; fileRef = 303DC53C19AA7AF100A404D7 /* RispBuiltin.h */; };
+		303DC53F19AA7AF100A404D7 /* RispBuiltin.m in Sources */ = {isa = PBXBuildFile; fileRef = 303DC53D19AA7AF100A404D7 /* RispBuiltin.m */; };
 		30624B9319A8D857008EA331 /* RispSymbolExpression+Meta.h in Headers */ = {isa = PBXBuildFile; fileRef = 30624B9119A8D857008EA331 /* RispSymbolExpression+Meta.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30624B9419A8D857008EA331 /* RispSymbolExpression+Meta.m in Sources */ = {isa = PBXBuildFile; fileRef = 30624B9219A8D857008EA331 /* RispSymbolExpression+Meta.m */; };
 		30624B9719A8E0DB008EA331 /* RispLLVMValueMeta.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30624B9519A8E0DB008EA331 /* RispLLVMValueMeta.cpp */; };
@@ -49,8 +53,6 @@
 		30B51684199BFB4900DB2F1E /* __RispLLVMObjcType.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B51682199BFB4900DB2F1E /* __RispLLVMObjcType.h */; };
 		30B51685199BFB4900DB2F1E /* __RispLLVMObjcType.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30B51683199BFB4900DB2F1E /* __RispLLVMObjcType.mm */; };
 		30B51687199BFDB000DB2F1E /* RispLLVMIdentifierInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B51686199BFDB000DB2F1E /* RispLLVMIdentifierInfo.h */; };
-		30C7618119AA67C800C5AAFF /* RispBuiltin.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C7617F19AA67C800C5AAFF /* RispBuiltin.h */; };
-		30C7618219AA67C800C5AAFF /* RispBuiltin.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C7618019AA67C800C5AAFF /* RispBuiltin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -70,6 +72,10 @@
 		3006A3DA19A5ED8A005A97CE /* RispScopeStack.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RispScopeStack.mm; sourceTree = "<group>"; };
 		303DC52E19AA6DD700A404D7 /* RispLLVM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RispLLVM; sourceTree = BUILT_PRODUCTS_DIR; };
 		303DC53019AA6DD700A404D7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		303DC53719AA7AD200A404D7 /* RispNameMangling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispNameMangling.h; sourceTree = "<group>"; };
+		303DC53819AA7AD200A404D7 /* RispNameMangling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispNameMangling.m; sourceTree = "<group>"; };
+		303DC53C19AA7AF100A404D7 /* RispBuiltin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBuiltin.h; sourceTree = "<group>"; };
+		303DC53D19AA7AF100A404D7 /* RispBuiltin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispBuiltin.m; sourceTree = "<group>"; };
 		30624B9119A8D857008EA331 /* RispSymbolExpression+Meta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RispSymbolExpression+Meta.h"; sourceTree = "<group>"; };
 		30624B9219A8D857008EA331 /* RispSymbolExpression+Meta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RispSymbolExpression+Meta.m"; sourceTree = "<group>"; };
 		30624B9519A8E0DB008EA331 /* RispLLVMValueMeta.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RispLLVMValueMeta.cpp; sourceTree = "<group>"; };
@@ -109,8 +115,6 @@
 		30B51682199BFB4900DB2F1E /* __RispLLVMObjcType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __RispLLVMObjcType.h; sourceTree = "<group>"; };
 		30B51683199BFB4900DB2F1E /* __RispLLVMObjcType.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = __RispLLVMObjcType.mm; sourceTree = "<group>"; };
 		30B51686199BFDB000DB2F1E /* RispLLVMIdentifierInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispLLVMIdentifierInfo.h; sourceTree = "<group>"; };
-		30C7617F19AA67C800C5AAFF /* RispBuiltin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispBuiltin.h; sourceTree = "<group>"; };
-		30C7618019AA67C800C5AAFF /* RispBuiltin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispBuiltin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +156,16 @@
 			path = RispLLVM;
 			sourceTree = "<group>";
 		};
+		303DC53B19AA7AF100A404D7 /* Builtin */ = {
+			isa = PBXGroup;
+			children = (
+				303DC53C19AA7AF100A404D7 /* RispBuiltin.h */,
+				303DC53D19AA7AF100A404D7 /* RispBuiltin.m */,
+			);
+			name = Builtin;
+			path = RispCompiler/Builtin;
+			sourceTree = SOURCE_ROOT;
+		};
 		30938F9D19A4A90200B2C457 /* ASTContext */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,8 +177,8 @@
 				30624B9219A8D857008EA331 /* RispSymbolExpression+Meta.m */,
 				30624B9619A8E0DB008EA331 /* RispLLVMValueMeta.h */,
 				30624B9519A8E0DB008EA331 /* RispLLVMValueMeta.cpp */,
-				30C7617F19AA67C800C5AAFF /* RispBuiltin.h */,
-				30C7618019AA67C800C5AAFF /* RispBuiltin.m */,
+				303DC53719AA7AD200A404D7 /* RispNameMangling.h */,
+				303DC53819AA7AD200A404D7 /* RispNameMangling.m */,
 			);
 			path = ASTContext;
 			sourceTree = "<group>";
@@ -193,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				30938F9D19A4A90200B2C457 /* ASTContext */,
+				303DC53B19AA7AF100A404D7 /* Builtin */,
 				30A84B9319991D9A000DC84E /* RispLLVM */,
 				30A84B7D19991CD4000DC84E /* RispCompiler.h */,
 				30A84B7B19991CD4000DC84E /* Supporting Files */,
@@ -274,10 +289,11 @@
 				30A84B7E19991CD4000DC84E /* RispCompiler.h in Headers */,
 				30A84BAE19991D9B000DC84E /* __RispLLVMIRCodeGen.h in Headers */,
 				30A84BAB19991D9B000DC84E /* __RispLLVMFoundation+Context.h in Headers */,
-				30C7618119AA67C800C5AAFF /* RispBuiltin.h in Headers */,
+				303DC53E19AA7AF100A404D7 /* RispBuiltin.h in Headers */,
 				30A84BB619991D9B000DC84E /* _RispLLVMModule.h in Headers */,
 				30A84BB219991D9B000DC84E /* __RispLLVMTargetMachineCodeGen.h in Headers */,
 				30B51687199BFDB000DB2F1E /* RispLLVMIdentifierInfo.h in Headers */,
+				303DC53919AA7AD200A404D7 /* RispNameMangling.h in Headers */,
 				30B51684199BFB4900DB2F1E /* __RispLLVMObjcType.h in Headers */,
 				30A84BAC19991D9B000DC84E /* __RispLLVMFoundation.h in Headers */,
 				3006A3DB19A5ED8A005A97CE /* RispScopeStack.h in Headers */,
@@ -436,10 +452,11 @@
 				3006A3DC19A5ED8A005A97CE /* RispScopeStack.mm in Sources */,
 				30938FA119A4A90F00B2C457 /* RispASTContext.mm in Sources */,
 				30624B9419A8D857008EA331 /* RispSymbolExpression+Meta.m in Sources */,
+				303DC53A19AA7AD200A404D7 /* RispNameMangling.m in Sources */,
 				30A84BBB19991D9B000DC84E /* RispCodeGeneratorContext.m in Sources */,
 				30B51685199BFB4900DB2F1E /* __RispLLVMObjcType.mm in Sources */,
+				303DC53F19AA7AF100A404D7 /* RispBuiltin.m in Sources */,
 				30A84BB919991D9B000DC84E /* CodeGenModule.mm in Sources */,
-				30C7618219AA67C800C5AAFF /* RispBuiltin.m in Sources */,
 				30A84BAD19991D9B000DC84E /* __RispLLVMFoundation.mm in Sources */,
 				30A84BB519991D9B000DC84E /* __RispLLVMTypeConverter.mm in Sources */,
 				30A84BBC19991D9B000DC84E /* RispLLVM.cpp in Sources */,
