@@ -11,7 +11,6 @@
 #include "llvm/ADT/StringRef.h"
 #include "llvm/ADT/DenseMap.h"
 #include "llvm/IR/Value.h"
-#include "RispLLVMDenseMap.h"
 
 namespace RispLLVM {
     class RispLLVMValueMeta {
@@ -68,7 +67,7 @@ namespace RispLLVM {
             return _className.size() != 0;
         }
     public:
-        typedef RispLLVM::RispLLVMDenseMap<llvm::Value *, RispLLVM::RispLLVMValueMeta>RispLLVMDenseMetaMap;
+        typedef llvm::DenseMap<llvm::Value *, RispLLVM::RispLLVMValueMeta>RispLLVMDenseMetaMap;
     private:
         llvm::StringRef _className;
         RispLLVMValueMetaType _type;

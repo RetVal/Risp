@@ -8,7 +8,6 @@
 
 #import "RispScopeStack.h"
 #import <Risp/RispSymbolExpression.h>
-#import "RispLLVMDenseMap.h"
 
 namespace RispLLVM {
     
@@ -64,7 +63,7 @@ namespace RispLLVM {
         }
         
     public:
-        typedef RispLLVM::RispLLVMDenseMap<RispLLVM::RispObject, llvm::Value *> RispLLVMDenseObjectMap;
+        typedef llvm::DenseMap<RispLLVM::RispObject, llvm::Value *> RispLLVMDenseObjectMap;
     private:
         __strong RispSymbolExpression *_object;
     };
@@ -141,11 +140,6 @@ struct llvm::DenseMapInfo<RispLLVM::RispObject *> {
 
 - (id)initWithParent:(RispScopeStack *)outer child:(RispScopeStack *)inner {
     if (self = [super init]) {
-        _scope.setShouldDeleteKey(true);
-        _scope.setShouldDeleteValue(false);
-        _metaScope.setShouldDeleteKey(false);
-        _metaScope.setShouldDeleteValue(false);
-        
         _depth = 0;
         _inner = inner;
         _outer = outer;
