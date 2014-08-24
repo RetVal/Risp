@@ -9,12 +9,30 @@
 #import <Foundation/Foundation.h>
 #include <llvm/ADT/DenseMap.h>
 #include <llvm/IR/Value.h>
+#import <Risp/RispSymbolExpression.h>
+#include "RispLLVMValueMeta.h"
 
-@interface RispScopeStack : NSObject
-@property (nonatomic, strong, readonly) RispScopeStack *next;
-@property (nonatomic, weak,   readonly) RispScopeStack *previous;
-- (instancetype)init;
+@interface RispScopeStack : NSObject <NSCopying>
+@property (strong, nonatomic, readonly) RispScopeStack *inner;
+@property (strong, nonatomic, readonly) NSException *exception;
+@property (assign, nonatomic) NSUInteger depth;
+//@property (strong, nonatomic) NSDictionary *scope;
 
-- (llvm::Value *)objectForKeyedSubscript:(id)key NS_AVAILABLE(10_8, 6_0);
-- (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key NS_AVAILABLE(10_8, 6_0);
+- (id)init;
+- (id)initWithParent:(RispScopeStack *)outer;
+- (id)initWithParent:(RispScopeStack *)outer child:(RispScopeStack *)inner;
+
+- (RispScopeStack *)outer;
+
+- (NSArray *)keys;
+- (NSArray *)values;
+
+- (llvm::Value *)objectForKey:(RispSymbolExpression *)aKey;
+- (void)setObject:(llvm::Value *)object forKey:(RispSymbolExpression *)aKey;
+
+- (RispLLVM::RispLLVMValueMeta)metaForValue:(llvm::Value *)aValue;
+- (void)setMeta:(RispLLVM::RispLLVMValueMeta)meta forValue:(llvm::Value *)aValue;
+
+- (llvm::Value *)objectForKeyedSubscript:(RispSymbolExpression *)key;
+- (void)setObject:(llvm::Value *)obj forKeyedSubscript:(RispSymbolExpression *)key;
 @end

@@ -122,7 +122,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     
     llvm::StringMap<llvm::GlobalVariable *>Constant1ByteStringMap;
     
-    llvm::SetVector<RispLLVM::IdentifierInfo*> LazySymbols;
+    llvm::SetVector<RispLLVM::IdentifierInfo> LazySymbols;
     
     llvm::DenseMap<RispLLVM::Selector, llvm::GlobalVariable*> SelectorReferences;
     llvm::DenseMap<RispLLVM::IdentifierInfo*, llvm::GlobalVariable*> ClassReferences;
@@ -577,7 +577,6 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     }
     msgSend = [__RispLLVMCodeGenFunction castFunctionType:msgSend arguments:args selector:selector instance:ins];
     llvm::CallInst *call = _builder->CreateCall(msgSend, args);
-    call->getType()->dump();
     return call;
 }
 
@@ -746,7 +745,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 
 - (llvm::Value *)emitClassRefFromId:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak {
     // II should be singleton and heap-able
-    LazySymbols.insert(II);
+    LazySymbols.insert(*II);
     llvm::GlobalVariable *&entry = ClassReferences[II];
     if (!entry) {
         std::string className([self objcClassSymbolPrefix] + II->getName().str());
@@ -768,7 +767,8 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 
 - (llvm::Value *)emitClassNamed:(NSString *)name isWeak:(BOOL)weak {
     RispLLVM::IdentifierInfo II = RispLLVM::IdentifierInfo([name UTF8String]);
-    return [self emitClassRefFromId:&II isWeak:weak];
+    llvm::Value *ret = [self emitClassRefFromId:&II isWeak:weak];
+    return ret;
 }
 
 - (llvm::Value *)emitSuperClassRef:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak {
@@ -898,7 +898,6 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 }
 
 - (void)emitLazySymbols {
-    //|| !DefinedSymbols.empty()
     if (!LazySymbols.empty()) {
         SmallString<256> Asm;
         llvm::Module *Module = _theModule;
@@ -911,10 +910,13 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
         //             e = DefinedSymbols.end(); I != e; ++I)
         //            OS << "\t.objc_class_name_" << (*I)->getName() << "=0\n"
         //            << "\t.globl .objc_class_name_" << (*I)->getName() << "\n";
-        for (llvm::SetVector<RispLLVM::IdentifierInfo*>::iterator I = LazySymbols.begin(),
+        for (llvm::SetVector<RispLLVM::IdentifierInfo>::iterator I = LazySymbols.begin(),
              e = LazySymbols.end(); I != e; ++I) {
-            OS << "\t.lazy_reference .objc_class_name_" << (*I)->getName() << "\n";
+            OS << "\t.lazy_reference .objc_class_name_" << (I)->getName() << "\n";
+//            delete *I;
         }
+        
+        
         
         //        for (size_t i = 0, e = DefinedCategoryNames.size(); i < e; ++i) {
         //            OS << "\t.objc_category_name_" << DefinedCategoryNames[i] << "=0\n"
@@ -934,8 +936,11 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     std::string output;
     [__RispLLVMTargetMachineCodeGen compileASMModule:[self module] context:*[self llvmContext] output:output];
     [__RispLLVMTargetMachineCodeGen compileObjectModule:[self module] context:*[self llvmContext] outputPath:@"~/Desktop/risp.o"];
-    NSLog(@"%@", [__RispLLVMIRCodeGen IRCodeFromModule:[self module]]);
-    llvm::errs() << "\nRispLLVM 0.1 -> \n" << output;
+    
+    [[[NSString alloc] initWithUTF8String:output.c_str()] writeToFile:[@"~/Desktop/risp.ll" stringByStandardizingPath] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    
+//    NSLog(@"RispLLVM ->\n%@", [__RispLLVMIRCodeGen IRCodeFromModule:[self module]]);
+//    llvm::errs() << "\nRispLLVM 0.1 -> \n" << output;
 }
 
 

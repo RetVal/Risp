@@ -6,11 +6,12 @@
 //  Copyright (c) 2014 closure. All rights reserved.
 //
 
+#import <Risp/RispBaseExpression.h>
 #import <Risp/RispSymbolExpression.h>
 #import <Risp/RispSelectorExpression.h>
 
 @interface RispDotExpression : RispBaseExpression
-@property (nonatomic, strong, readonly) RispSymbolExpression *targetExpression;
+@property (nonatomic, strong, readonly) RispBaseExpression *targetExpression;
 @property (nonatomic, strong, readonly) RispSelectorExpression *selectorExpression;
 
 @property (nonatomic, strong, readonly) id target;      // analyzed target

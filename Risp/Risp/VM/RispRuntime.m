@@ -34,6 +34,7 @@
         id x = fn(obj);
         if (x == nil) {
             NSLog(@"wocao");
+            [NSException raise:RispRuntimeException format:@"%p(%@) return nil", fn, obj];
         }
         [array addObject:x];
 //        [array addObject:fn(obj) ? : [NSNull null]];

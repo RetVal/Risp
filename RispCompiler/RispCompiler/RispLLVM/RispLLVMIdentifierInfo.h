@@ -9,7 +9,7 @@
 #ifndef RispCompiler_RispLLVMIdentifierInfo_h
 #define RispCompiler_RispLLVMIdentifierInfo_h
 #include "llvm/IR/DerivedTypes.h"
-
+#include "llvm/Support/raw_os_ostream.h"
 namespace RispLLVM {
     
     class IdentifierInfo;
@@ -18,7 +18,7 @@ namespace RispLLVM {
 
     public:
         IdentifierInfo(llvm::StringRef name) : _name(name) {
-            
+//            printf("%s %s\n", "IdentifierInfo()", _name.str().c_str());
         }
         
         static inline RispLLVM::IdentifierInfo *getEmptyMarker() {
@@ -32,20 +32,28 @@ namespace RispLLVM {
         }
         
         ~IdentifierInfo() {
-            
+//            printf("%s %s\n", "~IdentifierInfo()", _name.str().c_str());
         }
         
         llvm::StringRef getName() const {
             return _name;
         }
         
-        bool operator==(RispLLVM::IdentifierInfo *RHS) const {
+        bool operator==(const RispLLVM::IdentifierInfo *RHS) const {
             return this->_name == RHS->_name;
         }
-        
+  
     private:
         llvm::StringRef _name;
     };
+    
+    inline bool operator<(RispLLVM::IdentifierInfo LHS, RispLLVM::IdentifierInfo RHS) {
+        return LHS.getName() < RHS.getName();
+    }
+    
+    inline bool operator==(RispLLVM::IdentifierInfo LHS, RispLLVM::IdentifierInfo RHS) {
+        return LHS.getName() == RHS.getName();
+    }
     
     class RValue {
         enum Flavor { Scalar, Complex, Aggregate };

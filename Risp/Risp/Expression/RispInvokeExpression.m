@@ -12,11 +12,11 @@
 #import "RispBaseExpression+ASTDescription.h"
 
 @implementation RispInvokeExpression
-+ (id <RispExpression>)parser:(id <RispSequence>)form context:(RispContext *)context {
++ (RispBaseExpression *)parser:(id <RispSequence>)form context:(RispContext *)context {
     if([context status] != RispContextEval)
         [context setStatus:RispContextExpression];
 
-    id <RispExpression> fexpr = [RispBaseParser analyze:context form:[form first]];
+    RispBaseExpression * fexpr = [RispBaseParser analyze:context form:[form first]];
 //    PersistentVector args = PersistentVector.EMPTY;
 //    for(ISeq s = RT.seq(form.next()); s != null; s = s.next())
 //    {

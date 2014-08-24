@@ -12,7 +12,7 @@
 @class RispContext, RispSymbol, RispLexicalScope;
 @interface RispBaseParser : NSObject
 + (id)parser:(id)object context:(RispContext *)context;
-+ (id <RispExpression>)analyze:(RispContext *)context form:(id)form;
++ (RispBaseExpression *)analyze:(RispContext *)context form:(id)form;
 @end
 
 @interface RispBaseParser (tag)

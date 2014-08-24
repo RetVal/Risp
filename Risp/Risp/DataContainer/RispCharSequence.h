@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Risp/RispSequenceProtocol.h>
+
 @interface RispCharSequence : NSObject <RispSequence>
 - (id)initWithString:(NSString *)str;
 - (NSUInteger)count;

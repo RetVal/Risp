@@ -27,4 +27,8 @@
 - (NSString *)description {
     return [super description];
 }
+
+- (NSString *)stringValue {
+    return [_value stringValue];
+}
 @end

@@ -34,7 +34,7 @@
 
     RispVector *args = [[RispVector alloc] initWithArrayNoCopy:argsArray];
     RispVectorExpression *retExpr = [[RispVectorExpression alloc] initWithVector:args];
-    return retExpr;
+    return [retExpr copyMetaFromObject:form];
 }
 
 - (id)initWithVector:(RispVector *)vector {

@@ -27,9 +27,15 @@
 
 - (void)testExample {
     // This is an example of a functional test case.
+//    const char *r = @encode(NSString *);
+//    NSLog(@"%s", r);
+    
+//    NSString *code = @"(def x 5) (def my-list '(x 1 2 3 4 \"hello\")) (. RispBuiltin show: my-list)";
+    NSString *code = [[NSString alloc] initWithContentsOfFile:[@"~/Desktop/rispCompiler.risp" stringByStandardizingPath] encoding:NSUTF8StringEncoding error:nil];
+//    code = @"(def a \"hello\")";
     @autoreleasepool {
         RispASTContext *ASTContext = [RispASTContext ASTContext];
-        NSArray *exprs = [RispASTContext expressionFromCurrentLine:@"\"123\""];
+        NSArray *exprs = [RispASTContext expressionFromCurrentLine:code];
         for (id <RispExpression> expr in exprs) {
             [ASTContext emitRispAST:[[RispAbstractSyntaxTree alloc] initWithExpression:expr]];
         }

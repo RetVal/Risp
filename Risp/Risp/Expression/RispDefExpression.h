@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 closure. All rights reserved.
 //
 
-#import <Risp/Risp.h>
+#import <Risp/RispSymbolExpression.h>
 
 @interface RispDefExpression : RispBaseExpression
-@property (nonatomic, strong, readonly) RispSymbol *key;
-@property (nonatomic, strong, readonly) id value;
+@property (nonatomic, strong, readonly) RispSymbolExpression *key;
+@property (nonatomic, strong, readonly) RispBaseExpression *value;
 
 + (id)parser:(id)object context:(RispContext *)context;
 + (RispSymbol *)speicalKey;

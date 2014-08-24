@@ -40,7 +40,7 @@
                 id expr = [RispCompiler compile:context form:value];
                 id v = [expr eval];
                 //                id v = nil;
-                NSLog(@"%@ -\n%@\n-> %@", value, [[[RispAbstractSyntaxTree alloc] initWithExpression:expr] description], v);
+//                NSLog(@"%@ -\n%@\n-> %@", value, [[[RispAbstractSyntaxTree alloc] initWithExpression:expr] description], v);
                 [values addObject:v ? : [NSNull null]];
             }
             @catch (NSException *exception) {

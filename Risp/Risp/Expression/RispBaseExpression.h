@@ -9,13 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <Risp/RispIRCodeGenerator.h>
 
-@class RispContext;
+@class RispContext, RispBaseExpression;
 @protocol RispExpression <NSObject, NSCopying>
 @required
-+ (id <RispExpression>)parser:(id)object context:(RispContext *)context;
++ (RispBaseExpression *)parser:(id)object context:(RispContext *)context;
 - (id)eval;
 - (id)copyMetaFromObject:(id)object;
 @end
+
 @interface RispBaseExpression : NSObject <RispExpression, RispIRCodeGenerator>
 - (id)eval;
 - (NSString *)description;

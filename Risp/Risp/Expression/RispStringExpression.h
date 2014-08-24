@@ -6,8 +6,9 @@
 //  Copyright (c) 2014 closure. All rights reserved.
 //
 
-#import <Risp/Risp.h>
+#import <Risp/RispContext.h>
+#import <Risp/RispLiteralExpression.h>
 
 @interface RispStringExpression : RispLiteralExpression
-+ (id<RispExpression>)parser:(id)object context:(RispContext *)context;
++ (RispBaseExpression *)parser:(id)object context:(RispContext *)context;
 @end

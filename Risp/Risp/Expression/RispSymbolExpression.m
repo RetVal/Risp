@@ -16,12 +16,16 @@
 
 - (instancetype)initWithSymbol:(RispSymbol *)symbol {
     if (symbol == nil || ![symbol isKindOfClass:[RispSymbol class]]) {
-        [NSException raise:RispIllegalArgumentException format:@"symbol is not a RispSymbol!"];
+        if (symbol) {
+            [NSException raise:RispIllegalArgumentException format:@"symbol(%@) is not a RispSymbol!", symbol];
+        } else {
+            [NSException raise:RispIllegalArgumentException format:@"symbol is nil"];
+        }
     }
     if (self = [super init]) {
         _symbol = symbol;
     }
-    return self;
+    return [self copyMetaFromObject:symbol];
 }
 
 - (id)eval {
@@ -32,8 +36,23 @@
     return [_symbol description];
 }
 
+- (NSString *)stringValue {
+    return [_symbol stringValue];
+}
+
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [RispAbstractSyntaxTree descriptionAppendIndentation:indentation desc:desc];
     [desc appendFormat:@"%@ - %@ %@\n", [self class], [self description], [self rispLocationInfomation]];
+}
+
+- (NSUInteger)hash {
+    return [_symbol hash] ^ 0x12345678;
+}
+
+- (BOOL)isEqualTo:(id)object {
+    if (![object isKindOfClass:[RispSymbolExpression class]]) {
+        return NO;
+    }
+    return [_symbol isEqualTo:[object symbol]];
 }
 @end

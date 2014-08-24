@@ -11,9 +11,10 @@
 #import <Risp/RispContext.h>
 
 @interface RispSymbolExpression : RispBaseExpression
-@property (nonatomic, strong,readonly) RispSymbol *symbol;
+@property (nonatomic, strong, readonly) RispSymbol *symbol;
 + (RispSymbolExpression *)parser:(id)object context:(RispContext *)context;
 - (instancetype)initWithSymbol:(RispSymbol *)symbol;
+- (NSString *)stringValue;
 - (id)eval;
 - (NSString *)description;
 @end

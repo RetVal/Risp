@@ -40,6 +40,7 @@ namespace RispLLVM {
             return llvm::BasicBlock::Create(getLLVMContext(), name, parent, before);
 #endif
         }
+
         typedef llvm::BasicBlock *(^CodeGenModuleBranchBlockEmitter)(CodeGenFunction *CGF, llvm::BasicBlock *blocks[3]);
         typedef enum CGFBranchBlockIdentifier {
             CGFBranchTrueBlockId = 0,
@@ -170,6 +171,7 @@ namespace RispLLVM {
             return EmitCallOrInvoke(Callee, llvm::ArrayRef<llvm::Value *>(), Name);
         }
         
+        llvm::ReturnInst *createReturn(llvm::Value *retValue, llvm::Function *func = nullptr);
         /// Emits a call or invoke instruction to the given function, depending
         /// on the current state of the EH stack.
         llvm::CallSite EmitCallOrInvoke(llvm::Value *Callee,

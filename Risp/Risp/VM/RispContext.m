@@ -152,7 +152,7 @@
 - (RispLexicalScope *)mergeScope:(RispLexicalScope *)scope {
     if (scope == nil || ([[scope scope] count] == 0 && [scope outer] == nil))
         return _currentScope;
-    RispLexicalScope *new = [[RispLexicalScope alloc] initWithParent:_currentScope];
+    RispLexicalScope *new __unused = [[RispLexicalScope alloc] initWithParent:_currentScope];
     
     NSMutableDictionary *env = [[NSMutableDictionary alloc] init];
     __block __weak void (^unsafe_lambda)(RispLexicalScope *scope);

@@ -6,9 +6,12 @@
 //  Copyright (c) 2014 closure. All rights reserved.
 //
 
-#import <Risp/Risp.h>
+#import <Risp/RispContext.h>
+#import <Risp/RispLiteralExpression.h>
 
 @interface RispConstantExpression : RispLiteralExpression
 @property (nonatomic, strong, readonly) id constantValue;
-+ (id<RispExpression>)parser:(id)object context:(RispContext *)context;
++ (RispBaseExpression *)parser:(id)object context:(RispContext *)context;
+
+- (BOOL)isSequence;
 @end

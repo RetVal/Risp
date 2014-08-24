@@ -11,7 +11,7 @@
 
 @interface RispSequence : NSObject <RispSequence, NSCopying, NSFastEnumeration>
 @property (nonatomic, assign, readonly) NSInteger count;
-
++ (id)listWithObjects:(id)object, ... NS_REQUIRES_NIL_TERMINATION;
 - (id)initWithObject:(id)object base:(RispSequence *)base;
 - (id)initWithArray:(NSArray *)array;
 

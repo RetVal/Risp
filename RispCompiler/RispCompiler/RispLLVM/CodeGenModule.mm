@@ -342,6 +342,24 @@ namespace RispLLVM {
         return nil;
     }
     
+    llvm::ReturnInst *CodeGenFunction::createReturn(llvm::Value *retValue, llvm::Function *func) {
+        bool isRetVoid = false;
+        if (retValue == nullptr && func == nullptr) {
+            isRetVoid = true;
+        } else if (func != nullptr) {
+            llvm::FunctionType *fty = func->getFunctionType();
+            llvm::Type *retType = fty->getReturnType();
+            llvm::Type *retValueType = retValue->getType();
+            if (retType != retValueType) {
+                // try to convert type from retValueType to retType
+            }
+        }
+        if (isRetVoid == true) {
+            return Builder->CreateRetVoid();
+        }
+        return Builder->CreateRet(retValue);
+    }
+    
     llvm::CallSite CodeGenFunction::EmitCallOrInvoke(llvm::Value *Callee,
                                     llvm::ArrayRef<llvm::Value *> Args,
                                     const llvm::Twine &Name) {

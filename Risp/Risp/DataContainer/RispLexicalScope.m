@@ -171,7 +171,7 @@
     copy->_depth = _depth;
     copy->_scope = [_scope mutableCopy];
 //    copy->_outer = [_outer mutableCopy];
-    if (copy->_depth) {
+    if (copy->_depth && copy->_outer != nil) {
         copy->_outer->_inner = copy;
     }
     OSSpinLockUnlock(&_lock);

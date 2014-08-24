@@ -11,6 +11,7 @@
 #import "RispBaseExpression+ASTDescription.h"
 #include <objc/runtime.h>
 #include <objc/message.h>
+#import <Risp/RispBaseParser.h>
 
 //(. UIImage imageNamed: "")
 @interface NSInvocation (ObjectReturnValue)
@@ -38,13 +39,13 @@
 @end
 
 @implementation RispDotExpression
-+ (id)parser:(id <RispSequence>)form context:(RispContext *)context {
++ (RispBaseExpression *)parser:(id <RispSequence>)form context:(RispContext *)context {
     
     id seq = form;
     id dot __unused = [form first];
     form = [form next];
     id classNameSymbol = [form first];
-    RispSymbolExpression *targetSymbolExpression = [RispSymbolExpression parser:classNameSymbol context:context];
+    RispBaseExpression *targetExpression = [RispBaseParser parser:classNameSymbol context:context];
     form = [form next];
     id selectorSymbol = [form first];
     RispSelectorExpression *selectorExpression = [RispSelectorExpression parser:selectorSymbol context:context];
@@ -73,7 +74,7 @@
                 [exprsArray addObject:[RispBaseParser analyze:context form:form]];
             }
         }
-        return [[[RispDotExpression alloc] initWithTarget:targetSymbol selector:sel methodSignature:nil expressions:exprsArray ? [RispVector listWithObjectsFromArrayNoCopy:exprsArray] : nil  class:isClass targetSymbolExpression:targetSymbolExpression selectorExpression:selectorExpression] copyMetaFromObject:seq];
+        return [[[RispDotExpression alloc] initWithTarget:targetSymbol selector:sel methodSignature:nil expressions:exprsArray ? [RispVector listWithObjectsFromArrayNoCopy:exprsArray] : nil  class:isClass targetExpression:targetExpression selectorExpression:selectorExpression] copyMetaFromObject:seq];
     } else {
         targetSymbol = [classNameSymbol eval];
         form = [form eval];
@@ -113,7 +114,7 @@
             if ([methodSignature numberOfArguments] - 2 != [form count]) {
                 [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", classNameSymbol, [methodSignature numberOfArguments] - 2, form];
             }
-            return [[[RispDotExpression alloc] initWithTarget:NSClassFromString(className) selector:sel methodSignature:methodSignature arguments:[RispVector listWithObjectsFromArrayNoCopy:[form array]] class:isClass targetSymbolExpression:targetSymbolExpression selectorExpression:selectorExpression] copyMetaFromObject:seq];
+            return [[[RispDotExpression alloc] initWithTarget:NSClassFromString(className) selector:sel methodSignature:methodSignature arguments:[RispVector listWithObjectsFromArrayNoCopy:[form array]] class:isClass targetExpression:targetExpression selectorExpression:selectorExpression] copyMetaFromObject:seq];
         }
         [NSException raise:RispIllegalArgumentException format:@"%@ of %@ is not found", selectorSymbol, className];
     } else {
@@ -125,15 +126,15 @@
         if ([methodSignature numberOfArguments] - 2 != [form count]) {
             [NSException raise:RispIllegalArgumentException format:@"%@ take %ld arguments, but called with %@", targetSymbol, [methodSignature numberOfArguments] - 2, form];
         }
-        return [[[RispDotExpression alloc] initWithTarget:target selector:sel methodSignature:methodSignature arguments:[RispVector listWithObjectsFromArrayNoCopy:[form array]] class:isClass targetSymbolExpression:targetSymbolExpression selectorExpression:selectorExpression] copyMetaFromObject:seq];
+        return [[[RispDotExpression alloc] initWithTarget:target selector:sel methodSignature:methodSignature arguments:[RispVector listWithObjectsFromArrayNoCopy:[form array]] class:isClass targetExpression:targetExpression selectorExpression:selectorExpression] copyMetaFromObject:seq];
     }
     return nil;
 }
 
-- (id)initWithTarget:(id)target selector:(SEL)sel methodSignature:(NSMethodSignature *)methodSignature arguments:(RispVector *)arguments class:(BOOL)class targetSymbolExpression:(RispSymbolExpression *)targetSymbolExpression selectorExpression:(RispSelectorExpression *)selectorExpression {
+- (id)initWithTarget:(id)target selector:(SEL)sel methodSignature:(NSMethodSignature *)methodSignature arguments:(RispVector *)arguments class:(BOOL)class targetExpression:(RispBaseExpression *)targetExpression selectorExpression:(RispSelectorExpression *)selectorExpression {
     if (self = [super init]) {
         _target = target;
-        _targetExpression = targetSymbolExpression;
+        _targetExpression = targetExpression;
         _selectorExpression = selectorExpression;
         _selector = sel;
         if (arguments) {
@@ -150,10 +151,10 @@
     return self;
 }
 
-- (id)initWithTarget:(id)target selector:(SEL)sel methodSignature:(NSMethodSignature *)methodSignature expressions:(id <RispSequence>)exprs class:(BOOL)class targetSymbolExpression:(RispSymbolExpression *)targetSymbolExpression selectorExpression:(RispSelectorExpression *)selectorExpression {
+- (id)initWithTarget:(id)target selector:(SEL)sel methodSignature:(NSMethodSignature *)methodSignature expressions:(id <RispSequence>)exprs class:(BOOL)class targetExpression:(RispBaseExpression *)targetExpression selectorExpression:(RispSelectorExpression *)selectorExpression {
     if (self = [super init]) {
         _target = target;
-        _targetExpression = targetSymbolExpression;
+        _targetExpression = targetExpression;
         _selectorExpression = selectorExpression;
         _selector = sel;
         _exprs = exprs;
@@ -257,7 +258,7 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    RispDotExpression *copy = [[RispDotExpression alloc] initWithTarget:_target selector:_selector methodSignature:_methodSignature arguments:nil class:_Class targetSymbolExpression:_targetExpression selectorExpression:_selectorExpression];
+    RispDotExpression *copy = [[RispDotExpression alloc] initWithTarget:_target selector:_selector methodSignature:_methodSignature arguments:nil class:_Class targetExpression:_targetExpression selectorExpression:_selectorExpression];
     return copy;
 }
 

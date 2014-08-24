@@ -52,8 +52,8 @@
             [prefix appendString:@"    "];
         }
         __block NSInteger previousLength = 0;
+        __block NSRange range = NSMakeRange(0, 0);
         [lines enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
-            NSRange range = NSMakeRange(0, 0);
             if ([obj hasPrefix:prefix]) {
                 range = NSMakeRange(previousLength + [prefix length], 1);
                 [desc replaceCharactersInRange:range withString:@"|"];

@@ -15,6 +15,7 @@
 #import <Risp/RispEnvironmentVariables.h>
 #import <Risp/RispList.h>
 #import <Risp/RispVector.h>
+#import <Risp/RispCharSequence.h>
 #import <Risp/RispMap.h>
 #import <Risp/RispLazySequence.h>
 #import <Risp/RispCompiler.h>

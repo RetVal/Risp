@@ -9,6 +9,7 @@
 #import <Risp/RispDefExpression.h>
 #import "RispAbstractSyntaxTree.h"
 #import "RispBaseExpression+ASTDescription.h"
+#import "RispBaseParser.h"
 
 @implementation RispDefExpression
 + (id)parser:(id <RispSequence>)object context:(RispContext *)context {
@@ -22,12 +23,12 @@
         [NSException raise:RispIllegalArgumentException format:@"%@ is not be symbol", [object first]];
     }
     [context setStatus:RispContextEval];
-    return [[RispDefExpression alloc] initWithValue:[RispBaseParser analyze:context form:[object second]] forKey:[object first]];
+    return [[RispDefExpression alloc] initWithValue:[RispBaseParser analyze:context form:[object second]] forKey:[RispSymbolExpression parser:[object first] context:context]];
 }
 
-- (id)initWithValue:(id)value forKey:(RispSymbol *)symbol {
+- (id)initWithValue:(RispBaseExpression *)value forKey:(RispSymbolExpression *)symbolExpression {
     if (self = [super init]) {
-        _key = symbol;
+        _key = symbolExpression;
         _value = value;
     }
     return self;
@@ -35,8 +36,8 @@
 
 - (id)eval {
     if ([[[RispContext currentContext] currentScope] depth] == 0) {
-        [[RispContext currentContext] currentScope][_key] = [_value eval];
-        return _key;
+        [[RispContext currentContext] currentScope][[_key symbol]] = [_value eval];
+        return [_key symbol];
     }
     [NSException raise:RispIllegalArgumentException format:@"def must be use at root frame"];
     return nil;
@@ -54,7 +55,7 @@
 -(void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [super _descriptionWithIndentation:indentation desc:desc];
     [desc appendFormat:@"%@\n", [self class]];
-    [RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 desc:desc];
-    [desc appendFormat:@"%@ -> %@\n", _key, _value];
+    [_key _descriptionWithIndentation:indentation + 1 desc:desc];
+    [_value _descriptionWithIndentation:indentation + 1 desc:desc];
 }
 @end

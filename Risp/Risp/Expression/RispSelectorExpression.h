@@ -14,4 +14,5 @@
 + (RispSelectorExpression *)parser:(id)object context:(RispContext *)context;
 - (id)eval;
 - (NSString *)description;
+- (NSString *)stringValue;
 @end

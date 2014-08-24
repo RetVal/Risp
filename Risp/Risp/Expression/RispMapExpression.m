@@ -16,7 +16,7 @@
 @end
 
 @implementation RispMapExpression
-+ (id<RispExpression>)parser:(RispMap *)object context:(RispContext *)context {
++ (RispBaseExpression *)parser:(RispMap *)object context:(RispContext *)context {
     NSMutableArray *keyvals = [[NSMutableArray alloc] init];
     NSMutableSet *set = [[NSMutableSet alloc] init];
     BOOL keysConstant = YES;

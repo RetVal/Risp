@@ -1503,8 +1503,8 @@
 				30D8D9F818FECDE700477849 /* Reader */,
 				30970F1618FCE2830091F83D /* Risp.h */,
 				30970F1718FCE2830091F83D /* Risp.m */,
-				30970F1018FCE2830091F83D /* Supporting Files */,
 				30E3582D18FFAF0300412E48 /* VM */,
+				30970F1018FCE2830091F83D /* Supporting Files */,
 			);
 			path = Risp;
 			sourceTree = "<group>";

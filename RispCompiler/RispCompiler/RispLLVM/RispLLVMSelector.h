@@ -72,6 +72,31 @@ namespace RispLLVM {
         llvm::Type *getLLVMReturnType() const {
             return [[__RispLLVMObjcType helper] llvmTypeFromObjectiveCType:getReturnType()];
         }
+        
+    public:
+        bool returnTypeIsSelector() const {
+            const char *rt = getReturnType();
+            if (!rt) {
+                return false;
+            }
+            return strncmp(":", rt, 1);
+        }
+        
+        bool returnTypeIsClass() const {
+            const char *rt = getReturnType();
+            if (!rt) {
+                return false;
+            }
+            return strncmp("#", rt, 1);
+        }
+        
+        bool returnTypeIsInstance() const {
+            const char *rt = getReturnType();
+            if (!rt) {
+                return false;
+            }
+            return strncmp("@", rt, 1);
+        }
     private:
         SEL _selector;
         NSMethodSignature *_methodSingature;

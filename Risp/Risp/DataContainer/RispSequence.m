@@ -31,6 +31,22 @@ static RispSequence *__RispSequeuceEmpty = nil;
     return __RispSequeuceEmpty;
 }
 
++ (id)listWithObjects:(id)object, ... {
+    if (!object) {
+        return [[RispSequence alloc] initWithArray:@[]];
+    }
+    RispSequence *list = [[RispSequence alloc] init];
+    va_list ap;
+    va_start(ap, object);
+    id o = object;
+    do {
+        list = [list cons:o];
+        o = va_arg(ap, id);
+    } while (o);
+    va_end(ap);
+    return list;
+}
+
 - (id)initWithObject:(id)object base:(RispSequence *)base {
     if (self = [super init]) {
         _object = object;

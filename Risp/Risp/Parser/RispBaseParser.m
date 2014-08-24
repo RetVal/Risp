@@ -23,8 +23,8 @@
 #import <objc/runtime.h>
 
 @interface RispBaseParser (Analyze)
-+ (id <RispExpression>)analyzeSymbol:(RispSymbol *)symbol context:(RispContext *)context;
-+ (id <RispExpression>)analyzeSequence:(id <RispSequence>)sequence context:(RispContext *)context name:(NSString *)name;
++ (RispBaseExpression *)analyzeSymbol:(RispSymbol *)symbol context:(RispContext *)context;
++ (RispBaseExpression *)analyzeSequence:(id <RispSequence>)sequence context:(RispContext *)context name:(NSString *)name;
 @end
 
 
@@ -52,12 +52,12 @@
 
 @implementation RispBaseParser (Analyze)
 
-+ (id <RispExpression>)analyzeSymbol:(RispSymbol *)symbol context:(RispContext *)context {
++ (RispBaseExpression *)analyzeSymbol:(RispSymbol *)symbol context:(RispContext *)context {
     RispSymbol *tag __unused = [self tagOfObject:symbol];
     return [RispSymbolExpression parser:symbol context:context];
 }
 
-+ (id <RispExpression>)analyzeSequence:(id <RispSequence>)sequence context:(RispContext *)context name:(NSString *)name {
++ (RispBaseExpression *)analyzeSequence:(id <RispSequence>)sequence context:(RispContext *)context name:(NSString *)name {
     [RispContext setCurrentContext:context];
     
     id me = [RispCompiler macroexpand:sequence];
@@ -83,14 +83,14 @@
 
 @implementation RispBaseParser
 + (id)parser:(id)object context:(RispContext *)context {
-    return nil;
+    return [self analyze:context form:object];
 }
 
-+ (id <RispExpression>)analyze:(RispContext *)context form:(id)form {
++ (RispBaseExpression *)analyze:(RispContext *)context form:(id)form {
     return [self analyze:context form:form name:@""];
 }
 
-+ (id <RispExpression>)analyze:(RispContext *)context form:(id)form name:(NSString *)name {
++ (RispBaseExpression *)analyze:(RispContext *)context form:(id)form name:(NSString *)name {
     @try {
         if ([form isKindOfClass:[RispLazySequence class]]) {
             form = [RispSequence sequence:form];
@@ -113,13 +113,13 @@
             // register a keyword
             return [context registerKeyword:form];
         } else if ([form isKindOfClass:[NSNumber class]]) {
-            return [[[RispNumberExpression alloc] initWithValue:form] copyMetaFromObject:form];
+            return [[RispNumberExpression alloc] initWithValue:form];
         } else if ([form isKindOfClass:[NSString class]]) {
-            return [[[RispStringExpression alloc] initWithValue:form] copyMetaFromObject:form];
+            return [[RispStringExpression alloc] initWithValue:form];
         } else if (fclass == [RispVector class]) {
-            return [[RispVectorExpression parse:form context:context] copyMetaFromObject:form];
+            return [RispVectorExpression parse:form context:context];
         } else if (fclass == [RispMap class]) {
-            return [[RispMapExpression parser:form context:context] copyMetaFromObject:form];
+            return [RispMapExpression parser:form context:context];
         } else if ([form conformsToProtocol:@protocol(RispSequence)]) {
             return [RispBaseParser analyzeSequence:form context:context name:@""];
         }

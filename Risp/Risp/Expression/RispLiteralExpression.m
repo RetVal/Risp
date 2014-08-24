@@ -16,7 +16,7 @@
     if (self = [super init]) {
         _value = value;
     }
-    return self;
+    return [self copyMetaFromObject:value];
 }
 
 - (id)value {
@@ -44,5 +44,9 @@
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [super _descriptionWithIndentation:indentation desc:desc];
     [desc appendFormat:@"%@ : %@ %@\n", [self class], [self description], [_value rispLocationInfomation]];
+}
+
+- (NSUInteger)hash {
+    return [_value hash];
 }
 @end
