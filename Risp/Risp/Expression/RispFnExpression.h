@@ -10,13 +10,14 @@
 #import <Risp/RispSymbol+BIF.h>
 #import <Risp/RispBaseExpression.h>
 #import <Risp/RispContext.h>
+#import <Risp/RispSymbolExpression.h>
 #import <Risp/RispMethodExpression.h>
 #import <Risp/RispBlockExpression.h>
 #import <Risp/RispInvokeProtocol.h>
 #import <Risp/RispFnProtocol.h>
 
 @interface RispFnExpression : RispBaseExpression <RispFnProtocol, NSCopying>
-@property (nonatomic, strong) RispSymbol *name;
+@property (nonatomic, strong) RispSymbolExpression *name;
 @property (nonatomic, strong) RispMethodExpression *variadicMethod;
 @property (nonatomic, strong) RispList *methods;
 //@property (nonatomic, strong) RispSymbol *name;

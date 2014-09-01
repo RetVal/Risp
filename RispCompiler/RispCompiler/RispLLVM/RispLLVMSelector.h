@@ -26,8 +26,8 @@ namespace RispLLVM {
         }
         
         Selector(SEL sel, id cls) : _selector(sel) {
-            if (!_methodSingature) {
-                _methodSingature = [cls methodSignatureForSelector:_selector];
+            if (!_methodSignature) {
+                _methodSignature = [cls methodSignatureForSelector:_selector];
             }
         }
         
@@ -59,14 +59,14 @@ namespace RispLLVM {
             if (isNull()) {
                 return 0;
             }
-            return (unsigned)[_methodSingature numberOfArguments] - 2; // self, _cmd
+            return (unsigned)[_methodSignature numberOfArguments] - 2; // self, _cmd
         }
         
         const char *getReturnType() const {
             if (isNull()) {
                 return 0;
             }
-            return [_methodSingature methodReturnType];
+            return [_methodSignature methodReturnType];
         }
         
         llvm::Type *getLLVMReturnType() const {
@@ -79,7 +79,7 @@ namespace RispLLVM {
             if (!rt) {
                 return false;
             }
-            return strncmp(":", rt, 1);
+            return 0 == strncmp(":", rt, 1);
         }
         
         bool returnTypeIsClass() const {
@@ -87,7 +87,7 @@ namespace RispLLVM {
             if (!rt) {
                 return false;
             }
-            return strncmp("#", rt, 1);
+            return 0 == strncmp("#", rt, 1);
         }
         
         bool returnTypeIsInstance() const {
@@ -95,11 +95,24 @@ namespace RispLLVM {
             if (!rt) {
                 return false;
             }
-            return strncmp("@", rt, 1);
+            return 0 == strncmp("@", rt, 1);
+        }
+        
+        bool returnTypeIsFunction() const {
+            const char *rt = getReturnType();
+            if (!rt) {
+                return false;
+            }
+            unsigned int len = MIN(2, strlen(rt));
+            return 0 == strncmp("^?", rt, len);
+        }
+        
+        NSMethodSignature *getMethodSignature() const {
+            return _methodSignature;
         }
     private:
         SEL _selector;
-        NSMethodSignature *_methodSingature;
+        NSMethodSignature *_methodSignature;
     };
     
 }

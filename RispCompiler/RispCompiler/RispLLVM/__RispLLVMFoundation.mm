@@ -13,10 +13,21 @@
 #include "RispLLVMSelector.h"
 #include "llvm/ADT/Hashing.h"
 #include "llvm/ADT/SetVector.h"
+#include "llvm/Support/ConvertUTF.h"
+
+NSString * __RispLLVMFoundationObjectPathKey = @"ObjectPath";
+NSString * __RispLLVMFoundationAsmPathKey = @"AsmPath";
+NSString * __RispLLVMFoundationLLVMIRPathKey = @"LLVM-IR-Path";
 
 namespace RispLLVM {
     class Selector;
     class IdentifierInfo;
+    static bool containsNonAsciiOrNull(llvm::StringRef str) {
+        for (unsigned i = 0, e = str.size(); i != e; ++i)
+            if (!isascii(str[i]) || !str[i])
+                return true;
+        return false;
+    }
 }
 
 enum ImageInfoFlags {
@@ -52,20 +63,20 @@ struct DenseMapInfo<RispLLVM::Selector> {
 };
 
 template <>
-struct DenseMapInfo<RispLLVM::IdentifierInfo *> {
-    static inline RispLLVM::IdentifierInfo *getEmptyKey() {
-        return RispLLVM::IdentifierInfo::getEmptyMarker();
+struct DenseMapInfo<RispLLVM::IdentifierInfo> {
+    static inline RispLLVM::IdentifierInfo getEmptyKey() {
+        return *RispLLVM::IdentifierInfo::getEmptyMarker();
     }
-    static inline RispLLVM::IdentifierInfo *getTombstoneKey() {
-        return RispLLVM::IdentifierInfo::getTombstoneMarker();
-    }
-    
-    static unsigned getHashValue(RispLLVM::IdentifierInfo *S) {
-        return (unsigned)llvm::hash_value(S->getName());
+    static inline RispLLVM::IdentifierInfo getTombstoneKey() {
+        return *RispLLVM::IdentifierInfo::getTombstoneMarker();
     }
     
-    static bool isEqual(RispLLVM::IdentifierInfo *LHS, RispLLVM::IdentifierInfo *RHS) {
-        return LHS->getName() == RHS->getName();
+    static unsigned getHashValue(RispLLVM::IdentifierInfo S) {
+        return static_cast<size_t>(llvm::hash_value(S.getName()));
+    }
+    
+    static bool isEqual(RispLLVM::IdentifierInfo LHS, RispLLVM::IdentifierInfo RHS) {
+        return LHS == RHS;
     }
 };
 
@@ -125,9 +136,9 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     llvm::SetVector<RispLLVM::IdentifierInfo> LazySymbols;
     
     llvm::DenseMap<RispLLVM::Selector, llvm::GlobalVariable*> SelectorReferences;
-    llvm::DenseMap<RispLLVM::IdentifierInfo*, llvm::GlobalVariable*> ClassReferences;
-    llvm::DenseMap<RispLLVM::IdentifierInfo*, llvm::GlobalVariable*> SuperClassReferences;
-    llvm::DenseMap<RispLLVM::IdentifierInfo*, llvm::GlobalVariable*> MetaClassReferences;
+    llvm::DenseMap<RispLLVM::IdentifierInfo, llvm::GlobalVariable*> ClassReferences;
+    llvm::DenseMap<RispLLVM::IdentifierInfo, llvm::GlobalVariable*> SuperClassReferences;
+    llvm::DenseMap<RispLLVM::IdentifierInfo, llvm::GlobalVariable*> MetaClassReferences;
     llvm::DenseMap<RispLLVM::Selector, llvm::GlobalVariable*> MethodVarNames;
     
     llvm::StructType * _NSConstantStringClassTy;
@@ -155,7 +166,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     return _context;
 }
 
-- (StringMap<llvm::Constant *>)stringMap {
+- (StringMap<llvm::Constant *>&)stringMap {
     return NSConstantStringMap;
 }
 
@@ -195,22 +206,19 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     return _CFConstantStringClassReference;
 }
 
-- (id)init {
+- (id)initWithModuleName:(NSString *)name {
     if (self = [super init]) {
         _context = &getGlobalContext();
         _ObjCABI = 2;
-        _theModule = new Module("top", *(_context));
+        _theModule = new Module([name UTF8String], *(_context));
         _builder = new IRBuilder<>(*_context);
         _dataLayout = new llvm::DataLayout([self module]);
         _objcType = [__RispLLVMObjcType helper];
         _targetCodeGenInfo = [[__RispLLVMTargetCodeGenInfo alloc] init];
         _CGF = new RispLLVM::CodeGenFunction(self);
+        _moduleName = name;
     }
     return self;
-}
-
-- (llvm::GlobalValue *)globalValue:(llvm::StringRef)name {
-    return (*[self module]).getNamedValue(name);
 }
 
 - (unsigned)targetAddressSpace:(unsigned)AS {
@@ -222,29 +230,6 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 
 - (unsigned)globalVarAddressSpace:(unsigned)addressSpace {
     return [self targetAddressSpace:addressSpace];
-}
-
-- (llvm::Constant *)getOrCreateLLVMGlobal:(llvm::StringRef)name type:(llvm::PointerType *)ty unnamedAddress:(BOOL)unnamedAddress {
-    llvm::GlobalValue *entry = [self globalValue:name];
-    if (entry) {
-        if (unnamedAddress) {
-            entry->setUnnamedAddr(true);
-        }
-        if (entry->getType() == ty) {
-            return entry;
-        }
-        
-        if (entry->getType()->getAddressSpace() != ty->getAddressSpace()) {
-            return llvm::ConstantExpr::getAddrSpaceCast(entry, ty);
-        }
-        return llvm::ConstantExpr::getBitCast(entry, ty);
-    }
-    unsigned addrSpace = [self globalVarAddressSpace:ty->getAddressSpace()];
-    llvm::GlobalVariable *gv = new llvm::GlobalVariable(*[self module], ty->getElementType(), false, llvm::GlobalValue::ExternalLinkage, 0, name, 0, llvm::GlobalVariable::NotThreadLocal, addrSpace);
-    if (addrSpace != ty->getAddressSpace()) {
-        return llvm::ConstantExpr::getAddrSpaceCast(gv, ty);
-    }
-    return gv;
 }
 
 - (llvm::Constant*)getOrCreateLLVMFunction:(StringRef)mangledName type:(llvm::Type *)ty forVTable:(BOOL)forVTable dontDefer:(BOOL)dontDefer attribute:(llvm::AttributeSet)extraAttrs {
@@ -398,6 +383,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
         delete [] _CGF;
     }
 }
+
 @end
 
 @implementation __RispLLVMFoundation (CPP)
@@ -585,7 +571,20 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 @implementation __RispLLVMFoundation (Literal)
 
 - (llvm::GlobalValue *)globalValue:(llvm::StringRef)name {
-    return [self module]->getNamedValue(name);
+    return (*[self module]).getNamedValue(name);
+}
+
+- (llvm::Value *)emitNSDecimalNumberLiteral:(double)value {
+    llvm::Value *RispNSNumberClass = [self emitClassNamed:@"NSDecimalNumber" isWeak:NO];
+    llvm::Value *arg = llvm::ConstantFP::get([self doubleType], value);
+    llvm::Value *ret = [self emitMessageCall:RispNSNumberClass selector:@selector(numberWithDouble:) arguments:{arg} instance:[NSDecimalNumber class]];
+    return ret;
+}
+
+- (llvm::Value *)emitNSNull {
+    llvm::Value *RispNSNullClass = [self emitClassNamed:@"NSNull" isWeak:NO];
+    llvm::Value *ret = [self emitMessageCall:RispNSNullClass selector:@selector(null) arguments:{} instance:[NSNull class]];
+    return ret;
 }
 
 - (llvm::GlobalVariable *)generateStringLiteral:(StringRef)string isConstant:(BOOL)constant globalName:(const char *)globalName alignment:(unsigned)alignment {
@@ -614,22 +613,74 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     return gv;
 }
 
-- (Constant *)emitConstantCStringLiteral:(const std::string &)string globalName:(const char *)globalName alignment:(unsigned)alignment {
-    StringRef  strWithNull(string.c_str(), string.size() + 1);
+- (llvm::Constant *)getOrCreateLLVMGlobal:(llvm::StringRef)name type:(llvm::PointerType *)ty unnamedAddress:(BOOL)unnamedAddress {
+    llvm::GlobalValue *entry = [self globalValue:name];
+    if (entry) {
+        if (unnamedAddress) {
+            entry->setUnnamedAddr(true);
+        }
+        if (entry->getType() == ty) {
+            return entry;
+        }
+        
+        if (entry->getType()->getAddressSpace() != ty->getAddressSpace()) {
+            return llvm::ConstantExpr::getAddrSpaceCast(entry, ty);
+        }
+        return llvm::ConstantExpr::getBitCast(entry, ty);
+    }
+    unsigned addrSpace = [self globalVarAddressSpace:ty->getAddressSpace()];
+    llvm::GlobalVariable *gv = new llvm::GlobalVariable(*[self module], ty->getElementType(), false, llvm::GlobalValue::ExternalLinkage, 0, name, 0, llvm::GlobalVariable::NotThreadLocal, addrSpace);
+    if (addrSpace != ty->getAddressSpace()) {
+        return llvm::ConstantExpr::getAddrSpaceCast(gv, ty);
+    }
+    return gv;
+}
+
+- (llvm::Constant *)emitConstantCStringLiteral:(const std::string &)string globalName:(const char *)globalName alignment:(unsigned)alignment {
+    llvm::StringRef  strWithNull(string.c_str(), string.size() + 1);
     return [self getAddrOfConstantString:strWithNull globalName:globalName alignment:alignment];
 }
 
-- (StringMapEntry<Constant *> &)constantStringEntry:(StringMap<Constant *>&)map literal:(const std::string *)literal length:(size_t &)stringLength {
-    StringRef string = StringRef(*literal);
+- (llvm::StringMapEntry<Constant *> &)constantStringEntry:(llvm::StringMap<Constant *>&)map literal:(const std::string *)literal length:(size_t &)stringLength isUTF16:(bool &)isUTF16 {
+    llvm::StringRef string = llvm::StringRef(*literal);
     stringLength = string.size();
-    return map.GetOrCreateValue(string);
+    unsigned NumBytes = string.size();
+    
+    // Check for simple case.
+    if (!RispLLVM::containsNonAsciiOrNull(string)) {
+        stringLength = NumBytes;
+        return map.GetOrCreateValue(string);
+    }
+    
+    // Otherwise, convert the UTF8 literals into a string of shorts.
+    isUTF16 = true;
+    
+    SmallVector<UTF16, 128> ToBuf(NumBytes + 1); // +1 for ending nulls.
+    const UTF8 *FromPtr = (const UTF8 *)string.data();
+    UTF16 *ToPtr = &ToBuf[0];
+    
+    (void)ConvertUTF8toUTF16(&FromPtr, FromPtr + NumBytes,
+                             &ToPtr, ToPtr + NumBytes,
+                             strictConversion);
+    
+    // ConvertUTF8toUTF16 returns the length in ToPtr.
+    stringLength = ToPtr - &ToBuf[0];
+    
+    // Add an explicit null.
+    *ToPtr = 0;
+    return map.GetOrCreateValue(StringRef(reinterpret_cast<const char *>(ToBuf.data()),
+                                          (stringLength + 1) * 2));
 }
 
-- (Constant *)emitObjCStringLiteral:(NSString *)string {
+- (llvm::Constant *)emitObjCStringLiteral:(NSString *)string {
     size_t length = 0;
-    BOOL isUTF16 = NO;
-    std::string str = std::string([string UTF8String]);
-    StringMapEntry<Constant *> &entry = [self constantStringEntry:NSConstantStringMap literal:&str length:length];
+    
+    uint8_t *ptr = (uint8_t *)[string UTF8String];
+    std::string str = std::string((char *)ptr);
+    
+    bool isUTF16 = false;
+    
+    llvm::StringMapEntry<llvm::Constant *> &entry = [self constantStringEntry:NSConstantStringMap literal:&str length:length isUTF16:isUTF16];
     if (llvm::Constant *c = entry.getValue()) {
         return c;
     }
@@ -644,7 +695,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     llvm::Constant *c = 0;
     
     if (isUTF16) {
-        ArrayRef<uint16_t> arr = llvm::makeArrayRef<uint16_t>(reinterpret_cast<uint16_t *>(const_cast<char *>(entry.getKey().data())), entry.getKey().size() / 2);
+        llvm::ArrayRef<uint16_t> arr = llvm::makeArrayRef<uint16_t>(reinterpret_cast<uint16_t *>(const_cast<char *>(entry.getKey().data())), entry.getKey().size() / 2);
         c = llvm::ConstantDataArray::get(*_context, arr);
     } else {
         c = llvm::ConstantDataArray::getString(*_context, entry.getKey());
@@ -671,6 +722,8 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     entry.setValue(gv);
     return gv;
 }
+
+
 @end
 
 @implementation __RispLLVMFoundation (Selector)
@@ -746,7 +799,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 - (llvm::Value *)emitClassRefFromId:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak {
     // II should be singleton and heap-able
     LazySymbols.insert(*II);
-    llvm::GlobalVariable *&entry = ClassReferences[II];
+    llvm::GlobalVariable *&entry = ClassReferences[*II];
     if (!entry) {
         std::string className([self objcClassSymbolPrefix] + II->getName().str());
         llvm::GlobalVariable *classGV = [self classGlobalWithName:className isWeak:weak];
@@ -756,6 +809,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
                                          "\01L_OBJC_CLASSLIST_REFERENCES_$_");
         entry->setAlignment(_dataLayout->getABITypeAlignment([_objcType classnfABIPtrTy]));
         entry->setSection("__DATA, __objc_classrefs, regular, no_dead_strip");
+        ClassReferences[*II] = entry;
         [self addCompilerUsedGlobal:entry];
     }
     return [self builder]->CreateLoad(entry);
@@ -772,7 +826,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 }
 
 - (llvm::Value *)emitSuperClassRef:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak {
-    llvm::GlobalVariable *&entry = SuperClassReferences[II];
+    llvm::GlobalVariable *&entry = SuperClassReferences[*II];
     if (!entry) {
         std::string className([self objcClassSymbolPrefix] + II->getName().str());
         llvm::GlobalVariable *classGV = [self classGlobalWithName:className isWeak:weak];
@@ -782,13 +836,14 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
                                          "\01L_OBJC_CLASSLIST_SUP_REFS_$_");
         entry->setAlignment(_dataLayout->getABITypeAlignment([_objcType classnfABIPtrTy]));
         entry->setSection("__DATA, __objc_superrefs, regular, no_dead_strip");
+        SuperClassReferences[*II] = entry;
         [self addCompilerUsedGlobal:entry];
     }
     return [self builder]->CreateLoad(entry);
 }
 
 - (llvm::Value *)emitMetaClassRef:(RispLLVM::IdentifierInfo *)II isWeak:(BOOL)weak {
-    llvm::GlobalVariable *&entry = MetaClassReferences[II];
+    llvm::GlobalVariable *&entry = MetaClassReferences[*II];
     if (!entry) {
         std::string metaClassName([self metaClassSymbolPrefix] + II->getName().str());
         llvm::GlobalVariable *metaClassGV = [self classGlobalWithName:metaClassName isWeak:weak];
@@ -798,6 +853,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
                                          "\01L_OBJC_CLASSLIST_SUP_REFS_$_");
         entry->setAlignment(_dataLayout->getABITypeAlignment([_objcType classnfABIPtrTy]));
         entry->setSection("__DATA, __objc_superrefs, regular, no_dead_strip");
+        MetaClassReferences[*II] = entry;
         [self addCompilerUsedGlobal:entry];
     }
     return [self builder]->CreateLoad(entry);
@@ -927,22 +983,34 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     }
 }
 
-- (void)done {
+- (NSDictionary *)done {
     [self emitLLVMUsed];
     [self emitImageInfo];
     [self emitVersionIdentMetadata];
     [self emitLazySymbols];
     
+    BOOL isDirectory = NO;
+    if (_outputPath == nil || ([[NSFileManager defaultManager] fileExistsAtPath:[_outputPath stringByStandardizingPath] isDirectory:&isDirectory] && isDirectory == NO)) {
+        _outputPath = [[NSFileManager defaultManager] currentDirectoryPath];
+    } else {
+        _outputPath = [_outputPath stringByStandardizingPath];
+    }
+    
+    NSString *objectPath = [NSString stringWithFormat:@"%@/%@.o", _outputPath, _moduleName];
+    NSString *asmPath = [NSString stringWithFormat:@"%@/%@.S", _outputPath, _moduleName];
+    NSString *llvmIRPath = [NSString stringWithFormat:@"%@/%@.ll", _outputPath, _moduleName];
+    
+    printf("RispLLVM ->\n%s\n", [[__RispLLVMIRCodeGen IRCodeFromModule:[self module]] UTF8String]);
     std::string output;
     [__RispLLVMTargetMachineCodeGen compileASMModule:[self module] context:*[self llvmContext] output:output];
-    [__RispLLVMTargetMachineCodeGen compileObjectModule:[self module] context:*[self llvmContext] outputPath:@"~/Desktop/risp.o"];
+    [__RispLLVMTargetMachineCodeGen compileObjectModule:[self module] context:*[self llvmContext] outputPath:objectPath];
     
-    [[[NSString alloc] initWithUTF8String:output.c_str()] writeToFile:[@"~/Desktop/risp.ll" stringByStandardizingPath] atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    
-//    NSLog(@"RispLLVM ->\n%@", [__RispLLVMIRCodeGen IRCodeFromModule:[self module]]);
-//    llvm::errs() << "\nRispLLVM 0.1 -> \n" << output;
+    [[[NSString alloc] initWithUTF8String:output.c_str()] writeToFile:asmPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    [[__RispLLVMIRCodeGen IRCodeFromModule:[self module]] writeToFile:llvmIRPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    return @{__RispLLVMFoundationObjectPathKey: objectPath,
+             __RispLLVMFoundationAsmPathKey: asmPath,
+             __RispLLVMFoundationLLVMIRPathKey: llvmIRPath};
 }
-
 
 @end
 
@@ -1005,92 +1073,6 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 
 + (void)load {
     LLVMInitializeNativeTarget();
-    return;
-    __RispLLVMFoundation *CGM = [[__RispLLVMFoundation alloc] init];
-    RispLLVM::CodeGenFunction CGF = [CGM CGF];
-    
-    //    LLVMContext &context = getGlobalContext();
-    CGM->_executeEngine = ExecutionEngine::create([CGM module]);
-    
-    FunctionType *mainFuncType = FunctionType::get([CGM intType], {[CGM intType], [CGM charType]->getPointerTo()->getPointerTo()}, NO);
-    Function *mainFunc = Function::Create(mainFuncType, llvm::GlobalValue::ExternalLinkage, "main", [CGM module]);
-    
-    [__RispLLVMCodeGenFunction setNamesForFunction:mainFunc arugmentNames:{"argc", "argv"}];
-    
-    BasicBlock* label_entry = BasicBlock::Create([CGM module]->getContext(), "entry", mainFunc, 0);
-    [CGM builder]->SetInsertPoint(label_entry);
-    std::vector<Type *>logArgs;
-    logArgs.push_back([CGM idType]);
-    
-    FunctionType *logType = FunctionType::get([CGM builder]->getVoidTy(), logArgs, YES);
-    Constant *nslog = [CGM module]->getOrInsertFunction("NSLog", logType);
-    
-    if (nslog) {
-        llvm::Value *NSNumberClass = [CGM emitClassNamed:@"NSNumber" isWeak:NO];
-        llvm::Value *nsnumber = [CGM emitMessageCall:NSNumberClass selector:@selector(numberWithInt:) arguments:{llvm::ConstantInt::get([CGM intType], 123456)} instance:[NSNumber class]];
-        
-        llvm::Value *NSNumberClass2 = [CGM emitClassNamed:@"NSNumber" isWeak:NO];
-        llvm::Value *NSNumberClass3 = [CGM emitClassNamed:@"NSArray" isWeak:NO];
-        
-        llvm::Value *intValue = [CGM emitMessageCall:nsnumber selector:@selector(intValue) arguments:{} instance:@123456];
-        {
-            
-            CGF.EmitBranchBlock(mainFunc, [CGM builder]->CreateICmpEQ(intValue, llvm::ConstantInt::get([CGM intType], 123)), ^llvm::BasicBlock *(RispLLVM::CodeGenFunction *CGF, llvm::BasicBlock **blocks) {
-                llvm::Value *desc = [CGM emitMessageCall:nsnumber selector:@selector(description) arguments:{} instance:@123456];
-                llvm::Constant *objcstr = [CGM emitObjCStringLiteral:@"%@ is equal to 123"];
-                [CGM builder]->CreateCall(nslog, {llvm::ConstantExpr::getBitCast(objcstr, [CGM idType]), desc});
-                return blocks[RispLLVM::CodeGenFunction::CGFBranchTrueBlockId];
-            }, ^llvm::BasicBlock *(RispLLVM::CodeGenFunction *CGF, llvm::BasicBlock **blocks) {
-                llvm::Value *desc = [CGM emitMessageCall:nsnumber selector:@selector(description) arguments:{} instance:@123456];
-                llvm::Constant *objcstr = [CGM emitObjCStringLiteral:@"%@ is not equal to 123"];
-                [CGM builder]->CreateCall(nslog, {llvm::ConstantExpr::getBitCast(objcstr, [CGM idType]), desc});
-                return blocks[RispLLVM::CodeGenFunction::CGFBranchFalseBlockId];
-            }, ^llvm::BasicBlock *(RispLLVM::CodeGenFunction *CGF, llvm::BasicBlock **blocks) {
-                return blocks[RispLLVM::CodeGenFunction::CGFBranchEndBlockId];
-            });
-        }
-        
-    }
-    llvm::Value *numberVariable = [CGM createVariable:[CGM floatType] named:"n"];
-    llvm::Value *v1 = llvm::ConstantInt::getSigned([CGM intType], 2);
-    llvm::Value *v2 = llvm::ConstantInt::getSigned([CGM intType], 3);
-    llvm::Value *v3 = llvm::ConstantInt::getSigned([CGM intType], 10);
-    [CGM setValue:[CGM mul:{v1, v2, v3}] forVariable:numberVariable];
-    
-    [CGM builder]->CreateRet(ConstantInt::get([CGM intType], 0));
-    
-    llvm::verifyFunction(*mainFunc);
-
-    [CGM done];
-    std::string output;
-    [__RispLLVMTargetMachineCodeGen compileASMModule:[CGM module] context:*[CGM llvmContext] output:output];
-    [__RispLLVMTargetMachineCodeGen compileObjectModule:[CGM module] context:*[CGM llvmContext] outputPath:@"~/Desktop/risp.o"];
-    NSLog(@"%@", [__RispLLVMIRCodeGen IRCodeFromModule:[CGM module]]);
-    llvm::errs() << "\nRispLLVM 0.1 -> \n" << output;
-//    FunctionPassManager *fpm = new FunctionPassManager([llvm module]);;
-//    fpm->add(new DataLayoutPass(*llvm->_executeEngine->getDataLayout()));
-//    fpm->add(createPromoteMemoryToRegisterPass());
-//    fpm->add(createInstructionCombiningPass());
-//    fpm->add(createReassociatePass());
-//    fpm->add(createGVNPass());
-//    fpm->add(createCFGSimplificationPass());
-//    
-//    //    fpm->run(*fib);
-//    fpm->run(*mainFunc);
-//    
-//    
-    
-//    void* ptr = llvm->_executeEngine->getPointerToFunction(mainFunc);
-//    int (*mainptr)(int argc, char **argv) = (int (*)(int argc, char **argv))ptr;
-////    int n = 20;
-//    int argc = 1;
-//    char *_argv = "test";
-//    char **argv = &_argv;
-//    printf("main(%d, %p) -> %d", argc, argv, mainptr(argc, argv));
-//
-    CGM = nil;
-    
-    exit(0);
     return;
 }
 

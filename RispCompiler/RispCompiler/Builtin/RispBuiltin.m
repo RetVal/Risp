@@ -7,9 +7,23 @@
 //
 
 #import "RispBuiltin.h"
+#include <objc/runtime.h>
 
 @implementation RispBuiltin
-+ (void)show:(id)content {
-    NSLog(@"%@", [content description]);
++ (id)show:(id)content {
+    NSLog(@"%@ - %@ -> %@", self, NSStringFromSelector(_cmd), [content description]);
+    return [NSNull null];
+}
+
++ (void *)test {
+    Class cls = self;
+    IMP imp = method_getImplementation(class_getClassMethod(cls, @selector(show:)));
+    return imp;
+}
+
++ (id)test2 {
+    NSString *str = @"hahahah";
+    ((id(*)(Class, SEL, id x))[self test])(self, @selector(show:), str);
+    return @"";
 }
 @end

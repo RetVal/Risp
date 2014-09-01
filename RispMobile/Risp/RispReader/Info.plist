@@ -29,6 +29,6 @@
 		<string>armv7</string>
 	</array>
 	<key>RispRemoteServerAddress</key>
-	<string>ws://172.16.0.133:9000/chat</string>
+	<string>ws://172.16.42.2:9000/chat</string>
 </dict>
 </plist>

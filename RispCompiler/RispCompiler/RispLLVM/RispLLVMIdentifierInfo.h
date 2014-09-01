@@ -10,10 +10,11 @@
 #define RispCompiler_RispLLVMIdentifierInfo_h
 #include "llvm/IR/DerivedTypes.h"
 #include "llvm/Support/raw_os_ostream.h"
+#include "llvm/ADT/PointerIntPair.h"
+
 namespace RispLLVM {
     
     class IdentifierInfo;
-    
     class IdentifierInfo {
 
     public:
@@ -21,40 +22,25 @@ namespace RispLLVM {
 //            printf("%s %s\n", "IdentifierInfo()", _name.str().c_str());
         }
         
-        static inline RispLLVM::IdentifierInfo *getEmptyMarker() {
-            static RispLLVM::IdentifierInfo _emptyMarker = RispLLVM::IdentifierInfo("");
-            return &_emptyMarker;
-        }
-        
-        static inline RispLLVM::IdentifierInfo *getTombstoneMarker() {
-            static RispLLVM::IdentifierInfo _tombstoneMarker = RispLLVM::IdentifierInfo(".");
-            return &_tombstoneMarker;
-        }
-        
         ~IdentifierInfo() {
-//            printf("%s %s\n", "~IdentifierInfo()", _name.str().c_str());
+            _name.~StringRef();
         }
+        static RispLLVM::IdentifierInfo *getEmptyMarker();
+        static RispLLVM::IdentifierInfo *getTombstoneMarker();
         
+        bool operator==(const RispLLVM::IdentifierInfo *RHS) const;
         llvm::StringRef getName() const {
             return _name;
         }
         
-        bool operator==(const RispLLVM::IdentifierInfo *RHS) const {
-            return this->_name == RHS->_name;
-        }
-  
+        
     private:
         llvm::StringRef _name;
     };
     
-    inline bool operator<(RispLLVM::IdentifierInfo LHS, RispLLVM::IdentifierInfo RHS) {
-        return LHS.getName() < RHS.getName();
-    }
-    
-    inline bool operator==(RispLLVM::IdentifierInfo LHS, RispLLVM::IdentifierInfo RHS) {
-        return LHS.getName() == RHS.getName();
-    }
-    
+    bool operator<(RispLLVM::IdentifierInfo LHS, RispLLVM::IdentifierInfo RHS);
+    bool operator==(RispLLVM::IdentifierInfo LHS, RispLLVM::IdentifierInfo RHS);
+
     class RValue {
         enum Flavor { Scalar, Complex, Aggregate };
         

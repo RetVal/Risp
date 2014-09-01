@@ -13,15 +13,15 @@
 #include "llvm/InitializePasses.h"
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/Module.h"
+#include "llvm/IR/Type.h"
 #include "llvm/CodeGen/ValueTypes.h"
 #include "llvm/IR/DerivedTypes.h"
-#include "llvm/IR/Verifier.h"
 #include "llvm/IR/LLVMContext.h"
+
+#include "llvm/IR/Verifier.h"
 #include "llvm/Support/CodeGen.h"
 #include "llvm/ExecutionEngine/ExecutionEngine.h"
 #include "llvm/ExecutionEngine/JIT.h"
-
-#include "llvm/IR/Type.h"
 #include "llvm/Pass.h"
 #include "llvm/PassManager.h"
 #include "llvm/PassRegistry.h"
@@ -44,12 +44,20 @@
 #include "RispLLVMSelector.h"
 #include "RispLLVMIdentifierInfo.h"
 
+FOUNDATION_EXPORT NSString * __RispLLVMFoundationObjectPathKey;
+FOUNDATION_EXPORT NSString * __RispLLVMFoundationAsmPathKey;
+FOUNDATION_EXPORT NSString * __RispLLVMFoundationLLVMIRPathKey;
+
+
 @class __RispLLVMFoundation;
 
 @interface __RispLLVMFoundation : NSObject
+@property (nonatomic, strong, readonly) NSString *moduleName;
+@property (nonatomic, strong) NSString *outputPath;
+- (instancetype)initWithModuleName:(NSString *)name;
 - (llvm::Module *)module;
 - (llvm::IRBuilder<> *)builder;
-- (llvm::StringMap<llvm::Constant *>)stringMap;
+- (llvm::StringMap<llvm::Constant *>&)stringMap;
 - (llvm::StructType *)NSConstantStringClassTy;
 
 - (__RispLLVMTargetCodeGenInfo *)targetCodeGenInfo;
@@ -98,6 +106,9 @@
 
 @interface __RispLLVMFoundation (Literal)
 - (llvm::GlobalValue *)globalValue:(llvm::StringRef)name;
+- (llvm::Value *)emitNSDecimalNumberLiteral:(double)value;
+- (llvm::Value *)emitNSNull;
+
 - (llvm::Constant *)emitObjCStringLiteral:(NSString *)string;
 - (llvm::Constant *)emitConstantCStringLiteral:(const std::string &)string globalName:(const char *)globalName alignment:(unsigned)alignment;
 - (llvm::Constant *)getOrCreateLLVMGlobal:(llvm::StringRef)name type:(llvm::PointerType *)ty unnamedAddress:(BOOL)unnamedAddress;
@@ -141,5 +152,5 @@
 - (void)emitVersionIdentMetadata;
 - (void)emitLazySymbols;
 - (void)emitUsedName:(llvm::StringRef)name list:(std::vector<llvm::WeakVH> &)list;
-- (void)done;
+- (NSDictionary *)done;
 @end

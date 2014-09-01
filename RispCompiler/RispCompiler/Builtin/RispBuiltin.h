@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface RispBuiltin : NSObject
-+ (void)show:(id)content;
++ (id)show:(id)content;
++ (id)test2;
 @end

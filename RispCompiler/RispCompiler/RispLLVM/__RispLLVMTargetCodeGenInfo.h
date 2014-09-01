@@ -11,7 +11,12 @@
 #include "llvm/IR/CallingConv.h"
 #include "llvm/Support/TargetRegistry.h"
 
+typedef NS_ENUM(NSUInteger, RispLLVMLanguageOptions) {
+    RispLLVMLanguageARC = 1
+};
+
 @interface __RispLLVMTargetCodeGenInfo : NSObject
+@property (nonatomic, assign, readonly) RispLLVMLanguageOptions languageOption;
 @property (nonatomic, assign, readonly) llvm::CallingConv::ID runtimeCC;
 @property (nonatomic, assign, readonly, getter=pointerDiffType) llvm::Type * pointerDiffTy;
 @property (nonatomic, assign, readonly) llvm::Triple *targetTriple;

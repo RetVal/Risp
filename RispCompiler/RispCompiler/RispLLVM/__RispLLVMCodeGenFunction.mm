@@ -8,6 +8,7 @@
 
 #import "__RispLLVMCodeGenFunction.h"
 #include "RispLLVMSelector.h"
+#include "llvm/Support/raw_os_ostream.h"
 
 @implementation __RispLLVMCodeGenFunction
 + (llvm::Constant *)castFunctionType:(llvm::Constant *)function arguments:(llvm::ArrayRef<llvm::Value *>)args selector:(SEL)selector instance:(id)ins {
@@ -24,6 +25,14 @@
     for (unsigned i = fty->getNumParams(); i < args.size(); i++) {
         argsTypes.push_back(args[i]->getType());
     }
+//    llvm::errs() << "args type -> \n";
+//    for (unsigned i = 0; i < args.size(); i++) {
+//        args[i]->dump();
+//    }
+//    llvm::errs() << "tranform args type -> \n";
+//    for (unsigned i = 0; i < argsTypes.size(); i++) {
+//        argsTypes[i]->dump();
+//    }
     
     RispLLVM::Selector sel (selector, ins);
     

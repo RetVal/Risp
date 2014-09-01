@@ -21,7 +21,7 @@
         [context pushScope];
         
         if ([[form second] isKindOfClass:[RispSymbol class]]) {
-            fnExpr->_name = [form second];
+            fnExpr->_name = [RispSymbolExpression parser:[form second] context:context];
             form = [[[form next] next] cons:[RispSymbol FN]];
         }
         
@@ -103,7 +103,7 @@
 - (NSString *)description {
     NSMutableString *desc = [[NSMutableString alloc] initWithString:@"(fn "];
     if (_name) {
-        [desc appendFormat:@"%@ ", _name];
+        [desc appendFormat:@"%@ ", [_name stringValue]];
     }
     
     id <RispSequence> seq = _methods;
@@ -142,7 +142,7 @@
     [desc appendFormat:@"%@ %@", [self class], [self rispLocationInfomation]];
     
     if (_name) {
-        [desc appendFormat:@" : %@ %@", _name, [_name rispLocationInfomation]];
+        [_name _descriptionWithIndentation:indentation + 1 desc:desc];
     }
     
     [desc appendString:@"\n"];

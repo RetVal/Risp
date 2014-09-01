@@ -9,11 +9,21 @@
 #import <Foundation/Foundation.h>
 #import <Risp/Risp.h>
 
-@interface RispASTContext : NSObject
-+ (instancetype)ASTContext;
-+ (NSArray *)expressionFromCurrentLine:(NSString *)sender;
-@property (nonatomic, strong, readonly) id CGM;
-- (void)emitRispAST:(RispAbstractSyntaxTree *)ast;
+@class RispScopeStack;
 
-- (void)done;
+@interface RispASTContext : NSObject
+@property (nonatomic, strong, readonly) id CGM;
+@property (atomic   , assign, readonly) NSUInteger anonymousFunctionCounter;
+@property (nonatomic, strong, readonly) NSString *asmFilePath;
+@property (nonatomic, strong, readonly) NSString *objectFilePath;
+@property (nonatomic, strong, readonly) NSString *llvmirFilePath;
++ (instancetype)ASTContext;
+- (instancetype)initWithName:(NSString *)name;
++ (NSArray *)expressionFromCurrentLine:(NSString *)sender;
+- (void)emitRispAST:(RispAbstractSyntaxTree *)ast;
+- (void)doneWithOutputPath:(NSString *)path;
+
+- (RispScopeStack *)currentStack;
+- (RispScopeStack *)pushStack;
+- (void)popStack;
 @end

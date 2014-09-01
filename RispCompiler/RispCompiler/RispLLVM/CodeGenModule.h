@@ -13,6 +13,74 @@
 #include "llvm/IR/CallSite.h"
 
 namespace RispLLVM {
+    struct RREntrypoints {
+        RREntrypoints() { memset(this, 0, sizeof(*this)); }
+        /// void objc_autoreleasePoolPop(void*);
+        llvm::Constant *objc_autoreleasePoolPop;
+        
+        /// void *objc_autoreleasePoolPush(void);
+        llvm::Constant *objc_autoreleasePoolPush;
+    };
+    
+    struct ARCEntrypoints {
+        ARCEntrypoints() { memset(this, 0, sizeof(*this)); }
+        
+        /// id objc_autorelease(id);
+        llvm::Constant *objc_autorelease;
+        
+        /// id objc_autoreleaseReturnValue(id);
+        llvm::Constant *objc_autoreleaseReturnValue;
+        
+        /// void objc_copyWeak(id *dest, id *src);
+        llvm::Constant *objc_copyWeak;
+        
+        /// void objc_destroyWeak(id*);
+        llvm::Constant *objc_destroyWeak;
+        
+        /// id objc_initWeak(id*, id);
+        llvm::Constant *objc_initWeak;
+        
+        /// id objc_loadWeak(id*);
+        llvm::Constant *objc_loadWeak;
+        
+        /// id objc_loadWeakRetained(id*);
+        llvm::Constant *objc_loadWeakRetained;
+        
+        /// void objc_moveWeak(id *dest, id *src);
+        llvm::Constant *objc_moveWeak;
+        
+        /// id objc_retain(id);
+        llvm::Constant *objc_retain;
+        
+        /// id objc_retainAutorelease(id);
+        llvm::Constant *objc_retainAutorelease;
+        
+        /// id objc_retainAutoreleaseReturnValue(id);
+        llvm::Constant *objc_retainAutoreleaseReturnValue;
+        
+        /// id objc_retainAutoreleasedReturnValue(id);
+        llvm::Constant *objc_retainAutoreleasedReturnValue;
+        
+        /// id objc_retainBlock(id);
+        llvm::Constant *objc_retainBlock;
+        
+        /// void objc_release(id);
+        llvm::Constant *objc_release;
+        
+        /// id objc_storeStrong(id*, id);
+        llvm::Constant *objc_storeStrong;
+        
+        /// id objc_storeWeak(id*, id);
+        llvm::Constant *objc_storeWeak;
+        
+        /// A void(void) inline asm to use to mark that the return value of
+        /// a call will be immediately retain.
+        llvm::InlineAsm *retainAutoreleasedReturnValueMarker;
+        
+        /// void clang.arc.use(...);
+        llvm::Constant *clang_arc_use;
+    };
+    
     class CodeGenFunction {
     public:
         llvm::IRBuilder<> *Builder;
@@ -25,10 +93,18 @@ namespace RispLLVM {
     public:
         CodeGenFunction(__RispLLVMFoundation *cgm)
         : CGM(cgm), VMContext (*[cgm llvmContext]), Builder([cgm builder]) {
+            RRDatas = new RREntrypoints();
         }
         
         llvm::LLVMContext &getLLVMContext () const {
             return VMContext;
+        }
+        
+        ~CodeGenFunction() {
+            if (RRDatas != nullptr) {
+                delete RRDatas;
+                RRDatas = nullptr;
+            }
         }
         
         llvm::BasicBlock *createBasicBlock(const llvm::Twine &name = "",
@@ -153,14 +229,14 @@ namespace RispLLVM {
         /// Emits a call or invoke instruction to the given nullary runtime
         /// function.
         llvm::CallSite EmitRuntimeCallOrInvoke(llvm::Value *callee,
-                                               const llvm::Twine &name) {
+                                               const llvm::Twine &name = "") {
             return EmitRuntimeCallOrInvoke(callee, llvm::ArrayRef<llvm::Value*>(), name);
         }
         
         /// Emits a call or invoke instruction to the given runtime function.
         llvm::CallSite EmitRuntimeCallOrInvoke(llvm::Value *callee,
                                                llvm::ArrayRef<llvm::Value*> args,
-                                               const llvm::Twine &name) {
+                                               const llvm::Twine &name = "") {
             llvm::CallSite callSite = EmitCallOrInvoke(callee, args, name);
             callSite.setCallingConv([[CGM targetCodeGenInfo] runtimeCC]);
             return callSite;
@@ -186,8 +262,14 @@ namespace RispLLVM {
             TypeDescriptorMap[T] = GV;
         }
         
-        llvm::Constant *EmitCheckTypeDescriptor(llvm::Type *T);
+        RREntrypoints &getRREntrypoints() const {
+            assert(nullptr != RRDatas);
+            return *RRDatas;
+        }
         
+        llvm::Constant *EmitCheckTypeDescriptor(llvm::Type *T);
+        llvm::Value *EmitObjCAutoreleasePoolPush();
+        void EmitObjCAutoreleasePoolPop(llvm::Value *value);
         typedef struct CodeGenFunctionBlock {
             llvm::StructType *__block_literal;
             llvm::Function *__block_invoke;
@@ -218,6 +300,8 @@ namespace RispLLVM {
         
         llvm::Type *BlockDescriptorType;
         llvm::Type *GenericBlockLiteralType;
+        
+        RREntrypoints *RRDatas;
     };
     
     /// A helper class for performing the null-initialization of a return

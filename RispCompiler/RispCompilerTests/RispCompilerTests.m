@@ -39,7 +39,7 @@
         for (id <RispExpression> expr in exprs) {
             [ASTContext emitRispAST:[[RispAbstractSyntaxTree alloc] initWithExpression:expr]];
         }
-        [ASTContext done];
+        [ASTContext doneWithOutputPath:[@"~/Desktop/" stringByStandardizingPath ]];
     }
     XCTAssert(YES, @"Pass");
 }

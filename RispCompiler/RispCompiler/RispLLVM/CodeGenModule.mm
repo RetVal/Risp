@@ -65,6 +65,27 @@ namespace RispLLVM {
             GV->setLinkage(llvm::GlobalValue::ExternalWeakLinkage);
     }
     
+    static llvm::Constant *createARCRuntimeFunction(__RispLLVMFoundation *CGM,
+                                                    llvm::FunctionType *type,
+                                                    llvm::StringRef fnName) {
+        llvm::Constant *fn = [CGM createRuntimeFunciton:type name:fnName extraAttributes:llvm::AttributeSet()];
+        
+        if (llvm::Function *f = llvm::dyn_cast<llvm::Function>(fn)) {
+            // If the target runtime doesn't naturally support ARC, emit weak
+            // references to the runtime support library.  We don't really
+            // permit this to fail, but we need a particular relocation style.
+            if (!([[CGM targetCodeGenInfo] languageOption] & RispLLVMLanguageARC)) {
+                f->setLinkage(llvm::Function::ExternalWeakLinkage);
+            } else if (fnName == "objc_retain" || fnName  == "objc_release") {
+                // If we have Native ARC, set nonlazybind attribute for these APIs for
+                // performance.
+                f->addFnAttr(llvm::Attribute::NonLazyBind);
+            }
+        }
+        
+        return fn;
+    }
+    
     llvm::Constant *CodeGenFunction::getBlockObjectDispose() {
         if (BlockObjectDispose)
             return BlockObjectDispose;
@@ -417,6 +438,37 @@ namespace RispLLVM {
         this->setTypeDescriptor(T, GV);
         
         return GV;
+    }
+    
+    /// Produce the code to do a objc_autoreleasepool_push.
+    ///   call i8* \@objc_autoreleasePoolPush(void)
+    llvm::Value *CodeGenFunction::EmitObjCAutoreleasePoolPush() {
+        llvm::Constant *&fn = getRREntrypoints().objc_autoreleasePoolPush;
+        if (!fn) {
+            llvm::FunctionType *fnType = llvm::FunctionType::get([CGM idType], false);
+            fn = createARCRuntimeFunction(CGM, fnType, "objc_autoreleasePoolPush");
+        }
+        
+        return EmitNounwindRuntimeCall(fn);
+    }
+    
+    /// Produce the code to do a primitive release.
+    ///   call void \@objc_autoreleasePoolPop(i8* %ptr)
+    void CodeGenFunction::EmitObjCAutoreleasePoolPop(llvm::Value *value) {
+        assert(value->getType() == [CGM idType]);
+        
+        llvm::Constant *&fn = getRREntrypoints().objc_autoreleasePoolPop;
+        if (!fn) {
+            llvm::FunctionType *fnType =
+            llvm::FunctionType::get(Builder->getVoidTy(), [CGM idType], false);
+            
+            // We don't want to use a weak import here; instead we should not
+            // fall into this path.
+            fn = createARCRuntimeFunction(CGM, fnType, "objc_autoreleasePoolPop");
+        }
+        
+        // objc_autoreleasePoolPop can throw.
+        EmitNounwindRuntimeCall(fn, value);
     }
 }
 

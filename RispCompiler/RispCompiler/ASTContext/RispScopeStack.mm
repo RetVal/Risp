@@ -8,6 +8,7 @@
 
 #import "RispScopeStack.h"
 #import <Risp/RispSymbolExpression.h>
+#include "llvm/Support/raw_os_ostream.h"
 
 namespace RispLLVM {
     
@@ -248,8 +249,18 @@ struct llvm::DenseMapInfo<RispLLVM::RispObject *> {
 }
 
 - (NSString *)description {
-//    return [_scope description];
-    return @"";
+    NSMutableString *desc = [[NSMutableString alloc] init];
+    [desc appendString:@"{\n"];
+    for (llvm::DenseMapIterator<RispLLVM::RispObject, llvm::Value *> i = _scope.begin(), e = _scope.end(); i != e; i++) {
+        if (i->first.isValid()) {
+            std::string content;
+            llvm::raw_string_ostream sos(content);
+            i->second->print(sos);
+            [desc appendFormat:@"\t%@ : %@\n", [i->first.getObject() description], [NSString stringWithUTF8String:content.c_str()]];
+        }
+    }
+    [desc appendString:@"}"];
+    return desc;
 }
 
 - (RispScopeStack *)outer {
@@ -288,4 +299,5 @@ struct llvm::DenseMapInfo<RispLLVM::RispObject *> {
 - (void)setObject:(llvm::Value *)obj forKeyedSubscript:(RispSymbolExpression *)key {
     [self setObject:obj forKey:key];
 }
+
 @end

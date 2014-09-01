@@ -7,10 +7,11 @@
 //
 
 #import <Risp/RispSymbolExpression.h>
+#import <Risp/RispFnExpression.h>
 
 @interface RispDefnExpression : RispBaseExpression
 @property (nonatomic, strong, readonly) RispSymbolExpression *key;
-@property (nonatomic, strong, readonly) id value;
+@property (nonatomic, strong, readonly) RispFnExpression *value;
 
 + (id)parser:(id)object context:(RispContext *)context;
 + (RispSymbol *)speicalKey;

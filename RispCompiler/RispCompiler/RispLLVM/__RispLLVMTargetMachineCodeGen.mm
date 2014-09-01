@@ -71,7 +71,7 @@ namespace RispLLVM {
     llvm::sys::fs::OpenFlags openFlags = sys::fs::F_None;
     std::string error;
     std::unique_ptr<llvm::tool_output_file> of(new llvm::tool_output_file([outputPath UTF8String], error, openFlags));
-    NSUInteger ret = [self compileModule:module context:context targetTriple:"" optLevel:llvm::CodeGenOpt::Default isNoIntegratedAssembler:NO isEnableDwarfDirectory:NO isGenerateSoftFloatCalls:NO isDisableSimplifyLibCalls:NO isRelaxAll:NO noVerify:NO fileType:RispLLVM::RispTargetMachineCodeGenOutputFileType::ObjectFile startAfter:"" stopAfter:"" outputStream:of->os()];
+    NSUInteger ret = [self compileModule:module context:context targetNamed:MArch targetTriple:"" optLevel:llvm::CodeGenOpt::Default isNoIntegratedAssembler:NO isEnableDwarfDirectory:NO isGenerateSoftFloatCalls:NO isDisableSimplifyLibCalls:NO isRelaxAll:NO noVerify:NO fileType:RispLLVM::RispTargetMachineCodeGenOutputFileType::ObjectFile startAfter:"" stopAfter:"" outputStream:of->os()];
     if (ret == 0) {
         of->keep();
     }
@@ -80,10 +80,10 @@ namespace RispLLVM {
 
 + (NSUInteger)compileASMModule:(llvm::Module *)module context:(llvm::LLVMContext &)context output:(std::string &)output {
     llvm::raw_string_ostream sos(output);
-    return [self compileModule:module context:context targetTriple:"" optLevel:llvm::CodeGenOpt::Default isNoIntegratedAssembler:NO isEnableDwarfDirectory:NO isGenerateSoftFloatCalls:NO isDisableSimplifyLibCalls:NO isRelaxAll:NO noVerify:NO fileType:RispLLVM::RispTargetMachineCodeGenOutputFileType::AssemblyFile startAfter:"" stopAfter:"" outputStream:sos];
+    return [self compileModule:module context:context targetNamed:MArch targetTriple:"" optLevel:llvm::CodeGenOpt::Default isNoIntegratedAssembler:NO isEnableDwarfDirectory:NO isGenerateSoftFloatCalls:NO isDisableSimplifyLibCalls:NO isRelaxAll:NO noVerify:NO fileType:RispLLVM::RispTargetMachineCodeGenOutputFileType::AssemblyFile startAfter:"" stopAfter:"" outputStream:sos];
 }
 
-+ (NSInteger)compileModule:(llvm::Module *)module context:(llvm::LLVMContext &)context targetTriple:(std::string)targetTriple optLevel:(NSUInteger)level isNoIntegratedAssembler:(BOOL)noIntegratedAssembler isEnableDwarfDirectory:(BOOL)enableDwarfDirectory isGenerateSoftFloatCalls:(BOOL)generateSoftFloatCalls isDisableSimplifyLibCalls:(BOOL)disableSimplifyLibCalls isRelaxAll:(BOOL)relaxAll noVerify:(BOOL)noVerify fileType:(RispLLVM::RispTargetMachineCodeGenOutputFileType)fileType startAfter:(std::string)startAfter stopAfter:(std::string)stopAfter outputStream:(llvm::raw_ostream&)outputStream {
++ (NSInteger)compileModule:(llvm::Module *)module context:(llvm::LLVMContext &)context targetNamed:(std::string)march targetTriple:(std::string)targetTriple optLevel:(NSUInteger)level isNoIntegratedAssembler:(BOOL)noIntegratedAssembler isEnableDwarfDirectory:(BOOL)enableDwarfDirectory isGenerateSoftFloatCalls:(BOOL)generateSoftFloatCalls isDisableSimplifyLibCalls:(BOOL)disableSimplifyLibCalls isRelaxAll:(BOOL)relaxAll noVerify:(BOOL)noVerify fileType:(RispLLVM::RispTargetMachineCodeGenOutputFileType)fileType startAfter:(std::string)startAfter stopAfter:(std::string)stopAfter outputStream:(llvm::raw_ostream&)outputStream {
     llvm::Triple theTriple;
     
 //    BOOL skipModule = MCPU == "help" || (!MAttrs.empty() && MAttrs.front() == "help");
@@ -100,7 +100,7 @@ namespace RispLLVM {
         theTriple.setTriple(llvm::sys::getDefaultTargetTriple());
     }
     std::string error;
-    const llvm::Target *theTarget = llvm::TargetRegistry::lookupTarget(MArch, theTriple, error);
+    const llvm::Target *theTarget = llvm::TargetRegistry::lookupTarget(march, theTriple, error);
     if (!theTarget) {
         llvm::errs() << ": " << error;
         return 1;

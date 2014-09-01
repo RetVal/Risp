@@ -181,7 +181,7 @@ namespace RispLLVM {
     llvm::Constant *zero = llvm::ConstantInt::get(ptr->getType(), 0);
     llvm::Value *result = [CGM builder]->CreateICmpNE(ptr, zero, "memptr.tobool");
     
-    if (NO) {
+    if (/* DISABLES CODE */ (NO)) {
         // UseARMMethodPtrABI
         llvm::Constant *one = llvm::ConstantInt::get(ptr->getType(), 1);
         llvm::Value *adj = [CGM builder]->CreateExtractValue(src, 1, "memptr.adj");
