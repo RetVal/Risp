@@ -12,11 +12,16 @@
 #import <RispCompiler/RispNameMangling.h>
 #import <RispCompiler/RispNameManglingFunctionDescriptor.h>
 #import <RispCompiler/RispScopeStack.h>
+#import "RispASTContextPriv.h"
 
 @implementation __RispLLVMFunctionHelper
 
 + (void)__argumentsBindingToFunction:(llvm::Value *)vec args:(RispVector *)args function:(llvm::Function *)function binding:(llvm::SmallVector<llvm::Value *, 8> &)binding isVariadic:(BOOL)isVariadic context:(RispASTContext *)context {
     __RispLLVMFoundation *CGM = [context CGM];
+    BOOL isClosure = [context _isClosure:function];
+    if (isClosure) {
+        return;
+    }
     NSUInteger idx = 0;
     RispVector *ins = [RispVector empty];
     for (id arg __unused in args) {
@@ -26,7 +31,10 @@
     return;
 }
 
-+ (llvm::Function *)__functionWithMangling:(RispNameMangling *)mangling fromName:(NSString *)funcName arguments:(RispVector *)arguments context:(RispASTContext *)context {
++ (llvm::Function *)__functionWithMangling:(RispNameMangling *)mangling fromName:(NSString *)funcName method:(RispMethodExpression *)method arguments:(RispVector *)arguments context:(RispASTContext *)context {
+    if ([funcName isEqualToString:@"RispAnonymousFunction2"]) {
+        NSLog(@"");
+    }
     NSString *name = nil;
     if (arguments == nil) {
         name = funcName;
@@ -41,6 +49,9 @@
     } else {
         __RispLLVMFoundation *CGM = [context CGM];
         func = [CGM module]->getFunction([name UTF8String]);
+        if (func == nullptr) {
+            NSLog(@"");
+        }
     }
     return func;
 }

@@ -46,6 +46,10 @@
     [self _reconnect];
 }
 
+- (BOOL)ready {
+    return [_connection readyState] == SR_OPEN;
+}
+
 - (void)send:(id)message {
     return [_connection send:message];
 }

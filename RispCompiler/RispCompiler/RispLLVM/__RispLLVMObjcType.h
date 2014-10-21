@@ -106,7 +106,7 @@
 @property (nonatomic, assign, readonly) llvm::StructType *ivarListnfABITy;
 @property (nonatomic, assign, readonly) llvm::Type *ivarListnfABIPtrTy;
 @property (nonatomic, assign, readonly) llvm::StructType *classRonfABITy;
-@property (nonatomic, assign, readonly) llvm::Type *impnfABITy;;
+@property (nonatomic, assign, readonly) llvm::Type *impnfABITy;
 @property (nonatomic, assign, readonly) llvm::StructType *categorynfABITy;
 @property (nonatomic, assign, readonly) llvm::StructType *messageRefTy;
 @property (nonatomic, assign, readonly) llvm::Type *messageRefPtrTy;

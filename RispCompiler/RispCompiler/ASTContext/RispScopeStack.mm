@@ -60,7 +60,7 @@ namespace RispLLVM {
         }
         
         bool isValid() const {
-            return _object == nil;
+            return _object != nil;
         }
         
     public:
@@ -176,21 +176,28 @@ struct llvm::DenseMapInfo<RispLLVM::RispObject *> {
     //    [super dealloc];
 }
 
-- (llvm::Value *)_objectForKey:(RispLLVM::RispObject *)aKey {
+- (llvm::Value *)_objectForKey:(RispLLVM::RispObject *)aKey depth:(NSUInteger *)depth {
     OSSpinLockLock(&_lock);
     llvm::Value *v = _scope.lookup(*aKey);
     if (v) {
+        if (depth) {
+            *depth = _depth;
+        }
         OSSpinLockUnlock(&_lock);
         return v;
     }
-    v = [[self outer] _objectForKey:aKey];
+    v = [[self outer] _objectForKey:aKey depth:depth];
     OSSpinLockUnlock(&_lock);
     return v;
 }
 
 - (llvm::Value *)objectForKey:(RispSymbolExpression *)aKey {
+    return [self objectForKey:aKey atDepth:nil];
+}
+
+- (llvm::Value *)objectForKey:(RispSymbolExpression *)aKey atDepth:(NSUInteger *)depth {
     RispLLVM::RispObject k = RispLLVM::RispObject(aKey);
-    llvm::Value *v = [self _objectForKey:&k];
+    llvm::Value *v = [self _objectForKey:&k depth:depth];
     return v;
 }
 
@@ -300,4 +307,7 @@ struct llvm::DenseMapInfo<RispLLVM::RispObject *> {
     [self setObject:obj forKey:key];
 }
 
+- (BOOL)isCurrentScope:(NSUInteger)depth {
+    return _depth == depth;
+}
 @end

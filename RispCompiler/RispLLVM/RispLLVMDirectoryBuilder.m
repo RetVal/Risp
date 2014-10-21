@@ -1,18 +1,18 @@
 //
-//  RispLLVMBuilder.m
+//  RispLLVMDirectoryBuilder.m
 //  RispCompiler
 //
 //  Created by closure on 9/2/14.
 //  Copyright (c) 2014 closure. All rights reserved.
 //
 
-#import "RispLLVMBuilder.h"
+#import "RispLLVMDirectoryBuilder.h"
 
-@interface RispLLVMBuilder ()
+@interface RispLLVMDirectoryBuilder ()
 + (NSString *)_modeDescriptor:(RispLLVMBuilderMode)mode;
 @end
 
-@implementation RispLLVMBuilder
+@implementation RispLLVMDirectoryBuilder
 + (NSString *)_modeDescriptor:(RispLLVMBuilderMode)mode {
     NSString *desc = @"";
     switch (mode) {
@@ -29,7 +29,7 @@
 }
 
 + (NSString *)outputFileDirectory:(NSString *)root mode:(RispLLVMBuilderMode)mode {
-    return [NSString stringWithFormat:@"%@/%@", root, [RispLLVMBuilder _modeDescriptor:mode]];
+    return [NSString stringWithFormat:@"%@/%@", root, [RispLLVMDirectoryBuilder _modeDescriptor:mode]];
 }
 
 + (NSString *)intermediatesDirectory:(NSString *)root {
@@ -63,36 +63,36 @@
 
 - (NSString *)makeBuildDirectory {
     NSString *path = [NSString stringWithFormat:@"%@/Build", _root];
-    return [RispLLVMBuilder _makeDirectory:path];
+    return [RispLLVMDirectoryBuilder _makeDirectory:path];
 }
 
 - (NSString *)makeProductDirectory {
     NSString *path = [self makeBuildDirectory];
     path = [NSString stringWithFormat:@"%@/%@", path, @"Products"];
-    return [RispLLVMBuilder _makeDirectory:path];
+    return [RispLLVMDirectoryBuilder _makeDirectory:path];
 }
 
 - (NSString *)makeIntermediatesDirectory {
     NSString *path = [self makeBuildDirectory];
     path = [NSString stringWithFormat:@"%@/%@", path, @"Intermediates"];
-    return [RispLLVMBuilder _makeDirectory:path];
+    return [RispLLVMDirectoryBuilder _makeDirectory:path];
 }
 
 - (NSString *)makeProjectBuildTempDirectory:(NSString *)projectName {
     NSString *path = [self makeIntermediatesDirectory];
     path = [NSString stringWithFormat:@"%@/%@", path, projectName];
-    return [RispLLVMBuilder _makeDirectory:path];
+    return [RispLLVMDirectoryBuilder _makeDirectory:path];
 }
 
 - (NSString *)makeModeOutputDirectory:(NSString *)projectName {
-    return [RispLLVMBuilder _makeDirectory:[NSString stringWithFormat:@"%@/%@", [self makeProjectBuildTempDirectory:projectName], [RispLLVMBuilder _modeDescriptor:_builderMode]]];
+    return [RispLLVMDirectoryBuilder _makeDirectory:[NSString stringWithFormat:@"%@/%@", [self makeProjectBuildTempDirectory:projectName], [RispLLVMDirectoryBuilder _modeDescriptor:_builderMode]]];
 }
 
 - (NSString *)makeTargetBuildTempDirectory:(NSString *)projectName targetName:(NSString *)targetName {
-    return [RispLLVMBuilder _makeDirectory:[NSString stringWithFormat:@"%@/%@/", [self makeModeOutputDirectory:projectName], targetName]];
+    return [RispLLVMDirectoryBuilder _makeDirectory:[NSString stringWithFormat:@"%@/%@/", [self makeModeOutputDirectory:projectName], targetName]];
 }
 
 - (NSString *)makeTargetBuildObjectDirectory:(NSString *)projectName targetName:(NSString *)targetName {
-    return [RispLLVMBuilder _makeDirectory:[NSString stringWithFormat:@"%@/%@", [self makeTargetBuildTempDirectory:projectName targetName:targetName], @"Objects-normal"]];
+    return [RispLLVMDirectoryBuilder _makeDirectory:[NSString stringWithFormat:@"%@/%@", [self makeTargetBuildTempDirectory:projectName targetName:targetName], @"Objects-normal"]];
 }
 @end

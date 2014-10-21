@@ -9,6 +9,7 @@
 #import "RispClosureExpression.h"
 #import "RispAbstractSyntaxTree.h"
 #import "RispBaseExpression+ASTDescription.h"
+#import <Risp/RispArgumentExpression.h>
 
 @implementation RispClosureExpression
 
@@ -17,7 +18,7 @@
         return;
     RispLexicalScope *scope = [closure environment];
     [[[closure fnExpression] methods] enumerateObjectsUsingBlock:^(RispMethodExpression *method, NSUInteger idx, BOOL *stop) {
-        [[method requiredParms] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [[[method requiredParms] arguments] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             scope[obj] = nil;
         }];
         if ([method restParm]) {

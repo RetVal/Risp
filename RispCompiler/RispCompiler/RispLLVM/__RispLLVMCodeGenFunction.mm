@@ -39,10 +39,14 @@
     llvm::Type *funcReturnType = fty->getReturnType();
     llvm::Type *selReturnType = sel.getLLVMReturnType();
     llvm::Type *rty = nil;
-    if (funcReturnType != selReturnType) {
-        rty = selReturnType;
-    } else {
+    if (selReturnType == nullptr) {
         rty = funcReturnType;
+    } else {
+        if (funcReturnType != selReturnType) {
+            rty = selReturnType;
+        } else {
+            rty = funcReturnType;
+        }
     }
     fty = llvm::FunctionType::get(rty, argsTypes, NO);
     return llvm::ConstantExpr::getBitCast(function, fty->getPointerTo());

@@ -7,13 +7,30 @@
 //
 
 #import "__RispLLVMFoundation.h"
+
+#include "llvm/Transforms/Scalar.h"
+#include "llvm/IR/DataLayout.h"
+
+#include "llvm/Support/ToolOutputFile.h"
+#include "llvm/Support/FormattedStream.h"
+
+#include "llvm/IR/Verifier.h"
+#include "llvm/Support/CodeGen.h"
+#include "llvm/ExecutionEngine/ExecutionEngine.h"
+#include "llvm/ExecutionEngine/JIT.h"
+#include "llvm/Pass.h"
+#include "llvm/PassManager.h"
+#include "llvm/PassRegistry.h"
+#include "llvm/InitializePasses.h"
+
 #import "__RispLLVMObjcType.h"
-#include "RispLLVM.h"
-#include "CodeGenModule.h"
+#include "CodeGenFunction.h"
 #include "RispLLVMSelector.h"
 #include "llvm/ADT/Hashing.h"
 #include "llvm/ADT/SetVector.h"
 #include "llvm/Support/ConvertUTF.h"
+
+#include "llvm/ADT/SmallString.h"
 
 NSString * __RispLLVMFoundationObjectPathKey = @"ObjectPath";
 NSString * __RispLLVMFoundationAsmPathKey = @"AsmPath";
@@ -45,7 +62,7 @@ enum ImageInfoFlags {
 /// Define DenseMapInfo so that Selectors can be used as keys in DenseMap and
 /// DenseSets.
 template <>
-struct DenseMapInfo<RispLLVM::Selector> {
+struct llvm::DenseMapInfo<RispLLVM::Selector> {
     static inline RispLLVM::Selector getEmptyKey() {
         return RispLLVM::Selector::getEmptyMarker();
     }
@@ -63,7 +80,7 @@ struct DenseMapInfo<RispLLVM::Selector> {
 };
 
 template <>
-struct DenseMapInfo<RispLLVM::IdentifierInfo> {
+struct llvm::DenseMapInfo<RispLLVM::IdentifierInfo> {
     static inline RispLLVM::IdentifierInfo getEmptyKey() {
         return *RispLLVM::IdentifierInfo::getEmptyMarker();
     }
@@ -148,7 +165,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     
     std::vector<llvm::WeakVH> LLVMUsed;
     std::vector<llvm::WeakVH> LLVMCompilerUsed;
-    
+    RispLLVM::LanguageOptions _languageOptions;
     BOOL _ObjCABI;
 }
 @end
@@ -368,7 +385,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 //}
 
 - (void)dealloc {
-    [self done];
+    [self doneWithOptions:RispASTContextDoneWithShowNothing];
     if (_builder) {
         delete _builder;
         _builder = nil;
@@ -382,6 +399,10 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     if (_CGF) {
         delete [] _CGF;
     }
+}
+
+- (RispLLVM::LanguageOptions &)languageOptions {
+    return _languageOptions;
 }
 
 @end
@@ -433,6 +454,14 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 
 - (llvm::Type *)ptrDiffType {
     return [_targetCodeGenInfo pointerDiffType];
+}
+
+- (llvm::Type *)classType {
+    return [_objcType classnfABITy];
+}
+
+- (llvm::PointerType *)classPtrTYpe {
+    return llvm::dyn_cast<llvm::PointerType>([_objcType classnfABIPtrTy]);
 }
 
 - (llvm::Type *)llvmTypeFromObjectiveCType:(const char *)type {
@@ -955,7 +984,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 
 - (void)emitLazySymbols {
     if (!LazySymbols.empty()) {
-        SmallString<256> Asm;
+        llvm::SmallString<256> Asm;
         llvm::Module *Module = _theModule;
         Asm += Module->getModuleInlineAsm();
         if (!Asm.empty() && Asm.back() != '\n')
@@ -983,7 +1012,7 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
     }
 }
 
-- (NSDictionary *)done {
+- (NSDictionary *)doneWithOptions:(RispASTContextDoneOptions)options {
     [self emitLLVMUsed];
     [self emitImageInfo];
     [self emitVersionIdentMetadata];
@@ -996,20 +1025,40 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
         _outputPath = [_outputPath stringByStandardizingPath];
     }
     
-    NSString *objectPath = [NSString stringWithFormat:@"%@/%@.o", _outputPath, _moduleName];
-    NSString *asmPath = [NSString stringWithFormat:@"%@/%@.S", _outputPath, _moduleName];
-    NSString *llvmIRPath = [NSString stringWithFormat:@"%@/%@.ll", _outputPath, _moduleName];
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
     
-    printf("RispLLVM ->\n%s\n", [[__RispLLVMIRCodeGen IRCodeFromModule:[self module]] UTF8String]);
-    std::string output;
-    [__RispLLVMTargetMachineCodeGen compileASMModule:[self module] context:*[self llvmContext] output:output];
-    [__RispLLVMTargetMachineCodeGen compileObjectModule:[self module] context:*[self llvmContext] outputPath:objectPath];
+    if (options & (RispASTContextDoneWithShowIRCode | RispASTContextDoneWithOutputIRCode)) {
+        NSString *IRCode = [__RispLLVMIRCodeGen IRCodeFromModule:[self module]];
+        if (options & RispASTContextDoneWithShowIRCode) {
+            printf("RispLLVM ->\n%s\n", [IRCode UTF8String]);
+        }
+        if (options & RispASTContextDoneWithOutputIRCode) {
+            NSString *llvmIRPath = [NSString stringWithFormat:@"%@/%@.ll", _outputPath, _moduleName];
+            [IRCode writeToFile:llvmIRPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+            result[__RispLLVMFoundationLLVMIRPathKey] = llvmIRPath;
+        }
+    }
     
-    [[[NSString alloc] initWithUTF8String:output.c_str()] writeToFile:asmPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    [[__RispLLVMIRCodeGen IRCodeFromModule:[self module]] writeToFile:llvmIRPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    return @{__RispLLVMFoundationObjectPathKey: objectPath,
-             __RispLLVMFoundationAsmPathKey: asmPath,
-             __RispLLVMFoundationLLVMIRPathKey: llvmIRPath};
+    if (options & (RispASTContextDoneWithShowASMCode | RispASTContextDoneWithOutputASMCode)) {
+        std::string output;
+        [__RispLLVMTargetMachineCodeGen compileASMModule:[self module] context:*[self llvmContext] output:output];
+        if (options & RispASTContextDoneWithShowASMCode) {
+            printf("RispLLVM -\n%s\n", output.c_str());
+        }
+        if (options & RispASTContextDoneWithOutputASMCode) {
+            NSString *asmPath = [NSString stringWithFormat:@"%@/%@.S", _outputPath, _moduleName];
+            [[[NSString alloc] initWithUTF8String:output.c_str()] writeToFile:asmPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+            result[__RispLLVMFoundationAsmPathKey] = asmPath;
+        }
+    }
+    
+    if (options & RispASTContextDoneWithOutputObjectFile) {
+        NSString *objectPath = [NSString stringWithFormat:@"%@/%@.o", _outputPath, _moduleName];
+        [__RispLLVMTargetMachineCodeGen compileObjectModule:[self module] context:*[self llvmContext] outputPath:objectPath];
+        result[__RispLLVMFoundationObjectPathKey] = objectPath;
+    }
+    
+    return result;
 }
 
 @end
@@ -1073,7 +1122,80 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
 
 + (void)load {
     LLVMInitializeNativeTarget();
+//    llvm::LLVMContext &Context = llvm::getGlobalContext();
+//    llvm::Type *int1Ty = llvm::Type::getInt1Ty(Context);
+//    llvm::Type *int8Ty = llvm::Type ::getInt8Ty(Context);
+//    llvm::Type *int32Ty = llvm::Type::getInt32Ty(Context);
+//    llvm::FunctionType *fty = llvm::FunctionType::get(int8Ty->getPointerTo(), {int32Ty}, NO);
+//    fty->getPointerTo()->dump();
+//    printf("\n");
+//    llvm::Type::getFloatTy(Context)->dump();
+//    printf("\n");
+//    __RispLLVMFoundation *CGM = [[__RispLLVMFoundation alloc] initWithModuleName:@""];
+//    llvm::Function *func = llvm::dyn_cast<llvm::Function>([[__RispLLVMObjcType helper] messageSendFixupFn:CGM]);
+//    if (func) {
+//        [[__RispLLVMObjcType helper] categoryTy]->dump();
+//        printf("\n");
+//        llvm::ArrayType::get([[__RispLLVMObjcType helper] categoryTy], 5)->dump();
+//        printf("\n");
+//    }
     return;
+}
+
+@end
+
+@implementation __RispLLVMFoundation (Layout)
+#import "CGBlockInfo.h"
+
+- (llvm::Constant *)buildRCBlockLayout:(const RispLLVM::CGBlockInfo &)blockInfo {
+    assert(self.languageOptions.getGC() == RispLLVM::LanguageOptions::NonGC);
+    
+//    RunSkipBlockVars.clear();
+    bool hasUnion = false;
+    unsigned WordSizeInBits = [[self targetCodeGenInfo] pointerWidth:0];
+    unsigned ByteSizeInBits = [[self targetCodeGenInfo] charWidth];
+    unsigned WordSizeInBytes = WordSizeInBits/ByteSizeInBits;
+    
+//    const BlockDecl *blockDecl = blockInfo.getBlockDecl();
+    
+    // Calculate the basic layout of the block structure.
+    const llvm::StructLayout *layout = _dataLayout->getStructLayout(blockInfo.StructureType);
+    
+    // Ignore the optional 'this' capture: C++ objects are not assumed
+    // to be GC'ed.
+//    if (blockInfo.BlockHeaderForcedGapSize != RispLLVM::CharUnits::Zero())
+//        UpdateRunSkipBlockVars(false, RispLLVM::Qualifiers::OCL_None,
+//                               blockInfo.BlockHeaderForcedGapOffset,
+//                               blockInfo.BlockHeaderForcedGapSize);
+//    // Walk the captured variables.
+//    for (const auto &CI : blockDecl->captures()) {
+//        const VarDecl *variable = CI.getVariable();
+//        QualType type = variable->getType();
+//        
+//        const CGBlockInfo::Capture &capture = blockInfo.getCapture(variable);
+//        
+//        // Ignore constant captures.
+//        if (capture.isConstant()) continue;
+//        
+//        CharUnits fieldOffset =
+//        CharUnits::fromQuantity(layout->getElementOffset(capture.getIndex()));
+//        
+//        assert(!type->isArrayType() && "array variable should not be caught");
+//        if (!CI.isByRef())
+//            if (const RecordType *record = type->getAs<RecordType>()) {
+//                BuildRCBlockVarRecordLayout(record, fieldOffset, hasUnion);
+//                continue;
+//            }
+//        CharUnits fieldSize;
+//        if (CI.isByRef())
+//            fieldSize = CharUnits::fromQuantity(WordSizeInBytes);
+//        else
+//            fieldSize = CGM.getContext().getTypeSizeInChars(type);
+//        UpdateRunSkipBlockVars(CI.isByRef(), getBlockCaptureLifetime(type, false),
+//                               fieldOffset, fieldSize);
+//    }
+    return nullptr;
+//    return getBitmapBlockLayout(false);
 }
 
 @end

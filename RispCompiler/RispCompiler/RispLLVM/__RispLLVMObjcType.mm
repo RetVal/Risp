@@ -109,7 +109,7 @@
         _intTy = llvm::IntegerType::get(*_VMContext, sizeof(int) * CHAR_BIT);
         _charTy = llvm::IntegerType::get(*_VMContext, CHAR_BIT);
         _intptrTy = llvm::IntegerType::getInt32PtrTy(*_VMContext);
-        _idTy = llvm::PointerType::getUnqual([self charType]);;
+        _idTy = llvm::PointerType::get(([self charType]), 0);
         _selectorTy = llvm::PointerType::getUnqual([self charType]);
         _int64Ty = llvm::IntegerType::get(*_VMContext, sizeof(int64_t) * CHAR_BIT);
         _int32Ty = llvm::IntegerType::get(*_VMContext, sizeof(int32_t) * CHAR_BIT);

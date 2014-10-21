@@ -11,11 +11,13 @@
 #include <llvm/IR/Value.h>
 #import <Risp/RispSymbolExpression.h>
 #include "RispLLVMValueMeta.h"
+#import <RispCompiler/RispASTContext.h>
 
 @interface RispScopeStack : NSObject <NSCopying>
 @property (strong, nonatomic, readonly) RispScopeStack *inner;
 @property (strong, nonatomic, readonly) NSException *exception;
-@property (assign, nonatomic) NSUInteger depth;
+@property (assign, nonatomic, readonly) NSUInteger depth;
+@property (assign, nonatomic) RispScopeStackPushType pushType;
 //@property (strong, nonatomic) NSDictionary *scope;
 
 - (id)init;
@@ -28,6 +30,7 @@
 - (NSArray *)values;
 
 - (llvm::Value *)objectForKey:(RispSymbolExpression *)aKey;
+- (llvm::Value *)objectForKey:(RispSymbolExpression *)aKey atDepth:(NSUInteger *)depth;
 - (void)setObject:(llvm::Value *)object forKey:(RispSymbolExpression *)aKey;
 
 - (RispLLVM::RispLLVMValueMeta)metaForValue:(llvm::Value *)aValue;
@@ -35,4 +38,6 @@
 
 - (llvm::Value *)objectForKeyedSubscript:(RispSymbolExpression *)key;
 - (void)setObject:(llvm::Value *)obj forKeyedSubscript:(RispSymbolExpression *)key;
+
+- (BOOL)isCurrentScope:(NSUInteger)depth;
 @end

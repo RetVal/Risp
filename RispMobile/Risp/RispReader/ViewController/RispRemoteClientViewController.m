@@ -10,6 +10,7 @@
 #import "__RispReaderRemoteService.h"
 #import "RispEvalCore.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import <pthread/pthread.h>
 
 static NSString * const kJSQDemoAvatarNameCook = @"Tim Cook";
 static NSString * const kJSQDemoAvatarNameJobs = @"Jobs";
@@ -103,13 +104,26 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
     self.collectionView.collectionViewLayout.springinessEnabled = YES;
 }
 
-
-
-#pragma mark - Actions
-- (IBAction)reconnectButtonPressed:(id)sender {
+- (void)reconnectButtonPressedImp:(id)sender {
     [[self messages] removeAllObjects];
     [[self collectionView] reloadData];
     [_service reconnect];
+}
+
+#pragma mark - Actions
+- (IBAction)reconnectButtonPressed:(id)sender {
+    if (pthread_main_np()) {
+        return [self reconnectButtonPressedImp:sender];
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self reconnectButtonPressedImp:sender];
+        });
+        return;
+    }
+}
+
+- (BOOL)ready {
+    return [_service ready];
 }
 
 - (void)receiveMessagePressed:(UIBarButtonItem *)sender
@@ -214,7 +228,9 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
 }
 
 - (void)finishSendingMessage {
-    [[__RispReaderRemoteService defaultService] send:[[[self messages] lastObject] text]];
+    if ([self ready]) {
+        [[__RispReaderRemoteService defaultService] send:[[[self messages] lastObject] text]];
+    }
     [super finishSendingMessage];
 }
 

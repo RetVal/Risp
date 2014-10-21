@@ -20,11 +20,15 @@ typedef NS_ENUM(NSUInteger, RispLLVMLanguageOptions) {
 @property (nonatomic, assign, readonly) llvm::CallingConv::ID runtimeCC;
 @property (nonatomic, assign, readonly, getter=pointerDiffType) llvm::Type * pointerDiffTy;
 @property (nonatomic, assign, readonly) llvm::Triple *targetTriple;
-//@property (nonatomic, assign, readonly) llvm::targetinfo
+
+@property (nonatomic, assign, readonly) unsigned charWidth;
+
 - (instancetype)init;
 - (const llvm::fltSemantics *)halfFormat;
 - (const llvm::fltSemantics *)floatFormat;
 - (const llvm::fltSemantics *)doubleFormat;
 - (const llvm::fltSemantics *)longDoubleFormat;
+
+- (unsigned)pointerWidth:(unsigned)width;
 
 @end

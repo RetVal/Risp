@@ -28,5 +28,6 @@
 + (instancetype)defaultService;
 - (instancetype)init;
 - (void)reconnect;
+- (BOOL)ready;
 - (void)send:(id)message;
 @end

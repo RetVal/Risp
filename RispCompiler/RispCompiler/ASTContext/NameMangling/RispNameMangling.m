@@ -14,6 +14,7 @@
 @interface RispNameMangling (Private)
 + (NSString *)_prefixString;
 + (NSString *)_postString;
++ (NSString *)_closureIdentifier;
 @end
 
 @implementation RispNameMangling
@@ -25,6 +26,10 @@
 + (NSString *)_postString {
     static NSString *postString = @"_";
     return postString;
+}
+
++ (NSString *)_closureIdentifier {
+    return @"csxp";
 }
 
 + (instancetype)nameMangling {
@@ -41,8 +46,13 @@
     return descriptor;
 }
 
+- (RispNameManglingFunctionDescriptor *)closureManglingWithName:(NSString *)name arguments:(RispVector *)args {
+    RispNameManglingFunctionDescriptor *descriptor = [RispNameManglingFunctionDescriptor descriptorWithFunctionName:name argumentsDescriptor:[RispNameManglingArgumentsDescriptor descriptorWithArguments:args] isNameMangling:NO isClosure:YES];
+    return descriptor;
+}
+
 - (RispNameManglingFunctionDescriptor *)methodMangling:(RispMethodExpression *)method functionName:(NSString *)functionName {
-    RispNameManglingFunctionDescriptor *descriptor = [RispNameManglingFunctionDescriptor descriptorWithFunctionName:functionName argumentsDescriptor:[RispNameManglingArgumentsDescriptor descriptorWithMethod:method] isNameMangling:NO];
+    RispNameManglingFunctionDescriptor *descriptor = [RispNameManglingFunctionDescriptor descriptorWithFunctionName:functionName argumentsDescriptor:[RispNameManglingArgumentsDescriptor descriptorWithMethod:method] isNameMangling:NO isClosure:[[method captures] count] != 0];
     return descriptor;
 }
 
@@ -93,8 +103,34 @@
     if (0 != strncmp(namePtr, [post UTF8String], [post length])) {
         return NO;
     }
-    
     namePtr += [post length];
+    
+    BOOL isClosure = NO;
+    NSUInteger ptrOffset = namePtr - basePtr;
+    if (ptrOffset < length) {
+        // check if closure
+        NSString *closureIdentifier = [RispNameMangling _closureIdentifier];
+        NSUInteger closureLength = [closureIdentifier length];
+        if ((ptrOffset + closureLength) <= length) {
+            NSString *givenIdentifier = nil;
+            c = namePtr[ptrOffset + closureLength];
+            namePtr[ptrOffset + closureLength] = 0;
+            givenIdentifier = [NSString stringWithUTF8String:namePtr];
+            namePtr[ptrOffset + closureLength] = c;
+            if ([givenIdentifier isEqualToString:closureIdentifier]) {
+                isClosure = YES;
+                
+                namePtr += closureLength;
+                if (0 != strncmp(namePtr, [post UTF8String], [post length])) {
+                    return NO;
+                }
+                namePtr += [post length];
+                
+            }
+        }
+    }
+    
+    
     if (namePtr[0] != 'v') {
         return NO;
     }
@@ -111,7 +147,7 @@
     namePtr[namelenOffset] = c;
     
     if (descriptor) {
-        *descriptor = [RispNameManglingFunctionDescriptor descriptorWithFunctionName:str argumentsDescriptor:[RispNameManglingArgumentsDescriptor descriptorWithCountOfArguments:argumentsCount] isNameMangling:isDemangling];
+        *descriptor = [RispNameManglingFunctionDescriptor descriptorWithFunctionName:str argumentsDescriptor:[RispNameManglingArgumentsDescriptor descriptorWithCountOfArguments:argumentsCount] isNameMangling:isDemangling isClosure:isClosure];
     }
     
     return YES;
@@ -129,5 +165,9 @@
         return descriptor;
     }
     return descriptor;
+}
+
++ (NSString *)anonymousFunctionName:(NSUInteger)count {
+    return [NSString stringWithFormat:@"RispAnonymousFunction%ld", count];
 }
 @end

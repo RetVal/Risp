@@ -10,6 +10,7 @@
 #import <Risp/RispVector.h>
 #import <Risp/RispSymbol+BIF.h>
 #import <Risp/RispBodyExpression.h>
+#import <Risp/RispArgumentExpression.h>
 #import "RispAbstractSyntaxTree.h"
 #import "RispBaseExpression+ASTDescription.h"
 
@@ -40,9 +41,9 @@
                 method->_restParm = [RispSymbolExpression parser:p context:context];
             }
         }
-        method->_requiredParms = [RispRuntime map:parms fn:^id(id object) {
+        method->_requiredParms = [[RispArgumentExpression alloc] initWithArguments:[RispRuntime map:parms fn:^id(id object) {
             return [RispCompiler compile:context form:object];
-        }];
+        }]];
         method->_bodyExpression = [RispBodyExpression parser:body context:context];
         method->_localBinding = [context currentScope];
     }
@@ -53,7 +54,7 @@
 }
 
 - (NSInteger)paramsCount {
-    return [self isVariadic] ? [_requiredParms count] - 1 : [_requiredParms count];
+    return [self isVariadic] ? [[_requiredParms arguments] count] - 1 : [[_requiredParms arguments] count];
 }
 
 - (BOOL)isVariadic {
@@ -67,21 +68,19 @@
 - (void)_descriptionWithIndentation:(NSUInteger)indentation desc:(NSMutableString *)desc {
     [super _descriptionWithIndentation:indentation desc:desc];
     [desc appendFormat:@"%@ %@\n", [self class], [self rispLocationInfomation]];
-    [_requiredParms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [desc appendString:[RispAbstractSyntaxTree descriptionAppendIndentation:indentation + 1 forObject:obj]];
-    }];
+    [_requiredParms _descriptionWithIndentation:indentation + 1 desc:desc];
     [_bodyExpression _descriptionWithIndentation:indentation + 1 desc:desc];
 }
 
 + (void)bindArguments:(RispVector *)arguments forMethod:(RispMethodExpression *)method toScope:(RispLexicalScope *)scope {
     if (![method isVariadic]) {
-        [[method requiredParms] enumerateObjectsUsingBlock:^(RispSymbolExpression *obj, NSUInteger idx, BOOL *stop) {
+        [[[method requiredParms] arguments] enumerateObjectsUsingBlock:^(RispSymbolExpression *obj, NSUInteger idx, BOOL *stop) {
             id v = arguments[idx];
             scope[[obj symbol]] = v;
         }];
     } else if ([arguments count] == [method paramsCount] && [[arguments last] isKindOfClass:[RispSequence class]]) {
         NSInteger limit = [method paramsCount] - 1;
-        [[method requiredParms] enumerateObjectsUsingBlock:^(RispSymbolExpression *obj, NSUInteger idx, BOOL *stop) {
+        [[[method requiredParms] arguments] enumerateObjectsUsingBlock:^(RispSymbolExpression *obj, NSUInteger idx, BOOL *stop) {
             if (idx < limit) {
                 id v = arguments[idx];
                 scope[[obj symbol]] = v;
@@ -92,7 +91,7 @@
         scope[[[method restParm] symbol]] = [arguments last];
     } else {
         NSInteger limit = [method paramsCount] - 1;
-        [[method requiredParms] enumerateObjectsUsingBlock:^(RispSymbolExpression *obj, NSUInteger idx, BOOL *stop) {
+        [[[method requiredParms] arguments] enumerateObjectsUsingBlock:^(RispSymbolExpression *obj, NSUInteger idx, BOOL *stop) {
             if (idx < limit) {
                 id v = arguments[idx];
                 scope[[obj symbol]] = v;
@@ -136,7 +135,7 @@
 - (id)copyWithZone:(NSZone *)zone {
     RispMethodExpression *copy = [[RispMethodExpression alloc] init];
     copy->_statics = _statics;
-    copy->_argstypes = [_argstypes copy];
+    copy->_captures = [_captures copy];
     copy->_bodyExpression = [_bodyExpression copy];
     copy->_localBinding = [_localBinding copy];
     copy->_prim = [_prim copy];

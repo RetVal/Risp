@@ -8,17 +8,38 @@
 
 #import <Foundation/Foundation.h>
 #import <RispCompiler/RispCompiler.h>
-#import "RispLLVMBuilder.h"
+#import "RispLLVMDirectoryBuilder.h"
+#import "RispLLVMCompiler.h"
+#import "RispLLVMCommandLine.h"
 
 static NSString * RispLLVMInputFileKey = @"i";
 static NSString * RispLLVMInputFileListKey = @"fileList";
 static NSString * RispLLVMOutputDirectory = @"o";
+static NSString * RispLLVMEmitLLVMFile = @"-emit-llvm";
+static NSString * RispLLVMShowLLVMFile = @"-show-llvm";
+static NSString * RispLLVMEmitASMFile = @"-emit-asm";
+static NSString * RispLLVMShowASMFile = @"-show-asm";
+
+static NSString * RispLLVMShowPerformance = @"-show-performance";
+static NSString * RispLLVMShowFunctionMeta = @"-show-func-meta";
+
 int main(int argc, const char * argv[]) {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    RispLLVMCommandLine *userDefaults = [RispLLVMCommandLine parseArgc:argc argv:argv];
     
     NSString *inputFile = [userDefaults stringForKey:RispLLVMInputFileKey];
     NSString *fileList = [userDefaults stringForKey:RispLLVMInputFileListKey];
     NSString *outputDirectory = [userDefaults stringForKey:RispLLVMOutputDirectory];
+    
+    RispASTContextDoneOptions options = RispASTContextDoneWithShowNothing;
+    
+    options |= [userDefaults boolForKey:RispLLVMEmitLLVMFile] ? RispASTContextDoneWithOutputIRCode : 0;
+    options |= outputDirectory ? RispASTContextDoneWithOutputObjectFile : 0;
+    options |= [userDefaults boolForKey:RispLLVMEmitASMFile] ? RispASTContextDoneWithOutputASMCode : 0;
+    options |= [userDefaults boolForKey:RispLLVMShowLLVMFile] ? RispASTContextDoneWithShowIRCode : 0;
+    options |= [userDefaults boolForKey:RispLLVMShowASMFile] ? RispASTContextDoneWithShowASMCode : 0;
+    options |= [userDefaults boolForKey:RispLLVMShowPerformance] ? RispASTContextDoneWithShowPerformance : 0;
+    options |= [userDefaults boolForKey:RispLLVMShowFunctionMeta] ? RispASTContextDoneWithShowFunctionMeta : 0;
+    
     NSLog(@"%@, %@, %@", inputFile, fileList, outputDirectory);
     NSMutableArray *inputFiles = [[NSMutableArray alloc] init];
     if (inputFile) {
@@ -35,27 +56,11 @@ int main(int argc, const char * argv[]) {
     }
     
     outputDirectory = outputDirectory ? [outputDirectory stringByStandardizingPath] : [[NSFileManager defaultManager] currentDirectoryPath];
-    RispLLVMBuilder *dirBuilder = [RispLLVMBuilder builderWithRoot:outputDirectory];
+    RispLLVMDirectoryBuilder *dirBuilder = [RispLLVMDirectoryBuilder builderWithRoot:outputDirectory];
     outputDirectory = [dirBuilder makeTargetBuildObjectDirectory:@"proj" targetName:@"target"];
-    for (NSString *filePath in inputFiles) {
-        @autoreleasepool {
-            NSString *fullPath = [filePath stringByStandardizingPath];
-            NSString *fileName = fullPath;
-            NSString *code = [[NSString alloc] initWithContentsOfFile:fileName encoding:NSUTF8StringEncoding error:nil];
-            fileName = [[fileName lastPathComponent] stringByDeletingPathExtension];
-            @autoreleasepool {
-                printf("compiling %s...\n", [fullPath UTF8String]);
-                RispASTContext *ASTContext = [[RispASTContext alloc] initWithName:[fileName stringByDeletingPathExtension]];
-                NSArray *exprs = [RispASTContext expressionFromCurrentLine:code];
-                for (id <RispExpression> expr in exprs) {
-                    RispAbstractSyntaxTree *AST = [[RispAbstractSyntaxTree alloc] initWithExpression:expr];
-                    [ASTContext emitRispAST:AST];
-                }
-                [ASTContext doneWithOutputPath:outputDirectory];
-            }
-        }
-    }
-//    printf("\nlinking...\n");
+    NSArray *objectFiles = [RispLLVMCompiler compileFiles:inputFiles outputDirectory:outputDirectory options:options];
+    NSLog(@"%@", objectFiles);
+    //    printf("\nlinking...\n");
     //            system("cd ~/Desktop && ld -demangle -arch x86_64 -macosx_version_min 10.9.0 -o risp.out risp.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/5.1/lib/darwin/libclang_rt.osx.a -print_statistics -L/Users/closure/Library/Frameworks -F/Users/closure/Library/Frameworks -framework Foundation -framework Risp -framework RispCompiler");
     return 0;
 }

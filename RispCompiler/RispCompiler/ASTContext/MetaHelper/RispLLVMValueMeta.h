@@ -20,7 +20,9 @@ namespace RispLLVM {
             classType = 0,
             instanceType = 1,
             selectorType = 2,
-            functionType = 3
+            functionType = 3,
+            closureType  = 4,
+            
         } RispLLVMValueMetaType;
         
         RispLLVMValueMeta(llvm::StringRef name = "", RispLLVM::RispLLVMValueMeta::RispLLVMValueMetaType type = RispLLVM::RispLLVMValueMeta::instanceType)
@@ -47,6 +49,10 @@ namespace RispLLVM {
             return _type == functionType;
         }
         
+        bool isClosureType() const {
+            return _type == closureType;
+        }
+        
         const llvm::StringRef getName() const {
             return _name;
         }
@@ -65,6 +71,10 @@ namespace RispLLVM {
         
         void setIsFunction(const bool flag = true) {
             _type = functionType;
+        }
+        
+        void setIsClosure(const bool flag = true) {
+            _type = closureType;
         }
         
         void setName(const llvm::StringRef name) {
@@ -99,6 +109,9 @@ namespace RispLLVM {
                     break;
                 case functionType:
                     desc += "function";
+                    break;
+                case closureType:
+                    desc += "closure";
                     break;
                 default:
                     break;

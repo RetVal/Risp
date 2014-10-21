@@ -27,6 +27,8 @@
 @property (strong, nonatomic) UIImageView *outgoingBubbleImageView;
 @property (strong, nonatomic) UIImageView *incomingBubbleImageView;
 
+- (BOOL)ready;
+
 - (void)receiveMessagePressed:(UIBarButtonItem *)sender;
 
 - (void)closePressed:(UIBarButtonItem *)sender;

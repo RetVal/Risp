@@ -1,6 +1,25 @@
 ;;; Risp Remote Controller Code on iOS
 (defn top-viewcontroller[] (. (. (. (. (. UIApplication sharedApplication) windows) firstObject) rootViewController) topViewController))
+
+
+;;; music player system control functions
 (defn music-init [] (. (. NSBundle bundleWithPath: "/System/Library/Frameworks/MediaPlayer.framework") load))
-(defn music-player [] (. MPMusicPlayerController systemMusicPlayer))
-(defn music-previous [] (do (music-init) (. (music-player) skipToPreviousItem)))
-(defn music-next [] (do (music-init) (. (music-player) skipToNextItem)))
+
+(music-init)
+
+(defn music-system-player [] (. MPMusicPlayerController systemMusicPlayer))
+(defn music-app-player [] (. MPMusicPlayerController applicationMusicPlayer))
+(defn music-ipod-player [] (. MPMusicPlayerController iPodMusicPlayer))
+
+(defn music-previous [player] (do (music-init) (. player skipToPreviousItem)))
+(defn music-next [player] (do (music-init) (. player skipToNextItem)))
+(defn music-play [player] (do (music-init) (. player play)))
+(defn music-pause [player] (do (music-init) (. player pause)))
+(defn music-stop [player] (do (music-init) (. player stop)))
+
+;;;
+;;; Risp remote control
+; (def __RispReaderRemoteService [] (. __RispReaderRemoteService defaultService))
+(defn reconnect [] (. (top-viewcontroller) reconnectButtonPressed: nil))
+
+(defn inc-x [x] (+ x 1))

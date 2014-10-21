@@ -1,5 +1,5 @@
 //
-//  CodeGenModule.h
+//  CodeGenFunction.h
 //  Risp
 //
 //  Created by closure on 8/11/14.
@@ -11,6 +11,7 @@
 
 #import "__RispLLVMFoundation.h"
 #include "llvm/IR/CallSite.h"
+#include "CGBlockInfo.h"
 
 namespace RispLLVM {
     struct RREntrypoints {
@@ -246,6 +247,9 @@ namespace RispLLVM {
                                         const llvm::Twine &Name) {
             return EmitCallOrInvoke(Callee, llvm::ArrayRef<llvm::Value *>(), Name);
         }
+        
+        llvm::Constant *GenerateCopyHelperFunction(const CGBlockInfo &blockInfo);
+        llvm::Constant *GenerateDestroyHelperFunction(const CGBlockInfo &blockInfo);
         
         llvm::ReturnInst *createReturn(llvm::Value *retValue, llvm::Function *func = nullptr);
         /// Emits a call or invoke instruction to the given function, depending

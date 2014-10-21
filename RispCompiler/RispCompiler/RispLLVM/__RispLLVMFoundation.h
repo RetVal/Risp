@@ -6,9 +6,11 @@
 //  Copyright (c) 2014 closure. All rights reserved.
 //
 
+#ifndef __RISPLLVM_FOUNDATION__
+#define __RISPLLVM_FOUNDATION__
+
 #import <Foundation/Foundation.h>
 #include <objc/runtime.h>
-#include "llvm-c/Core.h"
 
 #include "llvm/InitializePasses.h"
 #include "llvm/IR/IRBuilder.h"
@@ -18,22 +20,7 @@
 #include "llvm/IR/DerivedTypes.h"
 #include "llvm/IR/LLVMContext.h"
 
-#include "llvm/IR/Verifier.h"
-#include "llvm/Support/CodeGen.h"
-#include "llvm/ExecutionEngine/ExecutionEngine.h"
-#include "llvm/ExecutionEngine/JIT.h"
-#include "llvm/Pass.h"
-#include "llvm/PassManager.h"
-#include "llvm/PassRegistry.h"
-#include "llvm/InitializePasses.h"
-#include "llvm/Transforms/Scalar.h"
-#include "llvm/IR/DataLayout.h"
 #include "llvm/Support/StringPool.h"
-#include <cstdio>
-#include <sstream>
-
-#include <llvm/Support/ToolOutputFile.h>
-#include <llvm/Support/FormattedStream.h>
 
 #import "__RispLLVMTargetCodeGenInfo.h"
 #import "__RispLLVMTargetMachineCodeGen.h"
@@ -43,6 +30,8 @@
 
 #include "RispLLVMSelector.h"
 #include "RispLLVMIdentifierInfo.h"
+#import "RispASTContextDoneOptions.h"
+#include "LanguageOptions.h"
 
 FOUNDATION_EXPORT NSString * __RispLLVMFoundationObjectPathKey;
 FOUNDATION_EXPORT NSString * __RispLLVMFoundationAsmPathKey;
@@ -54,6 +43,7 @@ FOUNDATION_EXPORT NSString * __RispLLVMFoundationLLVMIRPathKey;
 @interface __RispLLVMFoundation : NSObject
 @property (nonatomic, strong, readonly) NSString *moduleName;
 @property (nonatomic, strong) NSString *outputPath;
+
 - (instancetype)initWithModuleName:(NSString *)name;
 - (llvm::Module *)module;
 - (llvm::IRBuilder<> *)builder;
@@ -63,6 +53,7 @@ FOUNDATION_EXPORT NSString * __RispLLVMFoundationLLVMIRPathKey;
 - (__RispLLVMTargetCodeGenInfo *)targetCodeGenInfo;
 - (llvm::CallingConv::ID)runtimeCC;
 - (llvm::LLVMContext *)llvmContext;
+- (RispLLVM::LanguageOptions &)languageOptions;
 @end
 
 @interface __RispLLVMFoundation (TypeHelper)
@@ -77,6 +68,8 @@ FOUNDATION_EXPORT NSString * __RispLLVMFoundationLLVMIRPathKey;
 - (llvm::Type *)floatType;
 - (llvm::Type *)doubleType;
 - (llvm::Type *)ptrDiffType;
+- (llvm::Type *)classType;
+- (llvm::PointerType *)classPtrTYpe;
 - (llvm::Type *)llvmTypeFromObjectiveCType:(const char *)type;
 @end
 
@@ -108,7 +101,7 @@ FOUNDATION_EXPORT NSString * __RispLLVMFoundationLLVMIRPathKey;
 - (llvm::GlobalValue *)globalValue:(llvm::StringRef)name;
 - (llvm::Value *)emitNSDecimalNumberLiteral:(double)value;
 - (llvm::Value *)emitNSNull;
-
+- (llvm::Constant *)getAddrOfConstantString:(llvm::StringRef)str globalName:(const char *)globalName alignment:(unsigned)alignment;
 - (llvm::Constant *)emitObjCStringLiteral:(NSString *)string;
 - (llvm::Constant *)emitConstantCStringLiteral:(const std::string &)string globalName:(const char *)globalName alignment:(unsigned)alignment;
 - (llvm::Constant *)getOrCreateLLVMGlobal:(llvm::StringRef)name type:(llvm::PointerType *)ty unnamedAddress:(BOOL)unnamedAddress;
@@ -152,5 +145,7 @@ FOUNDATION_EXPORT NSString * __RispLLVMFoundationLLVMIRPathKey;
 - (void)emitVersionIdentMetadata;
 - (void)emitLazySymbols;
 - (void)emitUsedName:(llvm::StringRef)name list:(std::vector<llvm::WeakVH> &)list;
-- (NSDictionary *)done;
+- (NSDictionary *)doneWithOptions:(RispASTContextDoneOptions)options;
 @end
+
+#endif

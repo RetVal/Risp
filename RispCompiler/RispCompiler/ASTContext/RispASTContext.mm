@@ -20,8 +20,12 @@
 #import <RispCompiler/RispBuiltin.h>
 
 #import "__RispLLVMFunctionHelper.h"
-#include "CodeGenModule.h"
+#include "CodeGenFunction.h"
 #include "RispLLVMFunctionMeta.h"
+
+#include "RispASTContextPriv.h"
+
+#include "RispClosureMeta.h"
 
 @interface RispASTContext () {
 @private
@@ -30,9 +34,14 @@
     llvm::DenseMap<llvm::StringRef, RispLLVM::RispLLVMFunctionMeta *> _globalFunctionScope;
     llvm::SmallVector<RispLLVM::RispLLVMFunctionMeta *, 32> _globalFunctionMetaSet;
     
+    llvm::DenseMap<llvm::Function *, RispLLVM::RispClosureMeta> _closureFunction;
+    
     llvm::Value *_autoreleasePoolRoot;
+    CFTimeInterval _startTimestamp;
+    
+    llvm::Function *_CurFn;
 }
-- (RispLLVM::RispLLVMFunctionMeta *)metaForFunction:(llvm::Function *)function;
+
 @end
 
 @implementation RispSequence (IR)
@@ -172,31 +181,50 @@
 @implementation RispSymbolExpression (IR)
 
 - (void *)generateCode:(RispASTContext *)context {
+    [context setLastSymbolInScope:NO];
     __RispLLVMFoundation *CGM = [context CGM];
-    llvm::Value *variable = [[context currentStack] objectForKey:self];
+    NSUInteger depth = 0;
+    llvm::Value *variable = [[context currentStack] objectForKey:self atDepth:&depth];
     if (variable == nil) {
         Class cls = NSClassFromString([self stringValue]);
         if (cls) {
             RispLLVM::RispLLVMValueMeta meta = RispLLVM::RispLLVMValueMeta([[self stringValue] UTF8String], RispLLVM::RispLLVMValueMeta::classType);
             llvm::Value *llvmClass = [CGM emitClassNamed:[self stringValue] isWeak:NO];
             [[context currentStack] setMeta:std::move(meta) forValue:llvmClass];
+            [context setLastSymbolInScope:YES];
             return llvmClass;
         } else {
-            llvm::Function *function = [__RispLLVMFunctionHelper __functionWithMangling:[RispNameMangling nameMangling] fromName:[self stringValue] arguments:nil context:context];
+            llvm::Function *function = [__RispLLVMFunctionHelper __functionWithMangling:[RispNameMangling nameMangling] fromName:[self stringValue] method:nil arguments:nil context:context];
             if (function) {
+                [context setLastSymbolInScope:YES];
                 return function;
             } else if ([[self stringValue] hasSuffix:@":"]) {
                 SEL sel = NSSelectorFromString([self stringValue]);
+                [context setLastSymbolInScope:YES];
                 return [CGM emitSelector:sel isValue:NO];
             }
-            [NSException raise:RispRuntimeException format:@"symbol -> %@ is nil", [self stringValue]];
+            if (![context isVisiting]) {
+                [NSException raise:RispRuntimeException format:@"symbol -> %@ is nil", [self stringValue]];
+            }
+        }
+    } else {
+        if (llvm::isa<llvm::GlobalVariable>(variable) == false && (![[context currentStack] isCurrentScope:depth] && [[context currentStack] pushType] == RispScopeStackPushFunction)) {
+            // 函数引用了外层环境的变量 并且不是全局变量
+            [context setLastSymbolInScope:NO];
+            return variable;
+        } else {
+            [context setLastSymbolInScope:YES];
         }
     }
-    
+    if (!variable) {
+        return nil;
+    }
     llvm::Argument *argumentOfFunc = llvm::dyn_cast<llvm::Argument>(variable);
     if (argumentOfFunc != nullptr) {
+        [context setLastSymbolInScope:YES];
         return argumentOfFunc;
     }
+    [context setLastSymbolInScope:YES];
     return [CGM valueForVariable:variable];
 }
 
@@ -231,7 +259,8 @@
     id ins = nil;
     RispLLVM::RispLLVMValueMeta metaOfTarget = [[context currentStack] metaForValue:llvmTarget];
     if (!metaOfTarget.isValid()) {
-        [NSException raise:RispRuntimeException format:@"RispLLVM::RispLLVMValueMeta meta is nil"];
+//        [NSException raise:RispRuntimeException format:@"RispLLVM::RispLLVMValueMeta meta is nil"];
+        ins = [NSObject class];
     }
     if (metaOfTarget.isClassType()) {
         ins = NSClassFromString(@(metaOfTarget.getName().str().c_str()));
@@ -271,15 +300,24 @@
 
 - (void *)generateCode:(RispASTContext *)context {
     __RispLLVMFoundation *CGM = [context CGM];
-    llvm::Value *variable = [CGM createVariable:[CGM idType] named:[[[self key] stringValue] UTF8String]];
-    [[context currentStack] setObject:variable forKey:[self key]];
+    llvm::GlobalVariable *gv = llvm::dyn_cast<llvm::GlobalVariable>([CGM getOrCreateLLVMGlobal:[[[self key] stringValue] UTF8String] type:llvm::PointerType::getUnqual([CGM idType]) unnamedAddress:NO]);
+//    llvm::Value *variable = [CGM createVariable:[CGM idType] named:[[[self key] stringValue] UTF8String]];
+    [[context currentStack] setObject:gv forKey:[self key]];
     llvm::Value *value = (llvm::Value *)[[self value] generateCode:context];
     RispLLVM::RispLLVMValueMeta meta = [[context currentStack] metaForValue:value];
-    llvm::Value *ret = [CGM setValue:value forVariable:variable];
+    llvm::Value *ret = [CGM setValue:value forVariable:gv];
     if (meta.isValid()) {
         [[context currentStack] setMeta:std::move(meta) forValue:ret];
     }
     return ret;
+}
+
+@end
+
+@implementation RispArgumentExpression (IR)
+
+- (void *)generateCode:(RispASTContext *)context {
+    return nil;
 }
 
 @end
@@ -295,20 +333,106 @@
 }
 
 @end
+#import "RispASTContextRecursiveVisitor.h"
+
+@interface RispMethodExpression (ASTExtension)
+@property (nonatomic, assign, readonly) llvm::SmallDenseMap<llvm::StringRef , llvm::Value *> *capturesValue;
+@end
+
+static NSString * __RispMethodExpressionASTExtensionKey = @"RispMethodExpressionASTExtensionCapturesValueKey";
+
+@implementation RispMethodExpression (ASTExtension)
+- (llvm::SmallDenseMap<llvm::StringRef, llvm::Value *>*)capturesValue {
+    
+    NSValue *pointerValue = [[self meta] objectForKey:__RispMethodExpressionASTExtensionKey];
+    llvm::SmallDenseMap<llvm::StringRef, llvm::Value *>*map = (llvm::SmallDenseMap<llvm::StringRef, llvm::Value *>*)[pointerValue pointerValue];
+    if (map == nullptr) {
+        map = new llvm::SmallDenseMap<llvm::StringRef, llvm::Value *>();
+        [self withMeta:[NSValue valueWithPointer:map] forKey:__RispMethodExpressionASTExtensionKey];
+    }
+    return map;
+}
+
+- (void)dealloc {
+    if ([self hasMeta]) {
+        llvm::SmallDenseMap<llvm::StringRef, llvm::Value *>*map = (llvm::SmallDenseMap<llvm::StringRef, llvm::Value *>*)[[[self meta] objectForKey:__RispMethodExpressionASTExtensionKey] pointerValue];
+        if (map != nullptr) {
+            delete map;
+            map = nullptr;
+        }
+    }
+}
+
+@end
 
 @implementation RispMethodExpression (IR)
 
-- (void *)generateCode:(RispASTContext *)context {
+- (BOOL)_isClosureExpression:(RispASTContext *)context skipSelf:(BOOL)skip {
+//    (
+//     (fn [y]
+//      (
+//       (
+//        (fn [y]
+//         (fn [x] y)) 3) 0)) 4)
+    if ([self captures]) {
+        return [[self captures] count] > 0;
+    }
+    __RispLLVMFoundation *CGM = [context CGM];
+    RispLLVM::CodeGenFunction &CGF = [CGM CGF];
+    RispAbstractSyntaxTree *ast = [[RispAbstractSyntaxTree alloc] initWithExpression:self];
+    RispASTContextRecursiveVisitor *visitor = [[RispASTContextRecursiveVisitor alloc] initWithAbstractSyntaxTree:ast];
+    NSMutableArray *captures = [[NSMutableArray alloc] init];
+    [context setVisiting:YES];
+    [visitor visit:^BOOL(RispBaseExpression *expr, NSUInteger level) {
+        if (expr == self && skip) {
+            return YES;
+        }
+        if ([expr isKindOfClass:[RispSymbolExpression class]]) {
+            RispSymbolExpression *symbolExpr = (RispSymbolExpression *)expr;
+            NSUInteger index = [[[[self requiredParms] arguments] array] indexOfObject:expr];
+            if (NSNotFound == index) {
+                llvm::Value *value = (llvm::Value *)[symbolExpr generateCode:context];
+                BOOL shouldCapture = ![context isLastSymbolInScope];
+                if (shouldCapture) {
+                    [captures addObject:symbolExpr];
+                    (*[self capturesValue])[[[symbolExpr stringValue] UTF8String]] = value;
+                }
+            }
+        } else if ([expr isKindOfClass:[RispMethodExpression class]]) {
+            RispMethodExpression *methodExpr = (RispMethodExpression *)expr;
+            BOOL isClosure = [methodExpr _isClosureExpression:context skipSelf:YES];
+            if (isClosure) {
+                NSLog(@"%@ <%@> is a closure", methodExpr, [methodExpr captures]);
+            }
+            [context setVisiting:YES];
+        } else if ([expr isKindOfClass:[RispFnExpression class]]) {
+            RispFnExpression *fnExpr = (RispFnExpression *)expr;
+            for (RispMethodExpression *methodExpr in [fnExpr methods]) {
+                BOOL isClosure = [methodExpr _isClosureExpression:context skipSelf:YES];
+                if (isClosure) {
+                    NSLog(@"%@ <%@> is a closure", methodExpr, [methodExpr captures]);
+                }
+                [context setVisiting:YES];
+            }
+        }
+        return YES;
+    } level:0];
+    [context setVisiting:NO];
+    [self setCaptures:captures];
+    return [[self captures] count] > 0;
+}
+
+- (void *)_generateMethodCode:(RispASTContext *)context {
     __RispLLVMFoundation *CGM = [context CGM];
     llvm::SmallVector<llvm::Type *, 8> argumentsTypes;
     llvm::SmallVector<llvm::StringRef, 8> argumentsNames;
     // warnning currently assume param is symbol only
-    for (RispSymbolExpression *params in [self requiredParms]) {
+    for (RispSymbolExpression *params in [[self requiredParms] arguments]) {
         argumentsTypes.push_back([CGM idType]);
         argumentsNames.push_back([[params stringValue] UTF8String]);
     }
     
-    [context pushStack];
+    [context pushStackWithType:RispScopeStackPushFunction];
     
     BOOL isVariadicArgumetns = [self isVariadic];
     llvm::FunctionType *funcType = llvm::FunctionType::get([CGM idType], argumentsTypes, isVariadicArgumetns);
@@ -354,10 +478,6 @@
                     RispLLVM::RispLLVMFunctionDescriptor descriptor(lastReturnFunc, true);
                     functionMeta->setDescriptor(functionName, descriptor);
                 } else {
-//                    RispLLVM::RispLLVMFunctionDescriptor descriptor(lastReturnFunc, false);
-//                    functionMeta->setDescriptor(functionName, descriptor);
-                    // is work function
-                    // but currently it is not haven a name
                 }
             }
         }
@@ -370,22 +490,130 @@
     return func;
 }
 
+- (void *)_generateClosureCode:(RispASTContext *)context {
+    __RispLLVMFoundation *CGM = [context CGM];
+    llvm::SmallVector<llvm::Type *, 8> argumentsTypes;
+    llvm::SmallVector<llvm::StringRef, 8> argumentsNames;
+    // warnning currently assume param is symbol only
+    for (RispSymbolExpression *params in [[self requiredParms] arguments]) {
+        argumentsTypes.push_back([CGM idType]);
+        argumentsNames.push_back([[params stringValue] UTF8String]);
+    }
+    
+    for (RispSymbolExpression *se in [self captures]) {
+        argumentsTypes.push_back([CGM idType]);
+        argumentsNames.push_back([[se stringValue] UTF8String]);
+    }
+    
+//    NSString *currentFuncName = [RispNameMangling anonymousFunctionName:[context currentAnonymousFunctionCounter]];
+//    NSString *structureName = [NSString stringWithFormat:@"struct.%@", currentFuncName];
+    llvm::StructType *argumentType = llvm::StructType::create(*[CGM llvmContext], argumentsTypes);
+
+    [context pushStackWithType:RispScopeStackPushFunction];
+    
+    BOOL isVariadicArgumetns __unused = [self isVariadic];
+    llvm::FunctionType *funcType = llvm::FunctionType::get([CGM idType], argumentType->getPointerTo(), NO);
+    llvm::Function *func = llvm::Function::Create(funcType, llvm::GlobalVariable::ExternalLinkage, "", [CGM module]);
+    [__RispLLVMCodeGenFunction setNamesForFunction:func arugmentNames:{"blockStructure"}];
+    
+    // init the function arguments in stack
+    llvm::Value &blockStrcuture = func->getArgumentList().front();
+    
+    for (llvm::Argument &arg : func->args()) {
+        llvm::StringRef name = arg.getName();
+        llvm::Value *value = &arg;
+        RispSymbolExpression *symbolExpr = [[RispSymbolExpression alloc] initWithSymbol:[RispSymbol named:[NSString stringWithUTF8String:name.str().c_str()]]];
+        [[context currentStack] setObject:value forKey:symbolExpr];
+    }
+    llvm::IRBuilder<> *builder = [CGM builder];
+    for (NSUInteger idx = 0, cnt = argumentsTypes.size(); idx < cnt; idx++) {
+        llvm::Value *valPtr = builder->CreateStructGEP(&blockStrcuture, idx);
+        valPtr->setName(argumentsNames[idx]);
+        RispSymbolExpression *symbolExpr = [[RispSymbolExpression alloc] initWithSymbol:[RispSymbol named:[NSString stringWithUTF8String:argumentsNames[idx].str().c_str()]]];
+        [[context currentStack] setObject:valPtr forKey:symbolExpr];
+    }
+    
+    llvm::BasicBlock *savePoint = [CGM builder]->GetInsertBlock();
+    builder->SetInsertPoint([CGM CGF].createBasicBlock("entry", func));
+    RispBodyExpression *bodyExpression = [self bodyExpression];
+    llvm::Value *lastReturn = (llvm::Value *)[bodyExpression generateCode:context];
+    llvm::Value *retValue = lastReturn;
+    
+    RispLLVM::RispLLVMValueMeta meta;
+    
+    if (lastReturn == nil) {
+        retValue = [RispNilExpression emitNSNullWithMeta:context];
+        meta = [[context currentStack] metaForValue:retValue];
+    } else if (lastReturn->getType() != funcType->getReturnType()) {
+        if (lastReturn->getType() == [CGM voidType]) {
+            retValue = [RispNilExpression emitNSNullWithMeta:context];
+            meta = [[context currentStack] metaForValue:retValue];
+        } else {
+            retValue = [CGM builder]->CreateBitCast(lastReturn, funcType->getReturnType());
+            bool isLastReturnFunction = llvm::isa<llvm::Function>(lastReturn);
+            if (isLastReturnFunction) {
+                llvm::Function *lastReturnFunc = llvm::dyn_cast<llvm::Function>(lastReturn);
+                llvm::StringRef functionName = lastReturnFunc->getName();
+                meta.setIsClosure();
+                
+                RispLLVM::RispLLVMFunctionMeta *functionMeta = [context metaForFunction:lastReturnFunc];
+                BOOL isDispatch = ![[RispNameMangling nameMangling] isManglingFunction:[NSString stringWithUTF8String:functionName.str().c_str()] context:context];
+                if (isDispatch) {
+                    // is dispatch function
+                    RispLLVM::RispLLVMFunctionDescriptor descriptor(lastReturnFunc, true);
+                    functionMeta->setDescriptor(functionName, descriptor);
+                } else {
+                }
+            }
+        }
+    }
+    [CGM CGF].createReturn(retValue);
+    [context popStack];
+    
+    [CGM builder]->SetInsertPoint(savePoint);
+    [[context currentStack] setMeta:meta forValue:func];
+    [context _addClosure:func];
+    
+    return func;
+}
+
+- (void *)generateCode:(RispASTContext *)context {
+    BOOL isClosure = [self _isClosureExpression:context skipSelf:NO];
+    if (isClosure) {
+        NSLog(@"%@ <%@> is a closure", self, [self captures]);
+        return [self _generateClosureCode:context];
+    }
+    return [self _generateMethodCode:context];
+}
+
 @end
 
 @implementation RispFnExpression (IR)
 
 - (void *)generateCode:(RispASTContext *)context {
     __RispLLVMFoundation *CGM = [context CGM];
+    if (![self name]) {
+        [self setName:[[RispSymbolExpression alloc] initWithSymbol:[RispSymbol named:[RispNameMangling anonymousFunctionName:[context anonymousFunctionCounter]]]]];
+    }
+    
     llvm::SmallVector<llvm::Function *, 5> functions;
     for (RispMethodExpression *method in [self methods]) {
         llvm::Function *function = (llvm::Function *)[method generateCode:context];
+        BOOL isClosure = [context _isClosure:function];
+        if (isClosure) {
+            RispLLVM::RispClosureMeta closureMeta = [context _closureMetaForFunction:function];
+            llvm::StructType *structType = closureMeta.getArgumentType();
+            if (structType) {
+                structType->setName([[NSString stringWithFormat:@"struct.%@", [[self name] stringValue]] UTF8String]);
+            }
+        }
         RispNameManglingFunctionDescriptor *functionDescriptor = [[RispNameMangling nameMangling] methodMangling:method functionName:[[self name] stringValue]];
         function->setName([[functionDescriptor functionName] UTF8String]);
         functions.push_back(function);
     }
     
-    [context pushStack];
-    
+    [context pushStackWithType:RispScopeStackPushFunction];
+
     llvm::FunctionType *funcEntryType = llvm::FunctionType::get([CGM idType], {[CGM idType]}, NO);
     llvm::Function *funcEntry = llvm::Function::Create(funcEntryType, llvm::GlobalVariable::ExternalLinkage, [[[self name] stringValue] UTF8String], [CGM module]);
     [__RispLLVMCodeGenFunction setNamesForFunction:funcEntry arugmentNames:{"vec"}];
@@ -400,8 +628,9 @@
     RispLLVM::RispLLVMFunctionMeta *functionMeta = [context metaForFunction:funcEntry];
     for (llvm::Function **i = functions.begin(), **e = functions.end(); i != e; i++) {
         llvm::Function *workFunction = *i;
-        RispLLVM::RispLLVMFunctionDescriptor descriptor = functionMeta->getDescriptorFromName(workFunction->getName());
+        RispLLVM::RispLLVMFunctionDescriptor descriptor = functionMeta->getDescriptorFromName(workFunction->getName()); // name is mangling
         descriptor.setFunction(workFunction);
+        descriptor.setClosureFunction([context _isClosure:workFunction]);
         functionMeta->setDescriptor(workFunction, descriptor);
     }
     
@@ -423,15 +652,23 @@
         llvm::Value *check = builder->CreateICmpEQ(argsCount, methodParamsCount);
         __block llvm::Value *retValue = nullptr;
         CGF->EmitBranchBlock(funcEntry, check, ^llvm::BasicBlock *(RispLLVM::CodeGenFunction *CGF, llvm::BasicBlock **blocks) {
-            llvm::SmallVector<llvm::Value *, 8>args;
-            [__RispLLVMFunctionHelper __argumentsBindingToFunction:vec args:[method requiredParms] function:funcEntry binding:args isVariadic:[method isVariadic] context:context];
-            llvm::Function *targetFunc = [__RispLLVMFunctionHelper __functionWithMangling:[RispNameMangling nameMangling] fromName:[[self name] stringValue] arguments:[method requiredParms] context:context];
-            retValue = builder->CreateCall(targetFunc, args);
-            if (retValue == nil || (retValue->getType() != funcEntryType->getReturnType() && retValue->getType() == [CGM voidType])) {
-                retValue = [RispNilExpression emitNSNullWithMeta:context];
+            llvm::Function *currentMethodFunction = functions[idx];
+            if (currentMethodFunction) {
+                BOOL isClosure = [context _isClosure:currentMethodFunction];
+                if (isClosure) {
+                    
+                } else {
+                    llvm::SmallVector<llvm::Value *, 8>args;
+                    [__RispLLVMFunctionHelper __argumentsBindingToFunction:vec args:[[method requiredParms] arguments] function:funcEntry binding:args isVariadic:[method isVariadic] context:context];
+                    llvm::Function *targetFunc = currentMethodFunction;
+                    retValue = builder->CreateCall(targetFunc, args);
+                    if (retValue == nil || (retValue->getType() != funcEntryType->getReturnType() && retValue->getType() == [CGM voidType])) {
+                        retValue = [RispNilExpression emitNSNullWithMeta:context];
+                    }
+                }
+                builder->CreateRet(retValue);
+                CGF->EmitBranch(blocks[RispLLVM::CodeGenFunction::CGFBranchEndBlockId]);
             }
-            builder->CreateRet(retValue);
-            CGF->EmitBranch(blocks[RispLLVM::CodeGenFunction::CGFBranchEndBlockId]);
             return blocks[RispLLVM::CodeGenFunction::CGFBranchTrueBlockId];
         }, ^llvm::BasicBlock *(RispLLVM::CodeGenFunction *CGF, llvm::BasicBlock **blocks) {
             CGF->EmitBranch(blocks[RispLLVM::CodeGenFunction::CGFBranchEndBlockId]);
@@ -478,6 +715,9 @@
     llvm::SmallVector<llvm::Value *, 8> args;
     for (RispBaseExpression * arg in [self arguments]) {
         llvm::Value *value = (llvm::Value *)[arg generateCode:context];
+        if (value->getType() != [CGM idType]) {
+            value = [CGM builder]->CreateBitCast(value, [CGM idType]);
+        }
         args.push_back(value);
     }
     RispLLVM::RispLLVMValueMeta metaOfFunc = [[context currentStack] metaForValue:func];
@@ -515,6 +755,13 @@
     }
     return retValue;
 }
+//
+//- (void *)_generateClosureCall:(llvm::Function *)func context:(RispASTContext *)context {
+//    __RispLLVMFoundation *CGM = [context CGM];
+//    llvm::StructType *argumentType = nullptr;
+//    
+//    return nil;
+//}
 
 - (void *)_generateCall:(llvm::Function *)func context:(RispASTContext *)context {
     llvm::StringRef name = func->getName();
@@ -524,7 +771,7 @@
         RispNameManglingFunctionDescriptor *functionDescriptor = [[RispNameMangling nameMangling] demanglingFunctionName:[NSString stringWithUTF8String:name.str().c_str()] context:context];
         realName = [[functionDescriptor functionName] UTF8String];
     }
-    llvm::Function *workFunc = [__RispLLVMFunctionHelper __functionWithMangling:[RispNameMangling nameMangling] fromName:[NSString stringWithUTF8String:realName.str().c_str()] arguments:[self arguments] context:context];
+    llvm::Function *workFunc = [__RispLLVMFunctionHelper __functionWithMangling:[RispNameMangling nameMangling] fromName:[NSString stringWithUTF8String:realName.str().c_str()] method:nil arguments:[self arguments] context:context];
     if (workFunc) {
         return [self _generateFunctionCall:workFunc context:context];
     }
@@ -537,14 +784,16 @@
     if ([expr isKindOfClass:[RispSymbolExpression class]]) {
         // func symbol
         RispSymbolExpression *fnSymbolExpression = (RispSymbolExpression *)expr;
-        llvm::Function *func = [__RispLLVMFunctionHelper __functionWithMangling:[RispNameMangling nameMangling] fromName:[fnSymbolExpression stringValue] arguments:[self arguments] context:context];
+        llvm::Function *func = [__RispLLVMFunctionHelper __functionWithMangling:[RispNameMangling nameMangling] fromName:[fnSymbolExpression stringValue] method:nil arguments:[self arguments] context:context];
         if (func != nullptr) {
             return [self _generateFunctionCall:func context:context];
+        } else {
+            NSLog(@"func is nil");
         }
     } else if ([expr isKindOfClass:[RispFnExpression class]]) {
         RispFnExpression *fnExpression = (RispFnExpression *)expr;
         if (![fnExpression name]) {
-            [fnExpression setName:[[RispSymbolExpression alloc] initWithSymbol:[RispSymbol named:[NSString stringWithFormat:@"RispAnonymousFunction%ld", [context anonymousFunctionCounter]]]]];
+            [fnExpression setName:[[RispSymbolExpression alloc] initWithSymbol:[RispSymbol named:[RispNameMangling anonymousFunctionName:[context anonymousFunctionCounter]]]]];
         }
         llvm::Function *func = (llvm::Function *)[fnExpression generateCode:context]; // return dispatch function
         if (func != nullptr) {
@@ -559,7 +808,7 @@
             return nil;
         }
         if (meta.isValid() && meta.isFunctionType()) {
-            llvm::Function *targetFunc = [__RispLLVMFunctionHelper __functionWithMangling:[RispNameMangling nameMangling] fromName:[NSString stringWithUTF8String:meta.getName().str().c_str()] arguments:[self arguments] context:context];
+            llvm::Function *targetFunc = [__RispLLVMFunctionHelper __functionWithMangling:[RispNameMangling nameMangling] fromName:[NSString stringWithUTF8String:meta.getName().str().c_str()] method:nil arguments:[self arguments] context:context];
             if (targetFunc != nullptr) {
                 return [self _generateCall:targetFunc context:context];
             } else if ((targetFunc = [CGM module]->getFunction(meta.getName())) != nullptr) {
@@ -599,7 +848,7 @@
             return nil;
         }
         if (meta.isValid() && meta.isFunctionType()) {
-            llvm::Function *targetFunc = [__RispLLVMFunctionHelper __functionWithMangling:[RispNameMangling nameMangling] fromName:[NSString stringWithUTF8String:meta.getName().str().c_str()] arguments:[self arguments] context:context];
+            llvm::Function *targetFunc = [__RispLLVMFunctionHelper __functionWithMangling:[RispNameMangling nameMangling] fromName:[NSString stringWithUTF8String:meta.getName().str().c_str()] method:nil arguments:[self arguments] context:context];
             if (targetFunc != nullptr) {
                 return [self _generateCall:targetFunc context:context];
             } else if ((targetFunc = [CGM module]->getFunction(meta.getName())) != nullptr) {
@@ -612,6 +861,17 @@
         }
         [RispCompilerExceptionLocation exceptionLocationWithExpression:self exception:[NSException exceptionWithName:RispCompilerReturnTypeException reason:@"return type should be an function!" userInfo:@{}]];
     }
+    return nil;
+}
+
+@end
+
+@implementation RispBlockExpression (IR)
+
+- (void *)generateCode:(RispASTContext *)context {
+//    id (^block)(RispVector *arguments)
+    __RispLLVMFoundation *CGM = [context CGM];
+    [CGM CGF].getNSConcreteGlobalBlock();
     return nil;
 }
 
@@ -669,6 +929,7 @@
 
 - (instancetype)initWithName:(NSString *)name {
     if (self = [super init]) {
+        _startTimestamp = CFAbsoluteTimeGetCurrent();
         _CGM = [[__RispLLVMFoundation alloc] initWithModuleName:name];
         _currentStack = [[RispScopeStack alloc] initWithParent:nil];
         
@@ -702,6 +963,10 @@
     return _anonymousFunctionCounter++;
 }
 
+- (NSUInteger)currentAnonymousFunctionCounter {
+    return _anonymousFunctionCounter;
+}
+
 - (RispScopeStack *)currentStack {
     if (!_currentStack) {
         _currentStack = [[RispScopeStack alloc] init];
@@ -709,8 +974,9 @@
     return _currentStack;
 }
 
-- (RispScopeStack *)pushStack {
+- (RispScopeStack *)pushStackWithType:(RispScopeStackPushType)pushType {
     RispScopeStack *stack = [[RispScopeStack alloc] initWithParent:_currentStack];
+    [stack setPushType:pushType];
     _currentStack = stack;
     return _currentStack;
 }
@@ -731,27 +997,38 @@
     }
 }
 
-- (void)doneWithOutputPath:(NSString *)path {
+- (BOOL)doneWithOutputPath:(NSString *)path options:(RispASTContextDoneOptions)options {
     [_CGM setOutputPath:path];
     std::string name = [_CGM module]->getModuleIdentifier();
     llvm::Function *mainEntry = [_CGM module]->getFunction(name);
     llvm::BasicBlock *back = &mainEntry->getBasicBlockList().back();
     [_CGM builder]->SetInsertPoint(back);
-    [_CGM CGF].EmitObjCAutoreleasePoolPop(_autoreleasePoolRoot);
+    
+    if (_autoreleasePoolRoot != nullptr) {
+        [_CGM CGF].EmitObjCAutoreleasePoolPop(_autoreleasePoolRoot);
+    }
     [_CGM builder]->CreateRet(llvm::ConstantInt::get([_CGM intType], 0));
-    NSDictionary *outputs = [_CGM done];
+    NSDictionary *outputs = [_CGM doneWithOptions:options];
     _asmFilePath = outputs[__RispLLVMFoundationAsmPathKey];
     _objectFilePath = outputs[__RispLLVMFoundationObjectPathKey];
     _llvmirFilePath = outputs[__RispLLVMFoundationLLVMIRPathKey];
     for (RispLLVM::RispLLVMFunctionMeta **i = _globalFunctionMetaSet.begin(), **e = _globalFunctionMetaSet.end(); i != e; i++) {
         RispLLVM::RispLLVMFunctionMeta *meta = *i;
-        std::string str;
-        (*meta).toString(str);
-        printf("%s\n", str.c_str());
+        if (options & RispASTContextDoneWithShowFunctionMeta) {
+            std::string str;
+            (*meta).toString(str);
+            printf("%s\n", str.c_str());
+        }
         delete meta;
     }
     _globalFunctionMetaSet.erase(_globalFunctionMetaSet.begin(), _globalFunctionMetaSet.end());
     _currentStack = nil;
+    if (options & RispASTContextDoneWithShowPerformance) {
+        CFTimeInterval doneTimestamp = CFAbsoluteTimeGetCurrent();
+        CFTimeInterval timeGap = doneTimestamp - _startTimestamp;
+        printf(" cost time -> %f ms  ", timeGap);
+    }
+    return YES;
 }
 
 - (RispLLVM::RispLLVMFunctionMeta *)metaForFunction:(llvm::Function *)function {
@@ -765,6 +1042,21 @@
         _globalFunctionScope[dispatchFunctionName] = meta;
     }
     return meta;
+}
+
+- (BOOL)_isClosure:(llvm::Function *)function {
+    RispLLVM::RispClosureMeta meta = _closureFunction.lookup(function);
+    if (meta.isValid()) return YES;
+    return NO;
+}
+
+- (void)_addClosure:(llvm::Function *)function {
+    // the name must be not mangling!
+    _closureFunction[function] = RispLLVM::RispClosureMeta(function);
+}
+
+- (RispLLVM::RispClosureMeta)_closureMetaForFunction:(llvm::Function *)function {
+    return _closureFunction.lookup(function);
 }
 
 @end

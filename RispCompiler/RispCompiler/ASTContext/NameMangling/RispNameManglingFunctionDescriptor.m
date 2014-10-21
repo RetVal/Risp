@@ -13,6 +13,7 @@
 @interface RispNameMangling (Private)
 + (NSString *)_prefixString;
 + (NSString *)_postString;
++ (NSString *)_closureIdentifier;
 @end
 
 @interface RispNameManglingFunctionDescriptor () {
@@ -24,14 +25,19 @@
 
 @implementation RispNameManglingFunctionDescriptor
 + (RispNameManglingFunctionDescriptor *)descriptorWithFunctionName:(NSString *)functionName argumentsDescriptor:(RispNameManglingArgumentsDescriptor *)argumentsDescriptor isNameMangling:(BOOL)nameMangling {
+    return [self descriptorWithFunctionName:functionName argumentsDescriptor:argumentsDescriptor isNameMangling:nameMangling isClosure:NO];
+}
+
++ (RispNameManglingFunctionDescriptor *)descriptorWithFunctionName:(NSString *)functionName argumentsDescriptor:(RispNameManglingArgumentsDescriptor *)argumentsDescriptor isNameMangling:(BOOL)nameMangling isClosure:(BOOL)isClosure {
     RispNameManglingFunctionDescriptor *descriptor = [[RispNameManglingFunctionDescriptor alloc] init];
     descriptor->_functionName = [functionName copy];
     descriptor->_argumentsDescriptor = argumentsDescriptor;
     descriptor->_nameMangling = nameMangling;
+    descriptor->_closure = isClosure;
     return descriptor;
 }
 
-+ (NSString *)_manglingFunctionName:(NSString *)name {
++ (NSString *)_manglingFunctionName:(NSString *)name isClosure:(BOOL)isClosure {
     if (name == nil) {
         return @"";
     }
@@ -41,6 +47,10 @@
     [mangling appendString:name];
     [mangling replaceOccurrencesOfString:@"-" withString:@"_" options:NSLiteralSearch range:NSMakeRange(0, [mangling length])];
     [mangling appendString:[RispNameMangling _postString]];
+    if (isClosure) {
+        [mangling appendString:[RispNameMangling _closureIdentifier]];
+        [mangling appendString:[RispNameMangling _postString]];
+    }
     return mangling;
 }
 
@@ -48,10 +58,10 @@
     if (_nameMangling) {
         return _functionName;
     }
-    return [NSString stringWithFormat:@"%@%@", [RispNameManglingFunctionDescriptor _manglingFunctionName:_functionName], _argumentsDescriptor];
+    return [NSString stringWithFormat:@"%@%@", [RispNameManglingFunctionDescriptor _manglingFunctionName:_functionName isClosure:_closure], _argumentsDescriptor];
 }
 
 - (NSString *)description {
-    return [[NSString alloc] initWithFormat:@"%@%lu%@%@%@", [RispNameMangling _prefixString], [_functionName length], _functionName, [RispNameMangling _postString], [_argumentsDescriptor description]];
+    return [self functionName];
 }
 @end

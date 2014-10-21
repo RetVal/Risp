@@ -42,7 +42,7 @@ namespace RispLLVM {
     class RispLLVMFunctionDescriptor {
     public:
         
-        RispLLVMFunctionDescriptor() : _function(nullptr), _isDispatchFunction(false) {
+        RispLLVMFunctionDescriptor() : _function(nullptr), _isDispatchFunction(false), _isClosureFunction(false) {
             
         }
         
@@ -71,6 +71,14 @@ namespace RispLLVM {
             return _function == nullptr;
         }
         
+        bool isClosureFunction() const {
+            return _isClosureFunction;
+        }
+        
+        void setClosureFunction(bool isClosureFunction = true) {
+            _isClosureFunction = isClosureFunction;
+        }
+        
         void toString(std::string &desc, unsigned int iden = 0) const {
             llvm::raw_string_ostream sos(desc);
             if (_function != nullptr) {
@@ -95,6 +103,7 @@ namespace RispLLVM {
     private:
         llvm::Function *_function;
         bool _isDispatchFunction;
+        bool _isClosureFunction;
     };
     
     class RispLLVMFunctionMeta : public RispLLVMValueMeta {

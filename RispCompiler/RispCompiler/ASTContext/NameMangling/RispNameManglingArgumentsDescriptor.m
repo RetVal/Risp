@@ -30,7 +30,7 @@
 }
 
 + (RispNameManglingArgumentsDescriptor *)descriptorWithMethod:(RispMethodExpression *)method {
-    return [RispNameManglingArgumentsDescriptor descriptorWithArguments:[method requiredParms]];
+    return [RispNameManglingArgumentsDescriptor descriptorWithArguments:[[method requiredParms] arguments]];
 }
 
 - (NSString *)description {

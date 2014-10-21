@@ -1,5 +1,5 @@
 //
-//  RispLLVMBuilder.h
+//  RispLLVMDirectoryBuilder.h
 //  RispCompiler
 //
 //  Created by closure on 9/2/14.
@@ -13,7 +13,7 @@ typedef NS_ENUM(NSUInteger, RispLLVMBuilderMode) {
     RispLLVMBuilderReleaseMode = 1
 };
 
-@interface RispLLVMBuilder : NSObject
+@interface RispLLVMDirectoryBuilder : NSObject
 @property (nonatomic, copy, readonly) NSString *root;
 @property (nonatomic, assign) RispLLVMBuilderMode builderMode;
 + (NSString *)outputFileDirectory:(NSString *)root mode:(RispLLVMBuilderMode)mode;

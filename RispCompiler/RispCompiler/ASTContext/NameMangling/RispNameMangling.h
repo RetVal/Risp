@@ -18,4 +18,5 @@
 - (NSArray *)functionMangling:(RispFnExpression *)fnExpression; // RispNameManglingFunctionDescriptor* inside
 - (BOOL)isManglingFunction:(NSString *)name context:(RispASTContext *)context;
 - (RispNameManglingFunctionDescriptor *)demanglingFunctionName:(NSString *)name context:(RispASTContext *)context;
++ (NSString *)anonymousFunctionName:(NSUInteger)count;
 @end

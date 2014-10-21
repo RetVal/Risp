@@ -7,6 +7,8 @@
 //
 
 #import <RispCompiler/RispASTContext.h>
+#import <RispCompiler/RispASTContextDoneOptions.h>
+#import <RispCompiler/RispASTContextRecursiveVisitor.h>
 //! Project version number for RispCompiler.
 FOUNDATION_EXPORT double RispCompilerVersionNumber;
 
