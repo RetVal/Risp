@@ -31,14 +31,6 @@
 @implementation RispAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-//    NSWindow *window = [[NSWindow alloc] init];
-//    [window makeKeyAndOrderFront:nil];
-//    WebView *wv = [[WebView alloc] init];
-//    [[window contentView] addSubview:wv];
-//    [[wv webFrame] loadHTMLString:[NSString str] baseURL:nil];
-    // Insert code here to initialize your application
-//    _rootWindowController = [[RispRenderWindowController alloc] initWithWindowNibName:@"RispRenderWindowController"];
-//    [[_rootWindowController window] makeKeyAndOrderFront:nil];
     _hudWindowController = [[RispHUDWindowController alloc] initWithWindowNibName:@"RispHUDWindowController"];
     [[_hudWindowController window] makeKeyAndOrderFront:self];
     _replWindowController = [[RispREPLAlphaWindowController alloc] initWithWindowNibName:@"RispREPLAlphaWindowController"];
@@ -92,5 +84,11 @@
         [[_replWindowController window] makeKeyAndOrderFront:self];
     }
     return NO;
+}
+
+#pragma mark - Background Working
+
+- (void)applicationWillBecomeActive:(NSNotification *)notification {
+    
 }
 @end

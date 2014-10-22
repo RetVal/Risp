@@ -54,13 +54,16 @@ NSString * RispExceptionKey = @"exception";
                 NSLog(@"%@ - %@\n%@", value, exception, [exception callStackSymbols]);
             }
             @finally {
-                id key = [value description];
-                if (!key) {
-                    key = sender;
-                }
-                if (key && info) {
-                    infos[key] = info;
-                    [keys addObject:key];
+                if (value != reader) {
+                    // value not a comment
+                    id key = [value description];
+                    if (!key) {
+                        key = sender;
+                    }
+                    if (key && info) {
+                        infos[key] = info;
+                        [keys addObject:key];
+                    }
                 }
             }
         }

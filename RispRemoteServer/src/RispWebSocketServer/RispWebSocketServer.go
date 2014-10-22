@@ -42,7 +42,7 @@ func dispatch (reg chan *websocket.Conn, unreg chan *websocket.Conn, messageChan
 					if SDK != nil && len(SDK.Code) > 0 {
 						websocket.Message.Send(c, SDK.Code)
 					} else {
-						fmt.Println("notic: SDK is nil")
+						fmt.Println("notic: SDK is also nil!")
 					}
 				}
 			case c := <- unreg:
@@ -123,7 +123,7 @@ func main () {
 				message = "(reconnect)"
 				break
 			case "(hello)":
-
+				
 				break
 			}
 			if (shouldExit) {
