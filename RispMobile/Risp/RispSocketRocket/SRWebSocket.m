@@ -565,11 +565,13 @@ static __strong NSData *CRLFCRLF;
     CFReadStreamRef readStream = NULL;
     CFWriteStreamRef writeStream = NULL;
     
-    CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef)host, port, &readStream, &writeStream);
+    CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef)host, (UInt32)port, &readStream, &writeStream);
     
     _outputStream = CFBridgingRelease(writeStream);
     _inputStream = CFBridgingRelease(readStream);
     
+    [_inputStream setProperty:NSStreamNetworkServiceType forKey:NSStreamNetworkServiceTypeVoIP];
+    [_outputStream setProperty:NSStreamNetworkServiceType forKey:NSStreamNetworkServiceTypeVoIP];
     
     if (_secure) {
         NSMutableDictionary *SSLOptions = [[NSMutableDictionary alloc] init];

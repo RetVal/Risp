@@ -56,4 +56,8 @@
 + (RispSymbol *)UNQUOTESPLICING {
     return [RispSymbol named:@"unquote-splicing"];
 }
+
++ (RispSymbol *)LOAD_FILE {
+    return [RispSymbol named:@"load-file"];
+}
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "RispEvalCore.h"
+#import <Risp/Risp.h>
 
 NSString * RispExpressionKey = @"expression";
 NSString * RispEvalValueKey = @"eval";

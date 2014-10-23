@@ -94,7 +94,6 @@
 		301F6367197523BC002CB93C /* RispVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62BF197523BC002CB93C /* RispVariable.m */; };
 		301F6368197523BC002CB93C /* RispCharSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62C0197523BC002CB93C /* RispCharSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		301F6369197523BC002CB93C /* RispCharSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62C1197523BC002CB93C /* RispCharSequence.m */; };
-		301F636B197523BC002CB93C /* Risp+DEBUG.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62C4197523BC002CB93C /* Risp+DEBUG.m */; };
 		301F636C197523BC002CB93C /* __RispFXNSString.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62C5197523BC002CB93C /* __RispFXNSString.h */; };
 		301F636D197523BC002CB93C /* __RispFXNSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 301F62C6197523BC002CB93C /* __RispFXNSString.m */; };
 		301F636E197523BC002CB93C /* __RispFXHookNSCFBoolean.h in Headers */ = {isa = PBXBuildFile; fileRef = 301F62C7197523BC002CB93C /* __RispFXHookNSCFBoolean.h */; };
@@ -165,6 +164,13 @@
 		302A89501987B2B100B126E8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 302A894F1987B2B100B126E8 /* AudioToolbox.framework */; };
 		30619CB819A7216100AB3693 /* RispSymbolExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 30619CB619A7216100AB3693 /* RispSymbolExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30619CB919A7216100AB3693 /* RispSymbolExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 30619CB719A7216100AB3693 /* RispSymbolExpression.m */; };
+		306D8B3D19F8A8D900B39AC4 /* RSMorphingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 306D8B3B19F8A8D900B39AC4 /* RSMorphingLabel.m */; };
+		30753D3719F7BC0F00F8BB03 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30753D3619F7BC0F00F8BB03 /* NotificationCenter.framework */; };
+		30753D3D19F7BC0F00F8BB03 /* RispTodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30753D3C19F7BC0F00F8BB03 /* RispTodayViewController.m */; };
+		30753D3F19F7BC0F00F8BB03 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30753D3E19F7BC0F00F8BB03 /* MainInterface.storyboard */; };
+		30753D4219F7BC0F00F8BB03 /* RispNotificationExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 30753D3419F7BC0F00F8BB03 /* RispNotificationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		30753D4719F7BC5700F8BB03 /* Risp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301F624F197522DF002CB93C /* Risp.framework */; };
+		30753D4819F7BC5700F8BB03 /* RispSocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 307D5A9019770B0A0089FED7 /* RispSocketRocket.framework */; };
 		307D5A9519770B0A0089FED7 /* RispSocketRocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 307D5A9419770B0A0089FED7 /* RispSocketRocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		307D5AA519770B0A0089FED7 /* RispSocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 307D5A9019770B0A0089FED7 /* RispSocketRocket.framework */; };
 		307D5AA619770B0A0089FED7 /* RispSocketRocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 307D5A9019770B0A0089FED7 /* RispSocketRocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -179,7 +185,6 @@
 		307D5AC919770BB10089FED7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 307D5AC819770BB10089FED7 /* Security.framework */; };
 		307D5ACB19770BC10089FED7 /* RispSocketRocket-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 307D5ACA19770BC10089FED7 /* RispSocketRocket-Prefix.pch */; };
 		307D5ACD19770BFC0089FED7 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 307D5ACC19770BFC0089FED7 /* libicucore.dylib */; };
-		307D5AD019770C850089FED7 /* __RispReaderRemoteService.m in Sources */ = {isa = PBXBuildFile; fileRef = 307D5ACF19770C850089FED7 /* __RispReaderRemoteService.m */; };
 		308C702819A7407D006C53FF /* RispSelectorExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 308C702619A7407D006C53FF /* RispSelectorExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		308C702919A7407D006C53FF /* RispSelectorExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 308C702719A7407D006C53FF /* RispSelectorExpression.m */; };
 		309A5967198AE07C007339C7 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 309A5912198AE07C007339C7 /* bubble.png */; };
@@ -232,8 +237,17 @@
 		309A5996198AE07C007339C7 /* JSQMessagesToolbarContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 309A5963198AE07C007339C7 /* JSQMessagesToolbarContentView.xib */; };
 		309A5997198AE07C007339C7 /* JSQMessagesTypingIndicatorFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 309A5965198AE07C007339C7 /* JSQMessagesTypingIndicatorFooterView.m */; };
 		309A5998198AE07C007339C7 /* JSQMessagesTypingIndicatorFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 309A5966198AE07C007339C7 /* JSQMessagesTypingIndicatorFooterView.xib */; };
+		30A6D7AC19F8CE2100A5FEAA /* RispRemote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A6D79519F8CE2100A5FEAA /* RispRemote.framework */; };
+		30A6D7AD19F8CE2100A5FEAA /* RispRemote.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 30A6D79519F8CE2100A5FEAA /* RispRemote.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		30A6D7C319F8CE5800A5FEAA /* RispEvalCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A6D7BE19F8CE5800A5FEAA /* RispEvalCore.m */; };
+		30A6D7C419F8CE5800A5FEAA /* RispRemoteService.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A6D7BF19F8CE5800A5FEAA /* RispRemoteService.m */; };
+		30A6D7C519F8CE5800A5FEAA /* RispRemoteService.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A6D7C019F8CE5800A5FEAA /* RispRemoteService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		30A6D7C619F8CE5800A5FEAA /* RispRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A6D7C119F8CE5800A5FEAA /* RispRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		30A6D7C719F8CE5800A5FEAA /* RispEvalCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A6D7C219F8CE5800A5FEAA /* RispEvalCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		30A6D7C819F8CED400A5FEAA /* RispRemote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A6D79519F8CE2100A5FEAA /* RispRemote.framework */; };
+		30A6D7C919F8CEFC00A5FEAA /* Risp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301F624F197522DF002CB93C /* Risp.framework */; };
+		30A6D7CA19F8CEFC00A5FEAA /* RispSocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 307D5A9019770B0A0089FED7 /* RispSocketRocket.framework */; };
 		30A7B6271987B500004EDC55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30A7B6261987B500004EDC55 /* Main.storyboard */; };
-		30B3040819768A0700E3FDE7 /* RispEvalCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B3040319768A0700E3FDE7 /* RispEvalCore.m */; };
 		30B3040919768A0700E3FDE7 /* RispAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B3040519768A0700E3FDE7 /* RispAppDelegate.m */; };
 		30B3040A19768A4500E3FDE7 /* Risp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301F624F197522DF002CB93C /* Risp.framework */; };
 		30B5800B197691C70047208B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B5800A197691C70047208B /* UIKit.framework */; };
@@ -242,6 +256,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		30753D4019F7BC0F00F8BB03 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 301F6246197522DF002CB93C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 30753D3319F7BC0F00F8BB03;
+			remoteInfo = RispNotificationExtension;
+		};
 		307D5AA319770B0A0089FED7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 301F6246197522DF002CB93C /* Project object */;
@@ -256,6 +277,13 @@
 			remoteGlobalIDString = 307D5A8F19770B0A0089FED7;
 			remoteInfo = RispSocketRocket;
 		};
+		30A6D7AA19F8CE2100A5FEAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 301F6246197522DF002CB93C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 30A6D79419F8CE2100A5FEAA;
+			remoteInfo = RispRemote;
+		};
 		30B3040B19768A4700E3FDE7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 301F6246197522DF002CB93C /* Project object */;
@@ -266,6 +294,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		30753D4619F7BC0F00F8BB03 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				30753D4219F7BC0F00F8BB03 /* RispNotificationExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		307D5AAE19770B0A0089FED7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -274,6 +313,7 @@
 			files = (
 				307D5AA619770B0A0089FED7 /* RispSocketRocket.framework in Embed Frameworks */,
 				30E1B2BF1987B4680044462A /* Risp.framework in Embed Frameworks */,
+				30A6D7AD19F8CE2100A5FEAA /* RispRemote.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,6 +485,14 @@
 		302A894F1987B2B100B126E8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		30619CB619A7216100AB3693 /* RispSymbolExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispSymbolExpression.h; sourceTree = "<group>"; };
 		30619CB719A7216100AB3693 /* RispSymbolExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispSymbolExpression.m; sourceTree = "<group>"; };
+		306D8B3B19F8A8D900B39AC4 /* RSMorphingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSMorphingLabel.m; sourceTree = "<group>"; };
+		306D8B3C19F8A8D900B39AC4 /* RSMorphingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSMorphingLabel.h; sourceTree = "<group>"; };
+		30753D3419F7BC0F00F8BB03 /* RispNotificationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RispNotificationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		30753D3619F7BC0F00F8BB03 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		30753D3A19F7BC0F00F8BB03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30753D3B19F7BC0F00F8BB03 /* RispTodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RispTodayViewController.h; sourceTree = "<group>"; };
+		30753D3C19F7BC0F00F8BB03 /* RispTodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RispTodayViewController.m; sourceTree = "<group>"; };
+		30753D3E19F7BC0F00F8BB03 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		307D5A9019770B0A0089FED7 /* RispSocketRocket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RispSocketRocket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		307D5A9319770B0A0089FED7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		307D5A9419770B0A0089FED7 /* RispSocketRocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RispSocketRocket.h; sourceTree = "<group>"; };
@@ -457,8 +505,6 @@
 		307D5AC819770BB10089FED7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		307D5ACA19770BC10089FED7 /* RispSocketRocket-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RispSocketRocket-Prefix.pch"; sourceTree = "<group>"; };
 		307D5ACC19770BFC0089FED7 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
-		307D5ACE19770C850089FED7 /* __RispReaderRemoteService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __RispReaderRemoteService.h; sourceTree = "<group>"; };
-		307D5ACF19770C850089FED7 /* __RispReaderRemoteService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = __RispReaderRemoteService.m; sourceTree = "<group>"; };
 		308C702619A7407D006C53FF /* RispSelectorExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispSelectorExpression.h; sourceTree = "<group>"; };
 		308C702719A7407D006C53FF /* RispSelectorExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispSelectorExpression.m; sourceTree = "<group>"; };
 		309A5912198AE07C007339C7 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
@@ -539,9 +585,14 @@
 		309A5964198AE07C007339C7 /* JSQMessagesTypingIndicatorFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQMessagesTypingIndicatorFooterView.h; sourceTree = "<group>"; };
 		309A5965198AE07C007339C7 /* JSQMessagesTypingIndicatorFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQMessagesTypingIndicatorFooterView.m; sourceTree = "<group>"; };
 		309A5966198AE07C007339C7 /* JSQMessagesTypingIndicatorFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JSQMessagesTypingIndicatorFooterView.xib; sourceTree = "<group>"; };
+		30A6D79519F8CE2100A5FEAA /* RispRemote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RispRemote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		30A6D79819F8CE2100A5FEAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30A6D7BE19F8CE5800A5FEAA /* RispEvalCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispEvalCore.m; sourceTree = "<group>"; };
+		30A6D7BF19F8CE5800A5FEAA /* RispRemoteService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispRemoteService.m; sourceTree = "<group>"; };
+		30A6D7C019F8CE5800A5FEAA /* RispRemoteService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispRemoteService.h; sourceTree = "<group>"; };
+		30A6D7C119F8CE5800A5FEAA /* RispRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispRemote.h; sourceTree = "<group>"; };
+		30A6D7C219F8CE5800A5FEAA /* RispEvalCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispEvalCore.h; sourceTree = "<group>"; };
 		30A7B6261987B500004EDC55 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../Main.storyboard; sourceTree = "<group>"; };
-		30B3040219768A0700E3FDE7 /* RispEvalCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispEvalCore.h; sourceTree = "<group>"; };
-		30B3040319768A0700E3FDE7 /* RispEvalCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispEvalCore.m; sourceTree = "<group>"; };
 		30B3040419768A0700E3FDE7 /* RispAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RispAppDelegate.h; sourceTree = "<group>"; };
 		30B3040519768A0700E3FDE7 /* RispAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RispAppDelegate.m; sourceTree = "<group>"; };
 		30B3040619768A0700E3FDE7 /* RispReader-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RispReader-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -567,9 +618,21 @@
 			files = (
 				302A89501987B2B100B126E8 /* AudioToolbox.framework in Frameworks */,
 				302A894A1987B29000B126E8 /* CoreGraphics.framework in Frameworks */,
+				30A6D7AC19F8CE2100A5FEAA /* RispRemote.framework in Frameworks */,
 				307D5AA519770B0A0089FED7 /* RispSocketRocket.framework in Frameworks */,
 				30B5800B197691C70047208B /* UIKit.framework in Frameworks */,
 				30B3040A19768A4500E3FDE7 /* Risp.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30753D3119F7BC0F00F8BB03 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30A6D7C819F8CED400A5FEAA /* RispRemote.framework in Frameworks */,
+				30753D4719F7BC5700F8BB03 /* Risp.framework in Frameworks */,
+				30753D4819F7BC5700F8BB03 /* RispSocketRocket.framework in Frameworks */,
+				30753D3719F7BC0F00F8BB03 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +647,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		30A6D79119F8CE2100A5FEAA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30A6D7C919F8CEFC00A5FEAA /* Risp.framework in Frameworks */,
+				30A6D7CA19F8CEFC00A5FEAA /* RispSocketRocket.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -593,6 +665,9 @@
 				301F6251197522DF002CB93C /* Risp */,
 				301F63C319752823002CB93C /* RispReader */,
 				307D5A9119770B0A0089FED7 /* RispSocketRocket */,
+				30753D3819F7BC0F00F8BB03 /* RispNotificationExtension */,
+				30A6D79619F8CE2100A5FEAA /* RispRemote */,
+				30753D3519F7BC0F00F8BB03 /* Frameworks */,
 				301F6250197522DF002CB93C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -603,6 +678,8 @@
 				301F624F197522DF002CB93C /* Risp.framework */,
 				301F63C219752823002CB93C /* RispReader.app */,
 				307D5A9019770B0A0089FED7 /* RispSocketRocket.framework */,
+				30753D3419F7BC0F00F8BB03 /* RispNotificationExtension.appex */,
+				30A6D79519F8CE2100A5FEAA /* RispRemote.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -848,7 +925,6 @@
 			isa = PBXGroup;
 			children = (
 				302A87B61987B24000B126E8 /* ViewController */,
-				30B3040119768A0700E3FDE7 /* Model */,
 				30B3040419768A0700E3FDE7 /* RispAppDelegate.h */,
 				30B3040519768A0700E3FDE7 /* RispAppDelegate.m */,
 				30B3040619768A0700E3FDE7 /* RispReader-Bridging-Header.h */,
@@ -888,6 +964,43 @@
 				309A590F198AE07C007339C7 /* JSQMessagesViewController */,
 			);
 			path = 3rd;
+			sourceTree = "<group>";
+		};
+		30753D3519F7BC0F00F8BB03 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				30753D3619F7BC0F00F8BB03 /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		30753D3819F7BC0F00F8BB03 /* RispNotificationExtension */ = {
+			isa = PBXGroup;
+			children = (
+				30753D5019F7BF9A00F8BB03 /* View */,
+				30753D3B19F7BC0F00F8BB03 /* RispTodayViewController.h */,
+				30753D3C19F7BC0F00F8BB03 /* RispTodayViewController.m */,
+				30753D3E19F7BC0F00F8BB03 /* MainInterface.storyboard */,
+				30753D3919F7BC0F00F8BB03 /* Supporting Files */,
+			);
+			path = RispNotificationExtension;
+			sourceTree = "<group>";
+		};
+		30753D3919F7BC0F00F8BB03 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				30753D3A19F7BC0F00F8BB03 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		30753D5019F7BF9A00F8BB03 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				306D8B3B19F8A8D900B39AC4 /* RSMorphingLabel.m */,
+				306D8B3C19F8A8D900B39AC4 /* RSMorphingLabel.h */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		307D5A9119770B0A0089FED7 /* RispSocketRocket */ = {
@@ -1073,15 +1186,25 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		30B3040119768A0700E3FDE7 /* Model */ = {
+		30A6D79619F8CE2100A5FEAA /* RispRemote */ = {
 			isa = PBXGroup;
 			children = (
-				30B3040219768A0700E3FDE7 /* RispEvalCore.h */,
-				30B3040319768A0700E3FDE7 /* RispEvalCore.m */,
-				307D5ACE19770C850089FED7 /* __RispReaderRemoteService.h */,
-				307D5ACF19770C850089FED7 /* __RispReaderRemoteService.m */,
+				30A6D7C119F8CE5800A5FEAA /* RispRemote.h */,
+				30A6D7BF19F8CE5800A5FEAA /* RispRemoteService.m */,
+				30A6D7C019F8CE5800A5FEAA /* RispRemoteService.h */,
+				30A6D7BE19F8CE5800A5FEAA /* RispEvalCore.m */,
+				30A6D7C219F8CE5800A5FEAA /* RispEvalCore.h */,
+				30A6D79719F8CE2100A5FEAA /* Supporting Files */,
 			);
-			path = Model;
+			path = RispRemote;
+			sourceTree = "<group>";
+		};
+		30A6D79719F8CE2100A5FEAA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				30A6D79819F8CE2100A5FEAA /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1184,6 +1307,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		30A6D79219F8CE2100A5FEAA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30A6D7C619F8CE5800A5FEAA /* RispRemote.h in Headers */,
+				30A6D7C719F8CE5800A5FEAA /* RispEvalCore.h in Headers */,
+				30A6D7C519F8CE5800A5FEAA /* RispRemoteService.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -1213,6 +1346,7 @@
 				301F63BF19752823002CB93C /* Frameworks */,
 				301F63C019752823002CB93C /* Resources */,
 				307D5AAE19770B0A0089FED7 /* Embed Frameworks */,
+				30753D4619F7BC0F00F8BB03 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -1220,11 +1354,30 @@
 				30B3040C19768A4700E3FDE7 /* PBXTargetDependency */,
 				307D5AA419770B0A0089FED7 /* PBXTargetDependency */,
 				307D5AA819770B0A0089FED7 /* PBXTargetDependency */,
+				30753D4119F7BC0F00F8BB03 /* PBXTargetDependency */,
+				30A6D7AB19F8CE2100A5FEAA /* PBXTargetDependency */,
 			);
 			name = RispReader;
 			productName = RispReader;
 			productReference = 301F63C219752823002CB93C /* RispReader.app */;
 			productType = "com.apple.product-type.application";
+		};
+		30753D3319F7BC0F00F8BB03 /* RispNotificationExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 30753D4519F7BC0F00F8BB03 /* Build configuration list for PBXNativeTarget "RispNotificationExtension" */;
+			buildPhases = (
+				30753D3019F7BC0F00F8BB03 /* Sources */,
+				30753D3119F7BC0F00F8BB03 /* Frameworks */,
+				30753D3219F7BC0F00F8BB03 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RispNotificationExtension;
+			productName = RispNotificationExtension;
+			productReference = 30753D3419F7BC0F00F8BB03 /* RispNotificationExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		307D5A8F19770B0A0089FED7 /* RispSocketRocket */ = {
 			isa = PBXNativeTarget;
@@ -1244,13 +1397,31 @@
 			productReference = 307D5A9019770B0A0089FED7 /* RispSocketRocket.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		30A6D79419F8CE2100A5FEAA /* RispRemote */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 30A6D7B219F8CE2100A5FEAA /* Build configuration list for PBXNativeTarget "RispRemote" */;
+			buildPhases = (
+				30A6D79019F8CE2100A5FEAA /* Sources */,
+				30A6D79119F8CE2100A5FEAA /* Frameworks */,
+				30A6D79219F8CE2100A5FEAA /* Headers */,
+				30A6D79319F8CE2100A5FEAA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RispRemote;
+			productName = RispRemote;
+			productReference = 30A6D79519F8CE2100A5FEAA /* RispRemote.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		301F6246197522DF002CB93C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = closure;
 				TargetAttributes = {
 					301F624E197522DF002CB93C = {
@@ -1260,8 +1431,16 @@
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = LY6BSMT7G9;
 					};
+					30753D3319F7BC0F00F8BB03 = {
+						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = LY6BSMT7G9;
+					};
 					307D5A8F19770B0A0089FED7 = {
 						CreatedOnToolsVersion = 6.0;
+					};
+					30A6D79419F8CE2100A5FEAA = {
+						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = LY6BSMT7G9;
 					};
 				};
 			};
@@ -1281,6 +1460,8 @@
 				301F624E197522DF002CB93C /* Risp */,
 				301F63C119752823002CB93C /* RispReader */,
 				307D5A8F19770B0A0089FED7 /* RispSocketRocket */,
+				30753D3319F7BC0F00F8BB03 /* RispNotificationExtension */,
+				30A6D79419F8CE2100A5FEAA /* RispRemote */,
 			);
 		};
 /* End PBXProject section */
@@ -1327,7 +1508,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		30753D3219F7BC0F00F8BB03 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30753D3F19F7BC0F00F8BB03 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		307D5A8E19770B0A0089FED7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30A6D79319F8CE2100A5FEAA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1383,7 +1579,6 @@
 				301F631D197523BC002CB93C /* RispLiteralExpression.m in Sources */,
 				301F63B1197523BD002CB93C /* RispLocalBinding.m in Sources */,
 				301F639D197523BD002CB93C /* RispReader.m in Sources */,
-				301F636B197523BC002CB93C /* Risp+DEBUG.m in Sources */,
 				301F634E197523BC002CB93C /* RispKeyword.m in Sources */,
 				301F63B3197523BD002CB93C /* RispRuntime.m in Sources */,
 				301F6377197523BD002CB93C /* RispBodyParser.m in Sources */,
@@ -1423,7 +1618,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30B3040819768A0700E3FDE7 /* RispEvalCore.m in Sources */,
 				309A597F198AE07C007339C7 /* JSQMessagesKeyboardController.m in Sources */,
 				30B3040919768A0700E3FDE7 /* RispAppDelegate.m in Sources */,
 				309A5989198AE07C007339C7 /* JSQMessage.m in Sources */,
@@ -1446,7 +1640,6 @@
 				309A598B198AE07C007339C7 /* JSQMessagesCollectionViewCell.m in Sources */,
 				309A5993198AE07C007339C7 /* JSQMessagesLoadEarlierHeaderView.m in Sources */,
 				309A5987198AE07C007339C7 /* JSQMessagesCollectionViewFlowLayoutInvalidationContext.m in Sources */,
-				307D5AD019770C850089FED7 /* __RispReaderRemoteService.m in Sources */,
 				309A5982198AE07C007339C7 /* JSQMessagesAvatarFactory.m in Sources */,
 				309A598E198AE07C007339C7 /* JSQMessagesCollectionViewCellOutgoing.m in Sources */,
 				309A597A198AE07C007339C7 /* JSQSystemSoundPlayer.m in Sources */,
@@ -1454,6 +1647,15 @@
 				309A5983198AE07C007339C7 /* JSQMessagesBubbleImageFactory.m in Sources */,
 				301F63C719752823002CB93C /* main.m in Sources */,
 				309A5992198AE07C007339C7 /* JSQMessagesLabel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30753D3019F7BC0F00F8BB03 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30753D3D19F7BC0F00F8BB03 /* RispTodayViewController.m in Sources */,
+				306D8B3D19F8A8D900B39AC4 /* RSMorphingLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1467,9 +1669,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		30A6D79019F8CE2100A5FEAA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30A6D7C319F8CE5800A5FEAA /* RispEvalCore.m in Sources */,
+				30A6D7C419F8CE5800A5FEAA /* RispRemoteService.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		30753D4119F7BC0F00F8BB03 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 30753D3319F7BC0F00F8BB03 /* RispNotificationExtension */;
+			targetProxy = 30753D4019F7BC0F00F8BB03 /* PBXContainerItemProxy */;
+		};
 		307D5AA419770B0A0089FED7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 307D5A8F19770B0A0089FED7 /* RispSocketRocket */;
@@ -1479,6 +1695,11 @@
 			isa = PBXTargetDependency;
 			target = 307D5A8F19770B0A0089FED7 /* RispSocketRocket */;
 			targetProxy = 307D5AA719770B0A0089FED7 /* PBXContainerItemProxy */;
+		};
+		30A6D7AB19F8CE2100A5FEAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 30A6D79419F8CE2100A5FEAA /* RispRemote */;
+			targetProxy = 30A6D7AA19F8CE2100A5FEAA /* PBXContainerItemProxy */;
 		};
 		30B3040C19768A4700E3FDE7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1646,6 +1867,40 @@
 			};
 			name = Release;
 		};
+		30753D4319F7BC0F00F8BB03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = RispNotificationExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		30753D4419F7BC0F00F8BB03 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = RispNotificationExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		307D5AA919770B0A0089FED7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1688,6 +1943,50 @@
 			};
 			name = Release;
 		};
+		30A6D7AE19F8CE2100A5FEAA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = RispRemote/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		30A6D7AF19F8CE2100A5FEAA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = RispRemote/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1718,6 +2017,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		30753D4519F7BC0F00F8BB03 /* Build configuration list for PBXNativeTarget "RispNotificationExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30753D4319F7BC0F00F8BB03 /* Debug */,
+				30753D4419F7BC0F00F8BB03 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		307D5AAD19770B0A0089FED7 /* Build configuration list for PBXNativeTarget "RispSocketRocket" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1726,6 +2034,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		30A6D7B219F8CE2100A5FEAA /* Build configuration list for PBXNativeTarget "RispRemote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30A6D7AE19F8CE2100A5FEAA /* Debug */,
+				30A6D7AF19F8CE2100A5FEAA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

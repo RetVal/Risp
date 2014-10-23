@@ -137,6 +137,14 @@
     return _outer;
 }
 
+- (RispLexicalScope *)root {
+    RispLexicalScope *root = self;
+    while ([root outer]) {
+        root = [root outer];
+    }
+    return root;
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super init]) {
         _scope = [aDecoder decodeObject];
@@ -197,5 +205,13 @@
 
 - (id)mutableCopy {
     return [self copy];
+}
+
+- (void)addType:(RispScopeType)type {
+    _type |= type;
+}
+
+- (void)removeType:(RispScopeType)type {
+    _type &= ~type;
 }
 @end

@@ -32,6 +32,7 @@ typedef NS_ENUM(NSUInteger, RispContextStatus) {
 + (NSDictionary *)mergeScope:(RispLexicalScope *)scope withScope:(RispLexicalScope *)other;
 
 @property (nonatomic, assign) RispContextStatus status;
+
 - (RispLexicalScope *)currentScope;
 - (void)registerValue:(id)value forKey:(id)key;
 

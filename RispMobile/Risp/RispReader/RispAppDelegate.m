@@ -8,8 +8,31 @@
 
 #import "RispAppDelegate.h"
 //#import <MediaPlayer/MediaPlayer.h>
+#import <RispRemote/RispRemoteService.h>
+#import <RispRemote/RispEvalCore.h>
 
-@interface RispAppDelegate ()
+@interface _RispRemoteServiceDelegate : NSObject <RispRemoteServiceDelegate> {
+    @private
+    
+}
+- (void)remoteService:(RispRemoteService *)service didReceiveContent:(id)content;
+@end
+
+@implementation _RispRemoteServiceDelegate
+
+- (void)remoteService:(RispRemoteService *)service didReceiveContent:(id)content {
+    if (![content isKindOfClass:[NSString class]]) {
+        NSLog(@"%@", content);
+        return;
+    }
+}
+
+@end
+
+@interface RispAppDelegate () {
+    @private
+    UIBackgroundTaskIdentifier _backgroundTaskIdentifier;
+}
 
 @end
 
@@ -28,12 +51,22 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    _backgroundTaskIdentifier = [application beginBackgroundTaskWithName:@"RispCode" expirationHandler:^{
+        RispRemoteService *remoteService = [RispRemoteService defaultService];
+        [remoteService send:@"entry background"];
+        [application endBackgroundTask:_backgroundTaskIdentifier];
+        _backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+    }];
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    RispRemoteService *remoteService = [RispRemoteService defaultService];
+    if (![remoteService ready]) {
+        [remoteService reconnect];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

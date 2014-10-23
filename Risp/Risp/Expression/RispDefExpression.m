@@ -15,7 +15,9 @@
 + (id)parser:(id <RispSequence>)object context:(RispContext *)context {
     object = [object next];
     if ([[context currentScope] depth] != 0) {
-        [NSException raise:RispIllegalArgumentException format:@"def must be use at root frame"];
+        if (![[context currentScope] type] & RispLoadFileScope) {
+            [NSException raise:RispIllegalArgumentException format:@"def must be use at root frame"];
+        }
     } else if ([object count] != 2) {
         [NSException raise:RispIllegalArgumentException format:@"def count is not be 2"];
     }
@@ -35,8 +37,12 @@
 }
 
 - (id)eval {
-    if ([[[RispContext currentContext] currentScope] depth] == 0) {
-        [[RispContext currentContext] currentScope][[_key symbol]] = [_value eval];
+    if ([[[RispContext currentContext] currentScope] depth] == 0 || [[[RispContext currentContext] currentScope] type] & RispLoadFileScope) {
+        RispLexicalScope *scope = [[RispContext currentContext] currentScope];
+        if ([[[RispContext currentContext] currentScope] type] & RispLoadFileScope) {
+            scope = [scope root];
+        }
+        scope[[_key symbol]] = [_value eval];
         return [_key symbol];
     }
     [NSException raise:RispIllegalArgumentException format:@"def must be use at root frame"];

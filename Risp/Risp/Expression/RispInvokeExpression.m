@@ -77,6 +77,7 @@
             }
             if (![sym conformsToProtocol:@protocol(RispFnProtocol)]) {
                 [NSException raise:RispRuntimeException format:@"%@ is not a fn", _fexpr];
+
             }
             if ([sym isMemberOfClass:[RispSymbol class]]) {
                 fn = scope[sym];

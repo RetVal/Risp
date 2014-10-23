@@ -1,6 +1,16 @@
 (defn eval [body]
     (. Risp eval: body))
 
+(defn = 
+	([x] true)
+	([x y] (. x isEqualTo: y))
+	([x y & more] 
+		(if (= x y)
+			(if (next more)
+				(= y (first more) (next more))
+				(= y (first more)))
+			false)))
+
 (defn nil? [x]
 	(if (= nil x) true false))
 
@@ -26,7 +36,7 @@
 	([x y] (. x decimalNumberByDividingBy: y))
 	([x y & more] (/ (/ x y) (apply / more))))
 
-(defn %
+(defn mod
 	([x] x)
 	([x y] (. x mod: y)))
 
@@ -36,6 +46,7 @@
 (def String (. NSString class))
 (def Symbol (. RispSymbol class))
 (def Sequence (. RispSequence class))
+(def Data (. NSData class))
 
 (defn boolean [i] (. NSNumber numberWithBool: (. i boolValue)))
 (defn instance? [class instance]
@@ -45,21 +56,12 @@
 (defn string? [s] (instance? String s))
 (defn symbol? [s] (instance? Symbol s))
 (defn seq? [s] (instance? Sequence s))
+(defn data? [s] (instance? Data s))
 
 (defn identity [x] x)
 
 (def list 
 	(. RispList creator))
-
-(defn = 
-	([x] true)
-	([x y] (. x isEqualTo: y))
-	([x y & more] 
-		(if (= x y)
-			(if (next more)
-				(= y (first more) (next more))
-				(= y (first more)))
-			false)))
 
 (defn >
 	([x] true)
@@ -129,7 +131,9 @@
 	([name] 
 		(if (string? name)
 			name
-			(. name stringValue)))
+			(if (data? name)
+				(. name toString)
+				(. name stringValue))))
 	([x & ys]
 		(let [f (fn [ms & ss]
 					(if (empty? ss)
@@ -147,7 +151,7 @@
 (defn nil? [x] (= nil x))
 
 (defn even? [n]
-	(zero? (% n 2)))
+	(zero? (mod n 2)))
 
 (defn cond [& clauses]
 	(if (not (nil? clauses))
@@ -239,5 +243,7 @@
 		(if (empty? coll)
 			0
 			(+ (first coll) (f (rest coll))))))
+
+(load-file "io.risp")
 
 

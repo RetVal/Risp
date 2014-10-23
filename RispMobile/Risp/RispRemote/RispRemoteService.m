@@ -6,24 +6,24 @@
 //  Copyright (c) 2014 closure. All rights reserved.
 //
 
-#import "__RispReaderRemoteService.h"
+#import "RispRemoteService.h"
 #import "RispEvalCore.h"
 #import <RispSocketRocket/RispSocketRocket.h>
 
-@interface __RispReaderRemoteService () <SRWebSocketDelegate>
+@interface RispRemoteService () <SRWebSocketDelegate>
 @property (strong, nonatomic, readonly) SRWebSocket *connection;
 @end
 
-@implementation __RispReaderRemoteService
+@implementation RispRemoteService
 + (void)load {
-    [__RispReaderRemoteService defaultService];
+    [RispRemoteService defaultService];
 }
 
 + (instancetype)defaultService {
     static dispatch_once_t onceToken;
-    static __RispReaderRemoteService *service = nil;
+    static RispRemoteService *service = nil;
     dispatch_once(&onceToken, ^{
-        service = [[__RispReaderRemoteService alloc] init];
+        service = [[RispRemoteService alloc] init];
     });
     return service;
 }

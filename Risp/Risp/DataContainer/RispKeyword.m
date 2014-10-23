@@ -71,4 +71,8 @@
 - (NSUInteger)hash {
     return _hashCode;
 }
+
+- (id)eval {
+    return self;
+}
 @end

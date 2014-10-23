@@ -12,8 +12,10 @@
 #import <Foundation/Foundation.h>
 
 @interface RispRuntime() {
-    
+    @private
+    NSMutableSet *_loadedFiles;
 }
+@property (nonatomic, strong, readonly) NSMutableSet *loadedFiles;
 @end
 @implementation RispRuntime
 + (void)load {
@@ -23,6 +25,7 @@
 - (id)init {
     if (self = [super init]) {
         _rootScope = [[RispLexicalScope alloc] init];
+        _loadedFiles = [[NSMutableSet alloc] init];
         [RispRuntime _initRootScope:_rootScope];
     }
     return self;
@@ -179,6 +182,59 @@
         }
         return nil;
     } variadic:NO numberOfArguments:2];
+    
+    rootScope[[RispSymbol LOAD_FILE]] = [RispFnExpression blockWihObjcBlock:^id(RispVector *arguments) {
+        __block BOOL result = YES;
+        NSString *path = [arguments first];
+        if (!path || ![path isKindOfClass:[NSString class]]) {
+            return nil;
+        }
+        
+        if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            NSString *bundleResource = [[NSBundle bundleWithIdentifier:@"com.retval.Risp"] pathForResource:[path stringByDeletingPathExtension] ofType:[path pathExtension]];
+            if (bundleResource && [[NSFileManager defaultManager] fileExistsAtPath:bundleResource]) {
+                path = bundleResource;
+            } else {
+                return nil;
+            }
+        }
+        
+        RispRuntime *rt = [RispRuntime baseEnvironment];
+        if ([[rt loadedFiles] containsObject:path]) {
+            return @(YES);
+        } else {
+            [[rt loadedFiles] addObject:path];
+        }
+        
+        RispReader *reader = [[RispReader alloc] initWithContentsOfFile:path];
+        RispContext *context = [RispContext currentContext];
+        [[context currentScope] addType:RispLoadFileScope];
+        id value = nil;
+        NSMutableArray *values = [[NSMutableArray alloc] init];
+        
+        while (![reader isEnd]) {
+            @autoreleasepool {
+                @try {
+                    value = [reader readEofIsError:YES eofValue:nil isRecursive:YES];
+                    [[reader reader] skip];
+                    if (value == reader) {
+                        continue;
+                    }
+                    id expr = [RispCompiler compile:context form:value];
+                    id v = [expr eval];
+                    //                id v = nil;
+                    //                NSLog(@"%@ -\n%@\n-> %@", value, [[[RispAbstractSyntaxTree alloc] initWithExpression:expr] description], v);
+                    [values addObject:v ? : [NSNull null]];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"exception: %@ - %@", value, exception);
+                    result = NO;
+                }
+            }
+        }
+        [[context currentScope] removeType:RispLoadFileScope];
+        return @(result);
+    } variadic:NO numberOfArguments:1];
 }
 @end
 

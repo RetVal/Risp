@@ -23,4 +23,6 @@
 
 + (RispSymbol *)UNQUOTE;
 + (RispSymbol *)UNQUOTESPLICING;
+
++ (RispSymbol *)LOAD_FILE;
 @end

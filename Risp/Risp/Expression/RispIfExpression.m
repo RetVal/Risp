@@ -58,8 +58,15 @@
 }
 
 - (id)eval {
-    if ([@YES isEqual:[_testExpression eval]]) {
-        return [_thenExpression eval];
+    id testResult = [_testExpression eval];
+    if (testResult && (([testResult isKindOfClass:[NSNumber class]] && [@YES isEqual:testResult]) ||
+                       ([testResult isKindOfClass:[NSNumber class]] && [testResult doubleValue] > 0.0f) ||
+                       (![testResult isKindOfClass:[NSNull class]]))) {
+        if ([testResult isKindOfClass:[NSNumber class]] && [testResult doubleValue] > 0.0f) {
+            return [_thenExpression eval];
+        } else if (![testResult isKindOfClass:[NSNumber class]] && ![testResult isKindOfClass:[NSNull class]]) {
+            return [_thenExpression eval];
+        }
     }
     if (_elseExpression)
         return [_elseExpression eval];

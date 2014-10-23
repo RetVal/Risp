@@ -14,7 +14,9 @@
 + (id)parser:(id <RispSequence>)object context:(RispContext *)context {
     object = [object next];
     if ([[context currentScope] depth] != 0) {
-        [NSException raise:RispIllegalArgumentException format:@"def must be use at root frame"];
+        if (![[context currentScope] type] & RispLoadFileScope) {
+            [NSException raise:RispIllegalArgumentException format:@"def must be use at root frame"];
+        }
     }
     if (![[object first] isKindOfClass:[RispSymbol class]]) {
         [NSException raise:RispIllegalArgumentException format:@"%@ is not be symbol", [object first]];
@@ -33,9 +35,13 @@
 }
 
 - (id)eval {
-    if ([[[RispContext currentContext] currentScope] depth] == 0) {
+    if ([[[RispContext currentContext] currentScope] depth] == 0 || [[[RispContext currentContext] currentScope] type] & RispLoadFileScope) {
         id keySymbol = [_key symbol];
-        [[RispContext currentContext] currentScope][keySymbol] = [_value eval];
+        RispLexicalScope *scope = [[RispContext currentContext] currentScope];
+        if ([[[RispContext currentContext] currentScope] type] & RispLoadFileScope) {
+            scope = [scope root];
+        }
+        scope[keySymbol] = [_value eval];
         return keySymbol;
     }
     [NSException raise:RispIllegalArgumentException format:@"def must be use at root frame"];

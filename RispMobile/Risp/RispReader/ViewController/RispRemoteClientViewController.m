@@ -7,8 +7,8 @@
 //
 
 #import "RispRemoteClientViewController.h"
-#import "__RispReaderRemoteService.h"
-#import "RispEvalCore.h"
+#import <RispRemote/RispRemoteService.h>
+#import <RispRemote/RispEvalCore.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <pthread/pthread.h>
 
@@ -19,8 +19,8 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
 static NSString * const kRispRemoteClientAvatarNameRisp = @"Risp";
 static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
 
-@interface RispRemoteClientViewController() <__RispReaderRemoteServiceDelegate>
-@property (nonatomic, strong, readonly) __RispReaderRemoteService *service;
+@interface RispRemoteClientViewController() <RispRemoteServiceDelegate>
+@property (nonatomic, strong, readonly) RispRemoteService *service;
 @end
 
 @implementation RispRemoteClientViewController
@@ -28,7 +28,7 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
 
 - (void)_setup
 {
-    _service = [__RispReaderRemoteService defaultService];
+    _service = [RispRemoteService defaultService];
     _messages = [[NSMutableArray alloc] init];
     [_service setDelegate:self];
     CGFloat outgoingDiameter = self.collectionView.collectionViewLayout.outgoingAvatarViewSize.width;
@@ -176,19 +176,19 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
 }
 
 #pragma mark -
-#pragma mark __RispReaderRemoteService delegate
+#pragma mark RispRemoteService delegate
 
-- (void)remoteServiceDidOpen:(__RispReaderRemoteService *)service {
+- (void)remoteServiceDidOpen:(RispRemoteService *)service {
     [self setTitle:@"Connected"];
     NSLog(@"Connected");
 }
 
-- (void)remoteService:(__RispReaderRemoteService *)service didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
+- (void)remoteService:(RispRemoteService *)service didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
     NSLog(@"close code -> %ld, reason -> %@", code, reason);
     [self setTitle:@"Disconnected"];
 }
 
-- (void)remoteService:(__RispReaderRemoteService *)service didReceiveContent:(id)content {
+- (void)remoteService:(RispRemoteService *)service didReceiveContent:(id)content {
     if ([content isKindOfClass:[NSString class]]) {
         JSQMessage *message = [JSQMessage messageWithText:content sender:kRispRemoteClientAvatarNameRispCode];
         [[self messages] addObject:message];
@@ -204,7 +204,7 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
                 if (info[RispExceptionKey]) {
                     NSException *exception = info[RispExceptionKey];
                     [desc appendFormat:@"%@ -> %@", obj, exception];
-                    [[__RispReaderRemoteService defaultService] send:[NSString stringWithFormat:@"%@ -> %@", obj, [exception callStackSymbols]]];
+                    [[RispRemoteService defaultService] send:[NSString stringWithFormat:@"%@ -> %@", obj, [exception callStackSymbols]]];
                 } else {
                     [desc appendFormat:@"%@ -> %@\n", obj, info[RispEvalValueKey]];
                 }
@@ -222,14 +222,14 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
     }
 }
 
-- (void)remoteService:(__RispReaderRemoteService *)service didFailWithError:(NSError *)error {
+- (void)remoteService:(RispRemoteService *)service didFailWithError:(NSError *)error {
     NSLog(@"failed with error -> %@", error);
     [self setTitle:@"Error"];
 }
 
 - (void)finishSendingMessage {
     if ([self ready]) {
-        [[__RispReaderRemoteService defaultService] send:[[[self messages] lastObject] text]];
+        [[RispRemoteService defaultService] send:[[[self messages] lastObject] text]];
     }
     [super finishSendingMessage];
 }
