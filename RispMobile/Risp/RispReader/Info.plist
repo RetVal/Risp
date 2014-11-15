@@ -22,17 +22,19 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>RispRemoteServerAddress</key>
+	<string>ws://169.254.252.147:9000/chat</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>voip</string>
+	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>Main</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
-	</array>
-	<key>RispRemoteServerAddress</key>
-	<string>ws://10.0.1.2:9000/chat</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>voip</string>
 	</array>
 </dict>
 </plist>

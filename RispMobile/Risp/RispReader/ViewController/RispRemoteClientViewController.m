@@ -84,7 +84,7 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     if (self.delegate) {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop
                                                                                               target:self
@@ -132,7 +132,6 @@ static NSString * const kRispRemoteClientAvatarNameRispCode = @"RispCode";
      *  The following is simply to simulate received messages for the demo.
      *  Do not actually do this.
      */
-    
     
     /**
      *  Set the typing indicator to be shown

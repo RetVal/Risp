@@ -494,6 +494,8 @@ typedef llvm::ArrayRef<llvm::Type*> TypeArray;
         unsigned numberElements = (unsigned)arrayType->getNumElements();
         llvm::SmallVector<llvm::Constant *, 8> array(numberElements, element);
         return llvm::ConstantArray::get(arrayType, array);
+    } else if (t->isPointerTy()) {
+        return llvm::ConstantPointerNull::get(llvm::cast<llvm::PointerType>(t));
     }
     return llvm::Constant::getNullValue(t);
 }

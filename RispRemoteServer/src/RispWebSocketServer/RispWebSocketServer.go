@@ -100,7 +100,7 @@ func main () {
 	messageChan := make(chan Message)
 	go server(reg, unreg, messageChan, RispSDK)
 	go dispatch(reg, unreg, messageChan, RispSDK)
-
+	
 	fmt.Println("running...")
 	
 	reader := bufio.NewReader(os.Stdin)

@@ -60,7 +60,15 @@ int main(int argc, const char * argv[]) {
     outputDirectory = [dirBuilder makeTargetBuildObjectDirectory:@"proj" targetName:@"target"];
     NSArray *objectFiles = [RispLLVMCompiler compileFiles:inputFiles outputDirectory:outputDirectory options:options];
     NSLog(@"%@", objectFiles);
-    //    printf("\nlinking...\n");
-    //            system("cd ~/Desktop && ld -demangle -arch x86_64 -macosx_version_min 10.9.0 -o risp.out risp.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/5.1/lib/darwin/libclang_rt.osx.a -print_statistics -L/Users/closure/Library/Frameworks -F/Users/closure/Library/Frameworks -framework Foundation -framework Risp -framework RispCompiler");
+    printf("\nlinking...\n");
+    NSString *append = @"-lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.0/lib/darwin/libclang_rt.osx.a -print_statistics -L/Users/closure/Library/Frameworks -F/Users/closure/Library/Frameworks -framework Foundation -framework Risp -framework RispCompiler";
+    NSString *ld = @"/SourceCache/Library/3rd/Apple/ld64-236.3/Build/Products/Debug/ld -demangle -arch x86_64 -macosx_version_min 10.10.0";
+    NSString *objectFile = [objectFiles firstObject];
+    NSString *dir = [objectFile stringByDeletingLastPathComponent];
+    NSString *location = [NSString stringWithFormat:@"cd %@", dir];
+    NSString *output = [NSString stringWithFormat:@"-o risp.out %@", objectFile];
+    NSString *final = [NSString stringWithFormat:@"%@ && %@ %@ %@", location, ld, output, append];
+    NSLog(@"%@", final);
+    system([final UTF8String]);
     return 0;
 }

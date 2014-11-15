@@ -2042,6 +2042,7 @@
 				30A6D7AF19F8CE2100A5FEAA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -300,11 +300,18 @@
 
 - (void *)generateCode:(RispASTContext *)context {
     __RispLLVMFoundation *CGM = [context CGM];
-    llvm::GlobalVariable *gv = llvm::dyn_cast<llvm::GlobalVariable>([CGM getOrCreateLLVMGlobal:[[[self key] stringValue] UTF8String] type:llvm::PointerType::getUnqual([CGM idType]) unnamedAddress:NO]);
+    llvm::PointerType *type = llvm::PointerType::getUnqual([CGM idType]);
+    llvm::GlobalVariable *gv = llvm::dyn_cast<llvm::GlobalVariable>([CGM getOrCreateLLVMGlobal:[[[self key] stringValue] UTF8String] type:type unnamedAddress:NO]);
 //    llvm::Value *variable = [CGM createVariable:[CGM idType] named:[[[self key] stringValue] UTF8String]];
     [[context currentStack] setObject:gv forKey:[self key]];
     llvm::Value *value = (llvm::Value *)[[self value] generateCode:context];
     RispLLVM::RispLLVMValueMeta meta = [[context currentStack] metaForValue:value];
+    if (1) {
+        llvm::Constant *init = [CGM emitNullConstant:[CGM idType]];
+//        init = llvm::dyn_cast<llvm::Constant>([__RispLLVMTypeConverter conversionValue:value toType:[CGM idType] CGM:CGM]);
+        gv->setInitializer(init);
+    }
+    
     llvm::Value *ret = [CGM setValue:value forVariable:gv];
     if (meta.isValid()) {
         [[context currentStack] setMeta:std::move(meta) forValue:ret];
@@ -578,11 +585,11 @@ static NSString * __RispMethodExpressionASTExtensionKey = @"RispMethodExpression
 }
 
 - (void *)generateCode:(RispASTContext *)context {
-    BOOL isClosure = [self _isClosureExpression:context skipSelf:NO];
-    if (isClosure) {
-        NSLog(@"%@ <%@> is a closure", self, [self captures]);
-        return [self _generateClosureCode:context];
-    }
+//    BOOL isClosure = [self _isClosureExpression:context skipSelf:NO];
+//    if (isClosure) {
+//        NSLog(@"%@ <%@> is a closure", self, [self captures]);
+////        return [self _generateClosureCode:context];
+//    }
     return [self _generateMethodCode:context];
 }
 
@@ -942,7 +949,7 @@ static NSString * __RispMethodExpressionASTExtensionKey = @"RispMethodExpression
 //        llvm::BasicBlock* label_entry = llvm::BasicBlock::Create([_CGM module]->getContext(), "entry", mainFunc, 0);
 //        [_CGM builder]->SetInsertPoint(label_entry);
         
-        llvm::Function *noduleFunc = llvm::Function::Create(mainFuncType, llvm::GlobalValue::ExternalLinkage, [name UTF8String], [_CGM module]);
+        llvm::Function *noduleFunc = llvm::Function::Create(mainFuncType, llvm::GlobalValue::ExternalLinkage, [@"main" UTF8String], [_CGM module]);
         
         [__RispLLVMCodeGenFunction setNamesForFunction:noduleFunc arugmentNames:{"argc", "argv"}];
         
@@ -999,7 +1006,7 @@ static NSString * __RispMethodExpressionASTExtensionKey = @"RispMethodExpression
 
 - (BOOL)doneWithOutputPath:(NSString *)path options:(RispASTContextDoneOptions)options {
     [_CGM setOutputPath:path];
-    std::string name = [_CGM module]->getModuleIdentifier();
+    std::string name = "main";//[_CGM module]->getModuleIdentifier();
     llvm::Function *mainEntry = [_CGM module]->getFunction(name);
     llvm::BasicBlock *back = &mainEntry->getBasicBlockList().back();
     [_CGM builder]->SetInsertPoint(back);
